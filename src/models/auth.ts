@@ -3,5 +3,5 @@ export const MUMTAZ_AUTH_API =
 
 export const ROLE = {
   STUDENT: 1,
-  TEACHER: 2,
+  USTADZ: 2,
 };

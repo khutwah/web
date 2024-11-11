@@ -1,4 +1,3 @@
-import { ROLE } from "@/models/auth";
 import { createClient } from "../supabase/server";
 import { RegisterUserArgs } from "@/models/register-user";
 import user from "../supabase/models/user";
@@ -7,13 +6,14 @@ export async function registerUser({
   email,
   name,
   password,
+  role,
 }: RegisterUserArgs) {
   const supabase = await createClient();
 
   const { error: errorInsert } = await user.create({
     email,
     name,
-    role: ROLE.STUDENT,
+    role,
   });
 
   if (errorInsert) {

@@ -7,6 +7,7 @@ import { createClient } from "@/utils/supabase/server";
 import { loginMumtaz } from "@/utils/auth/login-mumtaz";
 import { registerUser } from "@/utils/auth/register-user";
 import user from "@/utils/supabase/models/user";
+import { ROLE } from "@/models/auth";
 
 export async function login(_prevState: unknown, formData: FormData) {
   let isRedirect = false;
@@ -35,6 +36,7 @@ export async function login(_prevState: unknown, formData: FormData) {
           email: data.email,
           name: mumtazResponse.name,
           password: data.password,
+          role: mumtazResponse.type === "student" ? ROLE.STUDENT : ROLE.USTADZ,
         });
       }
     }
@@ -50,15 +52,6 @@ export async function login(_prevState: unknown, formData: FormData) {
       );
       if (errorSignin) throw errorSignin;
 
-      isRedirect = true;
-    }
-  } catch (error) {
-    const e = (error as Error).message;
-    return {
-      message: e,
-    };
-  } finally {
-    if (isRedirect) {
       try {
         /**
          * fire and forget
@@ -70,6 +63,15 @@ export async function login(_prevState: unknown, formData: FormData) {
         });
       } catch {}
 
+      isRedirect = true;
+    }
+  } catch (error) {
+    const e = (error as Error).message;
+    return {
+      message: e,
+    };
+  } finally {
+    if (isRedirect) {
       revalidatePath("/", "layout");
       redirect("/");
     }

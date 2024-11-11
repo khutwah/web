@@ -21,7 +21,7 @@ class User {
       role,
     } = payload;
 
-    return this.instance.from("users").insert({
+    return this.instance.from("users").upsert({
       email,
       name,
       last_logged_in,
