@@ -14,17 +14,11 @@ class User {
   }
 
   create(payload: UserPayload) {
-    const {
-      email,
-      name,
-      last_logged_in = new Date().toISOString(),
-      role,
-    } = payload;
+    const { email, name, role } = payload;
 
     return this.instance.from("users").upsert({
       email,
       name,
-      last_logged_in,
       role,
     });
   }

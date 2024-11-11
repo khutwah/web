@@ -8,17 +8,19 @@ import { loginMumtaz } from "@/utils/auth/login-mumtaz";
 import { registerUser } from "@/utils/auth/register-user";
 import user from "@/utils/supabase/models/user";
 import { ROLE } from "@/models/auth";
+import { addEmailSuffix } from "@/utils/add-email-suffix";
 
 export async function login(_prevState: unknown, formData: FormData) {
   let isRedirect = false;
   const data = {
-    email: formData.get("username") as string,
+    username: formData.get("username") as string,
     password: formData.get("password") as string,
+    email: addEmailSuffix(formData.get("username") as string),
   };
 
   try {
     const mumtazResponse = await loginMumtaz({
-      username: data.email,
+      username: data.username,
       password: data.password,
     });
 
@@ -47,21 +49,11 @@ export async function login(_prevState: unknown, formData: FormData) {
        * 1. Login via mumtaz failed (could be due to mumtaz API issue or login by ustadz)
        * 2. Login via mumtaz succeded, but user is already exist in our database
        */
-      const { error: errorSignin } = await supabase.auth.signInWithPassword(
-        data
-      );
+      const { error: errorSignin } = await supabase.auth.signInWithPassword({
+        email: data.email,
+        password: data.password,
+      });
       if (errorSignin) throw errorSignin;
-
-      try {
-        /**
-         * fire and forget
-         * its ok if its fail as long
-         * it does not break
-         */
-        await user.update(data.email, {
-          last_logged_in: new Date().toISOString(),
-        });
-      } catch {}
 
       isRedirect = true;
     }
