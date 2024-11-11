@@ -6,15 +6,16 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import { loginMumtaz } from "@/utils/auth/login-mumtaz";
 import { registerUser } from "@/utils/auth/register-user";
+import user from "@/utils/supabase/models/user";
 
 export async function login(_prevState: unknown, formData: FormData) {
   let isRedirect = false;
-  try {
-    const data = {
-      email: formData.get("username") as string,
-      password: formData.get("password") as string,
-    };
+  const data = {
+    email: formData.get("username") as string,
+    password: formData.get("password") as string,
+  };
 
+  try {
     const mumtazResponse = await loginMumtaz({
       username: data.email,
       password: data.password,
@@ -26,12 +27,8 @@ export async function login(_prevState: unknown, formData: FormData) {
      * Logged in via mumtaz API
      */
     if (mumtazResponse) {
-      const result = await supabase
-        .from("users")
-        .select()
-        .eq("email", data.email);
-
-      const userIsNotRegistered = !result?.data?.length;
+      const result = await user.find(data.email);
+      const userIsNotRegistered = !result;
 
       if (userIsNotRegistered) {
         isRedirect = await registerUser({
@@ -62,6 +59,17 @@ export async function login(_prevState: unknown, formData: FormData) {
     };
   } finally {
     if (isRedirect) {
+      try {
+        /**
+         * fire and forget
+         * its ok if its fail as long
+         * it does not break
+         */
+        await user.update(data.email, {
+          last_logged_in: new Date().toISOString(),
+        });
+      } catch {}
+
       revalidatePath("/", "layout");
       redirect("/");
     }
