@@ -10,22 +10,23 @@ export async function registerUser({
 }: RegisterUserArgs) {
   const supabase = await createClient();
 
+  const response = await supabase.auth.signUp({
+    email,
+    password,
+  });
+
+  if (response.error) throw response.error;
+
   const { error: errorInsert } = await user.create({
     email,
     name,
     role,
+    sb_user_id: response.data.user?.id ?? "",
   });
 
   if (errorInsert) {
     throw errorInsert;
   }
-
-  const { error: errorSignUp } = await supabase.auth.signUp({
-    email,
-    password,
-  });
-
-  if (errorSignUp) throw errorSignUp;
 
   return true;
 }

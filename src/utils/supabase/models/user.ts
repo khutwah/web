@@ -5,6 +5,7 @@ interface UserPayload {
   name: string;
   last_logged_in?: string;
   role: number;
+  sb_user_id: string;
 }
 
 class User {
@@ -14,13 +15,7 @@ class User {
   }
 
   create(payload: UserPayload) {
-    const { email, name, role } = payload;
-
-    return this.instance.from("users").upsert({
-      email,
-      name,
-      role,
-    });
+    return this.instance.from("users").upsert(payload);
   }
 
   update(email: string, payload: Partial<UserPayload>) {
