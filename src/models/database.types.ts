@@ -20,7 +20,7 @@ export type Database = {
         Row: {
           achieve_target: boolean | null
           created_at: string | null
-          created_by: string | null
+          created_by: number | null
           end_surah: string | null
           end_verse: string | null
           id: number
@@ -37,7 +37,7 @@ export type Database = {
         Insert: {
           achieve_target?: boolean | null
           created_at?: string | null
-          created_by?: string | null
+          created_by?: number | null
           end_surah?: string | null
           end_verse?: string | null
           id?: never
@@ -54,7 +54,7 @@ export type Database = {
         Update: {
           achieve_target?: boolean | null
           created_at?: string | null
-          created_by?: string | null
+          created_by?: number | null
           end_surah?: string | null
           end_verse?: string | null
           id?: never
@@ -70,11 +70,11 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "activities_created_by_fkey"
+            foreignKeyName: "activities_created_by_fk"
             columns: ["created_by"]
             isOneToOne: false
             referencedRelation: "users"
-            referencedColumns: ["email"]
+            referencedColumns: ["id"]
           },
           {
             foreignKeyName: "activities_shift_id_fkey"
@@ -124,7 +124,7 @@ export type Database = {
           id: number
           start_date: string
           updated_at: string | null
-          ustadz_id: string | null
+          ustadz_id: number | null
         }
         Insert: {
           created_at?: string | null
@@ -133,7 +133,7 @@ export type Database = {
           id?: never
           start_date: string
           updated_at?: string | null
-          ustadz_id?: string | null
+          ustadz_id?: number | null
         }
         Update: {
           created_at?: string | null
@@ -142,7 +142,7 @@ export type Database = {
           id?: never
           start_date?: string
           updated_at?: string | null
-          ustadz_id?: string | null
+          ustadz_id?: number | null
         }
         Relationships: [
           {
@@ -153,11 +153,11 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "shifts_ustadz_id_fkey"
+            foreignKeyName: "shifts_ustadz_id_fk"
             columns: ["ustadz_id"]
             isOneToOne: false
             referencedRelation: "users"
-            referencedColumns: ["email"]
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -167,7 +167,9 @@ export type Database = {
           halaqah_id: number | null
           id: number
           name: string | null
-          parent_id: string | null
+          nis: string | null
+          nisn: string | null
+          parent_id: number | null
           updated_at: string | null
         }
         Insert: {
@@ -175,7 +177,9 @@ export type Database = {
           halaqah_id?: number | null
           id?: never
           name?: string | null
-          parent_id?: string | null
+          nis?: string | null
+          nisn?: string | null
+          parent_id?: number | null
           updated_at?: string | null
         }
         Update: {
@@ -183,7 +187,9 @@ export type Database = {
           halaqah_id?: number | null
           id?: never
           name?: string | null
-          parent_id?: string | null
+          nis?: string | null
+          nisn?: string | null
+          parent_id?: number | null
           updated_at?: string | null
         }
         Relationships: [
@@ -195,11 +201,11 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "students_parent_id_fkey"
+            foreignKeyName: "students_parent_id_fk"
             columns: ["parent_id"]
             isOneToOne: false
             referencedRelation: "users"
-            referencedColumns: ["email"]
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -231,25 +237,28 @@ export type Database = {
         Row: {
           created_at: string | null
           email: string
-          last_logged_in: string | null
+          id: number
           name: string | null
           role: number | null
+          sb_user_id: string | null
           updated_at: string | null
         }
         Insert: {
           created_at?: string | null
           email: string
-          last_logged_in?: string | null
+          id?: never
           name?: string | null
           role?: number | null
+          sb_user_id?: string | null
           updated_at?: string | null
         }
         Update: {
           created_at?: string | null
           email?: string
-          last_logged_in?: string | null
+          id?: never
           name?: string | null
           role?: number | null
+          sb_user_id?: string | null
           updated_at?: string | null
         }
         Relationships: []

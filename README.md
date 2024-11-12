@@ -1,4 +1,6 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## API Documentation
+
+API documentation can be found in here https://khutwah.docs.apiary.io
 
 ## Getting Started
 

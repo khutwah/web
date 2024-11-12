@@ -1,4 +1,4 @@
-import { createClient } from "../client";
+import { Base } from "./base";
 
 interface UserPayload {
   email: string;
@@ -8,30 +8,19 @@ interface UserPayload {
   sb_user_id: string;
 }
 
-class User {
-  instance: ReturnType<typeof createClient>;
-  constructor() {
-    this.instance = createClient();
+export class User extends Base {
+  async create(payload: UserPayload) {
+    return (await this.supabase).from("users").upsert(payload);
   }
 
-  create(payload: UserPayload) {
-    return this.instance.from("users").upsert(payload);
-  }
-
-  update(email: string, payload: Partial<UserPayload>) {
-    return this.instance.from("users").update(payload).eq("email", email);
-  }
-
-  async find(email: string) {
-    const result = await this.instance
+  async get(email: string) {
+    const result = await (await this.supabase)
       .from("users")
       .select()
-      .eq("email", email);
+      .eq("email", email)
+      .limit(1)
+      .single();
 
-    return result?.data?.[0];
+    return result.data;
   }
 }
-
-const user = new User();
-
-export default user;
