@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "seed": "NODE_OPTIONS='-r dotenv/config' npx tsx seed.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.5.1",
@@ -22,6 +23,7 @@
     "@types/pg": "^8.11.10",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "dotenv": "^16.4.5",
     "eslint": "^8",
     "eslint-config-next": "15.0.2",
     "pg": "^8.13.1",
