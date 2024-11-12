@@ -6,9 +6,9 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import { loginMumtaz } from "@/utils/auth/login-mumtaz";
 import { registerUser } from "@/utils/auth/register-user";
-import { User } from "@/utils/supabase/models/user";
 import { ROLE } from "@/models/auth";
 import { addEmailSuffix } from "@/utils/add-email-suffix";
+import { Students } from "@/utils/supabase/models/students";
 
 export async function login(_prevState: unknown, formData: FormData) {
   let isRedirect = false;
@@ -30,9 +30,11 @@ export async function login(_prevState: unknown, formData: FormData) {
      * Logged in via mumtaz API
      */
     if (mumtazResponse) {
-      const user = new User();
-      const result = await user.get(data.email);
-      const userIsNotRegistered = !result;
+      const student = new Students();
+      const studentResult = await student.list({
+        virtual_account: mumtazResponse.virtual_account,
+      });
+      const userIsNotRegistered = !studentResult.data?.length;
 
       if (userIsNotRegistered) {
         isRedirect = await registerUser({
@@ -40,6 +42,7 @@ export async function login(_prevState: unknown, formData: FormData) {
           name: mumtazResponse.name,
           password: data.password,
           role: mumtazResponse.type === "student" ? ROLE.STUDENT : ROLE.USTADZ,
+          virtual_account: mumtazResponse.virtual_account,
         });
       }
     }

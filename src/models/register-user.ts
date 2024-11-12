@@ -3,4 +3,5 @@ export interface RegisterUserArgs {
   name: string;
   password: string;
   role: number;
+  virtual_account: string;
 }

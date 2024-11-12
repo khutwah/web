@@ -10,7 +10,7 @@ interface UserPayload {
 
 export class User extends Base {
   async create(payload: UserPayload) {
-    return (await this.supabase).from("users").upsert(payload);
+    return (await this.supabase).from("users").upsert(payload).select();
   }
 
   async get(email: string) {
