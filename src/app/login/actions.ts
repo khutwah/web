@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import { loginMumtaz } from "@/utils/auth/login-mumtaz";
 import { registerUser } from "@/utils/auth/register-user";
-import user from "@/utils/supabase/models/user";
+import { User } from "@/utils/supabase/models/user";
 import { ROLE } from "@/models/auth";
 import { addEmailSuffix } from "@/utils/add-email-suffix";
 
@@ -30,7 +30,8 @@ export async function login(_prevState: unknown, formData: FormData) {
      * Logged in via mumtaz API
      */
     if (mumtazResponse) {
-      const result = await user.find(data.email);
+      const user = new User();
+      const result = await user.get(data.email);
       const userIsNotRegistered = !result;
 
       if (userIsNotRegistered) {
