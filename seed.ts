@@ -130,18 +130,28 @@ const main = async () => {
       }),
     { connect: true }
   );
-  await seed.students((x) => x(10), {
-    models: {
-      students: {
-        data: {
-          name: (ctx) => copycat.fullName(ctx.seed),
-          nisn: (ctx) => copycat.scramble(ctx.seed),
-          nis: (ctx) => copycat.scramble(ctx.seed),
+  await seed.students(
+    (x) =>
+      x(2, (ctx) => {
+        return {
+          parent_id: seed.$store.public_users.filter((i) => i.role === 1)[
+            ctx.index
+          ].id,
+        };
+      }),
+    {
+      models: {
+        students: {
+          data: {
+            name: (ctx) => copycat.fullName(ctx.seed),
+            nisn: (ctx) => copycat.scramble(ctx.seed),
+            nis: (ctx) => copycat.scramble(ctx.seed),
+          },
         },
       },
-    },
-    connect: true,
-  });
+      connect: true,
+    }
+  );
   await seed.tags((x) => x(4));
 
   // Type completion not working? You might want to reload your TypeScript Server to pick up the changes
