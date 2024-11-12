@@ -16,6 +16,24 @@ Then, run the development server:
 npm run dev
 ```
 
+### Seed Local Database
+
+Run this if you want to use seed data so you dont have to manually create one.
+
+```bash
+npm run seed
+```
+
+### Available Seeded Users for Login
+
+Password: `orq[s$^zgx6L`
+| Users |
+| -------- |
+| ustadz_1@app.minhajulhaq.sch.id |
+| ustadz_2@app.minhajulhaq.sch.id |
+| student_1@app.minhajulhaq.sch.id |
+| student_2@app.minhajulhaq.sch.id |
+
 ## Folder Structure
 
 ```
@@ -43,3 +61,7 @@ Directory where we store React Components
 ### src/hooks
 
 Directory where we store React Hooks
+
+### src/utils
+
+Directory where we store utilities function
