@@ -8,19 +8,24 @@ interface UserPayload {
   sb_user_id: string;
 }
 
+interface GetFilter {
+  email?: string;
+  sb_user_id?: string;
+}
+
 export class User extends Base {
   async create(payload: UserPayload) {
-    return (await this.supabase).from("users").upsert(payload);
+    return (await this.supabase).from("users").upsert(payload).select();
   }
 
-  async get(email: string) {
-    const result = await (await this.supabase)
-      .from("users")
-      .select()
-      .eq("email", email)
-      .limit(1)
-      .single();
+  async get({ email, sb_user_id }: GetFilter) {
+    const query = (await this.supabase).from("users").select();
 
-    return result.data;
+    if (email) query.eq("email", email);
+    if (sb_user_id) query.eq("sb_user_id", sb_user_id);
+
+    const result = await query.limit(1).single();
+
+    return result;
   }
 }
