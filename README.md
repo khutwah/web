@@ -31,8 +31,8 @@ npm run seed
 Password: `orq[s$^zgx6L`
 | Users |
 | -------- |
-| ustadz_1@app.minhajulhaq.sch.id |
-| ustadz_2@app.minhajulhaq.sch.id |
+| ustadz_1@ustadz.app.minhajulhaq.sch.id |
+| ustadz_2@ustadz.app.minhajulhaq.sch.id |
 | student_1@app.minhajulhaq.sch.id |
 | student_2@app.minhajulhaq.sch.id |
 
