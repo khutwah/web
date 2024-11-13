@@ -39,6 +39,15 @@ export function ActivityCardStory() {
         notes=""
         type="Sabaq"
       />
+      <ActivityCard
+        id="1"
+        surahStart={{ name: 'Al-Mu\'minun', verse: "1" }}
+        surahEnd={{ name: 'Al-Mu\'minun', verse: "118" }}
+        timestamp={new Date(2024, 10, 10, 27).toISOString()}
+        pageAmount={8}
+        notes=""
+        type="Sabaq"
+      />
     </div>
   )
 }

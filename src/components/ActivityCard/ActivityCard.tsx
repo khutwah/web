@@ -35,7 +35,7 @@ export function ActivityCard({ id, surahEnd, surahStart, pageAmount, timestamp, 
   const date = new Date(timestamp)
 
   return (
-    <Card className="w-[328px]">
+    <Card className="w-[360px]">
       <CardHeader className="bg-mtmh-primary-primary text-mtmh-neutral-white rounded-t-xl">
         <CardTitle className="flex justify-between">
           <div>
