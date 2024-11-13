@@ -4792,6 +4792,34 @@
           "maxLength": null
         },
         {
+          "id": "public.students.virtual_account",
+          "name": "virtual_account",
+          "columnName": "virtual_account",
+          "type": "bpchar",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 50
+        },
+        {
+          "id": "public.students.pin",
+          "name": "pin",
+          "columnName": "pin",
+          "type": "bpchar",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 6
+        },
+        {
           "name": "halaqah",
           "type": "halaqah",
           "isRequired": false,

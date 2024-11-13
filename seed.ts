@@ -7,6 +7,7 @@
 import { createSeedClient } from "@snaplet/seed";
 import { copycat } from "@snaplet/copycat";
 import { createServerClient } from "@supabase/ssr";
+import { DEFAULT_EMAIL_DOMAIN } from "@/models/auth";
 
 const main = async () => {
   const seed = await createSeedClient();
@@ -37,21 +38,21 @@ const main = async () => {
   try {
     const _ustadz = await Promise.all([
       supabase.auth.signUp({
-        email: `ustadz_1@${process.env.NEXT_PUBLIC_DEFAULT_EMAIL_DOMAIN!}`,
+        email: `ustadz_1@ustadz.${DEFAULT_EMAIL_DOMAIN!}`,
         password: "orq[s$^zgx6L",
       }),
       supabase.auth.signUp({
-        email: `ustadz_2@${process.env.NEXT_PUBLIC_DEFAULT_EMAIL_DOMAIN!}`,
+        email: `ustadz_2@ustadz.${DEFAULT_EMAIL_DOMAIN!}`,
         password: "orq[s$^zgx6L",
       }),
     ]);
     const _students = await Promise.all([
       supabase.auth.signUp({
-        email: `student_1@${process.env.NEXT_PUBLIC_DEFAULT_EMAIL_DOMAIN!}`,
+        email: `student_1@${DEFAULT_EMAIL_DOMAIN!}`,
         password: "orq[s$^zgx6L",
       }),
       supabase.auth.signUp({
-        email: `student_2@${process.env.NEXT_PUBLIC_DEFAULT_EMAIL_DOMAIN!}`,
+        email: `student_2@${DEFAULT_EMAIL_DOMAIN!}`,
         password: "orq[s$^zgx6L",
       }),
     ]);
@@ -146,6 +147,12 @@ const main = async () => {
             name: (ctx) => copycat.fullName(ctx.seed),
             nisn: (ctx) => copycat.scramble(ctx.seed),
             nis: (ctx) => copycat.scramble(ctx.seed),
+            pin: (ctx) =>
+              String(copycat.int(ctx.seed, { min: 100000, max: 999999 })),
+            virtual_account: (ctx) =>
+              String(
+                copycat.int(ctx.seed, { min: 1000000000, max: 9999999999 })
+              ),
           },
         },
       },

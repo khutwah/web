@@ -12,13 +12,15 @@ export async function GET() {
   const _auth = await auth.get();
 
   const user = new User();
-  const _user = await user.get(_auth?.email || "");
+  const _user = await user.get({
+    email: _auth?.email || "",
+  });
 
-  const key = _user?.role === ROLE.STUDENT ? "student_id" : "ustadz_id";
+  const key = _user.data?.role === ROLE.STUDENT ? "student_id" : "ustadz_id";
 
   const halaqah = new Halaqah();
   const response = await halaqah.list({
-    [key]: _user?.id,
+    [key]: _user?.data?.id,
   });
 
   if (response === null) {
