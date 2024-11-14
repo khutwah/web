@@ -97,6 +97,7 @@ export type Database = {
           academic_year: number | null
           created_at: string | null
           id: number
+          label: string | null
           name: string | null
           updated_at: string | null
         }
@@ -104,6 +105,7 @@ export type Database = {
           academic_year?: number | null
           created_at?: string | null
           id?: never
+          label?: string | null
           name?: string | null
           updated_at?: string | null
         }
@@ -111,6 +113,7 @@ export type Database = {
           academic_year?: number | null
           created_at?: string | null
           id?: never
+          label?: string | null
           name?: string | null
           updated_at?: string | null
         }
@@ -122,6 +125,7 @@ export type Database = {
           end_date: string | null
           halaqah_id: number | null
           id: number
+          location: string | null
           start_date: string
           updated_at: string | null
           ustadz_id: number | null
@@ -131,6 +135,7 @@ export type Database = {
           end_date?: string | null
           halaqah_id?: number | null
           id?: never
+          location?: string | null
           start_date: string
           updated_at?: string | null
           ustadz_id?: number | null
@@ -140,6 +145,7 @@ export type Database = {
           end_date?: string | null
           halaqah_id?: number | null
           id?: never
+          location?: string | null
           start_date?: string
           updated_at?: string | null
           ustadz_id?: number | null
@@ -170,7 +176,9 @@ export type Database = {
           nis: string | null
           nisn: string | null
           parent_id: number | null
+          pin: string | null
           updated_at: string | null
+          virtual_account: string | null
         }
         Insert: {
           created_at?: string | null
@@ -180,7 +188,9 @@ export type Database = {
           nis?: string | null
           nisn?: string | null
           parent_id?: number | null
+          pin?: string | null
           updated_at?: string | null
+          virtual_account?: string | null
         }
         Update: {
           created_at?: string | null
@@ -190,7 +200,9 @@ export type Database = {
           nis?: string | null
           nisn?: string | null
           parent_id?: number | null
+          pin?: string | null
           updated_at?: string | null
+          virtual_account?: string | null
         }
         Relationships: [
           {
