@@ -1,5 +1,5 @@
 import type { Config } from "tailwindcss";
-import plugin from "tailwindcss/plugin";
+import { typographyPlugin } from "./tailwind/plugins/typography";
 
 const config: Config = {
   content: [
@@ -27,28 +27,6 @@ const config: Config = {
       }
     },
   },
-  plugins: [
-    plugin(function ({ addUtilities }) {
-      addUtilities({
-        // TODO: not sure if there's a better way to do this?
-        '.text-mtmh-title-small': {
-          'font-size': '14px',
-          'font-weight': '500',
-          'line-height': '20px',
-          'text-align': 'left',
-          'text-underline-position': 'from-font',
-          'text-decoration-skip-ink': 'none',
-        },
-        '.text-mtmh-button-medium': {
-          'font-size': '14px',
-          'font-weight': '600',
-          'line-height': '20px',
-          'text-align': 'left',
-          'text-underline-position': 'from-font',
-          'text-decoration-skip-ink': 'none',
-        },
-      })
-    })
-  ],
+  plugins: [typographyPlugin],
 };
 export default config;

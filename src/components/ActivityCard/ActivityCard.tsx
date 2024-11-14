@@ -43,7 +43,6 @@ export function ActivityCard({ id, surahEnd, surahStart, pageAmount, timestamp, 
           </div>
 
           <div className="font-normal">
-            {/* TODO: not sure if this will cause hydration error because server time != local time? */}
             {dateFormatter.format(date)} {timeFormatter.format(date).replace('.', ':')}
           </div>
         </CardTitle>
