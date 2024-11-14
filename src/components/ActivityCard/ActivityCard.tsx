@@ -1,5 +1,5 @@
-import { Input } from "postcss"
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "../Card/Card"
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "../Card/Card"
+import { ChevronRight } from 'lucide-react'
 import Link from "next/link"
 import React from "react"
 
@@ -54,7 +54,7 @@ export function ActivityCard({ id, surahEnd, surahStart, pageAmount, timestamp, 
               {surahStart.name}: {surahStart.verse}
             </div>
             <div>
-              {'>'}
+              <ChevronRight size={20} />
             </div>
             <div className="flex flex-1">
               {surahEnd.name}: {surahEnd.verse}
