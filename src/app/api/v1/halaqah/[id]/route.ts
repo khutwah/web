@@ -2,6 +2,7 @@ import {
   createErrorResponse,
   createSuccessResponse,
 } from "@/utils/api/response-generator";
+import { getUserId } from "@/utils/supabase/get-user-id";
 import { Halaqah } from "@/utils/supabase/models/halaqah";
 import { validate } from "@/utils/validation/id";
 
@@ -20,8 +21,9 @@ export async function GET(_request: Request, { params }: ParamsType) {
     );
   }
 
+  const filter = await getUserId();
   const halaqah = new Halaqah();
-  const response = await halaqah.get(id);
+  const response = await halaqah.get(id, filter);
 
   if (response === null) {
     return Response.json(

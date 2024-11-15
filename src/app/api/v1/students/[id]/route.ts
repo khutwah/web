@@ -2,6 +2,7 @@ import {
   createErrorResponse,
   createSuccessResponse,
 } from "@/utils/api/response-generator";
+import { getUserId } from "@/utils/supabase/get-user-id";
 import { Students } from "@/utils/supabase/models/students";
 import { validate } from "@/utils/validation/id";
 
@@ -20,8 +21,10 @@ export async function GET(_request: Request, { params }: ParamsType) {
     );
   }
 
+  const roleFilter = await getUserId();
+
   const student = new Students();
-  const response = await student.get(id);
+  const response = await student.get(id, roleFilter);
 
   if (response === null) {
     return Response.json(

@@ -4,15 +4,11 @@ import {
   createSuccessResponse,
 } from "@/utils/api/response-generator";
 import { Auth } from "@/utils/supabase/models/auth";
-import { Halaqah } from "@/utils/supabase/models/halaqah";
 import { Students } from "@/utils/supabase/models/students";
 import { User } from "@/utils/supabase/models/user";
 import { NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {
-  const searchParams = request.nextUrl.searchParams;
-  const halaqahIds = searchParams.get("halaqah_ids");
-
   const auth = new Auth();
   const _auth = await auth.get();
 
@@ -26,19 +22,19 @@ export async function GET(request: NextRequest) {
 
   if (_user.data?.role === ROLE.STUDENT) {
     _students = await students.list({
-      parent_id: _user.data.id,
+      student_id: _user.data.id,
     });
   } else if (_user.data?.role === ROLE.USTADZ) {
-    const halaqah = new Halaqah();
-    const response = await halaqah.list({
-      ustadz_id: _user?.data?.id,
-    });
-    const _halaqahIds = halaqahIds
+    const searchParams = request.nextUrl.searchParams;
+    const halaqahIds = searchParams.get("halaqah_ids");
+
+    const parsedHalaqahIds = halaqahIds
       ? halaqahIds.split(",").map(Number)
-      : response?.data?.map((item) => item.id) ?? [];
+      : [];
 
     _students = await students.list({
-      halaqah_ids: _halaqahIds,
+      halaqah_ids: parsedHalaqahIds,
+      ustadz_id: _user.data.id,
     });
   }
 
