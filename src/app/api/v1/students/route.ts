@@ -1,7 +1,9 @@
+import { ERROR_CODES } from "@/models/error-translator";
 import {
   createErrorResponse,
   createSuccessResponse,
 } from "@/utils/api/response-generator";
+import { errorTranslator } from "@/utils/supabase/error-translator";
 import { getUserId } from "@/utils/supabase/get-user-id";
 import { Students } from "@/utils/supabase/models/students";
 import { NextRequest } from "next/server";
@@ -25,23 +27,22 @@ export async function GET(request: NextRequest) {
 
   const parsedHalaqahIds = halaqahIds ? halaqahIds.split(",").map(Number) : [];
 
-  const _students = await students.list({
+  const response = await students.list({
     halaqah_ids: parsedHalaqahIds,
     ...roleFilter,
   });
 
-  if (_students?.error) {
-    return Response.json(
-      createErrorResponse({
-        code: 500,
-        message: "Something went wrong, please try again later.",
-      })
-    );
+  if (response?.error) {
+    return Response.json(createErrorResponse(errorTranslator(response.error)));
+  }
+
+  if (!response?.data) {
+    return Response.json(createErrorResponse(ERROR_CODES.PGRST116));
   }
 
   return Response.json(
     createSuccessResponse({
-      data: _students?.data,
+      data: response.data ?? null,
     })
   );
 }

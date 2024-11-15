@@ -1,7 +1,9 @@
+import { ERROR_CODES } from "@/models/error-translator";
 import {
   createErrorResponse,
   createSuccessResponse,
 } from "@/utils/api/response-generator";
+import { errorTranslator } from "@/utils/supabase/error-translator";
 import { getUserId } from "@/utils/supabase/get-user-id";
 import { Halaqah } from "@/utils/supabase/models/halaqah";
 import { validate } from "@/utils/validation/id";
@@ -36,17 +38,15 @@ export async function GET(_request: Request, { params }: ParamsType) {
   const response = await halaqah.get(id, filter);
 
   if (response?.error) {
-    return Response.json(
-      createErrorResponse({
-        code: 500,
-        message: "Something went wrong, please try again later.",
-      })
-    );
+    return Response.json(createErrorResponse(errorTranslator(response.error)));
+  }
+  if (!response?.data) {
+    return Response.json(createErrorResponse(ERROR_CODES.PGRST116));
   }
 
   return Response.json(
     createSuccessResponse({
-      data: response?.data,
+      data: response?.data ?? null,
     })
   );
 }
