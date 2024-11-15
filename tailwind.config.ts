@@ -1,5 +1,6 @@
 import type { Config } from "tailwindcss";
 import { typographyPlugin } from "./tailwind/plugins/typography";
+import { mtmhColors } from "./tailwind/colors";
 
 const config: Config = {
   content: [
@@ -10,21 +11,8 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        mtmh: {
-          primary: {
-            primary: '#602515'
-          },
-          secondary: {
-            secondary: '#F8AE1A'
-          },
-          neutral: {
-            10: '#F2F4F6',
-            20: '#D9DDE3',
-            50: '#8C8F93',
-            white: '#ffffff'
-          }
-        }
-      }
+        mtmh: mtmhColors,
+      },
     },
   },
   plugins: [typographyPlugin],
