@@ -1,0 +1,6 @@
+BEGIN;
+
+ALTER TABLE halaqah
+    ADD COLUMN label CHAR(30);
+
+COMMIT;

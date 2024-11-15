@@ -8,7 +8,7 @@ export interface SuccessResponse extends GeneralTypeResponse {
 
 export interface ErrorResponse extends GeneralTypeResponse {
   error: {
-    details: string | ValidationError[];
+    details?: string | ValidationError[];
     code: number;
   };
 }
@@ -24,6 +24,6 @@ export interface ValidationError {
 }
 export interface CreateErrorResponseArgs {
   code: number;
-  details: string | ValidationError[];
-  message?: string;
+  details?: string | ValidationError[];
+  message: string;
 }

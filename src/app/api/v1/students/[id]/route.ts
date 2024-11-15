@@ -1,4 +1,5 @@
 import { UNAUTHORIZE } from "@/models/copywriting/auth";
+import { INVALID_PAYLOAD } from "@/models/copywriting/data";
 import { ERROR_CODES } from "@/models/error-translator";
 import {
   createErrorResponse,
@@ -6,10 +7,26 @@ import {
 } from "@/utils/api/response-generator";
 import { errorTranslator } from "@/utils/supabase/error-translator";
 import { getUserId } from "@/utils/supabase/get-user-id";
-import { Halaqah } from "@/utils/supabase/models/halaqah";
+import { Students } from "@/utils/supabase/models/students";
+import { validate } from "@/utils/validation/id";
 
-export async function GET() {
+interface ParamsType {
+  params: Promise<{ id: string }>;
+}
+export async function GET(_request: Request, { params }: ParamsType) {
+  const id = await validate(await params);
+
+  if (!id) {
+    return Response.json(
+      createErrorResponse({
+        code: 400,
+        message: INVALID_PAYLOAD,
+      })
+    );
+  }
+
   const roleFilter = await getUserId();
+
   if (!roleFilter) {
     return Response.json(
       createErrorResponse({
@@ -19,10 +36,10 @@ export async function GET() {
     );
   }
 
-  const halaqah = new Halaqah();
-  const response = await halaqah.list(roleFilter);
+  const student = new Students();
+  const response = await student.get(id, roleFilter);
 
-  if (response?.error) {
+  if (response.error) {
     return Response.json(createErrorResponse(errorTranslator(response.error)));
   }
 
@@ -32,7 +49,7 @@ export async function GET() {
 
   return Response.json(
     createSuccessResponse({
-      data: response?.data ?? null,
+      data: response.data,
     })
   );
 }

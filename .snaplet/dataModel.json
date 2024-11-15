@@ -1092,6 +1092,20 @@
           "maxLength": null
         },
         {
+          "id": "public.halaqah.label",
+          "name": "label",
+          "columnName": "label",
+          "type": "bpchar",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 30
+        },
+        {
           "name": "shifts",
           "type": "shifts",
           "isRequired": false,
@@ -4382,6 +4396,20 @@
           "name": "ustadz_id",
           "columnName": "ustadz_id",
           "type": "int8",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "public.shifts.location",
+          "name": "location",
+          "columnName": "location",
+          "type": "varchar",
           "isRequired": false,
           "kind": "scalar",
           "isList": false,

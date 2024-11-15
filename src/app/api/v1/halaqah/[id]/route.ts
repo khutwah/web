@@ -1,4 +1,5 @@
 import { UNAUTHORIZE } from "@/models/copywriting/auth";
+import { INVALID_PAYLOAD } from "@/models/copywriting/data";
 import { ERROR_CODES } from "@/models/error-translator";
 import {
   createErrorResponse,
@@ -7,10 +8,26 @@ import {
 import { errorTranslator } from "@/utils/supabase/error-translator";
 import { getUserId } from "@/utils/supabase/get-user-id";
 import { Halaqah } from "@/utils/supabase/models/halaqah";
+import { validate } from "@/utils/validation/id";
 
-export async function GET() {
-  const roleFilter = await getUserId();
-  if (!roleFilter) {
+interface ParamsType {
+  params: Promise<{ id: string }>;
+}
+export async function GET(_request: Request, { params }: ParamsType) {
+  const id = await validate(await params);
+
+  if (!id) {
+    return Response.json(
+      createErrorResponse({
+        code: 400,
+        message: INVALID_PAYLOAD,
+      })
+    );
+  }
+
+  const filter = await getUserId();
+
+  if (!filter) {
     return Response.json(
       createErrorResponse({
         code: 403,
@@ -20,12 +37,11 @@ export async function GET() {
   }
 
   const halaqah = new Halaqah();
-  const response = await halaqah.list(roleFilter);
+  const response = await halaqah.get(id, filter);
 
   if (response?.error) {
     return Response.json(createErrorResponse(errorTranslator(response.error)));
   }
-
   if (!response?.data) {
     return Response.json(createErrorResponse(ERROR_CODES.PGRST116));
   }
