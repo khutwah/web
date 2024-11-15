@@ -2,7 +2,7 @@ import plugin from "tailwindcss/plugin";
 
 export const typographyPlugin = plugin(function ({ addUtilities }) {
   addUtilities({
-    ".mtmh-display-large": {
+    ".text-mtmh-display-large": {
       "font-size": "36px",
       "font-weight": "700",
       "line-height": "44px",
@@ -10,7 +10,7 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       "text-underline-position": "from-font",
       "text-decoration-skip-ink": "none",
     },
-    ".mtmh-display-medium": {
+    ".text-mtmh-display-medium": {
       "font-size": "32px",
       "font-weight": "700",
       "line-height": "40px",
@@ -18,7 +18,7 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       "text-underline-position": "from-font",
       "text-decoration-skip-ink": "none",
     },
-    ".mtmh-display-small": {
+    ".text-mtmh-display-small": {
       "font-size": "28px",
       "font-weight": "600",
       "line-height": "36px",
@@ -26,7 +26,7 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       "text-underline-position": "from-font",
       "text-decoration-skip-ink": "none",
     },
-    ".mtmh-heading-h1": {
+    ".text-mtmh-heading-h1": {
       "font-size": "28px",
       "font-weight": "700",
       "line-height": "36px",
@@ -34,7 +34,7 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       "text-underline-position": "from-font",
       "text-decoration-skip-ink": "none",
     },
-    ".mtmh-heading-h2": {
+    ".text-mtmh-heading-h2": {
       "font-size": "24px",
       "font-weight": "600",
       "line-height": "32px",
@@ -42,7 +42,7 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       "text-underline-position": "from-font",
       "text-decoration-skip-ink": "none",
     },
-    ".mtmh-heading-h3": {
+    ".text-mtmh-heading-h3": {
       "font-size": "20px",
       "font-weight": "500",
       "line-height": "28px",
@@ -50,7 +50,7 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       "text-underline-position": "from-font",
       "text-decoration-skip-ink": "none",
     },
-    ".mtmh-title-large": {
+    ".text-mtmh-title-large": {
       "font-size": "18px",
       "font-weight": "700",
       "line-height": "24px",
@@ -58,7 +58,7 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       "text-underline-position": "from-font",
       "text-decoration-skip-ink": "none",
     },
-    ".mtmh-title-medium": {
+    ".text-mtmh-title-medium": {
       "font-size": "16px",
       "font-weight": "600",
       "line-height": "24px",
@@ -66,7 +66,7 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       "text-underline-position": "from-font",
       "text-decoration-skip-ink": "none",
     },
-    ".mtmh-title-small": {
+    ".text-mtmh-title-small": {
       "font-size": "14px",
       "font-weight": "500",
       "line-height": "20px",
@@ -74,7 +74,7 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       "text-underline-position": "from-font",
       "text-decoration-skip-ink": "none",
     },
-    ".mtmh-body-large": {
+    ".text-mtmh-body-large": {
       "font-size": "20px",
       "font-weight": "400",
       "line-height": "28px",
@@ -82,7 +82,7 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       "text-underline-position": "from-font",
       "text-decoration-skip-ink": "none",
     },
-    ".mtmh-body-medium": {
+    ".text-mtmh-body-medium": {
       "font-size": "16px",
       "font-weight": "400",
       "line-height": "24px",
@@ -90,7 +90,7 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       "text-underline-position": "from-font",
       "text-decoration-skip-ink": "none",
     },
-    ".mtmh-body-small": {
+    ".text-mtmh-body-small": {
       "font-size": "14px",
       "font-weight": "400",
       "line-height": "20px",
@@ -98,7 +98,7 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       "text-underline-position": "from-font",
       "text-decoration-skip-ink": "none",
     },
-    ".mtmh-button-large": {
+    ".text-mtmh-button-large": {
       "font-size": "16px",
       "font-weight": "600",
       "line-height": "24px",
@@ -106,7 +106,7 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       "text-underline-position": "from-font",
       "text-decoration-skip-ink": "none",
     },
-    ".mtmh-button-small": {
+    ".text-mtmh-button-small": {
       "font-size": "12px",
       "font-weight": "600",
       "line-height": "16px",
@@ -114,7 +114,7 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       "text-underline-position": "from-font",
       "text-decoration-skip-ink": "none",
     },
-    ".mtmh-label": {
+    ".text-mtmh-label": {
       "font-size": "12px",
       "font-weight": "500",
       "line-height": "16px",
@@ -122,7 +122,7 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       "text-underline-position": "from-font",
       "text-decoration-skip-ink": "none",
     },
-    ".mtmh-small-text": {
+    ".text-mtmh-small-text": {
       "font-size": "10px",
       "font-weight": "400",
       "line-height": "14px",

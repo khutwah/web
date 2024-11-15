@@ -53,7 +53,7 @@ for (let i = 5; i < lines.length; i = i + 5) {
   // Dev's note: line spacing (5th element) is ignored because we don't use it (yet).
   const [type, fontSize, fontWeight, lineHeight] = lines.slice(i, i + 5);
 
-  const className = `.mtmh-${type.toLowerCase().replace(/-/g, "").replace(/\s+/g, "-")}`;
+  const className = `.text-mtmh-${type.toLowerCase().replace(/-/g, "").replace(/\s+/g, "-")}`;
 
   classes[className] = {
     "font-size": fontSize,
@@ -75,4 +75,6 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
 
 await fs.writeFile(OUTPUT_PATH, typographyPluginContent, "utf-8");
 
-console.log(`✨ Successfully generated typography tokens! Don't forget to format the output in ${OUTPUT_PATH} for consistency purposes.`);
+console.log(
+  `✨ Successfully generated typography tokens! Don't forget to format the output in ${OUTPUT_PATH} for consistency purposes.`
+);
