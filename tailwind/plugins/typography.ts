@@ -106,6 +106,14 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       "text-underline-position": "from-font",
       "text-decoration-skip-ink": "none",
     },
+    ".text-mtmh-button-medium": {
+      "font-size": "14px",
+      "font-weight": "600",
+      "line-height": "20px",
+      "text-align": "left",
+      "text-underline-position": "from-font",
+      "text-decoration-skip-ink": "none",
+    },
     ".text-mtmh-button-small": {
       "font-size": "12px",
       "font-weight": "600",
@@ -122,10 +130,10 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       "text-underline-position": "from-font",
       "text-decoration-skip-ink": "none",
     },
-    ".text-mtmh-small-text": {
-      "font-size": "10px",
+    ".text-mtmh-caption": {
+      "font-size": "12px",
       "font-weight": "400",
-      "line-height": "14px",
+      "line-height": "16px",
       "text-align": "left",
       "text-underline-position": "from-font",
       "text-decoration-skip-ink": "none",
