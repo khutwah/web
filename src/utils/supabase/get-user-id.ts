@@ -1,4 +1,4 @@
-import { IDENTIFIER_BY_ROLE, ROLE } from "@/models/auth";
+import { IDENTIFIER_BY_ROLE } from "@/models/auth";
 import { Auth } from "./models/auth";
 import { User } from "./models/user";
 

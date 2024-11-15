@@ -1,64 +1,47 @@
-import { ROLE } from "@/models/auth";
 import {
   createErrorResponse,
   createSuccessResponse,
 } from "@/utils/api/response-generator";
-import { Auth } from "@/utils/supabase/models/auth";
+import { getUserId } from "@/utils/supabase/get-user-id";
 import { Students } from "@/utils/supabase/models/students";
-import { User } from "@/utils/supabase/models/user";
 import { NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {
-  const auth = new Auth();
-  const _auth = await auth.get();
+  const roleFilter = await getUserId();
 
-  const user = new User();
-  const _user = await user.get({
-    email: _auth?.email || "",
-  });
-
-  const students = new Students();
-  let _students: Awaited<ReturnType<typeof students.list>> | null = null;
-
-  if (_user.data?.role === ROLE.STUDENT) {
-    _students = await students.list({
-      student_id: _user.data.id,
-    });
-  } else if (_user.data?.role === ROLE.USTADZ) {
-    const searchParams = request.nextUrl.searchParams;
-    const halaqahIds = searchParams.get("halaqah_ids");
-
-    const parsedHalaqahIds = halaqahIds
-      ? halaqahIds.split(",").map(Number)
-      : [];
-
-    _students = await students.list({
-      halaqah_ids: parsedHalaqahIds,
-      ustadz_id: _user.data.id,
-    });
-  }
-
-  if (_students === null) {
+  if (!roleFilter) {
     return Response.json(
       createErrorResponse({
         code: 403,
-        details: "Unauthorize Access",
+        message: "Unauthorize Access",
       })
     );
   }
 
-  if (_students.error) {
+  const students = new Students();
+
+  const searchParams = request.nextUrl.searchParams;
+  const halaqahIds = searchParams.get("halaqah_ids");
+
+  const parsedHalaqahIds = halaqahIds ? halaqahIds.split(",").map(Number) : [];
+
+  const _students = await students.list({
+    halaqah_ids: parsedHalaqahIds,
+    ...roleFilter,
+  });
+
+  if (_students?.error) {
     return Response.json(
       createErrorResponse({
         code: 500,
-        details: "Something went wrong, please try again later.",
+        message: "Something went wrong, please try again later.",
       })
     );
   }
 
   return Response.json(
     createSuccessResponse({
-      data: _students.data,
+      data: _students?.data,
     })
   );
 }

@@ -16,30 +16,30 @@ export async function GET(_request: Request, { params }: ParamsType) {
     return Response.json(
       createErrorResponse({
         code: 400,
-        details: "Invalid payload data provided.",
+        message: "Invalid payload data provided.",
       })
     );
   }
 
   const roleFilter = await getUserId();
 
-  const student = new Students();
-  const response = await student.get(id, roleFilter);
-
-  if (response === null) {
+  if (!roleFilter) {
     return Response.json(
       createErrorResponse({
         code: 403,
-        details: "Unauthorize Access",
+        message: "Unauthorize Access",
       })
     );
   }
+
+  const student = new Students();
+  const response = await student.get(id, roleFilter);
 
   if (response.error) {
     return Response.json(
       createErrorResponse({
         code: 500,
-        details: "Something went wrong, please try again later.",
+        message: "Something went wrong, please try again later.",
       })
     );
   }

@@ -16,36 +16,37 @@ export async function GET(_request: Request, { params }: ParamsType) {
     return Response.json(
       createErrorResponse({
         code: 400,
-        details: "Invalid payload data provided.",
+        message: "Invalid payload data provided.",
       })
     );
   }
 
   const filter = await getUserId();
-  const halaqah = new Halaqah();
-  const response = await halaqah.get(id, filter);
 
-  if (response === null) {
+  if (!filter) {
     return Response.json(
       createErrorResponse({
         code: 403,
-        details: "Unauthorize Access",
+        message: "Unauthorize Access",
       })
     );
   }
 
-  if (response.error) {
+  const halaqah = new Halaqah();
+  const response = await halaqah.get(id, filter);
+
+  if (response?.error) {
     return Response.json(
       createErrorResponse({
         code: 500,
-        details: "Something went wrong, please try again later.",
+        message: "Something went wrong, please try again later.",
       })
     );
   }
 
   return Response.json(
     createSuccessResponse({
-      data: response.data,
+      data: response?.data,
     })
   );
 }
