@@ -11,6 +11,11 @@ export const IDENTIFIER_BY_ROLE = {
   [ROLE.USTADZ]: "ustadz_id",
 };
 
+export const PAGE_BY_ROLE = {
+  [ROLE.STUDENT]: "/student",
+  [ROLE.USTADZ]: "/ustadz",
+};
+
 export const DEFAULT_EMAIL_DOMAIN = "app.minhajulhaq.sch.id";
 
 export const TEMPORARY_PIN_PAGE_ID_COOKIE = "_sbex2";
