@@ -1,3 +1,4 @@
+import { UNAUTHORIZE } from "@/models/copywriting/auth";
 import { ERROR_CODES } from "@/models/error-translator";
 import {
   createErrorResponse,
@@ -15,7 +16,7 @@ export async function GET(request: NextRequest) {
     return Response.json(
       createErrorResponse({
         code: 403,
-        message: "Unauthorize Access",
+        message: UNAUTHORIZE,
       })
     );
   }

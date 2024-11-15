@@ -1,3 +1,5 @@
+import { UNAUTHORIZE } from "@/models/copywriting/auth";
+import { INVALID_PAYLOAD } from "@/models/copywriting/data";
 import { ERROR_CODES } from "@/models/error-translator";
 import {
   createErrorResponse,
@@ -18,7 +20,7 @@ export async function GET(_request: Request, { params }: ParamsType) {
     return Response.json(
       createErrorResponse({
         code: 400,
-        message: "Invalid payload data provided.",
+        message: INVALID_PAYLOAD,
       })
     );
   }
@@ -29,7 +31,7 @@ export async function GET(_request: Request, { params }: ParamsType) {
     return Response.json(
       createErrorResponse({
         code: 403,
-        message: "Unauthorize Access",
+        message: UNAUTHORIZE,
       })
     );
   }
