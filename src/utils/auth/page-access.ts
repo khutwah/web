@@ -8,7 +8,7 @@ export async function isHaveAccess(role: number) {
   const _role = await getUserRole();
 
   // User has no access
-  if (_role === -1) return redirect("/");
+  if (_role === -1) return redirect("/login");
 
   // User not eligible to access expected page
   if (_role !== role) return redirect(PAGE_BY_ROLE[_role] ?? "/");
