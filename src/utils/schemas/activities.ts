@@ -5,12 +5,12 @@ const testTimestamp = (value?: string) => !value || !isNaN(Date.parse(value));
 export const activityFilterSchema = object({
   start_date: string().test(
     "is-valid-date",
-    "Date must be a valid ISO string",
+    "Tanggal harus dalam format ISO yang valid",
     testTimestamp
   ),
   end_date: string().test(
     "is-valid-date",
-    "Date must be a valid ISO string",
+    "Tanggal harus dalam format ISO yang valid",
     testTimestamp
   ),
   type: number().oneOf([1, 2, 3] as const),
@@ -19,20 +19,25 @@ export const activityFilterSchema = object({
 });
 
 export const activityCreateSchema = object({
-  notes: string().required(),
-  tags: array().of(string()).required(),
-  shift_id: number().required(),
-  student_id: number().required(),
-  type: number().oneOf([1, 2, 3] as const),
-  achieve_target: boolean().required(),
-  start_surah: number().required(),
-  end_surah: number().required(),
-  start_verse: number().required(),
-  end_verse: number().required(),
-  page_amount: number().required(),
+  notes: string().required("Catatan wajib diisi"),
+  tags: array().of(string()).required("Tag wajib diisi"),
+  shift_id: number().required("ID shift wajib diisi"),
+  student_id: number().required("ID siswa wajib diisi"),
+  type: number()
+    .oneOf(
+      [1, 2, 3] as const,
+      "Tipe Aktivitas harus salah satu dari 1, 2, atau 3"
+    )
+    .required("Tipe Aktivitas wajib diisi"),
+  achieve_target: boolean().required("Target pencapaian wajib diisi"),
+  start_surah: number().required("Awal baca wajib diisi"),
+  end_surah: number().required("Akhir baca wajib diisi"),
+  start_verse: number().required("Awal ayat wajib diisi"),
+  end_verse: number().required("Akhir ayat wajib diisi"),
+  page_amount: number().required("Jumlah halaman wajib diisi"),
   created_at: string().test(
     "is-valid-date",
-    "Date must be a valid ISO string",
+    "Tanggal harus dalam format ISO yang valid",
     testTimestamp
   ),
 });
