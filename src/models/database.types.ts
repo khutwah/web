@@ -21,14 +21,14 @@ export type Database = {
           achieve_target: boolean | null
           created_at: string | null
           created_by: number | null
-          end_surah: string | null
-          end_verse: string | null
+          end_surah: number | null
+          end_verse: number | null
           id: number
           notes: string | null
           page_amount: number | null
           shift_id: number | null
-          start_surah: string | null
-          start_verse: string | null
+          start_surah: number | null
+          start_verse: number | null
           student_id: number | null
           tags: Json | null
           type: number | null
@@ -38,14 +38,14 @@ export type Database = {
           achieve_target?: boolean | null
           created_at?: string | null
           created_by?: number | null
-          end_surah?: string | null
-          end_verse?: string | null
+          end_surah?: number | null
+          end_verse?: number | null
           id?: never
           notes?: string | null
           page_amount?: number | null
           shift_id?: number | null
-          start_surah?: string | null
-          start_verse?: string | null
+          start_surah?: number | null
+          start_verse?: number | null
           student_id?: number | null
           tags?: Json | null
           type?: number | null
@@ -55,14 +55,14 @@ export type Database = {
           achieve_target?: boolean | null
           created_at?: string | null
           created_by?: number | null
-          end_surah?: string | null
-          end_verse?: string | null
+          end_surah?: number | null
+          end_verse?: number | null
           id?: never
           notes?: string | null
           page_amount?: number | null
           shift_id?: number | null
-          start_surah?: string | null
-          start_verse?: string | null
+          start_surah?: number | null
+          start_verse?: number | null
           student_id?: number | null
           tags?: Json | null
           type?: number | null

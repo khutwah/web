@@ -119,6 +119,7 @@ const main = async () => {
       };
     })
   );
+
   await seed.shifts(
     (x) =>
       x(2, (ctx) => {
@@ -160,6 +161,20 @@ const main = async () => {
     }
   );
   await seed.tags((x) => x(4));
+
+  await seed.activities(
+    (x) =>
+      x(2, () => ({
+        type: 1,
+        page_amount: 2,
+        start_surah: 1,
+        end_surah: 1,
+        start_verse: 1,
+        end_verse: 7,
+        tags: '["Terbata-bata", "Cukup Baik"]',
+      })),
+    { connect: true }
+  );
 
   // Type completion not working? You might want to reload your TypeScript Server to pick up the changes
 
