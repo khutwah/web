@@ -7,6 +7,7 @@ export function ActivityCardStory() {
       <ActivityCard
         id="1"
         isStudentPresent
+        studentName="Andrizal Herdiwanto Sukmini"
         halaqahName="Halaqah A1.1"
         surahStart={{ name: 'At-Taubah', verse: "1" }}
         surahEnd={{ name: 'At-Taubah', verse: "26" }}
@@ -18,6 +19,7 @@ export function ActivityCardStory() {
       <ActivityCard
         id="1"
         isStudentPresent
+        studentName="Andrizal Herdiwanto Sukmini"
         halaqahName="Halaqah A1.1"
         surahStart={{ name: 'At-Taubah', verse: "1" }}
         surahEnd={{ name: 'At-Taubah', verse: "1" }}
@@ -29,6 +31,7 @@ export function ActivityCardStory() {
       <ActivityCard
         id="1"
         isStudentPresent
+        studentName="Andrizal Herdiwanto Sukmini"
         halaqahName="Halaqah A1.1"
         surahStart={{ name: 'Al-Baqarah', verse: "1" }}
         surahEnd={{ name: 'Al-Baqarah', verse: "286" }}
@@ -40,7 +43,6 @@ export function ActivityCardStory() {
       <ActivityCard
         id="1"
         isStudentPresent={false}
-        studentName="Andrizal Herdiwanto Sukmini"
         halaqahName="Halaqah A1.1"
         surahStart={{ name: 'Al-Mumtahanah', verse: "1" }}
         surahEnd={{ name: 'Al-Mumtahanah', verse: "13" }}
@@ -51,7 +53,6 @@ export function ActivityCardStory() {
       <ActivityCard
         id="1"
         isStudentPresent={false}
-        studentName="Andrizal Herdiwanto Sukmini"
         halaqahName="Halaqah A1.1"
         surahStart={{ name: 'Al-Mu\'minun', verse: "1" }}
         surahEnd={{ name: 'Al-Mu\'minun', verse: "118" }}
@@ -62,7 +63,6 @@ export function ActivityCardStory() {
       <ActivityCard
         id="1"
         isStudentPresent={false}
-        studentName="Andrizal Herdiwanto Sukmini"
         halaqahName="Halaqah A1.1"
         surahStart={{ name: 'Al-Mu\'minun', verse: "1" }}
         surahEnd={{ name: 'Al-Mu\'minun', verse: "118" }}

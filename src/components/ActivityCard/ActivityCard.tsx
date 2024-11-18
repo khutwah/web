@@ -73,7 +73,7 @@ export function ActivityCard({
           <div className="text-xs text-mtmh-grey-light">{halaqahName}</div>
 
           <div className="flex items-center gap-x-2 text-sm">
-            <div>
+            <div className="pt-1">
               <BookOpen className="text-mtmh-grey-lightest" size={16} />
             </div>
 
@@ -89,7 +89,7 @@ export function ActivityCard({
           </div>
 
           <div className="flex items-start gap-x-2 text-sm">
-            <div>
+            <div className="pt-1">
               <StickyNote className="text-mtmh-grey-lightest" size={16} />
             </div>
 
