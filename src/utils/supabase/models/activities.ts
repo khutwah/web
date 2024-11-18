@@ -36,7 +36,7 @@ const selectQuery = `
     end_surah,
     start_verse,
     end_verse,
-    shifts(ustadz_id, users(name)),
+    shifts(ustadz_id, users(name), halaqah(name)),
     students(parent_id, name)`;
 
 export class Activities extends Base {
@@ -89,6 +89,7 @@ export class Activities extends Base {
           end_surah: surah.find((s) => s.id === item.end_surah)?.name_simple,
           start_verse: item.start_verse,
           end_verse: item.end_verse,
+          halaqah_name: item.shifts?.halaqah?.name,
         }))
       : result.data;
 
