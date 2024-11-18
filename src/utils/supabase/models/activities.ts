@@ -2,11 +2,27 @@ import { PaginationFilter, RoleFilter } from "@/models/supabase/models/filter";
 import { Base } from "./base";
 import { ActivityType } from "@/models/activities";
 import surah from "@/data/surah.json";
+import { getUserId } from "../get-user-id";
 
 export interface GetFilter extends RoleFilter, PaginationFilter {
   type?: ActivityType;
   start_date?: string;
   end_date?: string;
+}
+
+interface CreatePayload {
+  shift_id: number;
+  note: string;
+  tags: string[];
+  student_id: number;
+  type: ActivityType;
+  achieve_target: boolean;
+  start_surah: number;
+  end_surah: number;
+  start_verse: number;
+  end_verse: number;
+  page_amount: number;
+  created_at?: string;
 }
 
 const selectQuery = `
@@ -21,7 +37,7 @@ const selectQuery = `
     start_verse,
     end_verse,
     shifts(ustadz_id, users(name)),
-    students(parent_id)`;
+    students(parent_id, name)`;
 
 export class Activities extends Base {
   async list(args: GetFilter) {
@@ -62,9 +78,10 @@ export class Activities extends Base {
     const result = await query.range(offset, offset + limit - 1);
     const data = result.data
       ? result.data.map((item) => ({
+          student_name: item.students?.name,
           type: ActivityType[item.type ?? 1],
           notes: item.notes,
-          tags: JSON.parse(item.tags ?? "[]"),
+          tags: item.tags ?? [],
           page_amount: item.page_amount,
           created_at: item.created_at,
           start_surah: surah.find((s) => s.id === item.start_surah)
@@ -79,5 +96,21 @@ export class Activities extends Base {
       ...result,
       data,
     };
+  }
+
+  async create(payload: CreatePayload) {
+    const userId = Object.values((await getUserId()) ?? {})[0];
+
+    let _payload: CreatePayload & { updated_at?: string; created_by: number } =
+      { ...payload, created_by: userId };
+
+    if (payload.created_at) {
+      _payload = {
+        ..._payload,
+        updated_at: payload.created_at,
+      };
+    }
+
+    return await (await this.supabase).from("activities").insert(_payload);
   }
 }

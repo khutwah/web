@@ -5,7 +5,10 @@ import {
   createSuccessResponse,
 } from "@/utils/api/response-generator";
 import { parseFilter } from "@/utils/parse-filter";
-import { activityFilterSchema } from "@/utils/schemas/activities";
+import {
+  activityCreateSchema,
+  activityFilterSchema,
+} from "@/utils/schemas/activities";
 import { errorTranslator } from "@/utils/supabase/error-translator";
 import { getUserId } from "@/utils/supabase/get-user-id";
 import { Activities } from "@/utils/supabase/models/activities";
@@ -54,6 +57,35 @@ export async function GET(request: NextRequest) {
   return Response.json(
     createSuccessResponse({
       data: response?.data ?? null,
+    })
+  );
+}
+
+export async function POST(request: NextRequest) {
+  let body = await request.json();
+  try {
+    body = await activityCreateSchema.validate(body);
+  } catch (e) {
+    return Response.json(
+      createErrorResponse({
+        code: 400,
+        message: "invalid input",
+        details: (e as Error).message,
+      })
+    );
+  }
+
+  const activity = new Activities();
+  const response = await activity.create(body);
+
+  if (response.error) {
+    console.log(response.error);
+    return Response.json(createErrorResponse(errorTranslator(response.error)));
+  }
+
+  return Response.json(
+    createSuccessResponse({
+      data: null,
     })
   );
 }

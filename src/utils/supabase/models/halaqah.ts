@@ -100,6 +100,7 @@ export class Halaqah extends Base {
         name: data?.name,
         label: data?.label,
         location: data?.shifts?.[0]?.location ?? "",
+        shift_id: data?.shifts?.[0]?.id,
         ustadz: ustadz,
       },
     };
