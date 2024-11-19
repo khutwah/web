@@ -10,7 +10,8 @@
     "lint": "next lint",
     "seed": "NODE_OPTIONS='-r dotenv/config' npx tsx seed.ts",
     "db-types": "supabase gen types typescript > src/models/database.types.ts",
-    "prepare": "husky"
+    "prepare": "husky",
+    "format": "npx prettier . --write"
   },
   "dependencies": {
     "@supabase/ssr": "^0.5.1",
