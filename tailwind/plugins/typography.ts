@@ -138,7 +138,7 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       'text-underline-position': 'from-font',
       'text-decoration-skip-ink': 'none'
     },
-    // TODO(imballinst): this is also manually added.
+    // TODO(imballinst): these are also manually added.
     '.text-mtmh-m-semibold': {
       'font-size': '14px',
       'font-weight': '600',
