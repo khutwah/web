@@ -3,6 +3,7 @@ import { Base } from './base'
 import { ActivityType } from '@/models/activities'
 import surah from '@/data/surah.json'
 import { getUserId } from '../get-user-id'
+import { ApiError } from '@/utils/api-error'
 
 export interface GetFilter extends RoleFilter, PaginationFilter {
   type?: ActivityType
@@ -113,5 +114,35 @@ export class Activities extends Base {
     }
 
     return await (await this.supabase).from('activities').insert(_payload)
+  }
+
+  async update(id: number, payload: CreatePayload) {
+    const userId = Object.values((await getUserId()) ?? {})[0]
+    const supabase = await this.supabase
+
+    const result = await supabase
+      .from('activities')
+      .select('id,created_by')
+      .eq('id', id)
+      .eq('created_by', userId)
+      .limit(1)
+      .maybeSingle()
+
+    if (!result.data) {
+      throw new ApiError({
+        message: 'You are not authorize to perform this action',
+        status: 403
+      })
+    }
+
+    const response = await supabase.from('activities').update(payload)
+    if (response.error) {
+      throw new ApiError({
+        message: response.error.message,
+        code: response.error.code,
+        status: response.status
+      })
+    }
+    return response
   }
 }

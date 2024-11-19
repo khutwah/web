@@ -19,9 +19,10 @@ export async function GET(request: NextRequest) {
   if (!roleFilter) {
     return Response.json(
       createErrorResponse({
-        code: 403,
+        code: '403',
         message: UNAUTHORIZE
-      })
+      }),
+      { status: 403 }
     )
   }
 
@@ -33,10 +34,11 @@ export async function GET(request: NextRequest) {
   } catch (e) {
     return Response.json(
       createErrorResponse({
-        code: 400,
+        code: '400',
         message: 'invalid input',
         details: (e as Error).message
-      })
+      }),
+      { status: 400 }
     )
   }
 
@@ -57,7 +59,8 @@ export async function GET(request: NextRequest) {
   return Response.json(
     createSuccessResponse({
       data: response?.data ?? null
-    })
+    }),
+    { status: 200 }
   )
 }
 
@@ -68,10 +71,11 @@ export async function POST(request: NextRequest) {
   } catch (e) {
     return Response.json(
       createErrorResponse({
-        code: 400,
+        code: '400',
         message: 'invalid input',
         details: (e as Error).message
-      })
+      }),
+      { status: 400 }
     )
   }
 
@@ -79,13 +83,15 @@ export async function POST(request: NextRequest) {
   const response = await activity.create(body)
 
   if (response.error) {
-    console.log(response.error)
-    return Response.json(createErrorResponse(errorTranslator(response.error)))
+    return Response.json(createErrorResponse(errorTranslator(response.error)), {
+      status: 500
+    })
   }
 
   return Response.json(
     createSuccessResponse({
       data: null
-    })
+    }),
+    { status: 201 }
   )
 }
