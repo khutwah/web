@@ -12,7 +12,8 @@
     "seed": "NODE_OPTIONS='-r dotenv/config' npx tsx seed.ts",
     "db-types": "supabase gen types typescript > src/models/database.types.ts",
     "prepare": "husky",
-    "format": "npx prettier . --write"
+    "format": "npx prettier . --write",
+    "type:check": "npx tsc --noEmit"
   },
   "dependencies": {
     "@supabase/ssr": "^0.5.1",
