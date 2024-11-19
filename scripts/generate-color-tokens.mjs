@@ -1,5 +1,5 @@
-import fs from "fs/promises";
-import path from "path";
+import fs from 'fs/promises'
+import path from 'path'
 
 // How to use:
 //
@@ -31,68 +31,75 @@ import path from "path";
 // #F7E4D0
 // ...
 
-const INPUT_PATH = path.join("scripts/resources/color-tokens.txt");
-const OUTPUT_PATH = path.join("tailwind/colors.ts");
+const INPUT_PATH = path.join('scripts/resources/color-tokens.txt')
+const OUTPUT_PATH = path.join('tailwind/colors.ts')
 const NAME_OVERRIDES = {
-  "neutral-0": "neutral-white",
-};
-const NUMBER_OF_ACCENT_COLORS = 4;
+  'neutral-0': 'neutral-white'
+}
+const NUMBER_OF_ACCENT_COLORS = 4
 
-let txt;
+let txt
 
 try {
-  txt = await fs.readFile(INPUT_PATH, "utf-8");
-  txt.trim();
+  txt = await fs.readFile(INPUT_PATH, 'utf-8')
+  txt.trim()
 } catch (err) {
-  console.error(err);
-  process.exit(1);
+  console.error(err)
+  process.exit(1)
 }
 
-const mtmhColors = {};
+const mtmhColors = {}
 // Start from index 1, because the first line is a boundary like "Primary Color", "Secondary Color".
-let lines = txt.trim().split("\n").slice(1);
-let numberOfAccentColorsTraversed = 0;
-let isAccentColor = false;
+let lines = txt.trim().split('\n').slice(1)
+let numberOfAccentColorsTraversed = 0
+let isAccentColor = false
 
 while (true) {
-  const currentColorHexStartIndex = lines.findIndex((line) => line.startsWith("#"));
-  if (currentColorHexStartIndex === -1) break;
+  const currentColorHexStartIndex = lines.findIndex((line) =>
+    line.startsWith('#')
+  )
+  if (currentColorHexStartIndex === -1) break
 
   for (let i = 0; i < currentColorHexStartIndex; i++) {
-    const name = lines[i].toLowerCase().replace(/-/g, "").replace(/\s+/g, "-");
-    const hex = lines[i + currentColorHexStartIndex];
+    const name = lines[i].toLowerCase().replace(/-/g, '').replace(/\s+/g, '-')
+    const hex = lines[i + currentColorHexStartIndex]
 
-    const effectiveName = NAME_OVERRIDES[name] ?? name;
-    const [colorCategory, colorIntensity] = effectiveName.split("-");
+    const effectiveName = NAME_OVERRIDES[name] ?? name
+    const [colorCategory, colorIntensity] = effectiveName.split('-')
 
     if (!mtmhColors[colorCategory]) {
-      mtmhColors[colorCategory] = {};
+      mtmhColors[colorCategory] = {}
     }
 
     // Example: this can be either primary-60 or primary-primary or primary-.
-    mtmhColors[colorCategory][colorIntensity || colorCategory] = hex;
+    mtmhColors[colorCategory][colorIntensity || colorCategory] = hex
   }
 
   // Similarly, also +1 to ignore the "boundary".
-  lines = lines.slice(currentColorHexStartIndex * 2);
+  lines = lines.slice(currentColorHexStartIndex * 2)
 
   // For "Accent Color" category, it's a bit tricky. It contains 4 subcategories and these are without subcategory title.
   // So, we have to "count" how many accent color subcategories we have traversed.
   //
   // If we're currently traversing accent color, then we do not need to `.slice(1)` because there is no subcategory title.
-  if (lines[0] === "Accent Color") {
-    isAccentColor = true;
-    lines = lines.slice(1);
-  } else if (isAccentColor && numberOfAccentColorsTraversed + 1 < NUMBER_OF_ACCENT_COLORS) {
-    numberOfAccentColorsTraversed++;
+  if (lines[0] === 'Accent Color') {
+    isAccentColor = true
+    lines = lines.slice(1)
+  } else if (
+    isAccentColor &&
+    numberOfAccentColorsTraversed + 1 < NUMBER_OF_ACCENT_COLORS
+  ) {
+    numberOfAccentColorsTraversed++
   } else {
-    isAccentColor = false;
-    lines = lines.slice(1);
+    isAccentColor = false
+    lines = lines.slice(1)
   }
 }
 
-const colorPluginContent = `export const mtmhColors = ${JSON.stringify(mtmhColors, null, 2)}`;
+const colorPluginContent = `export const mtmhColors = ${JSON.stringify(mtmhColors, null, 2)}`
 
-await fs.writeFile(OUTPUT_PATH, colorPluginContent, "utf-8");
+await fs.writeFile(OUTPUT_PATH, colorPluginContent, 'utf-8')
 
-console.log(`✨ Successfully generated color tokens! Don't forget to format the output in ${OUTPUT_PATH} for consistency purposes.`);
+console.log(
+  `✨ Successfully generated color tokens! Don't forget to format the output in ${OUTPUT_PATH} for consistency purposes.`
+)

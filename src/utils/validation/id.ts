@@ -1,12 +1,12 @@
-import { number } from "yup";
+import { number } from 'yup'
 
 export async function validate({ id }: { id: string }) {
-  const schema = number().required();
+  const schema = number().required()
 
   try {
-    const result = await schema.validate(id);
-    return result;
+    const result = await schema.validate(id)
+    return result
   } catch {
-    return 0;
+    return 0
   }
 }

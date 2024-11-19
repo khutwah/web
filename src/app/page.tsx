@@ -1,6 +1,6 @@
-import { PAGE_BY_ROLE } from "@/models/auth";
-import { getUserRole } from "@/utils/supabase/get-user-role";
-import { redirect } from "next/navigation";
+import { PAGE_BY_ROLE } from '@/models/auth'
+import { getUserRole } from '@/utils/supabase/get-user-role'
+import { redirect } from 'next/navigation'
 
 /**
  * This page will be used as entry point only
@@ -11,11 +11,11 @@ import { redirect } from "next/navigation";
  * We render this page instead.
  */
 export default async function Home() {
-  const role = await getUserRole();
-  if (role === -1) return redirect("/login");
+  const role = await getUserRole()
+  if (role === -1) return redirect('/login')
 
-  const page = PAGE_BY_ROLE[role];
-  if (page) redirect(page);
+  const page = PAGE_BY_ROLE[role]
+  if (page) redirect(page)
 
-  return <div>Access Limited, please contact administrator.</div>;
+  return <div>Access Limited, please contact administrator.</div>
 }

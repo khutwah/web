@@ -1,18 +1,3 @@
-[?25l
-    Select a project:                                                                                   
-                                                                                                        
-  >  1. aqqsflmfnvvthuyrwosf [name: Khutwah Mutabaah, org: mntekuvkgfrgwofkxcww, region: ap-southeast-1]
-                                                                                                        
-                                                                                                        
-    ↑/k up • ↓/j down • / filter • q quit • ? more                                                      
-                                                                                                        [0D[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[0D[2K [0D[2K[?25h[?1002l[?1003l[?1006lexport type Json =
-  | string
-  | number
-  | boolean
-  | null
-  | { [key: string]: Json | undefined }
-  | Json[]
-
 export type Database = {
   public: {
     Tables: {
@@ -30,7 +15,7 @@ export type Database = {
           start_surah: number | null
           start_verse: number | null
           student_id: number | null
-          tags: Json | null
+          tags: JSON | null
           type: number | null
           updated_at: string | null
         }
@@ -47,7 +32,7 @@ export type Database = {
           start_surah?: number | null
           start_verse?: number | null
           student_id?: number | null
-          tags?: Json | null
+          tags?: JSON | null
           type?: number | null
           updated_at?: string | null
         }
@@ -64,32 +49,32 @@ export type Database = {
           start_surah?: number | null
           start_verse?: number | null
           student_id?: number | null
-          tags?: Json | null
+          tags?: JSON | null
           type?: number | null
           updated_at?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "activities_created_by_fk"
-            columns: ["created_by"]
+            foreignKeyName: 'activities_created_by_fk'
+            columns: ['created_by']
             isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
+            referencedRelation: 'users'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "activities_shift_id_fkey"
-            columns: ["shift_id"]
+            foreignKeyName: 'activities_shift_id_fkey'
+            columns: ['shift_id']
             isOneToOne: false
-            referencedRelation: "shifts"
-            referencedColumns: ["id"]
+            referencedRelation: 'shifts'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "activities_student_id_fkey"
-            columns: ["student_id"]
+            foreignKeyName: 'activities_student_id_fkey'
+            columns: ['student_id']
             isOneToOne: false
-            referencedRelation: "students"
-            referencedColumns: ["id"]
-          },
+            referencedRelation: 'students'
+            referencedColumns: ['id']
+          }
         ]
       }
       halaqah: {
@@ -152,19 +137,19 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "shifts_halaqah_id_fkey"
-            columns: ["halaqah_id"]
+            foreignKeyName: 'shifts_halaqah_id_fkey'
+            columns: ['halaqah_id']
             isOneToOne: false
-            referencedRelation: "halaqah"
-            referencedColumns: ["id"]
+            referencedRelation: 'halaqah'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "shifts_ustadz_id_fk"
-            columns: ["ustadz_id"]
+            foreignKeyName: 'shifts_ustadz_id_fk'
+            columns: ['ustadz_id']
             isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
+            referencedRelation: 'users'
+            referencedColumns: ['id']
+          }
         ]
       }
       students: {
@@ -206,19 +191,19 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "students_halaqah_id_fkey"
-            columns: ["halaqah_id"]
+            foreignKeyName: 'students_halaqah_id_fkey'
+            columns: ['halaqah_id']
             isOneToOne: false
-            referencedRelation: "halaqah"
-            referencedColumns: ["id"]
+            referencedRelation: 'halaqah'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "students_parent_id_fk"
-            columns: ["parent_id"]
+            foreignKeyName: 'students_parent_id_fk'
+            columns: ['parent_id']
             isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
+            referencedRelation: 'users'
+            referencedColumns: ['id']
+          }
         ]
       }
       tags: {
@@ -291,27 +276,27 @@ export type Database = {
   }
 }
 
-type PublicSchema = Database[Extract<keyof Database, "public">]
+type PublicSchema = Database[Extract<keyof Database, 'public'>]
 
 export type Tables<
   PublicTableNameOrOptions extends
-    | keyof (PublicSchema["Tables"] & PublicSchema["Views"])
+    | keyof (PublicSchema['Tables'] & PublicSchema['Views'])
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
-        Database[PublicTableNameOrOptions["schema"]]["Views"])
-    : never = never,
+    ? keyof (Database[PublicTableNameOrOptions['schema']]['Tables'] &
+        Database[PublicTableNameOrOptions['schema']]['Views'])
+    : never = never
 > = PublicTableNameOrOptions extends { schema: keyof Database }
-  ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
-      Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
+  ? (Database[PublicTableNameOrOptions['schema']]['Tables'] &
+      Database[PublicTableNameOrOptions['schema']]['Views'])[TableName] extends {
       Row: infer R
     }
     ? R
     : never
-  : PublicTableNameOrOptions extends keyof (PublicSchema["Tables"] &
-        PublicSchema["Views"])
-    ? (PublicSchema["Tables"] &
-        PublicSchema["Views"])[PublicTableNameOrOptions] extends {
+  : PublicTableNameOrOptions extends keyof (PublicSchema['Tables'] &
+        PublicSchema['Views'])
+    ? (PublicSchema['Tables'] &
+        PublicSchema['Views'])[PublicTableNameOrOptions] extends {
         Row: infer R
       }
       ? R
@@ -320,19 +305,19 @@ export type Tables<
 
 export type TablesInsert<
   PublicTableNameOrOptions extends
-    | keyof PublicSchema["Tables"]
+    | keyof PublicSchema['Tables']
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    ? keyof Database[PublicTableNameOrOptions['schema']]['Tables']
+    : never = never
 > = PublicTableNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+  ? Database[PublicTableNameOrOptions['schema']]['Tables'][TableName] extends {
       Insert: infer I
     }
     ? I
     : never
-  : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
-    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+  : PublicTableNameOrOptions extends keyof PublicSchema['Tables']
+    ? PublicSchema['Tables'][PublicTableNameOrOptions] extends {
         Insert: infer I
       }
       ? I
@@ -341,19 +326,19 @@ export type TablesInsert<
 
 export type TablesUpdate<
   PublicTableNameOrOptions extends
-    | keyof PublicSchema["Tables"]
+    | keyof PublicSchema['Tables']
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    ? keyof Database[PublicTableNameOrOptions['schema']]['Tables']
+    : never = never
 > = PublicTableNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+  ? Database[PublicTableNameOrOptions['schema']]['Tables'][TableName] extends {
       Update: infer U
     }
     ? U
     : never
-  : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
-    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+  : PublicTableNameOrOptions extends keyof PublicSchema['Tables']
+    ? PublicSchema['Tables'][PublicTableNameOrOptions] extends {
         Update: infer U
       }
       ? U
@@ -362,28 +347,28 @@ export type TablesUpdate<
 
 export type Enums<
   PublicEnumNameOrOptions extends
-    | keyof PublicSchema["Enums"]
+    | keyof PublicSchema['Enums']
     | { schema: keyof Database },
   EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
-    : never = never,
+    ? keyof Database[PublicEnumNameOrOptions['schema']]['Enums']
+    : never = never
 > = PublicEnumNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
-  : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
-    ? PublicSchema["Enums"][PublicEnumNameOrOptions]
+  ? Database[PublicEnumNameOrOptions['schema']]['Enums'][EnumName]
+  : PublicEnumNameOrOptions extends keyof PublicSchema['Enums']
+    ? PublicSchema['Enums'][PublicEnumNameOrOptions]
     : never
 
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
-    | keyof PublicSchema["CompositeTypes"]
+    | keyof PublicSchema['CompositeTypes']
     | { schema: keyof Database },
   CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
     schema: keyof Database
   }
-    ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
-    : never = never,
+    ? keyof Database[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes']
+    : never = never
 > = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
-  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
-    ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
+  ? Database[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes'][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema['CompositeTypes']
+    ? PublicSchema['CompositeTypes'][PublicCompositeTypeNameOrOptions]
     : never
