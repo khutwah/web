@@ -24,7 +24,7 @@ export function ActivityCardStory() {
         surahStart={{ name: 'At-Taubah', verse: '1' }}
         surahEnd={{ name: 'At-Taubah', verse: '1' }}
         timestamp={new Date(2024, 1, 1, 7).toISOString()}
-        notes='Santri tidak hadir karena sakit.'
+        notes='Santri kesulitan menghafal ayat yang memiliki beberapa titik stop dan kemiripan di antara titik-titik tersebut.'
         type={ActivityType.Sabqi}
         labels={['Terbata-bata']}
       />
@@ -42,8 +42,34 @@ export function ActivityCardStory() {
       />
       <ActivityCard
         id='1'
+        isStudentPresent
+        surahStart={{ name: 'Al-Mumtahanah', verse: '1' }}
+        surahEnd={{ name: 'Al-Mumtahanah', verse: '13' }}
+        timestamp={new Date(2024, 1, 1, 7).toISOString()}
+        notes='Santri kesulitan menghafal ayat yang memiliki beberapa titik stop dan kemiripan di antara titik-titik tersebut.'
+        type={ActivityType.Sabaq}
+      />
+      <ActivityCard
+        id='1'
+        isStudentPresent
+        surahStart={{ name: "Al-Mu'minun", verse: '1' }}
+        surahEnd={{ name: "Al-Mu'minun", verse: '118' }}
+        timestamp={new Date(2024, 10, 10, 27).toISOString()}
+        notes='Santri kesulitan menghafal ayat yang memiliki beberapa titik stop dan kemiripan di antara titik-titik tersebut.'
+        type={ActivityType.Sabqi}
+      />
+      <ActivityCard
+        id='1'
+        isStudentPresent
+        surahStart={{ name: "Al-Mu'minun", verse: '1' }}
+        surahEnd={{ name: "Al-Mu'minun", verse: '118' }}
+        timestamp={new Date(2024, 10, 10, 27).toISOString()}
+        notes=''
+        type={ActivityType.Manzil}
+      />
+      <ActivityCard
+        id='1'
         isStudentPresent={false}
-        halaqahName='Halaqah A1.1'
         surahStart={{ name: 'Al-Mumtahanah', verse: '1' }}
         surahEnd={{ name: 'Al-Mumtahanah', verse: '13' }}
         timestamp={new Date(2024, 1, 1, 7).toISOString()}
@@ -53,7 +79,6 @@ export function ActivityCardStory() {
       <ActivityCard
         id='1'
         isStudentPresent={false}
-        halaqahName='Halaqah A1.1'
         surahStart={{ name: "Al-Mu'minun", verse: '1' }}
         surahEnd={{ name: "Al-Mu'minun", verse: '118' }}
         timestamp={new Date(2024, 10, 10, 27).toISOString()}
@@ -63,7 +88,6 @@ export function ActivityCardStory() {
       <ActivityCard
         id='1'
         isStudentPresent={false}
-        halaqahName='Halaqah A1.1'
         surahStart={{ name: "Al-Mu'minun", verse: '1' }}
         surahEnd={{ name: "Al-Mu'minun", verse: '118' }}
         timestamp={new Date(2024, 10, 10, 27).toISOString()}
