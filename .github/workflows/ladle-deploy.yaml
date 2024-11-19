@@ -1,0 +1,48 @@
+name: Ladle Deploy
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/components/**'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'src/components/**'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write # To alllow commenting on PRs
+  statuses: write # To allow setting commit status
+
+jobs:
+  deploy:
+    name: Deploy ladle
+    runs-on: ubuntu-latest
+    concurrency: deploy-group # optional: ensure only one action runs at a time
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Read .nvmrc
+        id: node-version
+        run: |
+          echo "version=`cat .nvmrc`" >> $GITHUB_OUTPUT
+      - uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
+        with:
+          node-version: ${{ steps.node-version.outputs.version }}
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run ladle:build
+      - uses: nwtgck/actions-netlify@7a92f00dde8c92a5a9e8385ec2919775f7647352 # v2.1.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          production-deploy: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+          publish-dir: build
+          enable-commit-comment: false # To avoid commenting on commits.
+        env:
+          NETLIFY_SITE_ID: 72278735-a7e2-440c-af0f-ce3aefbd0553 # https://app.netlify.com/sites/khutwah-ladle/configuration/general.
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_API_TOKEN }}
