@@ -27,6 +27,7 @@ interface CreatePayload {
 }
 
 const selectQuery = `
+    id,
     student_id,
     type,
     notes,
@@ -79,6 +80,7 @@ export class Activities extends Base {
     const result = await query.range(offset, offset + limit - 1)
     const data = result.data
       ? result.data.map((item) => ({
+          id: item.id,
           student_name: item.students?.name,
           type: ActivityType[item.type ?? 1],
           notes: item.notes,
@@ -135,7 +137,11 @@ export class Activities extends Base {
       })
     }
 
-    const response = await supabase.from('activities').update(payload)
+    const response = await supabase
+      .from('activities')
+      .update(payload)
+      .eq('id', id)
+
     if (response.error) {
       throw new ApiError({
         message: response.error.message,

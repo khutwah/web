@@ -39,7 +39,7 @@ export async function PUT(request: NextRequest, { params }: ParamsType) {
         data: createSuccessResponse({
           data: null
         }),
-        status: 204
+        status: 200
       }
     }
   )
