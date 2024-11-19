@@ -17,7 +17,7 @@ export function ActivityCardStory() {
         labels={['Terbata-bata', 'Makhrajul salah: ra']}
       />
       <ActivityCard
-        id='1'
+        id='2'
         isStudentPresent
         studentName='Andrizal Herdiwanto Sukmini'
         halaqahName='Halaqah A1.1'
@@ -29,7 +29,7 @@ export function ActivityCardStory() {
         labels={['Terbata-bata']}
       />
       <ActivityCard
-        id='1'
+        id='3'
         isStudentPresent
         studentName='Andrizal Herdiwanto Sukmini'
         halaqahName='Halaqah A1.1'
@@ -41,7 +41,7 @@ export function ActivityCardStory() {
         labels={['Makhrajul salah: ra']}
       />
       <ActivityCard
-        id='1'
+        id='4'
         isStudentPresent
         surahStart={{ name: 'Al-Mumtahanah', verse: '1' }}
         surahEnd={{ name: 'Al-Mumtahanah', verse: '13' }}
@@ -50,7 +50,7 @@ export function ActivityCardStory() {
         type={ActivityType.Sabaq}
       />
       <ActivityCard
-        id='1'
+        id='5'
         isStudentPresent
         surahStart={{ name: "Al-Mu'minun", verse: '1' }}
         surahEnd={{ name: "Al-Mu'minun", verse: '118' }}
@@ -59,7 +59,7 @@ export function ActivityCardStory() {
         type={ActivityType.Sabqi}
       />
       <ActivityCard
-        id='1'
+        id='6'
         isStudentPresent
         surahStart={{ name: "Al-Mu'minun", verse: '1' }}
         surahEnd={{ name: "Al-Mu'minun", verse: '118' }}
@@ -68,7 +68,7 @@ export function ActivityCardStory() {
         type={ActivityType.Manzil}
       />
       <ActivityCard
-        id='1'
+        id='7'
         isStudentPresent={false}
         surahStart={{ name: 'Al-Mumtahanah', verse: '1' }}
         surahEnd={{ name: 'Al-Mumtahanah', verse: '13' }}
@@ -77,7 +77,7 @@ export function ActivityCardStory() {
         type={ActivityType.Sabaq}
       />
       <ActivityCard
-        id='1'
+        id='8'
         isStudentPresent={false}
         surahStart={{ name: "Al-Mu'minun", verse: '1' }}
         surahEnd={{ name: "Al-Mu'minun", verse: '118' }}
@@ -86,7 +86,7 @@ export function ActivityCardStory() {
         type={ActivityType.Sabqi}
       />
       <ActivityCard
-        id='1'
+        id='9'
         isStudentPresent={false}
         surahStart={{ name: "Al-Mu'minun", verse: '1' }}
         surahEnd={{ name: "Al-Mu'minun", verse: '118' }}
