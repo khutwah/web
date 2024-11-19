@@ -167,10 +167,10 @@ const main = async () => {
       x(2, () => ({
         type: 1,
         page_amount: 2,
-        start_surah: '1',
-        end_surah: '1',
-        start_verse: '1',
-        end_verse: '7',
+        start_surah: 1,
+        end_surah: 1,
+        start_verse: 1,
+        end_verse: 7,
         tags: '["Terbata-bata", "Cukup Baik"]'
       })),
     { connect: true }
