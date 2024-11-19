@@ -76,5 +76,24 @@ export const mtmhColors = {
     '80': '#262829',
     '90': '#151718',
     white: '#FFFFFF'
+  },
+  // TODO: these are added manually, because the "new design system" can't be parsed yet.
+  blue: {
+    base: '#0065FF'
+  },
+  snow: {
+    base: '#CCCCCC',
+    lighter: '#E7E7E7'
+  },
+  green: {
+    base: '#329922'
+  },
+  grey: {
+    base: '#171717',
+    light: '#454545',
+    lightest: '#A2A2A2'
+  },
+  tamarind: {
+    base: '#F8AE1A'
   }
 }
