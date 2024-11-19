@@ -13,9 +13,10 @@ export async function GET() {
   if (!roleFilter) {
     return Response.json(
       createErrorResponse({
-        code: 403,
+        code: '403',
         message: UNAUTHORIZE
-      })
+      }),
+      { status: 403 }
     )
   }
 
@@ -23,16 +24,21 @@ export async function GET() {
   const response = await halaqah.list(roleFilter)
 
   if (response?.error) {
-    return Response.json(createErrorResponse(errorTranslator(response.error)))
+    return Response.json(createErrorResponse(errorTranslator(response.error)), {
+      status: 500
+    })
   }
 
   if (!response?.data) {
-    return Response.json(createErrorResponse(ERROR_CODES.PGRST116))
+    return Response.json(createErrorResponse(ERROR_CODES.PGRST116), {
+      status: 404
+    })
   }
 
   return Response.json(
     createSuccessResponse({
       data: response?.data ?? null
-    })
+    }),
+    { status: 200 }
   )
 }
