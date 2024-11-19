@@ -15,6 +15,9 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
+permissions:
+  pull-requests: write # To alllow commenting on PRs
+
 jobs:
   deploy:
     name: Deploy ladle
@@ -37,6 +40,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           production-deploy: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
           publish-dir: build
+          enable-commit-comment: false # To avoid commenting on commits.
         env:
           NETLIFY_SITE_ID: 72278735-a7e2-440c-af0f-ce3aefbd0553 # https://app.netlify.com/sites/khutwah-ladle/configuration/general.
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_API_TOKEN }}
