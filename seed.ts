@@ -4,13 +4,13 @@
  * Use any TypeScript runner to run this script, for example: `npx tsx seed.ts`
  * Learn more about the Seed Client by following our guide: https://docs.snaplet.dev/seed/getting-started
  */
-import { createSeedClient } from "@snaplet/seed";
-import { copycat } from "@snaplet/copycat";
-import { createServerClient } from "@supabase/ssr";
-import { DEFAULT_EMAIL_DOMAIN } from "@/models/auth";
+import { createSeedClient } from '@snaplet/seed'
+import { copycat } from '@snaplet/copycat'
+import { createServerClient } from '@supabase/ssr'
+import { DEFAULT_EMAIL_DOMAIN } from '@/models/auth'
 
 const main = async () => {
-  const seed = await createSeedClient();
+  const seed = await createSeedClient()
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -18,55 +18,55 @@ const main = async () => {
     {
       cookies: {
         getAll() {
-          return null;
+          return null
         },
-        setAll() {},
-      },
+        setAll() {}
+      }
     }
-  );
+  )
 
   // Truncate all tables in the database
-  await seed.$resetDatabase();
+  await seed.$resetDatabase()
 
   interface User {
-    email: string;
-    id: string;
+    email: string
+    id: string
   }
 
-  let ustadz: User[] = [];
-  let students: User[] = [];
+  let ustadz: User[] = []
+  let students: User[] = []
   try {
     const _ustadz = await Promise.all([
       supabase.auth.signUp({
         email: `ustadz_1@ustadz.${DEFAULT_EMAIL_DOMAIN!}`,
-        password: "orq[s$^zgx6L",
+        password: 'orq[s$^zgx6L'
       }),
       supabase.auth.signUp({
         email: `ustadz_2@ustadz.${DEFAULT_EMAIL_DOMAIN!}`,
-        password: "orq[s$^zgx6L",
-      }),
-    ]);
+        password: 'orq[s$^zgx6L'
+      })
+    ])
     const _students = await Promise.all([
       supabase.auth.signUp({
         email: `student_1@${DEFAULT_EMAIL_DOMAIN!}`,
-        password: "orq[s$^zgx6L",
+        password: 'orq[s$^zgx6L'
       }),
       supabase.auth.signUp({
         email: `student_2@${DEFAULT_EMAIL_DOMAIN!}`,
-        password: "orq[s$^zgx6L",
-      }),
-    ]);
+        password: 'orq[s$^zgx6L'
+      })
+    ])
 
     ustadz = _ustadz.map((data) => ({
-      email: data.data.user?.email ?? "",
-      id: data.data.user?.id ?? "",
-    }));
+      email: data.data.user?.email ?? '',
+      id: data.data.user?.id ?? ''
+    }))
     students = _students.map((data) => ({
-      email: data.data.user?.email ?? "",
-      id: data.data.user?.id ?? "",
-    }));
+      email: data.data.user?.email ?? '',
+      id: data.data.user?.id ?? ''
+    }))
   } catch (e) {
-    console.error(e);
+    console.error(e)
   }
 
   // seed ustad
@@ -75,20 +75,20 @@ const main = async () => {
       x(2, (ctx) => {
         return {
           sb_user_id: ustadz[ctx.index].id,
-          email: ustadz[ctx.index].email,
-        };
+          email: ustadz[ctx.index].email
+        }
       }),
     {
       models: {
         public_users: {
           data: {
             name: (ctx) => copycat.fullName(ctx.seed),
-            role: () => 2,
-          },
-        },
-      },
+            role: () => 2
+          }
+        }
+      }
     }
-  );
+  )
 
   // seed student
   await seed.public_users(
@@ -96,29 +96,29 @@ const main = async () => {
       x(2, (ctx) => {
         return {
           sb_user_id: students[ctx.index].id,
-          email: students[ctx.index].email,
-        };
+          email: students[ctx.index].email
+        }
       }),
     {
       models: {
         public_users: {
           data: {
             name: (ctx) => copycat.fullName(ctx.seed),
-            role: () => 1,
-          },
-        },
-      },
+            role: () => 1
+          }
+        }
+      }
     }
-  );
+  )
 
   await seed.halaqah((x) =>
     x(3, (ctx) => {
       return {
         name: `Halaqah ${ctx.index + 1}`,
-        academic_year: 2024,
-      };
+        academic_year: 2024
+      }
     })
-  );
+  )
 
   await seed.shifts(
     (x) =>
@@ -127,19 +127,19 @@ const main = async () => {
           halaqah_id: ctx.index + 1,
           ustadz_id: ctx.index + 1,
           start_date: new Date().toISOString(),
-          end_date: null,
-        };
+          end_date: null
+        }
       }),
     { connect: true }
-  );
+  )
   await seed.students(
     (x) =>
       x(2, (ctx) => {
         return {
           parent_id: seed.$store.public_users.filter((i) => i.role === 1)[
             ctx.index
-          ].id,
-        };
+          ].id
+        }
       }),
     {
       models: {
@@ -153,14 +153,14 @@ const main = async () => {
             virtual_account: (ctx) =>
               String(
                 copycat.int(ctx.seed, { min: 1000000000, max: 9999999999 })
-              ),
-          },
-        },
+              )
+          }
+        }
       },
-      connect: true,
+      connect: true
     }
-  );
-  await seed.tags((x) => x(4));
+  )
+  await seed.tags((x) => x(4))
 
   await seed.activities(
     (x) =>
@@ -171,16 +171,16 @@ const main = async () => {
         end_surah: 1,
         start_verse: 1,
         end_verse: 7,
-        tags: '["Terbata-bata", "Cukup Baik"]',
+        tags: '["Terbata-bata", "Cukup Baik"]'
       })),
     { connect: true }
-  );
+  )
 
   // Type completion not working? You might want to reload your TypeScript Server to pick up the changes
 
-  console.log("Database seeded successfully!");
+  console.log('Database seeded successfully!')
 
-  process.exit();
-};
+  process.exit()
+}
 
-main();
+main()
