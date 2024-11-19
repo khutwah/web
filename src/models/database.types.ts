@@ -15,7 +15,7 @@ export type Database = {
           start_surah: number | null
           start_verse: number | null
           student_id: number | null
-          tags: JSON | null
+          tags: string[] | null
           type: number | null
           updated_at: string | null
         }
@@ -32,7 +32,7 @@ export type Database = {
           start_surah?: number | null
           start_verse?: number | null
           student_id?: number | null
-          tags?: JSON | null
+          tags?: string[] | null
           type?: number | null
           updated_at?: string | null
         }
@@ -49,7 +49,7 @@ export type Database = {
           start_surah?: number | null
           start_verse?: number | null
           student_id?: number | null
-          tags?: JSON | null
+          tags?: string[] | null
           type?: number | null
           updated_at?: string | null
         }
