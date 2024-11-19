@@ -78,6 +78,9 @@ export const mtmhColors = {
     white: '#FFFFFF'
   },
   // TODO: these are added manually, because the "new design system" can't be parsed yet.
+  red: {
+    light: '#AA3424'
+  },
   blue: {
     base: '#0065FF'
   },
@@ -94,6 +97,8 @@ export const mtmhColors = {
     lightest: '#A2A2A2'
   },
   tamarind: {
-    base: '#F8AE1A'
+    darkest: '#4D3F00',
+    base: '#F8AE1A',
+    lightest: '#FFF8D9'
   }
 }

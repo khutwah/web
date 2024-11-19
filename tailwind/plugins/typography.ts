@@ -137,6 +137,47 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       'text-align': 'left',
       'text-underline-position': 'from-font',
       'text-decoration-skip-ink': 'none'
+    },
+    // TODO(imballinst): this is also manually added.
+    '.text-mtmh-m-semibold': {
+      'font-size': '14px',
+      'font-weight': '600',
+      'line-height': '20px',
+      'text-align': 'left',
+      'text-underline-position': 'from-font',
+      'text-decoration-skip-ink': 'none'
+    },
+    '.text-mtmh-sm-semibold': {
+      'font-size': '12px',
+      'font-weight': '600',
+      'line-height': '16px',
+      'text-align': 'left',
+      'text-underline-position': 'from-font',
+      'text-decoration-skip-ink': 'none'
+    },
+    '.text-mtmh-sm-regular': {
+      'font-size': '12px',
+      'font-weight': '400',
+      'line-height': '16px',
+      'text-align': 'left',
+      'text-underline-position': 'from-font',
+      'text-decoration-skip-ink': 'none'
+    },
+    '.text-mtmh-xs-semibold': {
+      'font-size': '11px',
+      'font-weight': '600',
+      'line-height': '16px',
+      'text-align': 'left',
+      'text-underline-position': 'from-font',
+      'text-decoration-skip-ink': 'none'
+    },
+    '.text-mtmh-xs-regular': {
+      'font-size': '11px',
+      'font-weight': '400',
+      'line-height': '16px',
+      'text-align': 'left',
+      'text-underline-position': 'from-font',
+      'text-decoration-skip-ink': 'none'
     }
   })
 })

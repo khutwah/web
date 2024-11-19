@@ -1,8 +1,9 @@
 import { Card, CardHeader, CardTitle, CardContent } from '../Card/Card'
 import { BookOpen, MoveRight } from 'lucide-react'
 import Link from 'next/link'
-import { ActivityType } from '@/models/activities'
+import { ActivityTypeKey } from '@/models/activities'
 import { ActivityBadge } from '../Badge/ActivityBadge'
+import { formatInTimeZone } from 'date-fns-tz'
 
 interface SurahSubmissionInfo {
   name: string
@@ -11,7 +12,7 @@ interface SurahSubmissionInfo {
 
 interface Props {
   id: string
-  type: ActivityType
+  type: ActivityTypeKey
   isStudentPresent: boolean
   notes: string
   timestamp: string
@@ -21,19 +22,6 @@ interface Props {
   halaqahName?: string
   labels?: string[]
 }
-
-const dateFormatter = new Intl.DateTimeFormat('id-ID', {
-  weekday: 'long',
-  year: 'numeric',
-  month: 'short',
-  day: 'numeric',
-  timeZone: 'Asia/Jakarta'
-})
-const timeFormatter = new Intl.DateTimeFormat('id-ID', {
-  hour: 'numeric',
-  minute: 'numeric',
-  timeZone: 'Asia/Jakarta'
-})
 
 export function ActivityCard({
   id,
@@ -56,8 +44,11 @@ export function ActivityCard({
           <CardTitle className='flex justify-between items-start'>
             <div className='flex flex-col gap-y-1'>
               <div className='text-xs text-mtmh-neutral-50'>
-                {dateFormatter.format(date)}.{' '}
-                {timeFormatter.format(date).replace('.', ':')}
+                {formatInTimeZone(
+                  date,
+                  'Asia/Jakarta',
+                  'EEEE, dd MMM yyyy. HH:mm'
+                )}
               </div>
 
               {studentName && (
