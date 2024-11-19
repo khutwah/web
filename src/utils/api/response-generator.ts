@@ -2,31 +2,31 @@ import {
   CreateErrorResponseArgs,
   CreateSuccessResponseArgs,
   ErrorResponse,
-  SuccessResponse,
-} from "@/models/response-generator";
+  SuccessResponse
+} from '@/models/response-generator'
 
 export function createSuccessResponse({
   data,
-  message = "",
+  message = ''
 }: CreateSuccessResponseArgs): SuccessResponse {
   return {
-    status: "success",
+    status: 'success',
     message,
-    data: data,
-  };
+    data: data
+  }
 }
 
 export function createErrorResponse({
   code,
   details,
-  message = "",
+  message = ''
 }: CreateErrorResponseArgs): ErrorResponse {
   return {
-    status: "error",
+    status: 'error',
     message,
     error: {
       code,
-      details,
-    },
-  };
+      details
+    }
+  }
 }

@@ -1,572 +1,572 @@
 [
-    {
-        "id": 1,
-        "verses_count": 7,
-        "name_simple": "Al-Fatihah"
-    },
-    {
-        "id": 2,
-        "verses_count": 286,
-        "name_simple": "Al-Baqarah"
-    },
-    {
-        "id": 3,
-        "verses_count": 200,
-        "name_simple": "Ali 'Imran"
-    },
-    {
-        "id": 4,
-        "verses_count": 176,
-        "name_simple": "An-Nisa"
-    },
-    {
-        "id": 5,
-        "verses_count": 120,
-        "name_simple": "Al-Ma'idah"
-    },
-    {
-        "id": 6,
-        "verses_count": 165,
-        "name_simple": "Al-An'am"
-    },
-    {
-        "id": 7,
-        "verses_count": 206,
-        "name_simple": "Al-A'raf"
-    },
-    {
-        "id": 8,
-        "verses_count": 75,
-        "name_simple": "Al-Anfal"
-    },
-    {
-        "id": 9,
-        "verses_count": 129,
-        "name_simple": "At-Tawbah"
-    },
-    {
-        "id": 10,
-        "verses_count": 109,
-        "name_simple": "Yunus"
-    },
-    {
-        "id": 11,
-        "verses_count": 123,
-        "name_simple": "Hud"
-    },
-    {
-        "id": 12,
-        "verses_count": 111,
-        "name_simple": "Yusuf"
-    },
-    {
-        "id": 13,
-        "verses_count": 43,
-        "name_simple": "Ar-Ra'd"
-    },
-    {
-        "id": 14,
-        "verses_count": 52,
-        "name_simple": "Ibrahim"
-    },
-    {
-        "id": 15,
-        "verses_count": 99,
-        "name_simple": "Al-Hijr"
-    },
-    {
-        "id": 16,
-        "verses_count": 128,
-        "name_simple": "An-Nahl"
-    },
-    {
-        "id": 17,
-        "verses_count": 111,
-        "name_simple": "Al-Isra"
-    },
-    {
-        "id": 18,
-        "verses_count": 110,
-        "name_simple": "Al-Kahf"
-    },
-    {
-        "id": 19,
-        "verses_count": 98,
-        "name_simple": "Maryam"
-    },
-    {
-        "id": 20,
-        "verses_count": 135,
-        "name_simple": "Taha"
-    },
-    {
-        "id": 21,
-        "verses_count": 112,
-        "name_simple": "Al-Anbya"
-    },
-    {
-        "id": 22,
-        "verses_count": 78,
-        "name_simple": "Al-Hajj"
-    },
-    {
-        "id": 23,
-        "verses_count": 118,
-        "name_simple": "Al-Mu'minun"
-    },
-    {
-        "id": 24,
-        "verses_count": 64,
-        "name_simple": "An-Nur"
-    },
-    {
-        "id": 25,
-        "verses_count": 77,
-        "name_simple": "Al-Furqan"
-    },
-    {
-        "id": 26,
-        "verses_count": 227,
-        "name_simple": "Ash-Shu'ara"
-    },
-    {
-        "id": 27,
-        "verses_count": 93,
-        "name_simple": "An-Naml"
-    },
-    {
-        "id": 28,
-        "verses_count": 88,
-        "name_simple": "Al-Qasas"
-    },
-    {
-        "id": 29,
-        "verses_count": 69,
-        "name_simple": "Al-'Ankabut"
-    },
-    {
-        "id": 30,
-        "verses_count": 60,
-        "name_simple": "Ar-Rum"
-    },
-    {
-        "id": 31,
-        "verses_count": 34,
-        "name_simple": "Luqman"
-    },
-    {
-        "id": 32,
-        "verses_count": 30,
-        "name_simple": "As-Sajdah"
-    },
-    {
-        "id": 33,
-        "verses_count": 73,
-        "name_simple": "Al-Ahzab"
-    },
-    {
-        "id": 34,
-        "verses_count": 54,
-        "name_simple": "Saba"
-    },
-    {
-        "id": 35,
-        "verses_count": 45,
-        "name_simple": "Fatir"
-    },
-    {
-        "id": 36,
-        "verses_count": 83,
-        "name_simple": "Ya-Sin"
-    },
-    {
-        "id": 37,
-        "verses_count": 182,
-        "name_simple": "As-Saffat"
-    },
-    {
-        "id": 38,
-        "verses_count": 88,
-        "name_simple": "Sad"
-    },
-    {
-        "id": 39,
-        "verses_count": 75,
-        "name_simple": "Az-Zumar"
-    },
-    {
-        "id": 40,
-        "verses_count": 85,
-        "name_simple": "Ghafir"
-    },
-    {
-        "id": 41,
-        "verses_count": 54,
-        "name_simple": "Fussilat"
-    },
-    {
-        "id": 42,
-        "verses_count": 53,
-        "name_simple": "Ash-Shuraa"
-    },
-    {
-        "id": 43,
-        "verses_count": 89,
-        "name_simple": "Az-Zukhruf"
-    },
-    {
-        "id": 44,
-        "verses_count": 59,
-        "name_simple": "Ad-Dukhan"
-    },
-    {
-        "id": 45,
-        "verses_count": 37,
-        "name_simple": "Al-Jathiyah"
-    },
-    {
-        "id": 46,
-        "verses_count": 35,
-        "name_simple": "Al-Ahqaf"
-    },
-    {
-        "id": 47,
-        "verses_count": 38,
-        "name_simple": "Muhammad"
-    },
-    {
-        "id": 48,
-        "verses_count": 29,
-        "name_simple": "Al-Fath"
-    },
-    {
-        "id": 49,
-        "verses_count": 18,
-        "name_simple": "Al-Hujurat"
-    },
-    {
-        "id": 50,
-        "verses_count": 45,
-        "name_simple": "Qaf"
-    },
-    {
-        "id": 51,
-        "verses_count": 60,
-        "name_simple": "Adh-Dhariyat"
-    },
-    {
-        "id": 52,
-        "verses_count": 49,
-        "name_simple": "At-Tur"
-    },
-    {
-        "id": 53,
-        "verses_count": 62,
-        "name_simple": "An-Najm"
-    },
-    {
-        "id": 54,
-        "verses_count": 55,
-        "name_simple": "Al-Qamar"
-    },
-    {
-        "id": 55,
-        "verses_count": 78,
-        "name_simple": "Ar-Rahman"
-    },
-    {
-        "id": 56,
-        "verses_count": 96,
-        "name_simple": "Al-Waqi'ah"
-    },
-    {
-        "id": 57,
-        "verses_count": 29,
-        "name_simple": "Al-Hadid"
-    },
-    {
-        "id": 58,
-        "verses_count": 22,
-        "name_simple": "Al-Mujadila"
-    },
-    {
-        "id": 59,
-        "verses_count": 24,
-        "name_simple": "Al-Hashr"
-    },
-    {
-        "id": 60,
-        "verses_count": 13,
-        "name_simple": "Al-Mumtahanah"
-    },
-    {
-        "id": 61,
-        "verses_count": 14,
-        "name_simple": "As-Saf"
-    },
-    {
-        "id": 62,
-        "verses_count": 11,
-        "name_simple": "Al-Jumu'ah"
-    },
-    {
-        "id": 63,
-        "verses_count": 11,
-        "name_simple": "Al-Munafiqun"
-    },
-    {
-        "id": 64,
-        "verses_count": 18,
-        "name_simple": "At-Taghabun"
-    },
-    {
-        "id": 65,
-        "verses_count": 12,
-        "name_simple": "At-Talaq"
-    },
-    {
-        "id": 66,
-        "verses_count": 12,
-        "name_simple": "At-Tahrim"
-    },
-    {
-        "id": 67,
-        "verses_count": 30,
-        "name_simple": "Al-Mulk"
-    },
-    {
-        "id": 68,
-        "verses_count": 52,
-        "name_simple": "Al-Qalam"
-    },
-    {
-        "id": 69,
-        "verses_count": 52,
-        "name_simple": "Al-Haqqah"
-    },
-    {
-        "id": 70,
-        "verses_count": 44,
-        "name_simple": "Al-Ma'arij"
-    },
-    {
-        "id": 71,
-        "verses_count": 28,
-        "name_simple": "Nuh"
-    },
-    {
-        "id": 72,
-        "verses_count": 28,
-        "name_simple": "Al-Jinn"
-    },
-    {
-        "id": 73,
-        "verses_count": 20,
-        "name_simple": "Al-Muzzammil"
-    },
-    {
-        "id": 74,
-        "verses_count": 56,
-        "name_simple": "Al-Muddaththir"
-    },
-    {
-        "id": 75,
-        "verses_count": 40,
-        "name_simple": "Al-Qiyamah"
-    },
-    {
-        "id": 76,
-        "verses_count": 31,
-        "name_simple": "Al-Insan"
-    },
-    {
-        "id": 77,
-        "verses_count": 50,
-        "name_simple": "Al-Mursalat"
-    },
-    {
-        "id": 78,
-        "verses_count": 40,
-        "name_simple": "An-Naba"
-    },
-    {
-        "id": 79,
-        "verses_count": 46,
-        "name_simple": "An-Nazi'at"
-    },
-    {
-        "id": 80,
-        "verses_count": 42,
-        "name_simple": "'Abasa"
-    },
-    {
-        "id": 81,
-        "verses_count": 29,
-        "name_simple": "At-Takwir"
-    },
-    {
-        "id": 82,
-        "verses_count": 19,
-        "name_simple": "Al-Infitar"
-    },
-    {
-        "id": 83,
-        "verses_count": 36,
-        "name_simple": "Al-Mutaffifin"
-    },
-    {
-        "id": 84,
-        "verses_count": 25,
-        "name_simple": "Al-Inshiqaq"
-    },
-    {
-        "id": 85,
-        "verses_count": 22,
-        "name_simple": "Al-Buruj"
-    },
-    {
-        "id": 86,
-        "verses_count": 17,
-        "name_simple": "At-Tariq"
-    },
-    {
-        "id": 87,
-        "verses_count": 19,
-        "name_simple": "Al-A'la"
-    },
-    {
-        "id": 88,
-        "verses_count": 26,
-        "name_simple": "Al-Ghashiyah"
-    },
-    {
-        "id": 89,
-        "verses_count": 30,
-        "name_simple": "Al-Fajr"
-    },
-    {
-        "id": 90,
-        "verses_count": 20,
-        "name_simple": "Al-Balad"
-    },
-    {
-        "id": 91,
-        "verses_count": 15,
-        "name_simple": "Ash-Shams"
-    },
-    {
-        "id": 92,
-        "verses_count": 21,
-        "name_simple": "Al-Layl"
-    },
-    {
-        "id": 93,
-        "verses_count": 11,
-        "name_simple": "Ad-Duhaa"
-    },
-    {
-        "id": 94,
-        "verses_count": 8,
-        "name_simple": "Ash-Sharh"
-    },
-    {
-        "id": 95,
-        "verses_count": 8,
-        "name_simple": "At-Tin"
-    },
-    {
-        "id": 96,
-        "verses_count": 19,
-        "name_simple": "Al-'Alaq"
-    },
-    {
-        "id": 97,
-        "verses_count": 5,
-        "name_simple": "Al-Qadr"
-    },
-    {
-        "id": 98,
-        "verses_count": 8,
-        "name_simple": "Al-Bayyinah"
-    },
-    {
-        "id": 99,
-        "verses_count": 8,
-        "name_simple": "Az-Zalzalah"
-    },
-    {
-        "id": 100,
-        "verses_count": 11,
-        "name_simple": "Al-'Adiyat"
-    },
-    {
-        "id": 101,
-        "verses_count": 11,
-        "name_simple": "Al-Qari'ah"
-    },
-    {
-        "id": 102,
-        "verses_count": 8,
-        "name_simple": "At-Takathur"
-    },
-    {
-        "id": 103,
-        "verses_count": 3,
-        "name_simple": "Al-'Asr"
-    },
-    {
-        "id": 104,
-        "verses_count": 9,
-        "name_simple": "Al-Humazah"
-    },
-    {
-        "id": 105,
-        "verses_count": 5,
-        "name_simple": "Al-Fil"
-    },
-    {
-        "id": 106,
-        "verses_count": 4,
-        "name_simple": "Quraysh"
-    },
-    {
-        "id": 107,
-        "verses_count": 7,
-        "name_simple": "Al-Ma'un"
-    },
-    {
-        "id": 108,
-        "verses_count": 3,
-        "name_simple": "Al-Kawthar"
-    },
-    {
-        "id": 109,
-        "verses_count": 6,
-        "name_simple": "Al-Kafirun"
-    },
-    {
-        "id": 110,
-        "verses_count": 3,
-        "name_simple": "An-Nasr"
-    },
-    {
-        "id": 111,
-        "verses_count": 5,
-        "name_simple": "Al-Masad"
-    },
-    {
-        "id": 112,
-        "verses_count": 4,
-        "name_simple": "Al-Ikhlas"
-    },
-    {
-        "id": 113,
-        "verses_count": 5,
-        "name_simple": "Al-Falaq"
-    },
-    {
-        "id": 114,
-        "verses_count": 6,
-        "name_simple": "An-Nas"
-    }
+  {
+    "id": 1,
+    "verses_count": 7,
+    "name_simple": "Al-Fatihah"
+  },
+  {
+    "id": 2,
+    "verses_count": 286,
+    "name_simple": "Al-Baqarah"
+  },
+  {
+    "id": 3,
+    "verses_count": 200,
+    "name_simple": "Ali 'Imran"
+  },
+  {
+    "id": 4,
+    "verses_count": 176,
+    "name_simple": "An-Nisa"
+  },
+  {
+    "id": 5,
+    "verses_count": 120,
+    "name_simple": "Al-Ma'idah"
+  },
+  {
+    "id": 6,
+    "verses_count": 165,
+    "name_simple": "Al-An'am"
+  },
+  {
+    "id": 7,
+    "verses_count": 206,
+    "name_simple": "Al-A'raf"
+  },
+  {
+    "id": 8,
+    "verses_count": 75,
+    "name_simple": "Al-Anfal"
+  },
+  {
+    "id": 9,
+    "verses_count": 129,
+    "name_simple": "At-Tawbah"
+  },
+  {
+    "id": 10,
+    "verses_count": 109,
+    "name_simple": "Yunus"
+  },
+  {
+    "id": 11,
+    "verses_count": 123,
+    "name_simple": "Hud"
+  },
+  {
+    "id": 12,
+    "verses_count": 111,
+    "name_simple": "Yusuf"
+  },
+  {
+    "id": 13,
+    "verses_count": 43,
+    "name_simple": "Ar-Ra'd"
+  },
+  {
+    "id": 14,
+    "verses_count": 52,
+    "name_simple": "Ibrahim"
+  },
+  {
+    "id": 15,
+    "verses_count": 99,
+    "name_simple": "Al-Hijr"
+  },
+  {
+    "id": 16,
+    "verses_count": 128,
+    "name_simple": "An-Nahl"
+  },
+  {
+    "id": 17,
+    "verses_count": 111,
+    "name_simple": "Al-Isra"
+  },
+  {
+    "id": 18,
+    "verses_count": 110,
+    "name_simple": "Al-Kahf"
+  },
+  {
+    "id": 19,
+    "verses_count": 98,
+    "name_simple": "Maryam"
+  },
+  {
+    "id": 20,
+    "verses_count": 135,
+    "name_simple": "Taha"
+  },
+  {
+    "id": 21,
+    "verses_count": 112,
+    "name_simple": "Al-Anbya"
+  },
+  {
+    "id": 22,
+    "verses_count": 78,
+    "name_simple": "Al-Hajj"
+  },
+  {
+    "id": 23,
+    "verses_count": 118,
+    "name_simple": "Al-Mu'minun"
+  },
+  {
+    "id": 24,
+    "verses_count": 64,
+    "name_simple": "An-Nur"
+  },
+  {
+    "id": 25,
+    "verses_count": 77,
+    "name_simple": "Al-Furqan"
+  },
+  {
+    "id": 26,
+    "verses_count": 227,
+    "name_simple": "Ash-Shu'ara"
+  },
+  {
+    "id": 27,
+    "verses_count": 93,
+    "name_simple": "An-Naml"
+  },
+  {
+    "id": 28,
+    "verses_count": 88,
+    "name_simple": "Al-Qasas"
+  },
+  {
+    "id": 29,
+    "verses_count": 69,
+    "name_simple": "Al-'Ankabut"
+  },
+  {
+    "id": 30,
+    "verses_count": 60,
+    "name_simple": "Ar-Rum"
+  },
+  {
+    "id": 31,
+    "verses_count": 34,
+    "name_simple": "Luqman"
+  },
+  {
+    "id": 32,
+    "verses_count": 30,
+    "name_simple": "As-Sajdah"
+  },
+  {
+    "id": 33,
+    "verses_count": 73,
+    "name_simple": "Al-Ahzab"
+  },
+  {
+    "id": 34,
+    "verses_count": 54,
+    "name_simple": "Saba"
+  },
+  {
+    "id": 35,
+    "verses_count": 45,
+    "name_simple": "Fatir"
+  },
+  {
+    "id": 36,
+    "verses_count": 83,
+    "name_simple": "Ya-Sin"
+  },
+  {
+    "id": 37,
+    "verses_count": 182,
+    "name_simple": "As-Saffat"
+  },
+  {
+    "id": 38,
+    "verses_count": 88,
+    "name_simple": "Sad"
+  },
+  {
+    "id": 39,
+    "verses_count": 75,
+    "name_simple": "Az-Zumar"
+  },
+  {
+    "id": 40,
+    "verses_count": 85,
+    "name_simple": "Ghafir"
+  },
+  {
+    "id": 41,
+    "verses_count": 54,
+    "name_simple": "Fussilat"
+  },
+  {
+    "id": 42,
+    "verses_count": 53,
+    "name_simple": "Ash-Shuraa"
+  },
+  {
+    "id": 43,
+    "verses_count": 89,
+    "name_simple": "Az-Zukhruf"
+  },
+  {
+    "id": 44,
+    "verses_count": 59,
+    "name_simple": "Ad-Dukhan"
+  },
+  {
+    "id": 45,
+    "verses_count": 37,
+    "name_simple": "Al-Jathiyah"
+  },
+  {
+    "id": 46,
+    "verses_count": 35,
+    "name_simple": "Al-Ahqaf"
+  },
+  {
+    "id": 47,
+    "verses_count": 38,
+    "name_simple": "Muhammad"
+  },
+  {
+    "id": 48,
+    "verses_count": 29,
+    "name_simple": "Al-Fath"
+  },
+  {
+    "id": 49,
+    "verses_count": 18,
+    "name_simple": "Al-Hujurat"
+  },
+  {
+    "id": 50,
+    "verses_count": 45,
+    "name_simple": "Qaf"
+  },
+  {
+    "id": 51,
+    "verses_count": 60,
+    "name_simple": "Adh-Dhariyat"
+  },
+  {
+    "id": 52,
+    "verses_count": 49,
+    "name_simple": "At-Tur"
+  },
+  {
+    "id": 53,
+    "verses_count": 62,
+    "name_simple": "An-Najm"
+  },
+  {
+    "id": 54,
+    "verses_count": 55,
+    "name_simple": "Al-Qamar"
+  },
+  {
+    "id": 55,
+    "verses_count": 78,
+    "name_simple": "Ar-Rahman"
+  },
+  {
+    "id": 56,
+    "verses_count": 96,
+    "name_simple": "Al-Waqi'ah"
+  },
+  {
+    "id": 57,
+    "verses_count": 29,
+    "name_simple": "Al-Hadid"
+  },
+  {
+    "id": 58,
+    "verses_count": 22,
+    "name_simple": "Al-Mujadila"
+  },
+  {
+    "id": 59,
+    "verses_count": 24,
+    "name_simple": "Al-Hashr"
+  },
+  {
+    "id": 60,
+    "verses_count": 13,
+    "name_simple": "Al-Mumtahanah"
+  },
+  {
+    "id": 61,
+    "verses_count": 14,
+    "name_simple": "As-Saf"
+  },
+  {
+    "id": 62,
+    "verses_count": 11,
+    "name_simple": "Al-Jumu'ah"
+  },
+  {
+    "id": 63,
+    "verses_count": 11,
+    "name_simple": "Al-Munafiqun"
+  },
+  {
+    "id": 64,
+    "verses_count": 18,
+    "name_simple": "At-Taghabun"
+  },
+  {
+    "id": 65,
+    "verses_count": 12,
+    "name_simple": "At-Talaq"
+  },
+  {
+    "id": 66,
+    "verses_count": 12,
+    "name_simple": "At-Tahrim"
+  },
+  {
+    "id": 67,
+    "verses_count": 30,
+    "name_simple": "Al-Mulk"
+  },
+  {
+    "id": 68,
+    "verses_count": 52,
+    "name_simple": "Al-Qalam"
+  },
+  {
+    "id": 69,
+    "verses_count": 52,
+    "name_simple": "Al-Haqqah"
+  },
+  {
+    "id": 70,
+    "verses_count": 44,
+    "name_simple": "Al-Ma'arij"
+  },
+  {
+    "id": 71,
+    "verses_count": 28,
+    "name_simple": "Nuh"
+  },
+  {
+    "id": 72,
+    "verses_count": 28,
+    "name_simple": "Al-Jinn"
+  },
+  {
+    "id": 73,
+    "verses_count": 20,
+    "name_simple": "Al-Muzzammil"
+  },
+  {
+    "id": 74,
+    "verses_count": 56,
+    "name_simple": "Al-Muddaththir"
+  },
+  {
+    "id": 75,
+    "verses_count": 40,
+    "name_simple": "Al-Qiyamah"
+  },
+  {
+    "id": 76,
+    "verses_count": 31,
+    "name_simple": "Al-Insan"
+  },
+  {
+    "id": 77,
+    "verses_count": 50,
+    "name_simple": "Al-Mursalat"
+  },
+  {
+    "id": 78,
+    "verses_count": 40,
+    "name_simple": "An-Naba"
+  },
+  {
+    "id": 79,
+    "verses_count": 46,
+    "name_simple": "An-Nazi'at"
+  },
+  {
+    "id": 80,
+    "verses_count": 42,
+    "name_simple": "'Abasa"
+  },
+  {
+    "id": 81,
+    "verses_count": 29,
+    "name_simple": "At-Takwir"
+  },
+  {
+    "id": 82,
+    "verses_count": 19,
+    "name_simple": "Al-Infitar"
+  },
+  {
+    "id": 83,
+    "verses_count": 36,
+    "name_simple": "Al-Mutaffifin"
+  },
+  {
+    "id": 84,
+    "verses_count": 25,
+    "name_simple": "Al-Inshiqaq"
+  },
+  {
+    "id": 85,
+    "verses_count": 22,
+    "name_simple": "Al-Buruj"
+  },
+  {
+    "id": 86,
+    "verses_count": 17,
+    "name_simple": "At-Tariq"
+  },
+  {
+    "id": 87,
+    "verses_count": 19,
+    "name_simple": "Al-A'la"
+  },
+  {
+    "id": 88,
+    "verses_count": 26,
+    "name_simple": "Al-Ghashiyah"
+  },
+  {
+    "id": 89,
+    "verses_count": 30,
+    "name_simple": "Al-Fajr"
+  },
+  {
+    "id": 90,
+    "verses_count": 20,
+    "name_simple": "Al-Balad"
+  },
+  {
+    "id": 91,
+    "verses_count": 15,
+    "name_simple": "Ash-Shams"
+  },
+  {
+    "id": 92,
+    "verses_count": 21,
+    "name_simple": "Al-Layl"
+  },
+  {
+    "id": 93,
+    "verses_count": 11,
+    "name_simple": "Ad-Duhaa"
+  },
+  {
+    "id": 94,
+    "verses_count": 8,
+    "name_simple": "Ash-Sharh"
+  },
+  {
+    "id": 95,
+    "verses_count": 8,
+    "name_simple": "At-Tin"
+  },
+  {
+    "id": 96,
+    "verses_count": 19,
+    "name_simple": "Al-'Alaq"
+  },
+  {
+    "id": 97,
+    "verses_count": 5,
+    "name_simple": "Al-Qadr"
+  },
+  {
+    "id": 98,
+    "verses_count": 8,
+    "name_simple": "Al-Bayyinah"
+  },
+  {
+    "id": 99,
+    "verses_count": 8,
+    "name_simple": "Az-Zalzalah"
+  },
+  {
+    "id": 100,
+    "verses_count": 11,
+    "name_simple": "Al-'Adiyat"
+  },
+  {
+    "id": 101,
+    "verses_count": 11,
+    "name_simple": "Al-Qari'ah"
+  },
+  {
+    "id": 102,
+    "verses_count": 8,
+    "name_simple": "At-Takathur"
+  },
+  {
+    "id": 103,
+    "verses_count": 3,
+    "name_simple": "Al-'Asr"
+  },
+  {
+    "id": 104,
+    "verses_count": 9,
+    "name_simple": "Al-Humazah"
+  },
+  {
+    "id": 105,
+    "verses_count": 5,
+    "name_simple": "Al-Fil"
+  },
+  {
+    "id": 106,
+    "verses_count": 4,
+    "name_simple": "Quraysh"
+  },
+  {
+    "id": 107,
+    "verses_count": 7,
+    "name_simple": "Al-Ma'un"
+  },
+  {
+    "id": 108,
+    "verses_count": 3,
+    "name_simple": "Al-Kawthar"
+  },
+  {
+    "id": 109,
+    "verses_count": 6,
+    "name_simple": "Al-Kafirun"
+  },
+  {
+    "id": 110,
+    "verses_count": 3,
+    "name_simple": "An-Nasr"
+  },
+  {
+    "id": 111,
+    "verses_count": 5,
+    "name_simple": "Al-Masad"
+  },
+  {
+    "id": 112,
+    "verses_count": 4,
+    "name_simple": "Al-Ikhlas"
+  },
+  {
+    "id": 113,
+    "verses_count": 5,
+    "name_simple": "Al-Falaq"
+  },
+  {
+    "id": 114,
+    "verses_count": 6,
+    "name_simple": "An-Nas"
+  }
 ]
