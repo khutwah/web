@@ -11,7 +11,7 @@ export interface GetFilter extends RoleFilter, PaginationFilter {
   end_date?: string
 }
 
-interface CreatePayload {
+interface ActivitiesPayload {
   shift_id: number
   note: string
   tags: string[]
@@ -102,11 +102,13 @@ export class Activities extends Base {
     }
   }
 
-  async create(payload: CreatePayload) {
+  async create(payload: ActivitiesPayload) {
     const userId = Object.values((await getUserId()) ?? {})[0]
 
-    let _payload: CreatePayload & { updated_at?: string; created_by: number } =
-      { ...payload, created_by: userId }
+    let _payload: ActivitiesPayload & {
+      updated_at?: string
+      created_by: number
+    } = { ...payload, created_by: userId }
 
     if (payload.created_at) {
       _payload = {
@@ -118,7 +120,7 @@ export class Activities extends Base {
     return await (await this.supabase).from('activities').insert(_payload)
   }
 
-  async update(id: number, payload: CreatePayload) {
+  async update(id: number, payload: ActivitiesPayload) {
     const userId = Object.values((await getUserId()) ?? {})[0]
     const supabase = await this.supabase
 
@@ -133,6 +135,7 @@ export class Activities extends Base {
     if (!result.data) {
       throw new ApiError({
         message: 'You are not authorize to perform this action',
+        code: '403',
         status: 403
       })
     }
