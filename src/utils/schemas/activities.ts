@@ -1,6 +1,5 @@
 import { string, number, object, array, boolean } from 'yup'
-
-const testTimestamp = (value?: string) => !value || !isNaN(Date.parse(value))
+import { testTimestamp } from '../is-valid-date'
 
 export const activityFilterSchema = object({
   start_date: string().test(
