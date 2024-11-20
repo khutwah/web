@@ -1,4 +1,3 @@
-import { isNotNull } from '@/utils/is-not-null'
 import { Base } from './base'
 import { RoleFilter } from '@/models/supabase/models/filter'
 
@@ -27,20 +26,20 @@ export class Halaqah extends Base {
     }
 
     if (ustadz_id) {
-      const result = await supabase
-        .from('shifts')
-        .select('halaqah_id')
-        .eq('ustadz_id', ustadz_id)
-        .lt('start_date', new Date().toISOString())
-        .or(`end_date.gt.${new Date().toISOString()},end_date.is.null`)
-
-      const halaqahIds: number[] =
-        result.data?.map((item) => item.halaqah_id).filter(isNotNull) ?? []
-
       const response = await supabase
         .from('halaqah')
-        .select('id, name')
-        .in('id', halaqahIds)
+        .select(
+          `
+            id,
+            name,
+            shifts(ustadz_id, start_date, end_date)
+          `
+        )
+        .eq('shifts.ustadz_id', ustadz_id)
+        .lt('shifts.start_date', new Date().toISOString())
+        .or(`end_date.gt.${new Date().toISOString()},end_date.is.null`, {
+          referencedTable: 'shifts'
+        })
 
       return response
     }
