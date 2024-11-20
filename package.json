@@ -15,8 +15,11 @@
     "format": "npx prettier . --write"
   },
   "dependencies": {
+    "@radix-ui/react-checkbox": "^1.1.2",
+    "@radix-ui/react-label": "^2.1.0",
     "@supabase/ssr": "^0.5.1",
     "@supabase/supabase-js": "^2.46.1",
+    "class-variance-authority": "^0.7.0",
     "classnames": "2.5.1",
     "dayjs": "^1.11.13",
     "lucide-react": "0.456.0",
