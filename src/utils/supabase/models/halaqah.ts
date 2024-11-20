@@ -129,7 +129,7 @@ export class Halaqah extends Base {
         location: data?.shifts?.[0]?.location ?? '',
         shift_id: data?.shifts?.[0]?.id,
         ustadz: ustadz,
-        eligible_edit: Boolean(filter?.ustadz_id)
+        can_manage: Boolean(filter?.ustadz_id)
           ? ustadz?.id === filter?.ustadz_id
           : false
       }
