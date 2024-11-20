@@ -16,14 +16,13 @@ interface CreatePayload {
   name: string
 }
 
+const COLUMNS = `id, name, users (id, email), halaqah (id, name)`
 export class Students extends Base {
-  columns: string = 'id, name, users (id, email), halaqah (id, name)'
-
   async list(args: ListFilter) {
     const { virtual_account, pin, email, student_id, ustadz_id, halaqah_ids } =
       args
 
-    let query = (await this.supabase).from('students').select(this.columns)
+    let query = (await this.supabase).from('students').select(COLUMNS)
 
     if (virtual_account) query = query.eq('virtual_account', virtual_account)
     if (pin) query = query.eq('pin', pin)
@@ -64,7 +63,7 @@ export class Students extends Base {
   async get(id: number, roleFilter?: RoleFilter) {
     let query = (await this.supabase)
       .from('students')
-      .select(this.columns)
+      .select(COLUMNS)
       .eq('id', id)
 
     if (roleFilter?.student_id) {
@@ -78,7 +77,6 @@ export class Students extends Base {
 
     const response = await query.limit(1).single()
 
-    // @ts-expect-error - optional chaining used
     const data = response?.data?.users ? response.data : null
 
     return {
