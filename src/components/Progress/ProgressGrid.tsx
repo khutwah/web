@@ -75,7 +75,7 @@ export function ProgressGrid({
           </thead>
           <tbody>
             {gridKeys.map((activityName) => (
-              <tr>
+              <tr key={activityName}>
                 <td className='text-mtmh-sm-semibold'>{activityName}</td>
                 {headers.map((header) => {
                   const headerKey = getGridIdentifier(new Date(header))

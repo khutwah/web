@@ -1,3 +1,4 @@
+// This is a mock component for Ladle, because Next features aren't available in it.
 export default function MockNextImage({
   src,
   alt,
@@ -10,6 +11,7 @@ export default function MockNextImage({
   height?: number
 }) {
   return (
+    // eslint-disable-next-line @next/next/no-img-element
     <img
       src={src}
       alt={alt}

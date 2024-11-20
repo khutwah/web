@@ -1,4 +1,3 @@
-import { ActivityType } from '@/models/activities'
 import { ActivityCard } from './ActivityCard'
 
 export function ActivityCardStory() {
