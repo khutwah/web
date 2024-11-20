@@ -32,7 +32,7 @@ export class Halaqah extends Base {
             id,
             name,
             shifts(ustadz_id, start_date, end_date),
-            students(name)
+            student_count:students(halaqah_id)
           `
         )
         .eq('shifts.ustadz_id', ustadz_id)
@@ -41,7 +41,16 @@ export class Halaqah extends Base {
           referencedTable: 'shifts'
         })
 
-      return response
+      const _data =
+        response.data?.map((item) => ({
+          ...item,
+          student_count: item.student_count.length
+        })) ?? []
+
+      return {
+        ...response,
+        data: _data
+      }
     }
 
     return null
