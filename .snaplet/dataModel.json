@@ -343,7 +343,7 @@
           "id": "public.activities.status",
           "name": "status",
           "columnName": "status",
-          "type": "bpchar",
+          "type": "varchar",
           "isRequired": true,
           "kind": "scalar",
           "isList": false,
@@ -351,7 +351,7 @@
           "sequence": false,
           "hasDefaultValue": true,
           "isId": false,
-          "maxLength": 10
+          "maxLength": null
         },
         {
           "name": "shifts",
@@ -1080,7 +1080,7 @@
           "id": "public.halaqah.label",
           "name": "label",
           "columnName": "label",
-          "type": "bpchar",
+          "type": "varchar",
           "isRequired": false,
           "kind": "scalar",
           "isList": false,
@@ -1088,13 +1088,13 @@
           "sequence": false,
           "hasDefaultValue": false,
           "isId": false,
-          "maxLength": 30
+          "maxLength": 50
         },
         {
           "id": "public.halaqah.class",
           "name": "class",
           "columnName": "class",
-          "type": "bpchar",
+          "type": "varchar",
           "isRequired": false,
           "kind": "scalar",
           "isList": false,
@@ -1102,7 +1102,7 @@
           "sequence": false,
           "hasDefaultValue": false,
           "isId": false,
-          "maxLength": 30
+          "maxLength": null
         },
         {
           "name": "shifts",
@@ -4664,7 +4664,7 @@
           "id": "public.students.virtual_account",
           "name": "virtual_account",
           "columnName": "virtual_account",
-          "type": "bpchar",
+          "type": "varchar",
           "isRequired": false,
           "kind": "scalar",
           "isList": false,

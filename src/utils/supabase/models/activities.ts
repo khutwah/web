@@ -1,6 +1,6 @@
 import { PaginationFilter, RoleFilter } from '@/models/supabase/models/filter'
 import { Base } from './base'
-import { ActivityType } from '@/models/activities'
+import { ActivityStatus, ActivityType } from '@/models/activities'
 import surah from '@/data/surah.json'
 import { getUserId } from '../get-user-id'
 import { ApiError } from '@/utils/api-error'
@@ -9,6 +9,7 @@ export interface GetFilter extends RoleFilter, PaginationFilter {
   type?: ActivityType
   start_date?: string
   end_date?: string
+  status?: ActivityStatus
 }
 
 interface ActivitiesPayload {
@@ -17,6 +18,7 @@ interface ActivitiesPayload {
   tags: string[]
   student_id: number
   type: ActivityType
+  status: ActivityStatus
   achieve_target: boolean
   start_surah: number
   end_surah: number
@@ -32,6 +34,7 @@ const selectQuery = `
     type,
     notes,
     tags,
+    status,
     page_amount,
     created_at,
     start_surah,
@@ -84,6 +87,7 @@ export class Activities extends Base {
           student_name: item.students?.name,
           type: ActivityType[item.type ?? 1],
           notes: item.notes,
+          status: item.status,
           tags: item.tags ?? [],
           page_amount: item.page_amount,
           created_at: item.created_at,
