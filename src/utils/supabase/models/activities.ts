@@ -10,6 +10,7 @@ export interface GetFilter extends RoleFilter, PaginationFilter {
   start_date?: string
   end_date?: string
   status?: ActivityStatus
+  halaqah_ids?: number[]
 }
 
 interface ActivitiesPayload {
@@ -48,6 +49,7 @@ export class Activities extends Base {
   async list(args: GetFilter) {
     const {
       student_id,
+      halaqah_ids,
       ustadz_id,
       limit = 10,
       offset = 0,
@@ -78,6 +80,12 @@ export class Activities extends Base {
 
     if (end_date) {
       query = query.lte('created_at', end_date)
+    }
+
+    if (halaqah_ids && halaqah_ids.length) {
+      query = query
+        .in('shifts.halaqah_id', halaqah_ids)
+        .not('shifts', 'is', null)
     }
 
     const result = await query.range(offset, offset + limit - 1)

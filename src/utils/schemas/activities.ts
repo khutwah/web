@@ -1,6 +1,7 @@
-import { string, number, object, array, boolean } from 'yup'
+import { string, number, object, array, boolean, mixed } from 'yup'
 import { testTimestamp } from '../is-valid-date'
 import { ActivityStatus } from '@/models/activities'
+import { parseComaSeparatedNumbers } from '../validation/is-comma-separated-number'
 
 export const activityFilterSchema = object({
   start_date: string().test(
@@ -17,7 +18,10 @@ export const activityFilterSchema = object({
   type: number().oneOf([1, 2, 3] as const),
   limit: number().integer().min(1),
   offset: number().integer().min(0),
-  student_id: number().integer().min(1)
+  student_id: number().integer().min(1),
+  halaqah_ids: mixed().transform(
+    parseComaSeparatedNumbers('Format halaqah_ids harus benar. contoh: 1,2,3')
+  )
 })
 
 export const activityCreateSchema = object({
