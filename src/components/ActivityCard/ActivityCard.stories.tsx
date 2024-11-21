@@ -1,4 +1,3 @@
-import { ActivityType } from '@/models/activities'
 import { ActivityCard } from './ActivityCard'
 
 export function ActivityCardStory() {
@@ -13,7 +12,7 @@ export function ActivityCardStory() {
         surahEnd={{ name: 'At-Taubah', verse: '26' }}
         timestamp={new Date().toISOString()}
         notes='Santri kesulitan menghafal ayat yang memiliki beberapa titik stop dan kemiripan di antara titik-titik tersebut.'
-        type={ActivityType.Sabaq}
+        type='Sabaq'
         labels={['Terbata-bata', 'Makhrajul salah: ra']}
       />
       <ActivityCard
@@ -25,7 +24,7 @@ export function ActivityCardStory() {
         surahEnd={{ name: 'At-Taubah', verse: '1' }}
         timestamp={new Date(2024, 1, 1, 7).toISOString()}
         notes='Santri kesulitan menghafal ayat yang memiliki beberapa titik stop dan kemiripan di antara titik-titik tersebut.'
-        type={ActivityType.Sabqi}
+        type='Sabqi'
         labels={['Terbata-bata']}
       />
       <ActivityCard
@@ -37,7 +36,7 @@ export function ActivityCardStory() {
         surahEnd={{ name: 'Al-Baqarah', verse: '286' }}
         timestamp={new Date(2024, 1, 1, 7).toISOString()}
         notes=''
-        type={ActivityType.Manzil}
+        type='Manzil'
         labels={['Makhrajul salah: ra']}
       />
       <ActivityCard
@@ -47,7 +46,7 @@ export function ActivityCardStory() {
         surahEnd={{ name: 'Al-Mumtahanah', verse: '13' }}
         timestamp={new Date(2024, 1, 1, 7).toISOString()}
         notes='Santri kesulitan menghafal ayat yang memiliki beberapa titik stop dan kemiripan di antara titik-titik tersebut.'
-        type={ActivityType.Sabaq}
+        type='Sabaq'
       />
       <ActivityCard
         id='5'
@@ -56,7 +55,7 @@ export function ActivityCardStory() {
         surahEnd={{ name: "Al-Mu'minun", verse: '118' }}
         timestamp={new Date(2024, 10, 10, 27).toISOString()}
         notes='Santri kesulitan menghafal ayat yang memiliki beberapa titik stop dan kemiripan di antara titik-titik tersebut.'
-        type={ActivityType.Sabqi}
+        type='Sabqi'
       />
       <ActivityCard
         id='6'
@@ -65,7 +64,7 @@ export function ActivityCardStory() {
         surahEnd={{ name: "Al-Mu'minun", verse: '118' }}
         timestamp={new Date(2024, 10, 10, 27).toISOString()}
         notes=''
-        type={ActivityType.Manzil}
+        type='Manzil'
       />
       <ActivityCard
         id='7'
@@ -74,7 +73,7 @@ export function ActivityCardStory() {
         surahEnd={{ name: 'Al-Mumtahanah', verse: '13' }}
         timestamp={new Date(2024, 1, 1, 7).toISOString()}
         notes=''
-        type={ActivityType.Sabaq}
+        type='Sabaq'
       />
       <ActivityCard
         id='8'
@@ -83,7 +82,7 @@ export function ActivityCardStory() {
         surahEnd={{ name: "Al-Mu'minun", verse: '118' }}
         timestamp={new Date(2024, 10, 10, 27).toISOString()}
         notes=''
-        type={ActivityType.Sabqi}
+        type='Sabqi'
       />
       <ActivityCard
         id='9'
@@ -92,7 +91,7 @@ export function ActivityCardStory() {
         surahEnd={{ name: "Al-Mu'minun", verse: '118' }}
         timestamp={new Date(2024, 10, 10, 27).toISOString()}
         notes=''
-        type={ActivityType.Manzil}
+        type='Manzil'
       />
     </div>
   )

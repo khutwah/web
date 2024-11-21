@@ -12,7 +12,8 @@
     "seed": "NODE_OPTIONS='-r dotenv/config' npx tsx seed.ts",
     "db-types": "supabase gen types typescript > src/models/database.types.ts",
     "prepare": "husky",
-    "format": "npx prettier . --write"
+    "format": "npx prettier . --write",
+    "type:check": "npx tsc --noEmit"
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.1.2",
@@ -21,6 +22,8 @@
     "@supabase/supabase-js": "^2.46.1",
     "class-variance-authority": "^0.7.0",
     "classnames": "2.5.1",
+    "date-fns": "4.1.0",
+    "date-fns-tz": "3.2.0",
     "dayjs": "^1.11.13",
     "lucide-react": "0.456.0",
     "next": "15.0.2",

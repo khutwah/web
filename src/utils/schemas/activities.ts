@@ -1,6 +1,5 @@
 import { string, number, object, array, boolean } from 'yup'
-
-const testTimestamp = (value?: string) => !value || !isNaN(Date.parse(value))
+import { testTimestamp } from '../is-valid-date'
 
 export const activityFilterSchema = object({
   start_date: string().test(
@@ -15,7 +14,8 @@ export const activityFilterSchema = object({
   ),
   type: number().oneOf([1, 2, 3] as const),
   limit: number().integer().min(1),
-  offset: number().integer().min(0)
+  offset: number().integer().min(0),
+  student_id: number().integer().min(1)
 })
 
 export const activityCreateSchema = object({

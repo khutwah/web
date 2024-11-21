@@ -3,6 +3,7 @@ import { Base } from './base'
 import { ActivityType } from '@/models/activities'
 import surah from '@/data/surah.json'
 import { getUserId } from '../get-user-id'
+import { ApiError } from '@/utils/api-error'
 
 export interface GetFilter extends RoleFilter, PaginationFilter {
   type?: ActivityType
@@ -10,7 +11,7 @@ export interface GetFilter extends RoleFilter, PaginationFilter {
   end_date?: string
 }
 
-interface CreatePayload {
+interface ActivitiesPayload {
   shift_id: number
   note: string
   tags: string[]
@@ -26,6 +27,7 @@ interface CreatePayload {
 }
 
 const selectQuery = `
+    id,
     student_id,
     type,
     notes,
@@ -78,6 +80,7 @@ export class Activities extends Base {
     const result = await query.range(offset, offset + limit - 1)
     const data = result.data
       ? result.data.map((item) => ({
+          id: item.id,
           student_name: item.students?.name,
           type: ActivityType[item.type ?? 1],
           notes: item.notes,
@@ -99,11 +102,13 @@ export class Activities extends Base {
     }
   }
 
-  async create(payload: CreatePayload) {
+  async create(payload: ActivitiesPayload) {
     const userId = Object.values((await getUserId()) ?? {})[0]
 
-    let _payload: CreatePayload & { updated_at?: string; created_by: number } =
-      { ...payload, created_by: userId }
+    let _payload: ActivitiesPayload & {
+      updated_at?: string
+      created_by: number
+    } = { ...payload, created_by: userId }
 
     if (payload.created_at) {
       _payload = {
@@ -113,5 +118,40 @@ export class Activities extends Base {
     }
 
     return await (await this.supabase).from('activities').insert(_payload)
+  }
+
+  async update(id: number, payload: ActivitiesPayload) {
+    const userId = Object.values((await getUserId()) ?? {})[0]
+    const supabase = await this.supabase
+
+    const result = await supabase
+      .from('activities')
+      .select('id,created_by')
+      .eq('id', id)
+      .eq('created_by', userId)
+      .limit(1)
+      .maybeSingle()
+
+    if (!result.data) {
+      throw new ApiError({
+        message: 'You are not authorize to perform this action',
+        code: '403',
+        status: 403
+      })
+    }
+
+    const response = await supabase
+      .from('activities')
+      .update(payload)
+      .eq('id', id)
+
+    if (response.error) {
+      throw new ApiError({
+        message: response.error.message,
+        code: response.error.code,
+        status: response.status
+      })
+    }
+    return response
   }
 }

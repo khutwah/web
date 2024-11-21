@@ -19,9 +19,10 @@ export async function GET(_request: Request, { params }: ParamsType) {
   if (!id) {
     return Response.json(
       createErrorResponse({
-        code: 400,
+        code: '400',
         message: INVALID_PAYLOAD
-      })
+      }),
+      { status: 400 }
     )
   }
 
@@ -30,9 +31,10 @@ export async function GET(_request: Request, { params }: ParamsType) {
   if (!roleFilter) {
     return Response.json(
       createErrorResponse({
-        code: 403,
+        code: '403',
         message: UNAUTHORIZE
-      })
+      }),
+      { status: 403 }
     )
   }
 
@@ -40,16 +42,21 @@ export async function GET(_request: Request, { params }: ParamsType) {
   const response = await student.get(id, roleFilter)
 
   if (response.error) {
-    return Response.json(createErrorResponse(errorTranslator(response.error)))
+    return Response.json(createErrorResponse(errorTranslator(response.error)), {
+      status: 500
+    })
   }
 
   if (!response?.data) {
-    return Response.json(createErrorResponse(ERROR_CODES.PGRST116))
+    return Response.json(createErrorResponse(ERROR_CODES.PGRST116), {
+      status: 404
+    })
   }
 
   return Response.json(
     createSuccessResponse({
       data: response.data
-    })
+    }),
+    { status: 200 }
   )
 }
