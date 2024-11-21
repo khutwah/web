@@ -3,3 +3,5 @@ export enum ActivityType {
   Sabqi = 2,
   Manzil = 3
 }
+
+export type ActivityTypeKey = keyof typeof ActivityType
