@@ -5,15 +5,18 @@ import {
   createErrorResponse,
   createSuccessResponse
 } from '@/utils/api/response-generator'
+import { parseFilter } from '@/utils/parse-filter'
+import { halaqahFilterSchema } from '@/utils/schemas/halaqah'
 import { errorTranslator } from '@/utils/supabase/error-translator'
 import { getUserId } from '@/utils/supabase/get-user-id'
 import { Halaqah } from '@/utils/supabase/models/halaqah'
 import { validate } from '@/utils/validation/id'
+import { NextRequest } from 'next/server'
 
 interface ParamsType {
   params: Promise<{ id: string }>
 }
-export async function GET(_request: Request, { params }: ParamsType) {
+export async function GET(request: NextRequest, { params }: ParamsType) {
   const id = await validate(await params)
 
   if (!id) {
@@ -26,9 +29,9 @@ export async function GET(_request: Request, { params }: ParamsType) {
     )
   }
 
-  const filter = await getUserId()
+  const roleFilter = await getUserId()
 
-  if (!filter) {
+  if (!roleFilter) {
     return Response.json(
       createErrorResponse({
         code: '403',
@@ -38,8 +41,23 @@ export async function GET(_request: Request, { params }: ParamsType) {
     )
   }
 
+  const filters = parseFilter(request)
+  let _filters = {}
+  try {
+    _filters = await halaqahFilterSchema.validate(filters)
+  } catch (e) {
+    return Response.json(
+      createErrorResponse({
+        code: '400',
+        message: 'invalid input',
+        details: (e as Error).message
+      }),
+      { status: 400 }
+    )
+  }
+
   const halaqah = new Halaqah()
-  const response = await halaqah.get(id, filter)
+  const response = await halaqah.get(id, { ...roleFilter, ..._filters })
 
   if (response?.error) {
     return Response.json(createErrorResponse(errorTranslator(response.error)), {
