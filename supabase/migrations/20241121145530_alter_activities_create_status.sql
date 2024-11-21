@@ -1,6 +1,6 @@
 BEGIN;
 
 ALTER TABLE activities
-    ADD COLUMN status CHAR(10) NOT NULL DEFAULT 'draft';
+    ADD COLUMN status VARCHAR NOT NULL DEFAULT 'draft';
 
 COMMIT;

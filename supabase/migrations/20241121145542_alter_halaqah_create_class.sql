@@ -1,6 +1,6 @@
 BEGIN;
 
 ALTER TABLE halaqah
-    ADD COLUMN class char(30);
+    ADD COLUMN class VARCHAR;
 
 COMMIT;
