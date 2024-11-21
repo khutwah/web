@@ -1,6 +1,6 @@
 import { ActivityTypeKey } from '@/models/activities'
 import { Activities } from '@/utils/supabase/models/activities'
-import { addDays, isAfter, isSameDay } from 'date-fns'
+import { addDays, isAfter, isSameDay, setDay } from 'date-fns'
 import { formatInTimeZone } from 'date-fns-tz'
 import { ActivityBadge } from '../Badge/ActivityBadge'
 import { Dispatch, ReactNode, SetStateAction } from 'react'
@@ -17,17 +17,17 @@ interface Props {
   date: Date
   onChangeDate: Dispatch<SetStateAction<Date>>
   // The number of juz that the student has almost reached.
-  manzilJuzMilestone?: number
+  lajnahJuzMilestone?: number
 }
 
 export function ProgressGrid({
   activities,
   date,
   onChangeDate,
-  manzilJuzMilestone
+  lajnahJuzMilestone
 }: Props) {
-  const startDate = addDays(date, -2)
-  const endDate = addDays(date, 2)
+  const startDate = setDay(date, 1)
+  const endDate = setDay(date, 5)
 
   const { grid, headers } = getInitialVariables(startDate, endDate)
 
@@ -117,7 +117,7 @@ export function ProgressGrid({
         </div>
       </div>
 
-      {manzilJuzMilestone && (
+      {lajnahJuzMilestone && (
         <div className='flex p-3 gap-x-2 bg-mtmh-tamarind-lightest border-t border-mtmh-snow-lighter'>
           <div>
             <Image
@@ -129,10 +129,10 @@ export function ProgressGrid({
           </div>
 
           <div className='flex flex-1 flex-col gap-y-1 text-mtmh-tamarind-darkest'>
-            <div className='text-mtmh-m-semibold'>Siap-siap manzil...</div>
+            <div className='text-mtmh-m-semibold'>Siap-siap lajnah...</div>
 
             <div className='text-mtmh-sm-regular'>
-              Alhamdulillah, hafalan ananda sudah mendekati {manzilJuzMilestone}{' '}
+              Alhamdulillah, hafalan ananda sudah mendekati {lajnahJuzMilestone}{' '}
               juz.
             </div>
           </div>
