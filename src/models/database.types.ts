@@ -1,4 +1,37 @@
+export type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json | undefined }
+  | Json[]
+
 export type Database = {
+  graphql_public: {
+    Tables: {
+      [_ in never]: never
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      graphql: {
+        Args: {
+          operationName?: string
+          query?: string
+          variables?: Json
+          extensions?: Json
+        }
+        Returns: Json
+      }
+    }
+    Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
+  }
   public: {
     Tables: {
       activities: {
@@ -14,8 +47,9 @@ export type Database = {
           shift_id: number | null
           start_surah: number | null
           start_verse: number | null
+          status: string
           student_id: number | null
-          tags: string[] | null
+          tags: Json | null
           type: number | null
           updated_at: string | null
         }
@@ -31,8 +65,9 @@ export type Database = {
           shift_id?: number | null
           start_surah?: number | null
           start_verse?: number | null
+          status?: string
           student_id?: number | null
-          tags?: string[] | null
+          tags?: Json | null
           type?: number | null
           updated_at?: string | null
         }
@@ -48,8 +83,9 @@ export type Database = {
           shift_id?: number | null
           start_surah?: number | null
           start_verse?: number | null
+          status?: string
           student_id?: number | null
-          tags?: string[] | null
+          tags?: Json | null
           type?: number | null
           updated_at?: string | null
         }
@@ -80,6 +116,7 @@ export type Database = {
       halaqah: {
         Row: {
           academic_year: number | null
+          class: string | null
           created_at: string | null
           id: number
           label: string | null
@@ -88,6 +125,7 @@ export type Database = {
         }
         Insert: {
           academic_year?: number | null
+          class?: string | null
           created_at?: string | null
           id?: never
           label?: string | null
@@ -96,6 +134,7 @@ export type Database = {
         }
         Update: {
           academic_year?: number | null
+          class?: string | null
           created_at?: string | null
           id?: never
           label?: string | null

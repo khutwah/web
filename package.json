@@ -10,7 +10,7 @@
     "start": "next start",
     "lint": "next lint",
     "seed": "NODE_OPTIONS='-r dotenv/config' npx tsx seed.ts",
-    "db-types": "supabase gen types typescript > src/models/database.types.ts",
+    "db-types": "supabase gen types --lang=typescript --local > src/models/database.types.ts",
     "prepare": "husky",
     "format": "npx prettier . --write",
     "type:check": "npx tsc --noEmit"
@@ -56,5 +56,9 @@
       "react": "$react",
       "react-dom": "$react-dom"
     }
+  },
+  "engines": {
+    "node": ">=20.x",
+    "npm": ">=9.x"
   }
 }
