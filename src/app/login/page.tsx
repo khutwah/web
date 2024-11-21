@@ -10,6 +10,15 @@ import Link from 'next/link'
 import { useForm, useWatch } from 'react-hook-form'
 import classNames from 'classnames'
 import { useState } from 'react'
+import {
+  DialogHeader,
+  DialogFooter,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+  DialogTrigger
+} from '@/components/Dialog/Dialog'
 
 export default function LoginPage() {
   const [state, formAction] = useFormState(login, { message: '' })
@@ -20,8 +29,12 @@ export default function LoginPage() {
       password: ''
     }
   })
-  const [isPasswordShown, setIsPasswordShown] = useState(false)
   const { username, password } = useWatch({ control })
+
+  const [isPasswordShown, setIsPasswordShown] = useState(false)
+  const [isForgotPasswordDialogOpen, setIsForgotPasswordDialogOpen] =
+    useState(false)
+
   const isSubmitButtonDisabled = username === '' || password === ''
 
   const onSubmit = handleSubmit((payload) => {
@@ -101,12 +114,38 @@ export default function LoginPage() {
         </form>
 
         <div className='text-center'>
-          <Link
-            href=''
-            className='text-mtmh-secondary-secondary text-mtmh-body-small underline'
+          <Dialog
+            onOpenChange={setIsForgotPasswordDialogOpen}
+            open={isForgotPasswordDialogOpen}
           >
-            Lupa sandi?
-          </Link>
+            <DialogTrigger asChild>
+              <Link
+                href=''
+                className='text-mtmh-secondary-secondary text-mtmh-body-small underline'
+              >
+                Lupa sandi?
+              </Link>
+            </DialogTrigger>
+            <DialogContent className='bg-mtmh-neutral-white bottom-0 top-auto !translate-y-0'>
+              <DialogHeader>
+                <DialogTitle className='flex justify-between border-b border-mtmh-neutral-30 pb-2'>
+                  Perubahan sandi
+                </DialogTitle>
+                <DialogDescription className='!mt-3'>
+                  Saat ini, Anda dapat menghubungi admin Markaz Tahfizh Minhajul
+                  Haq melalui WhatsApp untuk melakukan perubahan kata sandi.
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter className='mt-[44px]'>
+                <button
+                  className='w-full py-2 px-4 rounded-md text-mtmh-button-large !text-center text-mtmh-neutral-white bg-mtmh-primary-primary'
+                  onClick={() => setIsForgotPasswordDialogOpen(false)}
+                >
+                  Hubungi admin
+                </button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
     </main>
