@@ -1,5 +1,7 @@
-import { string, number, object, array, boolean } from 'yup'
+import { string, number, object, array, boolean, mixed } from 'yup'
 import { testTimestamp } from '../is-valid-date'
+import { ActivityStatus } from '@/models/activities'
+import { parseComaSeparatedNumbers } from '../validation/is-comma-separated-number'
 
 export const activityFilterSchema = object({
   start_date: string().test(
@@ -12,10 +14,14 @@ export const activityFilterSchema = object({
     'Tanggal harus dalam format ISO yang valid',
     testTimestamp
   ),
+  status: string().oneOf(Object.values(ActivityStatus)),
   type: number().oneOf([1, 2, 3] as const),
   limit: number().integer().min(1),
   offset: number().integer().min(0),
-  student_id: number().integer().min(1)
+  student_id: number().integer().min(1),
+  halaqah_ids: mixed().transform(
+    parseComaSeparatedNumbers('Format halaqah_ids harus benar. contoh: 1,2,3')
+  )
 })
 
 export const activityCreateSchema = object({
@@ -29,6 +35,12 @@ export const activityCreateSchema = object({
       'Tipe Aktivitas harus salah satu dari 1, 2, atau 3'
     )
     .required('Tipe Aktivitas wajib diisi'),
+  status: string()
+    .oneOf(
+      Object.values(ActivityStatus),
+      'Status yang diperbolehkan: draft / completed / deleted'
+    )
+    .required('Status Aktifitas wajib diisi'),
   achieve_target: boolean().required('Target pencapaian wajib diisi'),
   start_surah: number().required('Awal baca wajib diisi'),
   end_surah: number().required('Akhir baca wajib diisi'),

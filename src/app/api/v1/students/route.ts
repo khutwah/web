@@ -4,6 +4,8 @@ import {
   createErrorResponse,
   createSuccessResponse
 } from '@/utils/api/response-generator'
+import { parseFilter } from '@/utils/parse-filter'
+import { studentsFilterSchema } from '@/utils/schemas/students'
 import { errorTranslator } from '@/utils/supabase/error-translator'
 import { getUserId } from '@/utils/supabase/get-user-id'
 import { Students } from '@/utils/supabase/models/students'
@@ -24,14 +26,25 @@ export async function GET(request: NextRequest) {
 
   const students = new Students()
 
-  const searchParams = request.nextUrl.searchParams
-  const halaqahIds = searchParams.get('halaqah_ids')
+  const filters = parseFilter(request)
 
-  const parsedHalaqahIds = halaqahIds ? halaqahIds.split(',').map(Number) : []
+  let _filters = {}
+  try {
+    _filters = await studentsFilterSchema.validate(filters)
+  } catch (e) {
+    return Response.json(
+      createErrorResponse({
+        code: '400',
+        message: 'invalid input',
+        details: (e as Error).message
+      }),
+      { status: 400 }
+    )
+  }
 
   const response = await students.list({
-    halaqah_ids: parsedHalaqahIds,
-    ...roleFilter
+    ...roleFilter,
+    ..._filters
   })
 
   if (response?.error) {
