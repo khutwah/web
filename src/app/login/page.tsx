@@ -9,7 +9,7 @@ import { Checkbox } from '@/components/Form/Checkbox'
 import Link from 'next/link'
 import { useForm, useWatch } from 'react-hook-form'
 import classNames from 'classnames'
-import { useState } from 'react'
+import { startTransition, useEffect, useState } from 'react'
 import {
   DialogHeader,
   DialogFooter,
@@ -19,9 +19,14 @@ import {
   DialogTitle,
   DialogTrigger
 } from '@/components/Dialog/Dialog'
+import { useToast } from '@/hooks/useToast'
+import { CircleAlert } from 'lucide-react'
 
 export default function LoginPage() {
-  const [state, formAction] = useFormState(login, { message: '' })
+  const [state, formAction, isTransitioning] = useFormState(login, {
+    message: ''
+  })
+  const { toast } = useToast()
 
   const { register, control, handleSubmit } = useForm({
     defaultValues: {
@@ -35,6 +40,22 @@ export default function LoginPage() {
   const [isForgotPasswordDialogOpen, setIsForgotPasswordDialogOpen] =
     useState(false)
 
+  useEffect(() => {
+    if (!state?.message || isTransitioning) return
+
+    toast({
+      description: (
+        <div className='flex gap-x-4'>
+          <CircleAlert />
+
+          <div>{state?.message}</div>
+        </div>
+      ),
+      duration: 5000,
+      className: 'p-4 bg-mtmh-error-error text-mtmh-neutral-white'
+    })
+  }, [toast, state?.message, isTransitioning])
+
   const isSubmitButtonDisabled = username === '' || password === ''
 
   const onSubmit = handleSubmit((payload) => {
@@ -44,14 +65,14 @@ export default function LoginPage() {
       formData.set(key, payload[key as keyof typeof payload])
     }
 
-    formAction(formData)
+    startTransition(() => {
+      formAction(formData)
+    })
   })
 
   return (
     <main className='pt-12 px-4 pb-6 flex flex-col items-center'>
       <Image alt='Minhajul Haq' src={Logo} width={227} height={65} />
-
-      <div>{state?.message}</div>
 
       <div className='w-full mt-10 flex flex-col gap-y-10'>
         <form onSubmit={onSubmit} className='w-full flex flex-col gap-y-4'>
