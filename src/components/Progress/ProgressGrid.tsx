@@ -1,12 +1,12 @@
 import { ActivityTypeKey } from '@/models/activities'
 import { Activities } from '@/utils/supabase/models/activities'
-import { addDays, isAfter, isSameDay, setDay } from 'date-fns'
-import { formatInTimeZone } from 'date-fns-tz'
 import { ActivityBadge } from '../Badge/ActivityBadge'
 import { Dispatch, ReactNode, SetStateAction } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import Image from 'next/image'
 import ThumbsUpImage from './indikator-manzil.png'
+import dayjsGmt7 from '@/utils/dayjs-gmt7'
+import dayjs, { Dayjs } from 'dayjs'
 
 type ActivityEntry = NonNullable<
   Awaited<ReturnType<Activities['list']>>['data']
@@ -26,8 +26,8 @@ export function ProgressGrid({
   onChangeDate,
   lajnahJuzMilestone
 }: Props) {
-  const startDate = setDay(date, 1)
-  const endDate = setDay(date, 5)
+  const startDate = dayjs(date).day(1)
+  const endDate = dayjs(date).day(5)
 
   const { grid, headers } = getInitialVariables(startDate, endDate)
 
@@ -56,7 +56,7 @@ export function ProgressGrid({
           <thead>
             <tr className='text-mtmh-xs-regular h-[28px]'>
               <td className='text-mtmh-xs-semibold text-mtmh-red-light w-[51px]'>
-                {formatInTimeZone(date, 'Asia/Jakarta', 'MMM yy')}
+                {dayjsGmt7(date).format('MMM YY')}
               </td>
               {headers.map((header) => {
                 const headerDate = new Date(header)
@@ -64,9 +64,9 @@ export function ProgressGrid({
                 return (
                   <td key={header}>
                     <TableHeaderDate
-                      isActive={isSameDay(headerDate, new Date())}
+                      isActive={dayjs(headerDate).isSame(new Date(), 'day')}
                     >
-                      {formatInTimeZone(headerDate, 'Asia/Jakarta', 'dd')}
+                      {dayjsGmt7(headerDate).format('DD')}
                     </TableHeaderDate>
                   </td>
                 )
@@ -99,7 +99,11 @@ export function ProgressGrid({
         <div className='flex w-full justify-between text-mtmh-sm-semibold text-mtmh-red-light'>
           <button
             className='flex gap-x-2'
-            onClick={() => onChangeDate((prevDate) => addDays(prevDate, -5))}
+            onClick={() =>
+              onChangeDate((prevDate) =>
+                dayjs(prevDate).add(-5, 'day').toDate()
+              )
+            }
           >
             <ChevronLeft size={16} />
 
@@ -108,7 +112,9 @@ export function ProgressGrid({
 
           <button
             className='flex gap-x-2'
-            onClick={() => onChangeDate((prevDate) => addDays(prevDate, 5))}
+            onClick={() =>
+              onChangeDate((prevDate) => dayjs(prevDate).add(5, 'day').toDate())
+            }
           >
             <div>Maju</div>
 
@@ -162,21 +168,21 @@ function TableHeaderDate({
   )
 }
 
-function getInitialVariables(startDate: Date, endDate: Date) {
+function getInitialVariables(startDate: Dayjs, endDate: Dayjs) {
   const grid: Record<string, number> = {}
   const headers: string[] = []
   let iterator = startDate
 
-  while (!isAfter(iterator, endDate)) {
-    grid[getGridIdentifier(iterator)] = -1
+  while (!iterator.isAfter(endDate)) {
+    grid[getGridIdentifier(iterator.toDate())] = -1
     headers.push(iterator.toISOString())
 
-    iterator = addDays(iterator, 1)
+    iterator = iterator.add(1, 'day')
   }
 
   return { grid, headers }
 }
 
 function getGridIdentifier(date: Date) {
-  return formatInTimeZone(date, 'Asia/Jakarta', 'dd')
+  return dayjsGmt7(date).format('dd')
 }
