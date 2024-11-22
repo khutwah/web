@@ -98,7 +98,9 @@ export const mtmhColors = {
   },
   tamarind: {
     darkest: '#4D3F00',
+    dark: '#C48F00',
     base: '#F8AE1A',
+    lighter: '#FFE791',
     lightest: '#FFF8D9'
   }
 }
