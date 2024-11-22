@@ -5,7 +5,7 @@ import dayjs from 'dayjs'
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
-export default function dayjsGmt7() {
-  const time = dayjs.utc().tz('Asia/Jakarta')
+export default function dayjsGmt7(initialDate = new Date()) {
+  const time = dayjs(initialDate).utc().tz('Asia/Jakarta')
   return time
 }

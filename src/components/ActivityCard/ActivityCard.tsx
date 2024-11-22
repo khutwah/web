@@ -3,7 +3,7 @@ import { BookOpen, MoveRight } from 'lucide-react'
 import Link from 'next/link'
 import { ActivityTypeKey } from '@/models/activities'
 import { ActivityBadge } from '../Badge/ActivityBadge'
-import { formatInTimeZone } from 'date-fns-tz'
+import dayjsGmt7 from '@/utils/dayjs-gmt7'
 
 interface SurahSubmissionInfo {
   name: string
@@ -44,11 +44,7 @@ export function ActivityCard({
           <CardTitle className='flex justify-between items-start'>
             <div className='flex flex-col gap-y-1'>
               <div className='text-xs text-mtmh-neutral-50'>
-                {formatInTimeZone(
-                  date,
-                  'Asia/Jakarta',
-                  'EEEE, dd MMM yyyy. HH:mm'
-                )}
+                {dayjsGmt7(date).format('dddd, DD MMM YYYY. HH:mm')}
               </div>
 
               {studentName && (

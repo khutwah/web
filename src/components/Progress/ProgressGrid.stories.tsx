@@ -1,7 +1,7 @@
 import { ActivityTypeKey } from '@/models/activities'
 import { ProgressGrid } from './ProgressGrid'
 import { ComponentProps, useState } from 'react'
-import { addDays, setDay } from 'date-fns'
+import dayjs from 'dayjs'
 
 export function ProgressGridStory() {
   const [lajnahJuzMilestone, setlajnahJuzMilestone] = useState(5)
@@ -59,12 +59,12 @@ function generateData(
   type: ActivityTypeKey,
   date: Date
 ): ComponentProps<typeof ProgressGrid>['activities'] {
-  const endDate = setDay(date, 5)
-  const pageAmount = endDate.getDate() % 6
+  const endDate = dayjs(date).day(5)
+  const pageAmount = endDate.date() % 6
 
   return Array.from(new Array(5), (_, idx) => ({
     page_amount: idx === 0 ? null : pageAmount + idx,
     type,
-    created_at: addDays(endDate, -idx).toISOString()
+    created_at: dayjs(endDate).add(-idx, 'day').toISOString()
   }))
 }

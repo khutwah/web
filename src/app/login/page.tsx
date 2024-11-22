@@ -8,7 +8,7 @@ import { InputWithLabel } from '@/components/Form/InputWithLabel'
 import { Checkbox } from '@/components/Form/Checkbox'
 import Link from 'next/link'
 import { useForm, useWatch } from 'react-hook-form'
-import classNames from 'classnames'
+import classNames from 'clsx'
 import { startTransition, useEffect, useState } from 'react'
 import {
   DialogHeader,
