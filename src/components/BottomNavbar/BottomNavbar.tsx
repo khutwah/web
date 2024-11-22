@@ -13,7 +13,9 @@ export function BottomNavbar(props: BottomNavbarProps) {
   const { links } = props
 
   return (
-    <div className='flex w-full border-t border-neutral-10 justify-around'>
+    <div
+      className={`grid grid-cols-${links.length} w-full border-t border-neutral-10`}
+    >
       {links.map((link) => {
         const Icon = link.icon
 
@@ -21,7 +23,7 @@ export function BottomNavbar(props: BottomNavbarProps) {
           <Link
             key={link.href}
             href={link.href}
-            className='h-16 flex flex-col p-2 gap-2 items-center'
+            className='h-16 flex-1 flex flex-col p-2 gap-2 items-center justify-center'
           >
             <Icon
               className={classNames(
