@@ -5,3 +5,9 @@ export enum ActivityType {
 }
 
 export type ActivityTypeKey = keyof typeof ActivityType
+
+export enum ActivityStatus {
+  draft = 'draft',
+  completed = 'completed',
+  deleted = 'deleted'
+}

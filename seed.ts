@@ -115,7 +115,8 @@ const main = async () => {
     x(3, (ctx) => {
       return {
         name: `Halaqah ${ctx.index + 1}`,
-        academic_year: 2024
+        academic_year: 2024,
+        class: String(ctx.index + 7)
       }
     })
   )

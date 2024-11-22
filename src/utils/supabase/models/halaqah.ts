@@ -20,7 +20,14 @@ export class Halaqah extends Base {
     if (student_id) {
       const response = await supabase
         .from('halaqah')
-        .select('id, name, students!inner(parent_id)')
+        .select(
+          `
+            id,
+            name,
+            class,
+            students!inner(parent_id)  
+          `
+        )
         .eq('students.parent_id', student_id)
 
       const data: NonNullable<typeof response.data> = response.data ?? []
@@ -43,6 +50,7 @@ export class Halaqah extends Base {
           `
             id,
             name,
+            class,
             shifts(ustadz_id, start_date, end_date),
             student_count:students(halaqah_id)
           `
@@ -81,6 +89,7 @@ export class Halaqah extends Base {
           id,
           name,
           label,
+          class,
           shifts(id, location, ustadz_id, users(name, id), start_date),
           students(id, name, parent_id)
         `
