@@ -16,8 +16,13 @@
     "type:check": "npx tsc --noEmit"
   },
   "dependencies": {
+    "@radix-ui/react-checkbox": "1.1.2",
+    "@radix-ui/react-dialog": "1.1.2",
+    "@radix-ui/react-label": "2.1.0",
+    "@radix-ui/react-toast": "1.2.2",
     "@supabase/ssr": "^0.5.1",
     "@supabase/supabase-js": "^2.46.1",
+    "class-variance-authority": "0.7.0",
     "classnames": "2.5.1",
     "date-fns": "4.1.0",
     "date-fns-tz": "3.2.0",
@@ -26,6 +31,8 @@
     "next": "15.0.2",
     "react": "19.0.0-rc-02c0e824-20241028",
     "react-dom": "19.0.0-rc-02c0e824-20241028",
+    "react-hook-form": "7.53.2",
+    "tailwindcss-animate": "^1.0.7",
     "yup": "^1.4.0"
   },
   "devDependencies": {
@@ -55,6 +62,15 @@
     "@ladle/react": {
       "react": "$react",
       "react-dom": "$react-dom"
+    },
+    "react-hook-form": {
+      "react": "$react"
+    },
+    "react-remove-scroll": {
+      "react": "$react"
+    },
+    "react-remove-scroll-bar": {
+      "react": "$react"
     }
   },
   "engines": {
