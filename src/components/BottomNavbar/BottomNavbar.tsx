@@ -1,3 +1,4 @@
+'use client'
 import { BottomNavbarProps } from '@/models/bottom-navbar'
 import Link from 'next/link'
 import classNames from 'classnames'
@@ -13,9 +14,7 @@ export function BottomNavbar(props: BottomNavbarProps) {
   const { links } = props
 
   return (
-    <div
-      className={`grid grid-cols-${links.length} w-full border-t border-neutral-10`}
-    >
+    <div className='grid grid-flow-col auto-cols-fr w-full border-t border-neutral-10'>
       {links.map((link) => {
         const Icon = link.icon
 
