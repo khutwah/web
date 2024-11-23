@@ -1,5 +1,7 @@
+import { ReactNode } from 'react'
+
 export interface NavbarProps {
-  withBackButton?: boolean
   onClickBackButton?: () => void
   text: string
+  rightComponent?: ReactNode
 }
