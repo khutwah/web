@@ -94,6 +94,7 @@ export const mtmhColors = {
   grey: {
     base: '#171717',
     light: '#454545',
+    lighter: '#747474',
     lightest: '#A2A2A2'
   },
   tamarind: {

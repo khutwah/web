@@ -5,8 +5,8 @@ import classNames from 'classnames'
 
 function activeStyle(active: boolean) {
   return {
-    'text-mtmh-primary-primary': active,
-    'text-mtmh-neutral-30': !active
+    'text-mtmh-red-light': active,
+    'text-mtmh-grey-lighter': !active
   }
 }
 
@@ -14,7 +14,7 @@ export function BottomNavbar(props: BottomNavbarProps) {
   const { links } = props
 
   return (
-    <div className='grid grid-flow-col auto-cols-fr w-full border-t border-neutral-10'>
+    <div className='grid grid-flow-col auto-cols-fr w-full shadow-flat-top'>
       {links.map((link) => {
         const Icon = link.icon
 
@@ -22,7 +22,13 @@ export function BottomNavbar(props: BottomNavbarProps) {
           <Link
             key={link.href}
             href={link.href}
-            className='h-16 flex-1 flex flex-col p-2 gap-2 items-center justify-center'
+            className={classNames(
+              'flex-1 flex flex-col py-3 gap-1 items-center justify-center border-b-[3px]',
+              {
+                'border-mtmh-red-light': link.active,
+                'border-transparent': !link.active
+              }
+            )}
           >
             <Icon
               className={classNames(
@@ -32,7 +38,7 @@ export function BottomNavbar(props: BottomNavbarProps) {
             />
             <span
               className={classNames(
-                'text-mtmh-label',
+                'text-mtmh-xs-regular',
                 activeStyle(link.active)
               )}
             >

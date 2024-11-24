@@ -10,6 +10,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      boxShadow: {
+        'flat-top': '0px 1px 0px 0px #E7E7E7 inset'
+      },
       colors: {
         mtmh: mtmhColors
       }
