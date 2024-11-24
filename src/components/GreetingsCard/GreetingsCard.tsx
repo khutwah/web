@@ -69,59 +69,36 @@ function SalahTimebox({
   const arrayOfPrayerTimings = [
     {
       name: 'Shubuh',
-      start: combineSalahTimingWithCurrentDate(
-        salahPrayerTimes.subuh,
-        currentDate
-      ),
-      end: combineSalahTimingWithCurrentDate(
-        salahPrayerTimes.terbit,
-        currentDate
-      )
+      start: salahPrayerTimes.subuh,
+      end: salahPrayerTimes.terbit
     },
     {
       name: 'Dzuhur',
-      start: combineSalahTimingWithCurrentDate(
-        salahPrayerTimes.dzuhur,
-        currentDate
-      ),
-      end: combineSalahTimingWithCurrentDate(
-        salahPrayerTimes.ashar,
-        currentDate
-      )
+      start: salahPrayerTimes.dzuhur,
+      end: salahPrayerTimes.ashar
     },
     {
       name: 'Ashr',
-      start: combineSalahTimingWithCurrentDate(
-        salahPrayerTimes.ashar,
-        currentDate
-      ),
-      end: combineSalahTimingWithCurrentDate(
-        salahPrayerTimes.maghrib,
-        currentDate
-      )
+      start: salahPrayerTimes.ashar,
+      end: salahPrayerTimes.maghrib
     },
     {
       name: 'Maghrib',
-      start: combineSalahTimingWithCurrentDate(
-        salahPrayerTimes.maghrib,
-        currentDate
-      ),
-      end: combineSalahTimingWithCurrentDate(salahPrayerTimes.isya, currentDate)
+      start: salahPrayerTimes.maghrib,
+      end: salahPrayerTimes.isya
     },
     {
-      // Unfortunately this does not cover the isya prayer in the next day, e.g. 00:00-shubuh time.
-      // This is because the date already changes to a new date.
+      // Unfortunately this does not cover the isya prayer time in the next day, e.g. 00:00-shubuh time.
+      // This is because the date already changes to a new date, and we don't show isya prayer on the following day.
       name: 'Isya',
-      start: combineSalahTimingWithCurrentDate(
-        salahPrayerTimes.isya,
-        currentDate
-      ),
-      end: combineSalahTimingWithCurrentDate(
-        salahPrayerTimes.subuh,
-        dayjs(currentDate).add(1, 'day').toDate()
-      )
+      start: salahPrayerTimes.isya,
+      end: '23:59'
     }
-  ]
+  ].map((item) => ({
+    ...item,
+    start: combineSalahTimingWithCurrentDate(item.start, currentDate),
+    end: combineSalahTimingWithCurrentDate(item.end, currentDate)
+  }))
 
   return (
     <ol className='flex gap-x-1'>
