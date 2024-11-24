@@ -3,6 +3,7 @@
 API documentation can be found in here https://khutwah.docs.apiary.io
 
 ## Tech Stack
+
 1. NextJS
 2. Tailwind CSS with [@shadcn/ui](https://ui.shadcn.com/)
 3. Supabase as cloud database service
@@ -12,6 +13,7 @@ API documentation can be found in here https://khutwah.docs.apiary.io
 First, prepare your .env file, example is on .env.example. Ask your peers for the key value if needed.
 
 Three basic env key you can obtain by yourself
+
 ```
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
