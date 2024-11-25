@@ -1,7 +1,7 @@
 'use client'
 import { BottomNavbarProps } from '@/models/bottom-navbar'
 import Link from 'next/link'
-import classNames from 'classnames'
+import classNames from 'clsx'
 
 function activeStyle(active: boolean) {
   return {
@@ -14,7 +14,7 @@ export function BottomNavbar(props: BottomNavbarProps) {
   const { links } = props
 
   return (
-    <div className='grid grid-flow-col auto-cols-fr w-full shadow-flat-top'>
+    <div className='grid grid-flow-col auto-cols-fr w-full shadow-flat-top bg-white'>
       {links.map((link) => {
         const Icon = link.icon
 
