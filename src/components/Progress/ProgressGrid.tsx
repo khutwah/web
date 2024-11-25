@@ -26,8 +26,8 @@ export function ProgressGrid({
   onChangeDate,
   lajnahJuzMilestone
 }: Props) {
-  const startDate = dayjs(date).day(1)
-  const endDate = dayjs(date).day(5)
+  const startDate = dayjs(date).day(0)
+  const endDate = dayjs(date).day(6)
 
   const { grid, headers } = getInitialVariables(startDate, endDate)
 
