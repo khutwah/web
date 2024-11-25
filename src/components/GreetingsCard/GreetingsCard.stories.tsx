@@ -11,7 +11,7 @@ export function GreetingsCardStory() {
         const currentDate = dayjs().hour(hour).minute(0).toDate()
 
         return (
-          <li className='flex flex-col gap-y-2'>
+          <li className='flex flex-col gap-y-2' key={hour}>
             <div>{currentDate.toLocaleString()}</div>
 
             <GreetingsCard
