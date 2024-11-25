@@ -44,10 +44,12 @@ export type Database = {
           id: number
           notes: string | null
           page_amount: number | null
+          page_amount_accumulation: number | null
           shift_id: number | null
           start_surah: number | null
           start_verse: number | null
           status: string
+          student_attendance: string
           student_id: number | null
           tags: Json | null
           type: number | null
@@ -62,10 +64,12 @@ export type Database = {
           id?: never
           notes?: string | null
           page_amount?: number | null
+          page_amount_accumulation?: number | null
           shift_id?: number | null
           start_surah?: number | null
           start_verse?: number | null
           status?: string
+          student_attendance?: string
           student_id?: number | null
           tags?: Json | null
           type?: number | null
@@ -80,10 +84,12 @@ export type Database = {
           id?: never
           notes?: string | null
           page_amount?: number | null
+          page_amount_accumulation?: number | null
           shift_id?: number | null
           start_surah?: number | null
           start_verse?: number | null
           status?: string
+          student_attendance?: string
           student_id?: number | null
           tags?: Json | null
           type?: number | null

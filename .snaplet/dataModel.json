@@ -354,6 +354,34 @@
           "maxLength": null
         },
         {
+          "id": "public.activities.student_attendance",
+          "name": "student_attendance",
+          "columnName": "student_attendance",
+          "type": "varchar",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "public.activities.page_amount_accumulation",
+          "name": "page_amount_accumulation",
+          "columnName": "page_amount_accumulation",
+          "type": "int2",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
           "name": "shifts",
           "type": "shifts",
           "isRequired": false,
