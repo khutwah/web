@@ -1,6 +1,6 @@
 import { ComponentType, SVGProps } from 'react'
 
-interface BottomNavbarLink {
+export interface BottomNavbarLink {
   text: string
   icon: ComponentType<SVGProps<SVGSVGElement>>
   href: string
