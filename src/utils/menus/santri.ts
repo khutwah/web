@@ -11,6 +11,7 @@ import {
   Cog6ToothIcon
 } from '@heroicons/react/24/outline'
 import { BottomNavbarLink } from '@/models/bottom-navbar'
+import { Menu } from '@/models/menus'
 
 export const ACTIVE_ICONS: Record<string, BottomNavbarLink['icon']> = {
   '/santri': HomeIconSolid,
@@ -19,29 +20,33 @@ export const ACTIVE_ICONS: Record<string, BottomNavbarLink['icon']> = {
   '/santri/pengaturan': Cog6ToothIconSolid
 }
 
-export const MENUS: BottomNavbarLink[] = [
+export const MENUS: Menu[] = [
   {
     icon: HomeIcon,
     text: 'Beranda',
     href: '/santri',
+    pattern: /^\/santri$/,
     active: false
   },
   {
     icon: BookOpenIcon,
     text: 'Aktivitas',
     href: '/santri/aktivitas',
+    pattern: /^\/santri\/aktivitas$/,
     active: false
   },
   {
     icon: PresentationChartLineIcon,
     text: 'Pencapaian',
     href: '/santri/pencapaian',
+    pattern: /^\/santri\/pencapaian$/,
     active: false
   },
   {
     icon: Cog6ToothIcon,
     text: 'Pengaturan',
     href: '/santri/pengaturan',
+    pattern: /^\/santri\/pengaturan$/,
     active: false
   }
 ]
