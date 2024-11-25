@@ -107,7 +107,6 @@ export class Activities extends Base {
           status: item.status,
           tags: item.tags ?? [],
           page_amount: item.page_amount,
-          page_amount_accumulation: item.page_amount_accumulation,
           created_at: item.created_at,
           start_surah: surah.find((s) => s.id === item.start_surah)
             ?.name_simple,
