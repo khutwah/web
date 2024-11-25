@@ -26,13 +26,19 @@ export const activityFilterSchema = object({
 })
 
 export const activityCreateSchema = object({
-  notes: string().required('Catatan wajib diisi'),
-  tags: array().of(string()).required('Tag wajib diisi'),
-  shift_id: number().required('ID shift wajib diisi'),
-  student_id: number().required('ID siswa wajib diisi'),
   student_attendance: string()
     .oneOf(['presence', 'absence'])
     .required('Kehadiran siswa wajib diisi'),
+  notes: string().required('Catatan wajib diisi'),
+  tags: array()
+    .of(string())
+    .when('student_attendance', {
+      is: 'absence',
+      then: (schema) => schema.notRequired(),
+      otherwise: (schema) => schema.required()
+    }),
+  shift_id: number().required('ID shift wajib diisi'),
+  student_id: number().required('ID siswa wajib diisi'),
   type: number()
     .oneOf(
       [1, 2, 3] as const,
@@ -45,12 +51,48 @@ export const activityCreateSchema = object({
       'Status yang diperbolehkan: draft / completed / deleted'
     )
     .required('Status Aktifitas wajib diisi'),
-  achieve_target: boolean().required('Target pencapaian wajib diisi'),
-  start_surah: number().required('Awal baca wajib diisi'),
-  end_surah: number().required('Akhir baca wajib diisi'),
-  start_verse: number().required('Awal ayat wajib diisi'),
-  end_verse: number().required('Akhir ayat wajib diisi'),
-  page_amount: number().required('Jumlah halaman wajib diisi'),
+  achieve_target: boolean()
+    .required('Target pencapaian wajib diisi')
+    .when('student_attendance', {
+      is: 'absence',
+      then: (schema) => schema.notRequired(),
+      otherwise: (schema) => schema.required()
+    }),
+  start_surah: number()
+    .required('Awal baca wajib diisi')
+    .when('student_attendance', {
+      is: 'absence',
+      then: (schema) => schema.notRequired(),
+      otherwise: (schema) => schema.required()
+    }),
+  end_surah: number()
+    .required('Akhir baca wajib diisi')
+    .when('student_attendance', {
+      is: 'absence',
+      then: (schema) => schema.notRequired(),
+      otherwise: (schema) => schema.required()
+    }),
+  start_verse: number()
+    .required('Awal ayat wajib diisi')
+    .when('student_attendance', {
+      is: 'absence',
+      then: (schema) => schema.notRequired(),
+      otherwise: (schema) => schema.required()
+    }),
+  end_verse: number()
+    .required('Akhir ayat wajib diisi')
+    .when('student_attendance', {
+      is: 'absence',
+      then: (schema) => schema.notRequired(),
+      otherwise: (schema) => schema.required()
+    }),
+  page_amount: number()
+    .required('Jumlah halaman wajib diisi')
+    .when('student_attendance', {
+      is: 'absence',
+      then: (schema) => schema.notRequired(),
+      otherwise: (schema) => schema.required()
+    }),
   created_at: string().test(
     'is-valid-date',
     'Tanggal harus dalam format ISO yang valid',
