@@ -11,7 +11,7 @@ export const IDENTIFIER_BY_ROLE = {
 }
 
 export const PAGE_BY_ROLE = {
-  [ROLE.STUDENT]: '/student',
+  [ROLE.STUDENT]: '/santri',
   [ROLE.USTADZ]: '/ustadz'
 }
 

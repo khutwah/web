@@ -2,7 +2,7 @@
 
 import { BottomNavbar } from '@/components/BottomNavbar/BottomNavbar'
 import { generateMenus } from '@/utils/menus'
-import { ACTIVE_ICONS, MENUS } from '@/utils/menus/ustadz'
+import { ACTIVE_ICONS, MENUS } from '@/utils/menus/santri'
 import { usePathname } from 'next/navigation'
 import { PropsWithChildren } from 'react'
 
