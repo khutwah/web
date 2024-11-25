@@ -5,17 +5,19 @@ import surah from '@/data/surah.json'
 import { getUserId } from '../get-user-id'
 import { ApiError } from '@/utils/api-error'
 
+export type StudentAttendance = 'presence' | 'absence'
 export interface GetFilter extends RoleFilter, PaginationFilter {
   type?: ActivityType
   start_date?: string
   end_date?: string
   status?: ActivityStatus
   halaqah_ids?: number[]
+  student_attendance?: StudentAttendance
 }
 
 interface ActivitiesPayload {
   shift_id: number
-  note: string
+  notes: string
   tags: string[]
   student_id: number
   type: ActivityType
@@ -26,6 +28,7 @@ interface ActivitiesPayload {
   start_verse: number
   end_verse: number
   page_amount: number
+  student_attendance: StudentAttendance
   created_at?: string
 }
 
@@ -42,6 +45,7 @@ const selectQuery = `
     end_surah,
     start_verse,
     end_verse,
+    student_attendance,
     shifts(ustadz_id, users(name), halaqah(name)),
     students(parent_id, name)`
 
@@ -55,7 +59,8 @@ export class Activities extends Base {
       offset = 0,
       type,
       start_date,
-      end_date
+      end_date,
+      student_attendance
     } = args
 
     let query = (await this.supabase).from('activities').select(selectQuery)
@@ -88,6 +93,10 @@ export class Activities extends Base {
         .not('shifts', 'is', null)
     }
 
+    if (student_attendance) {
+      query = query.eq('student_attendance', student_attendance)
+    }
+
     const result = await query.range(offset, offset + limit - 1)
     const data = result.data
       ? result.data.map((item) => ({
@@ -98,13 +107,17 @@ export class Activities extends Base {
           status: item.status,
           tags: item.tags ?? [],
           page_amount: item.page_amount,
+          page_amount_accumulation: item.page_amount_accumulation,
           created_at: item.created_at,
           start_surah: surah.find((s) => s.id === item.start_surah)
             ?.name_simple,
+          start_surah_id: item.start_surah,
           end_surah: surah.find((s) => s.id === item.end_surah)?.name_simple,
+          end_surah_id: item.end_surah,
           start_verse: item.start_verse,
           end_verse: item.end_verse,
-          halaqah_name: item.shifts?.halaqah?.name
+          halaqah_name: item.shifts?.halaqah?.name,
+          student_attendance: item.student_attendance
         }))
       : result.data
 
