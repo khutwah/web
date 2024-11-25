@@ -21,7 +21,8 @@ export const activityFilterSchema = object({
   student_id: number().integer().min(1),
   halaqah_ids: mixed().transform(
     parseComaSeparatedNumbers('Format halaqah_ids harus benar. contoh: 1,2,3')
-  )
+  ),
+  student_attendance: string().oneOf(['presence', 'absence'])
 })
 
 export const activityCreateSchema = object({
@@ -29,6 +30,9 @@ export const activityCreateSchema = object({
   tags: array().of(string()).required('Tag wajib diisi'),
   shift_id: number().required('ID shift wajib diisi'),
   student_id: number().required('ID siswa wajib diisi'),
+  student_attendance: string()
+    .oneOf(['presence', 'absence'])
+    .required('Kehadiran siswa wajib diisi'),
   type: number()
     .oneOf(
       [1, 2, 3] as const,
