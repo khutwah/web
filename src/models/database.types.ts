@@ -48,6 +48,7 @@ export type Database = {
           start_surah: number | null
           start_verse: number | null
           status: string
+          student_attendance: string
           student_id: number | null
           tags: Json | null
           type: number | null
@@ -66,6 +67,7 @@ export type Database = {
           start_surah?: number | null
           start_verse?: number | null
           status?: string
+          student_attendance?: string
           student_id?: number | null
           tags?: Json | null
           type?: number | null
@@ -84,6 +86,7 @@ export type Database = {
           start_surah?: number | null
           start_verse?: number | null
           status?: string
+          student_attendance?: string
           student_id?: number | null
           tags?: Json | null
           type?: number | null
