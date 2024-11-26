@@ -2,8 +2,7 @@ export interface GeneralTypeResponse {
   status: 'success' | 'error'
   message: string
 }
-export interface SuccessResponse<T extends unknown = unknown>
-  extends GeneralTypeResponse {
+export interface SuccessResponse<T = unknown> extends GeneralTypeResponse {
   data: T
 }
 

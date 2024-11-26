@@ -19,7 +19,7 @@ export default async function Home() {
         <GreetingsCard
           className='z-10'
           avatarUrl={StubAvatarImage}
-          name={user.data?.name!}
+          name={user.data?.name ?? ''}
           salahPrayerTimes={{
             // TODO: integrate with external API later.
             imsak: '03:56',
@@ -53,7 +53,7 @@ export default async function Home() {
                   <li key={item.id}>
                     <HalaqahCard
                       name={item.name!}
-                      venue={effectiveShift?.location!}
+                      venue={effectiveShift?.location ?? ''}
                       substituteeName={substituteeName}
                       hasGutter
                     />

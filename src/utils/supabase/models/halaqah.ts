@@ -1,4 +1,4 @@
-import { Base, ListReturnType } from './base'
+import { Base } from './base'
 import { RoleFilter } from '@/models/supabase/models/filter'
 import dayjsGmt7 from '@/utils/dayjs-gmt7'
 interface GetFilter extends RoleFilter {
@@ -65,6 +65,7 @@ export class Halaqah extends Base {
 
       const _data =
         // The `selected_shift` is just a "placeholder" so that we can query the right halaqah related to ustadz_id.
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         response.data?.map(({ selected_shifts: _selectedShifts, ...item }) => ({
           ...item,
           student_count: item.student_count.length
