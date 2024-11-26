@@ -42,7 +42,7 @@ export function SantriCard({
         />
         <div className='min-w-0'>
           <h3
-            className='font-normal text-sm text-mtmh-grey-base line-clamp-2'
+            className='font-normal text-sm text-mtmh-grey-base line-clamp-2 break-words'
             id={`mtmh-santri-card${labelId}`}
           >
             {name}
