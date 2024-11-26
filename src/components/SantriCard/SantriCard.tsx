@@ -1,13 +1,15 @@
-import { ActivityTypeKey } from '@/models/activities'
 import Link from 'next/link'
 import Image from 'next/image'
-import { ActivityBadge } from '../Badge/ActivityBadge'
 import { useId } from 'react'
+
+import { ActivityTypeKey } from '@/models/activities'
+import { ActivityBadge } from '@/components/Badge/ActivityBadge'
 
 interface SantriCardProps {
   activities: Array<ActivityTypeKey>
   avatarUrl: string
   halaqahName: string
+  href: string
   name: string
 }
 
@@ -17,6 +19,7 @@ export function SantriCard({
   activities,
   avatarUrl,
   halaqahName,
+  href,
   name
 }: SantriCardProps) {
   const labelId = useId()
@@ -24,7 +27,7 @@ export function SantriCard({
 
   return (
     <Link
-      href='#'
+      href={href}
       className='w-full'
       aria-labelledby={`mtmh-santri-card${labelId}`}
       aria-describedby={`mtmh-santri-card${descriptionId}`}
