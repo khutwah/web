@@ -1,3 +1,5 @@
+import { Layout } from '@/components/Layouts/Ustadz'
+
 export default function Home() {
-  return <div>Homepage for ustadz</div>
+  return <Layout>Homepage for ustadz</Layout>
 }
