@@ -50,7 +50,7 @@ export function ProgressGrid({
   }
 
   return (
-    <div className='w-[307px] flex flex-col border border-mtmh-snow-lighter rounded-lg'>
+    <div className='w-full flex flex-col border border-mtmh-snow-lighter rounded-lg'>
       <div className='w-full flex flex-col gap-y-3 p-3'>
         <table className='[&>*>*>td]:p-1 [&>*>*>td]:text-center w-full'>
           <thead>
