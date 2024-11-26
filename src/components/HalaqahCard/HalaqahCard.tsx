@@ -18,7 +18,7 @@ export function HalaqahCard({
   return (
     <Card
       className={cn(
-        'w-[360px] bg-mtmh-neutral-10 text-mtmh-grey-base rounded-none',
+        'w-full bg-mtmh-neutral-10 text-mtmh-grey-base rounded-none',
         {
           'border-l-[3px] border-l-mtmh-tamarind-base': hasGutter
         }
