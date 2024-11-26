@@ -22,7 +22,7 @@ export function GreetingsCard({
   currentDate
 }: Props) {
   return (
-    <Card className='w-[327px] bg-mtmh-neutral-white text-mtmh-grey-base shadow'>
+    <Card className='w-full bg-mtmh-neutral-white text-mtmh-grey-base shadow'>
       <CardHeader className='rounded-t-xl p-5 pb-3'>
         <CardTitle className='flex justify-between'>
           <div className='flex-col'>
@@ -93,17 +93,17 @@ function SalahTimebox({
   }))
 
   return (
-    <ol className='flex gap-x-1'>
+    <ol className='flex justify-between gap-x-1'>
       {arrayOfPrayerTimings.map((timing) => {
         const isActive =
           dayjs(currentDate).isSameOrAfter(timing.start) &&
           dayjs(currentDate).isBefore(timing.end)
 
         return (
-          <li key={timing.name}>
+          <li key={timing.name} className='flex flex-1'>
             <div
               className={cn(
-                'flex flex-col bg-mtmh-neutral-10 px-1 py-2 rounded items-center w-[55px]',
+                'flex flex-col bg-mtmh-neutral-10 px-1 py-2 rounded items-center w-full',
                 {
                   'bg-mtmh-tamarind-lighter': isActive
                 }

@@ -40,7 +40,7 @@ export function ActivityCard({
 
   return (
     <Link href={`/activities/${id}`}>
-      <Card className='w-[360px] bg-mtmh-neutral-10 text-mtmh-grey-base'>
+      <Card className='w-full bg-mtmh-neutral-10 text-mtmh-grey-base'>
         <CardHeader className='rounded-t-xl p-5 pb-3'>
           <CardTitle className='flex justify-between items-start'>
             <div className='flex flex-col gap-y-1'>
