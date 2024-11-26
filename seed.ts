@@ -8,6 +8,7 @@ import { createSeedClient } from '@snaplet/seed'
 import { copycat } from '@snaplet/copycat'
 import { createServerClient } from '@supabase/ssr'
 import { DEFAULT_EMAIL_DOMAIN } from '@/models/auth'
+import dayjs from 'dayjs'
 
 const main = async () => {
   const seed = await createSeedClient()
@@ -127,8 +128,23 @@ const main = async () => {
         return {
           halaqah_id: ctx.index + 1,
           ustadz_id: ctx.index + 1,
+          location: 'Saung Umar bin Khattab',
           start_date: new Date().toISOString(),
           end_date: null
+        }
+      }),
+    { connect: true }
+  )
+  // Seed for the "replacement" case.
+  await seed.shifts(
+    (x) =>
+      x(1, () => {
+        return {
+          halaqah_id: 2,
+          ustadz_id: 1,
+          location: 'Saung Umar bin Khattab',
+          start_date: new Date().toISOString(),
+          end_date: dayjs().endOf('day').toISOString()
         }
       }),
     { connect: true }

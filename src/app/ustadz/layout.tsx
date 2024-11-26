@@ -4,5 +4,5 @@ import { PropsWithChildren } from 'react'
 
 export default async function UstadzLayout({ children }: PropsWithChildren) {
   await isHaveAccess(ROLE.USTADZ)
-  return <>{children}</>
+  return <main>{children}</main>
 }

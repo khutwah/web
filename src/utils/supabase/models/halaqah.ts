@@ -1,4 +1,4 @@
-import { Base } from './base'
+import { Base, ListReturnType } from './base'
 import { RoleFilter } from '@/models/supabase/models/filter'
 import dayjsGmt7 from '@/utils/dayjs-gmt7'
 interface GetFilter extends RoleFilter {
@@ -34,6 +34,7 @@ export class Halaqah extends Base {
 
       const result = {
         ...response,
+        kind: 'student' as const,
         data: data.map((item) => ({
           id: item.id,
           name: item.name
@@ -51,24 +52,27 @@ export class Halaqah extends Base {
             id,
             name,
             class,
-            shifts(ustadz_id, start_date, end_date),
+            selected_shifts:shifts(ustadz_id),
+            shifts(user: users!inner(name), start_date, end_date, location),
             student_count:students(halaqah_id)
           `
         )
-        .eq('shifts.ustadz_id', ustadz_id)
-        .lte('shifts.start_date', start_date)
-        .or(`end_date.gte.${end_date},end_date.is.null`, {
+        .eq('selected_shifts.ustadz_id', ustadz_id)
+        .gte('shifts.start_date', start_date)
+        .or(`end_date.lte.${end_date},end_date.is.null`, {
           referencedTable: 'shifts'
         })
 
       const _data =
-        response.data?.map((item) => ({
+        // The `selected_shift` is just a "placeholder" so that we can query the right halaqah related to ustadz_id.
+        response.data?.map(({ selected_shifts: _selectedShifts, ...item }) => ({
           ...item,
           student_count: item.student_count.length
         })) ?? []
 
       return {
         ...response,
+        kind: 'ustadz' as const,
         data: _data
       }
     }

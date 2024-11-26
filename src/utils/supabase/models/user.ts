@@ -10,7 +10,7 @@ interface UserPayload {
 
 interface GetFilter {
   email?: string
-  sb_user_id?: string
+  sb_user_id?: number
 }
 
 export class User extends Base {

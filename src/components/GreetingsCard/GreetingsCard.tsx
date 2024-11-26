@@ -13,16 +13,23 @@ interface Props {
   name: string
   salahPrayerTimes: SalahPrayerTimeRecord
   currentDate?: Date
+  className?: string
 }
 
 export function GreetingsCard({
   avatarUrl,
   name,
+  className,
   salahPrayerTimes,
   currentDate
 }: Props) {
   return (
-    <Card className='w-full bg-mtmh-neutral-white text-mtmh-grey-base shadow'>
+    <Card
+      className={cn(
+        'w-full bg-mtmh-neutral-white text-mtmh-grey-base shadow-md',
+        className
+      )}
+    >
       <CardHeader className='rounded-t-xl p-5 pb-3'>
         <CardTitle className='flex justify-between'>
           <div className='flex-col'>
