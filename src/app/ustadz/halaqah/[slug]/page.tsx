@@ -18,10 +18,15 @@ export default async function DetailHalaqah({
   if (!halaqahInfo?.data) {
     pageContent = <div>Unexpected error: {halaqahInfo?.error.message}</div>
   } else {
+    console.info(halaqahInfo)
+
     pageContent = (
       <>
         <Navbar
           text={halaqahInfo.data.name ?? ''}
+          // FIXME(imballinst): this doesn't go back to the previous path.
+          // Kinda wanted to use something like router.back() but it requires to have 'use client',
+          // and since this is server client, it's not possible. So, let's just go to halaqah list for now.
           onClickBackButton={navigateToHalaqahList}
         />
 
