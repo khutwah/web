@@ -1,8 +1,11 @@
+import Link from 'next/link'
 import { Card, CardContent } from '../Card/Card'
 import { StickyNote } from '../icons'
 import { cn } from '@/utils/classnames'
+import { MENU_PATH_RECORD } from '@/utils/menus/ustadz'
 
 interface Props {
+  id: number
   name: string
   venue: string
   substituteeName?: string
@@ -10,50 +13,54 @@ interface Props {
 }
 
 export function HalaqahCard({
+  id,
   name,
   venue,
   substituteeName,
   hasGutter
 }: Props) {
   return (
-    <Card
-      className={cn(
-        'w-full bg-mtmh-neutral-10 text-mtmh-grey-base rounded-none',
-        {
-          'border-l-[3px] border-l-mtmh-tamarind-base': hasGutter
-        }
-      )}
-    >
-      <CardContent className='flex flex-col p-4 gap-y-3'>
-        <div className='flex gap-x-3'>
-          <div>
-            <HalaqahIcon className='fill-mtmh-grey-lighter' />
-          </div>
-
-          <div className='flex flex-col gap-y-1'>
-            <div className='flex flex-col text-mtmh-grey-base text-mtmh-m-regular'>
-              {name}
+    // At the moment, the halaqah information is only available for Ustadz role, so we just hardcode the ustadz role here.
+    <Link href={`${MENU_PATH_RECORD.halaqah}/${id}`}>
+      <Card
+        className={cn(
+          'w-full bg-mtmh-neutral-10 text-mtmh-grey-base rounded-none',
+          {
+            'border-l-[3px] border-l-mtmh-tamarind-base': hasGutter
+          }
+        )}
+      >
+        <CardContent className='flex flex-col p-4 gap-y-3'>
+          <div className='flex gap-x-3'>
+            <div>
+              <HalaqahIcon className='fill-mtmh-grey-lighter' />
             </div>
 
-            <div className='text-mtmh-sm-regular text-mtmh-grey-lighter'>
-              {venue}
-            </div>
-          </div>
-        </div>
+            <div className='flex flex-col gap-y-1'>
+              <div className='flex flex-col text-mtmh-grey-base text-mtmh-m-regular'>
+                {name}
+              </div>
 
-        {substituteeName && (
-          <div className='flex justify-end'>
-            <div className='flex gap-x-1 text-mtmh-grey-base py-0.5 px-2 bg-mtmh-neutral-white rounded-md'>
-              <StickyNote className='fill-mtmh-grey-base' />
-
-              <div className='text-mtmh-sm-regular'>
-                Mewakilkan {substituteeName}
+              <div className='text-mtmh-sm-regular text-mtmh-grey-lighter'>
+                {venue}
               </div>
             </div>
           </div>
-        )}
-      </CardContent>
-    </Card>
+
+          {substituteeName && (
+            <div className='flex justify-end'>
+              <div className='flex gap-x-1 text-mtmh-grey-base py-0.5 px-2 bg-mtmh-neutral-white rounded-md'>
+                <StickyNote className='fill-mtmh-grey-base' />
+
+                <div className='text-mtmh-sm-regular'>
+                  Mewakilkan {substituteeName}
+                </div>
+              </div>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+    </Link>
   )
 }
 

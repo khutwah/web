@@ -52,6 +52,7 @@ export default async function Home() {
                 return (
                   <li key={item.id}>
                     <HalaqahCard
+                      id={item.id}
                       name={item.name!}
                       venue={effectiveShift?.location ?? ''}
                       substituteeName={substituteeName}
