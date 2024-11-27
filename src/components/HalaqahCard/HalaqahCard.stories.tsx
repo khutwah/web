@@ -2,9 +2,9 @@ import { HalaqahCard } from './HalaqahCard'
 
 export function HalaqahCardStory() {
   const halaqahList = [
-    { name: 'Halaqah 1.1', venue: 'Saung Ali bin Abi Thalib' },
-    { name: 'Halaqah 1.2', venue: 'Saung Abu Bakar Ash-Shidiq' },
-    { name: 'Halaqah 1.3', venue: 'Saung Umar bin Khattab' }
+    { id: 1, name: 'Halaqah 1.1', venue: 'Saung Ali bin Abi Thalib' },
+    { id: 2, name: 'Halaqah 1.2', venue: 'Saung Abu Bakar Ash-Shidiq' },
+    { id: 3, name: 'Halaqah 1.3', venue: 'Saung Umar bin Khattab' }
   ]
 
   return (
