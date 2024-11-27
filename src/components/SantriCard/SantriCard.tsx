@@ -38,21 +38,21 @@ export function SantriCard({
           alt=''
           width={40}
           height={40}
-          className='rounded-full'
+          className='rounded-full flex-shrink-0'
         />
         <div className='min-w-0'>
-          <h3
+          <div
             className='font-normal text-sm text-mtmh-grey-base line-clamp-2 break-words'
             id={`mtmh-santri-card${labelId}`}
           >
             {name}
-          </h3>
-          <p
+          </div>
+          <div
             className='text-mtmh-neutral-60 text-xs'
             id={`mtmh-santri-card${descriptionId}`}
           >
             {halaqahName}
-          </p>
+          </div>
         </div>
       </div>
       <div className='flex flex-wrap py-2 pr-2 pl-3 gap-1 bg-mtmh-snow-lighter rounded-b-lg'>
