@@ -47,7 +47,7 @@ export const MENUS: Menu[] = [
     icon: CalendarIcon,
     text: 'Kalender',
     href: MENU_PATH_RECORD.halaqah,
-    pattern: /^\/ustadz\/halaqah$/,
+    pattern: /^\/ustadz\/halaqah(\/.*)$/,
     active: false
   },
   {
