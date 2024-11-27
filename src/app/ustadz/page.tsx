@@ -21,7 +21,7 @@ export default async function Home() {
           avatarUrl={StubAvatarImage}
           name={user.data?.name ?? ''}
           salahPrayerTimes={{
-            // TODO: integrate with external API later.
+            // TODO(imballinst): integrate with external API later.
             imsak: '03:56',
             subuh: '04:06',
             terbit: '05:20',
