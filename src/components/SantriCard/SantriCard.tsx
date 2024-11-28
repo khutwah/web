@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import Image from 'next/image'
+import Image, { ImageProps } from 'next/image'
 import { useId } from 'react'
 
 import { ActivityTypeKey } from '@/models/activities'
@@ -7,8 +7,8 @@ import { ActivityBadge } from '@/components/Badge/ActivityBadge'
 
 interface SantriCardProps {
   activities: Array<ActivityTypeKey>
-  avatarUrl: string
-  halaqahName: string
+  avatarUrl: ImageProps['src']
+  halaqahName?: string
   href: string
   name: string
 }
@@ -47,12 +47,14 @@ export function SantriCard({
           >
             {name}
           </div>
-          <div
-            className='text-mtmh-neutral-60 text-xs'
-            id={`mtmh-santri-card${descriptionId}`}
-          >
-            {halaqahName}
-          </div>
+          {halaqahName && (
+            <div
+              className='text-mtmh-neutral-60 text-xs'
+              id={`mtmh-santri-card${descriptionId}`}
+            >
+              {halaqahName}
+            </div>
+          )}
         </div>
       </div>
       <div className='flex flex-wrap py-2 pr-2 pl-3 gap-1 bg-mtmh-snow-lighter rounded-b-lg'>

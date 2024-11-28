@@ -1,6 +1,6 @@
 import { clsx } from 'clsx'
 import { Card, CardHeader, CardTitle, CardContent } from '../Card/Card'
-import Image, { StaticImageData } from 'next/image'
+import Image, { ImageProps } from 'next/image'
 import dayjs from 'dayjs'
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
 import { cn } from '@/utils/classnames'
@@ -9,7 +9,7 @@ import { SalahPrayerTimeRecord } from '@/models/salah-prayer-times'
 dayjs.extend(isSameOrAfter)
 
 interface Props {
-  avatarUrl: string | StaticImageData
+  avatarUrl: ImageProps['src']
   name: string
   salahPrayerTimes: SalahPrayerTimeRecord
   currentDate?: Date

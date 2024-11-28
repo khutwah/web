@@ -100,8 +100,8 @@ export class Halaqah extends Base {
         `
       )
       .eq('id', id)
-      .lte('shifts.start_date', start_date)
-      .or(`end_date.gte.${end_date},end_date.is.null`, {
+      .gte('shifts.start_date', start_date)
+      .or(`end_date.lte.${end_date},end_date.is.null`, {
         referencedTable: 'shifts'
       })
 

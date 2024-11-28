@@ -3,6 +3,16 @@ import { Layout } from '@/components/Layouts/Ustadz'
 import { Navbar } from '@/components/Navbar/Navbar'
 import { Halaqah } from '@/utils/supabase/models/halaqah'
 import { navigateToHalaqahList } from './actions'
+import { HalaqahDetailContent } from '@/components/Halaqah/DetailHalaqah'
+import { Students } from '@/utils/supabase/models/students'
+import { Activities } from '@/utils/supabase/models/activities'
+import dayjs from 'dayjs'
+
+// Dev's note: doing this instead of `?? []` because the latter creates a new reference every render.
+// Not sure if it's valid in the context of server components though?
+//
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const DEFAULT_EMPTY_ARRAY: any[] = []
 
 export default async function DetailHalaqah({
   params: paramsPromise
@@ -13,12 +23,22 @@ export default async function DetailHalaqah({
 
   const halaqah = new Halaqah()
   const halaqahInfo = await halaqah.get(Number(params.slug))
-  let pageContent
+  let pageContent: JSX.Element
 
   if (!halaqahInfo?.data) {
     pageContent = <div>Unexpected error: {halaqahInfo?.error.message}</div>
   } else {
-    console.info(halaqahInfo)
+    const studentsInstance = new Students()
+    const students = await studentsInstance.list({
+      halaqah_ids: [halaqahInfo.data.id]
+    })
+
+    const activitiesInstance = new Activities()
+    const activities = await activitiesInstance.list({
+      halaqah_ids: [halaqahInfo.data.id],
+      start_date: dayjs().startOf('day').toISOString(),
+      end_date: dayjs().endOf('day').toISOString()
+    })
 
     pageContent = (
       <>
@@ -33,15 +53,22 @@ export default async function DetailHalaqah({
         <div className='bg-mtmh-primary-primary w-full p-4'>
           <Card className='bg-mtmh-neutral-white text-mtmh-grey-base shadow-md'>
             <CardContent className='flex flex-col p-4 gap-y-3'>
-              <dl>
-                <dt>Wali halaqah</dt>
-                <dd>{halaqahInfo.data.ustadz?.name}</dd>
+              <dl className='grid grid-cols-3 text-mtmh-m-regular gap-y-2'>
+                <dt className='font-semibold col-span-1'>Wali halaqah</dt>
+                <dd className='col-span-2'>{halaqahInfo.data.ustadz?.name}</dd>
 
-                <dt>Lokasi</dt>
-                <dd>{halaqahInfo.data.location}</dd>
+                <dt className='font-semibold col-span-1'>Lokasi</dt>
+                <dd className='col-span-2'>{halaqahInfo.data.location}</dd>
               </dl>
             </CardContent>
           </Card>
+        </div>
+
+        <div className='p-6'>
+          <HalaqahDetailContent
+            students={students.data ?? DEFAULT_EMPTY_ARRAY}
+            activities={activities.data ?? DEFAULT_EMPTY_ARRAY}
+          />
         </div>
       </>
     )

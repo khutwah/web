@@ -47,7 +47,7 @@ const selectQuery = `
     end_verse,
     student_attendance,
     shifts(ustadz_id, users(name), halaqah(name)),
-    students(parent_id, name)`
+    students(parent_id, id, name)`
 
 export class Activities extends Base {
   async list(args: GetFilter) {
@@ -101,6 +101,7 @@ export class Activities extends Base {
     const data = result.data
       ? result.data.map((item) => ({
           id: item.id,
+          student_id: item.students?.id,
           student_name: item.students?.name,
           type: ActivityType[item.type ?? 1],
           notes: item.notes,
