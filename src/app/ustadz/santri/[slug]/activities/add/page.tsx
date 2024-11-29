@@ -8,6 +8,12 @@ import { Halaqah } from '@/utils/supabase/models/halaqah'
 import { ActivityTypeKey } from '@/models/activities'
 import { Students } from '@/utils/supabase/models/students'
 import { Activities } from '@/utils/supabase/models/activities'
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger
+} from '@/components/Tabs/Tabs'
 
 interface AddActivityProps {
   params: Promise<{
@@ -61,6 +67,16 @@ export default async function AddActivity(props: AddActivityProps) {
             : ''
         }
       />
+      <div className='p-6 w-full'>
+        <Tabs defaultValue='presence' className='w-full'>
+          <TabsList className='grid w-full grid-cols-2'>
+            <TabsTrigger value='presence'>Hadir</TabsTrigger>
+            <TabsTrigger value='absence'>Tidak Hadir</TabsTrigger>
+          </TabsList>
+          <TabsContent value='presence'>Hadir</TabsContent>
+          <TabsContent value='absence'>Tidak Hadir</TabsContent>
+        </Tabs>
+      </div>
     </div>
   )
 }
