@@ -14,6 +14,7 @@ import {
   TabsList,
   TabsTrigger
 } from '@/components/Tabs/Tabs'
+import { FormPresence } from './components/Forms/Presence'
 
 interface AddActivityProps {
   params: Promise<{
@@ -73,7 +74,9 @@ export default async function AddActivity(props: AddActivityProps) {
             <TabsTrigger value='presence'>Hadir</TabsTrigger>
             <TabsTrigger value='absence'>Tidak Hadir</TabsTrigger>
           </TabsList>
-          <TabsContent value='presence'>Hadir</TabsContent>
+          <TabsContent value='presence'>
+            <FormPresence />
+          </TabsContent>
           <TabsContent value='absence'>Tidak Hadir</TabsContent>
         </Tabs>
       </div>
