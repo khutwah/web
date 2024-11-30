@@ -77,6 +77,7 @@ export function useActivityControlledValue(
         }
       })()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [startSurah, startVerse, endSurah, endVerse])
 
   return {
