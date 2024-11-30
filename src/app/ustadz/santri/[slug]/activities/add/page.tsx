@@ -2,10 +2,10 @@ import { Navbar } from '@/components/Navbar/Navbar'
 import { XMarkIcon } from '@heroicons/react/24/solid'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
-import { Halaqah as HalaqahComponent } from '../../components/Halaqah'
+import { Halaqah as HalaqahComponent } from '../components/Halaqah'
 
 import { Halaqah } from '@/utils/supabase/models/halaqah'
-import { ActivityTypeKey } from '@/models/activities'
+import { ActivityType, ActivityTypeKey } from '@/models/activities'
 import { Students } from '@/utils/supabase/models/students'
 import { Activities } from '@/utils/supabase/models/activities'
 import {
@@ -14,7 +14,7 @@ import {
   TabsList,
   TabsTrigger
 } from '@/components/Tabs/Tabs'
-import { FormPresence } from '../../components/Forms/Presence'
+import { FormPresent } from '../components/Forms/Present'
 
 interface AddActivityProps {
   params: Promise<{
@@ -47,6 +47,9 @@ export default async function AddActivity(props: AddActivityProps) {
 
   const lastActivity = activities?.data?.[(activities?.data?.length ?? 0) - 1]
 
+  const activityType = Number(searchParams.activity_type)
+  const activityKey = ActivityType[activityType]
+
   return (
     <div>
       <Navbar
@@ -60,7 +63,7 @@ export default async function AddActivity(props: AddActivityProps) {
       <HalaqahComponent
         date={new Date().toISOString()}
         studentName={student.data?.name ?? ''}
-        activityType={searchParams.activity_type}
+        activityType={activityKey as ActivityTypeKey}
         ustadName={halaqah?.data?.ustadz?.name ?? ''}
         lastSurah={
           lastActivity
@@ -69,15 +72,19 @@ export default async function AddActivity(props: AddActivityProps) {
         }
       />
       <div className='p-6 w-full'>
-        <Tabs defaultValue='presence' className='w-full'>
+        <Tabs defaultValue='present' className='w-full'>
           <TabsList className='grid w-full grid-cols-2'>
-            <TabsTrigger value='presence'>Hadir</TabsTrigger>
-            <TabsTrigger value='absence'>Tidak Hadir</TabsTrigger>
+            <TabsTrigger value='present'>Hadir</TabsTrigger>
+            <TabsTrigger value='absent'>Tidak Hadir</TabsTrigger>
           </TabsList>
-          <TabsContent value='presence'>
-            <FormPresence />
+          <TabsContent value='present'>
+            <FormPresent
+              shiftId={halaqah?.data?.ustadz?.shiftId ?? 0}
+              studentId={params.slug}
+              activityType={activityType}
+            />
           </TabsContent>
-          <TabsContent value='absence'>Tidak Hadir</TabsContent>
+          <TabsContent value='absent'>Tidak Hadir</TabsContent>
         </Tabs>
       </div>
     </div>

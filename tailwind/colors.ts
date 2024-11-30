@@ -92,8 +92,12 @@ export const mtmhColors = {
     lighter: '#E7E7E7',
     lightest: '#F5F5F5'
   },
+  lightgreen: {
+    lightest: '#F4F8E6'
+  },
   green: {
-    base: '#329922'
+    base: '#329922',
+    darkest: '#16430F'
   },
   grey: {
     base: '#171717',

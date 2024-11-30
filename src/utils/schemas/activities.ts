@@ -22,18 +22,18 @@ export const activityFilterSchema = object({
   halaqah_ids: mixed().transform(
     parseComaSeparatedNumbers('Format halaqah_ids harus benar. contoh: 1,2,3')
   ),
-  student_attendance: string().oneOf(['presence', 'absence'])
+  student_attendance: string().oneOf(['present', 'absent'])
 })
 
 export const activityCreateSchema = object({
   student_attendance: string()
-    .oneOf(['presence', 'absence'])
+    .oneOf(['present', 'absent'])
     .required('Kehadiran siswa wajib diisi'),
   notes: string().required('Catatan wajib diisi'),
   tags: array()
-    .of(string())
+    .of(string().required())
     .when('student_attendance', {
-      is: 'absence',
+      is: 'absent',
       then: (schema) => schema.notRequired(),
       otherwise: (schema) => schema.required()
     }),
@@ -54,42 +54,42 @@ export const activityCreateSchema = object({
   achieve_target: boolean()
     .required('Target pencapaian wajib diisi')
     .when('student_attendance', {
-      is: 'absence',
+      is: 'absent',
       then: (schema) => schema.notRequired(),
       otherwise: (schema) => schema.required()
     }),
   start_surah: number()
     .required('Awal baca wajib diisi')
     .when('student_attendance', {
-      is: 'absence',
+      is: 'absent',
       then: (schema) => schema.notRequired(),
       otherwise: (schema) => schema.required()
     }),
   end_surah: number()
     .required('Akhir baca wajib diisi')
     .when('student_attendance', {
-      is: 'absence',
+      is: 'absent',
       then: (schema) => schema.notRequired(),
       otherwise: (schema) => schema.required()
     }),
   start_verse: number()
     .required('Awal ayat wajib diisi')
     .when('student_attendance', {
-      is: 'absence',
+      is: 'absent',
       then: (schema) => schema.notRequired(),
       otherwise: (schema) => schema.required()
     }),
   end_verse: number()
     .required('Akhir ayat wajib diisi')
     .when('student_attendance', {
-      is: 'absence',
+      is: 'absent',
       then: (schema) => schema.notRequired(),
       otherwise: (schema) => schema.required()
     }),
   page_count: number()
     .required('Jumlah halaman wajib diisi')
     .when('student_attendance', {
-      is: 'absence',
+      is: 'absent',
       then: (schema) => schema.notRequired(),
       otherwise: (schema) => schema.required()
     }),

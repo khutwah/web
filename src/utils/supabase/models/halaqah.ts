@@ -130,6 +130,7 @@ export class Halaqah extends Base {
     const ustadz = data?.shifts?.[0]?.id
       ? {
           id: data?.shifts?.[0].users?.id,
+          shiftId: data?.shifts?.[0]?.id,
           name: data?.shifts?.[0].users?.name
         }
       : null
