@@ -22,6 +22,7 @@ export interface ComboboxProps {
   value: string
   placeholder?: string
   searchPlaceholder?: string
+  withSearch?: boolean
 }
 
 function ComboboxSearch({
@@ -45,18 +46,19 @@ export function Combobox({
   onChange,
   items,
   placeholder = '',
-  searchPlaceholder = 'Cari'
+  searchPlaceholder = 'Cari',
+  withSearch = true
 }: ComboboxProps) {
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState('')
 
   const _items = useMemo(() => {
-    if (!search) return items
+    if (!search || !withSearch) return items
 
     return items.filter((item) =>
       item.label.toLowerCase().includes(search.toLowerCase())
     )
-  }, [search, items])
+  }, [search, items, withSearch])
 
   return (
     <Drawer
@@ -84,12 +86,15 @@ export function Combobox({
           <DrawerTitle>{placeholder}</DrawerTitle>
         </DrawerHeader>
 
-        <div className='pt-2 pb-3 px-4'>
-          <ComboboxSearch
-            onChange={setSearch}
-            searchPlaceholder={searchPlaceholder}
-          />
-        </div>
+        {withSearch ? (
+          <div className='pt-2 pb-3 px-4'>
+            <ComboboxSearch
+              onChange={setSearch}
+              searchPlaceholder={searchPlaceholder}
+            />
+          </div>
+        ) : null}
+
         <div className='overflow-y-scroll max-h-[500px] flex flex-col pt-2 px-4 gap-4 pb-12'>
           {_items.map((item) => (
             <Button

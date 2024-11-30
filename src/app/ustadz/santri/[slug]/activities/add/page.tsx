@@ -2,7 +2,7 @@ import { Navbar } from '@/components/Navbar/Navbar'
 import { XMarkIcon } from '@heroicons/react/24/solid'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
-import { Halaqah as HalaqahComponent } from './components/Halaqah'
+import { Halaqah as HalaqahComponent } from '../../components/Halaqah'
 
 import { Halaqah } from '@/utils/supabase/models/halaqah'
 import { ActivityTypeKey } from '@/models/activities'
@@ -14,7 +14,7 @@ import {
   TabsList,
   TabsTrigger
 } from '@/components/Tabs/Tabs'
-import { FormPresence } from './components/Forms/Presence'
+import { FormPresence } from '../../components/Forms/Presence'
 
 interface AddActivityProps {
   params: Promise<{
