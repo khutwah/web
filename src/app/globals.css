@@ -6,8 +6,13 @@
 
 body {
   max-width: 500px !important;
+  height: 100vh;
   margin: 0 auto !important;
   font-family: Inter;
+}
+
+main {
+  height: 100%;
 }
 
 body[data-scroll-locked] {

@@ -79,6 +79,7 @@ export const mtmhColors = {
   },
   // TODO: these are added manually, because the "new design system" can't be parsed yet.
   red: {
+    base: '#7F270F',
     light: '#AA3424'
   },
   blue: {
