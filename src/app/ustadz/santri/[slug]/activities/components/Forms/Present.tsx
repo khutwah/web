@@ -150,7 +150,7 @@ export function FormPresent(props: FormPresentProps) {
         <div className='flex flex-row gap-2'>
           <Button
             className='basis-1/2'
-            variant='default'
+            variant='primary'
             onClick={(e) => {
               e.preventDefault()
               submit(ActivityStatus.completed)
