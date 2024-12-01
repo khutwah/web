@@ -77,7 +77,7 @@ export default async function DetailSantri({
 
               <Image
                 src={SampleSantriAvatar}
-                alt={`Profile picture for ${student.data.name}`}
+                alt=''
                 width={52}
                 height={52}
                 className='rounded-full'
