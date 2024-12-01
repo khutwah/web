@@ -181,15 +181,28 @@ const main = async () => {
 
   await seed.activities(
     (x) =>
-      x(2, () => ({
-        type: 1,
-        page_amount: 2,
-        start_surah: 1,
-        end_surah: 1,
-        start_verse: 1,
-        end_verse: 7,
-        tags: '["Terbata-bata", "Cukup Baik"]'
-      })),
+      // 3 for each activities.
+      x(7 * 3, (ctx) => {
+        const indexWithMaxNumber6 = ctx.index % 7
+        const pageAmount = 7 - indexWithMaxNumber6 - 1
+
+        return {
+          student_id: 1,
+          type: (ctx.index % 3) + 1,
+          created_at: dayjs()
+            .startOf('week')
+            .add(indexWithMaxNumber6, 'days')
+            .add(7, 'hour')
+            .toISOString(),
+          page_amount: pageAmount,
+          student_attendance: pageAmount === 0 ? 'absent' : 'present',
+          achieve_target: pageAmount >= 2,
+          end_surah: 1,
+          start_verse: 1,
+          end_verse: 7,
+          tags: '["Terbata-bata", "Cukup Baik"]'
+        }
+      }),
     { connect: true }
   )
 
