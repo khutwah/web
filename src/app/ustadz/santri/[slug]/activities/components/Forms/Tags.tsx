@@ -1,6 +1,7 @@
 import {
   Drawer,
   DrawerContent,
+  DrawerDescription,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger
@@ -55,10 +56,11 @@ function TagsDrawer(props: TagsProps) {
           Tambah
         </button>
       </DrawerTrigger>
-      <DrawerHeader className='hidden'>
-        <DrawerTitle>Tambah tags</DrawerTitle>
-      </DrawerHeader>
       <DrawerContent>
+        <DrawerHeader className='hidden'>
+          <DrawerTitle>Pilih penanda</DrawerTitle>
+          <DrawerDescription>Pilih penanda aktivitas disini</DrawerDescription>
+        </DrawerHeader>
         <TagPicker {...props} />
       </DrawerContent>
     </Drawer>
