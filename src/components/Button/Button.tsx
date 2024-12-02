@@ -10,7 +10,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          'bg-mtmh-red-base text-white hover:bg-mtmh-primary-40 active:bg-mtmh-primary-60 disabled:bg-mtmh-snow-base disabled:text-mtmh-grey-lightest',
+          'bg-mtmh-red-base text-white hover:bg-mtmh-red-dark active:bg-mtmh-red-darker disabled:bg-mtmh-snow-base disabled:text-mtmh-grey-lightest',
         outline:
           'bg-white text-mtmh-grey-base border border-mtmh-snow-lighter hover:bg-mtmh-snow-lighter active:bg-mtmh-snow-base disabled:text-mtmh-grey-lightest'
       },
