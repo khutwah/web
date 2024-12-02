@@ -17,6 +17,7 @@ import { Alert, AlertDescription } from '@/components/Alert/Alert'
 import { Trophy } from 'lucide-react'
 
 import { useSubmit } from '../../hooks/useSubmit'
+import { Input } from '@/components/Form/Input'
 
 export function FormPresent(props: FormPresentProps) {
   const { activityType, shiftId, studentId, santriPageUri } = props
@@ -49,7 +50,7 @@ export function FormPresent(props: FormPresentProps) {
   })
 
   const { startSurah, endSurah, startVerse, endVerse, tags, achieveTarget } =
-    useActivityControlledValue(control)
+    useActivityControlledValue({ control, setValue })
   const startVerseItems = getVerseItems(startSurah)
   const endVerseItems = getVerseItems(endSurah)
 
@@ -128,10 +129,16 @@ export function FormPresent(props: FormPresentProps) {
         />
       </div>
 
-      <div className='flex flex-col gap-2'>
-        <Label>Penanda</Label>
-        <Tags tags={tags ?? []} onClick={onToggleTag} />
-        <ErrorField error={errors.tags?.message} />
+      <div className='flex flex-row gap-4'>
+        <div className='flex flex-col gap-2 basis-4/12'>
+          <Label>Halaman</Label>
+          <Input {...register('page_amount')} type='number' min={0} />
+        </div>
+        <div className='flex flex-col gap-2 basis-8/12'>
+          <Label>Penanda</Label>
+          <Tags tags={tags ?? []} onClick={onToggleTag} />
+          <ErrorField error={errors.tags?.message} />
+        </div>
       </div>
 
       <div className='flex flex-col gap-2'>
@@ -141,7 +148,6 @@ export function FormPresent(props: FormPresentProps) {
       </div>
 
       <input type='hidden' {...register('achieve_target')} />
-      <input type='hidden' {...register('page_amount')} />
 
       <div className='m-auto bottom-0 left-0 right-0 max-w-[500px] fixed w-full shadow-flat-top bg-white p-6 gap-4 flex flex-col'>
         {achieveTarget ? (

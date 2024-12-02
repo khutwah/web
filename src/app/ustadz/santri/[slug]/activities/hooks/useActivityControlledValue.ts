@@ -1,11 +1,15 @@
 import { ActivityFormValues, GLOBAL_TARGET_PAGE } from '@/models/activities'
 import { useEffect } from 'react'
-import { Control, useController, useWatch } from 'react-hook-form'
+import { Control, UseFormSetValue, useWatch } from 'react-hook-form'
 import { getVersesByKey } from '../utils/getVersesByKey'
 
-export function useActivityControlledValue(
+export function useActivityControlledValue({
+  control,
+  setValue
+}: {
   control: Control<ActivityFormValues>
-) {
+  setValue: UseFormSetValue<ActivityFormValues>
+}) {
   const [startSurah, endSurah, startVerse, endVerse, tags, achieveTarget] =
     useWatch({
       control,
@@ -19,35 +23,15 @@ export function useActivityControlledValue(
       ]
     })
 
-  const endSurahController = useController({
-    name: 'end_surah',
-    control
-  })
-
-  const endVerseController = useController({
-    name: 'end_verse',
-    control
-  })
-
-  const pageCountController = useController({
-    name: 'page_amount',
-    control
-  })
-
-  const achieveTargetController = useController({
-    name: 'achieve_target',
-    control
-  })
-
   useEffect(() => {
     if (startSurah) {
-      endSurahController.field.onChange(startSurah)
+      setValue('end_surah', startSurah)
     }
   }, [startSurah])
 
   useEffect(() => {
     if (startVerse) {
-      endVerseController.field.onChange(startVerse)
+      setValue('end_verse', startVerse)
     }
   }, [startVerse])
 
@@ -65,12 +49,12 @@ export function useActivityControlledValue(
           const pageCount = endPage - startPage + 1
 
           if (pageCount >= GLOBAL_TARGET_PAGE) {
-            achieveTargetController.field.onChange(true)
+            setValue('achieve_target', true)
           } else {
-            achieveTargetController.field.onChange(false)
+            setValue('achieve_target', false)
           }
 
-          pageCountController.field.onChange(pageCount)
+          setValue('page_amount', pageCount)
         } else {
           // TODO: Do something when important calculation cannot
           // be done due to technical issue
