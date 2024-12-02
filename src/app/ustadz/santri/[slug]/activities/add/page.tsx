@@ -49,7 +49,7 @@ export default async function AddActivity(props: AddActivityProps) {
 
   const lastActivity = activities?.data?.[(activities?.data?.length ?? 0) - 1]
 
-  const activityType = Number(searchParams.activity_type)
+  const activityType = searchParams.activity_type as ActivityTypeKey
   const activityKey = ActivityType[activityType]
 
   return (
@@ -65,7 +65,7 @@ export default async function AddActivity(props: AddActivityProps) {
       <HalaqahComponent
         date={new Date().toISOString()}
         studentName={student.data?.name ?? ''}
-        activityType={activityKey as ActivityTypeKey}
+        activityType={activityType}
         ustadName={halaqah?.data?.ustadz?.name ?? ''}
         lastSurah={
           lastActivity
@@ -83,7 +83,7 @@ export default async function AddActivity(props: AddActivityProps) {
             <FormPresent
               shiftId={halaqah?.data?.ustadz?.shiftId ?? 0}
               studentId={params.slug}
-              activityType={activityType}
+              activityType={activityKey}
               santriPageUri={santriPage}
             />
           </TabsContent>
@@ -91,7 +91,7 @@ export default async function AddActivity(props: AddActivityProps) {
             <FormAbsent
               shiftId={halaqah?.data?.ustadz?.shiftId ?? 0}
               studentId={params.slug}
-              activityType={activityType}
+              activityType={activityKey}
               santriPageUri={santriPage}
             />
           </TabsContent>
