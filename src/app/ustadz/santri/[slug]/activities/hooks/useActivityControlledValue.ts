@@ -1,7 +1,7 @@
 import { ActivityFormValues, GLOBAL_TARGET_PAGE } from '@/models/activities'
-import { useEffect } from 'react'
 import { Control, UseFormSetValue, useWatch } from 'react-hook-form'
 import { getVersesByKey } from '../utils/getVersesByKey'
+import { useSecondEffect } from '@/hooks/useSecondEffect'
 
 export function useActivityControlledValue({
   control,
@@ -23,19 +23,19 @@ export function useActivityControlledValue({
       ]
     })
 
-  useEffect(() => {
+  useSecondEffect(() => {
     if (startSurah) {
       setValue('end_surah', startSurah)
     }
   }, [startSurah])
 
-  useEffect(() => {
+  useSecondEffect(() => {
     if (startVerse) {
       setValue('end_verse', startVerse)
     }
   }, [startVerse])
 
-  useEffect(() => {
+  useSecondEffect(() => {
     if (startSurah && startVerse && endSurah && endVerse) {
       ;(async function () {
         const [start, end] = await Promise.all([

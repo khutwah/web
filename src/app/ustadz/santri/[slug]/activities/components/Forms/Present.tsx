@@ -20,7 +20,14 @@ import { useSubmit } from '../../hooks/useSubmit'
 import { Input } from '@/components/Form/Input'
 
 export function FormPresent(props: FormProps) {
-  const { activityType, shiftId, studentId, santriPageUri } = props
+  const {
+    activityType,
+    shiftId,
+    studentId,
+    santriPageUri,
+    lastSurah,
+    lastVerse
+  } = props
   const {
     setValue,
     register,
@@ -30,9 +37,9 @@ export function FormPresent(props: FormProps) {
   } = useForm<ActivityFormValues>({
     resolver: yupResolver(activityCreateSchema),
     defaultValues: {
-      start_surah: undefined,
+      start_surah: lastSurah,
       end_surah: undefined,
-      start_verse: undefined,
+      start_verse: lastVerse,
       end_verse: undefined,
       tags: undefined,
       notes: undefined,

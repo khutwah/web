@@ -3,4 +3,6 @@ export interface FormProps {
   shiftId: number
   studentId: number
   santriPageUri: string
+  lastSurah?: number
+  lastVerse?: number
 }

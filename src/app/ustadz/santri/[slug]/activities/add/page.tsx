@@ -38,6 +38,9 @@ export default async function AddActivity(props: AddActivityProps) {
     return redirect(santriPage)
   }
 
+  const activityType = searchParams.activity_type as ActivityTypeKey
+  const activityKey = ActivityType[activityType]
+
   const _halaqah = new Halaqah()
   const halaqah = await _halaqah.get(searchParams.halaqah_id)
 
@@ -45,12 +48,21 @@ export default async function AddActivity(props: AddActivityProps) {
   const student = await _student.get(params.slug)
 
   const _activities = new Activities()
-  const activities = await _activities.list({ student_id: params.slug })
+  const activities = await _activities.list({
+    student_id: Number(params.slug),
+    student_attendance: 'present',
+    type: activityKey
+  })
 
-  const lastActivity = activities?.data?.[(activities?.data?.length ?? 0) - 1]
+  const totalData = activities?.data?.length ?? 0
+  const lastActivity = activities?.data?.[totalData - 1]
 
-  const activityType = searchParams.activity_type as ActivityTypeKey
-  const activityKey = ActivityType[activityType]
+  const optionalProps = {
+    ...(lastActivity && {
+      lastSurah: lastActivity.end_surah_id!,
+      lastVerse: lastActivity.end_verse!
+    })
+  }
 
   return (
     <div>
@@ -85,6 +97,7 @@ export default async function AddActivity(props: AddActivityProps) {
               studentId={params.slug}
               activityType={activityKey}
               santriPageUri={santriPage}
+              {...optionalProps}
             />
           </TabsContent>
           <TabsContent value='absent'>

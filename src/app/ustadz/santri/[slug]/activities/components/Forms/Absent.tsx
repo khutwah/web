@@ -12,7 +12,7 @@ import { ErrorField } from './ErrorField'
 
 import { useSubmit } from '../../hooks/useSubmit'
 
-export function FormAbsent(props: FormProps) {
+export function FormAbsent(props: Omit<FormProps, 'lastSurah' | 'lastVerse'>) {
   const { activityType, shiftId, studentId, santriPageUri } = props
   const {
     setValue,

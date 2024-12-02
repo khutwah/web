@@ -51,7 +51,7 @@ function HalaqahCard(props: HalaqahCardProps) {
           </div>
 
           <div className='w-full text-ellipsis line-clamp-2'>
-            {lastSurah || '-'}
+            Q.s {lastSurah || '-'}
           </div>
         </div>
       </CardContent>
