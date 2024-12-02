@@ -1,37 +1,50 @@
+'use client'
+
 import { ActivityTypeKey } from '@/models/activities'
 import { Activities } from '@/utils/supabase/models/activities'
 import { ActivityBadge } from '../Badge/ActivityBadge'
-import { Dispatch, ReactNode, SetStateAction } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import Image from 'next/image'
 import ThumbsUpImage from './indikator-manzil.png'
 import dayjsGmt7 from '@/utils/dayjs-gmt7'
 import dayjs, { Dayjs } from 'dayjs'
+import { cn } from '@/utils/classnames'
 
 type ActivityEntry = NonNullable<
   Awaited<ReturnType<Activities['list']>>['data']
 >[number]
 
 interface Props {
-  activities: Array<Pick<ActivityEntry, 'page_amount' | 'type' | 'created_at'>>
+  activities: Array<ActivityEntry>
   date: Date
   onChangeDate: Dispatch<SetStateAction<Date>>
   // The number of juz that the student has almost reached.
   lajnahJuzMilestone?: number
+  className?: string
 }
 
+interface GridEntry {
+  pageCount: number
+  isStudentPresent: boolean
+}
+
+/**
+ * Vanilla `<ProgressGrid>`. Offers activities in the form of grid. Directly used only in Ladle stories.
+ */
 export function ProgressGrid({
   activities,
   date,
   onChangeDate,
-  lajnahJuzMilestone
+  lajnahJuzMilestone,
+  className
 }: Props) {
   const startDate = dayjs(date).day(0)
   const endDate = dayjs(date).day(6)
 
   const { grid, headers } = getInitialVariables(startDate, endDate)
 
-  const grids: Record<ActivityTypeKey, Record<string, number>> = {
+  const grids: Record<ActivityTypeKey, Record<string, GridEntry>> = {
     Sabaq: grid,
     Sabqi: { ...grid },
     Manzil: { ...grid }
@@ -39,18 +52,31 @@ export function ProgressGrid({
   const gridKeys = Object.keys(grids) as Array<ActivityTypeKey>
 
   for (const activity of activities) {
-    const { type: rawType, created_at, page_amount } = activity
+    const {
+      type: rawType,
+      created_at,
+      page_amount,
+      student_attendance
+    } = activity
     const type = rawType as ActivityTypeKey
 
     // Assumption: if page_amount is null, then the student was absent.
     if (!grids[type] || !created_at || page_amount === null) continue
 
     const gridId = getGridIdentifier(new Date(created_at))
-    grids[type][gridId] = page_amount
+    grids[type][gridId] = {
+      pageCount: page_amount,
+      isStudentPresent: student_attendance === 'present'
+    }
   }
 
   return (
-    <div className='w-full flex flex-col border border-mtmh-snow-lighter rounded-lg'>
+    <div
+      className={cn(
+        'w-full flex flex-col border border-mtmh-snow-lighter rounded-lg',
+        className
+      )}
+    >
       <div className='w-full flex flex-col gap-y-3 p-3'>
         <table className='[&>*>*>td]:p-1 [&>*>*>td]:text-center w-full'>
           <thead>
@@ -59,15 +85,9 @@ export function ProgressGrid({
                 {dayjsGmt7(date).format('MMM YY')}
               </td>
               {headers.map((header) => {
-                const headerDate = new Date(header)
-
                 return (
                   <td key={header}>
-                    <TableHeaderDate
-                      isActive={dayjs(headerDate).isSame(new Date(), 'day')}
-                    >
-                      {dayjsGmt7(headerDate).format('DD')}
-                    </TableHeaderDate>
+                    <TableHeaderDate dateString={header} />
                   </td>
                 )
               })}
@@ -79,14 +99,15 @@ export function ProgressGrid({
                 <td className='text-mtmh-sm-semibold'>{activityName}</td>
                 {headers.map((header) => {
                   const headerKey = getGridIdentifier(new Date(header))
-                  const pageAmount = grids[activityName][headerKey]
+                  const { pageCount, isStudentPresent } =
+                    grids[activityName][headerKey]
 
                   return (
                     <td key={header}>
                       <ActivityBadge
                         type={activityName}
-                        isStudentPresent={pageAmount !== -1}
-                        text={pageAmount > -1 ? `${pageAmount}` : '-'}
+                        isStudentPresent={isStudentPresent}
+                        text={isStudentPresent ? `${pageCount}` : '-'}
                       />
                     </td>
                   )
@@ -124,7 +145,7 @@ export function ProgressGrid({
       </div>
 
       {lajnahJuzMilestone && (
-        <div className='flex p-3 gap-x-2 bg-mtmh-tamarind-lightest border-t border-mtmh-snow-lighter'>
+        <div className='flex p-3 gap-x-2 bg-mtmh-tamarind-lightest border-t border-mtmh-snow-lighter rounded-b-md'>
           <div>
             <Image
               alt='Jempol arah ke atas'
@@ -148,33 +169,46 @@ export function ProgressGrid({
   )
 }
 
-function TableHeaderDate({
-  isActive,
-  children
-}: {
-  isActive: boolean
-  children: ReactNode
-}) {
+/**
+ * `<ProgressGrid>` component wrapped with `useState` for the dates. This is used only in real app, so we don't have to
+ * define the states manually.
+ */
+export function ProgressGridWithState(
+  props: Omit<Props, 'date' | 'onChangeDate'>
+) {
+  const [date, setDate] = useState(new Date())
+
+  return <ProgressGrid {...props} date={date} onChangeDate={setDate} />
+}
+
+function TableHeaderDate({ dateString }: { dateString: string }) {
+  const dayjsObject = dayjs(dateString)
+  const isActive = dayjsObject.isSame(new Date(), 'day')
+
   return (
-    <div
+    <time
+      dateTime={dayjsObject.format('YYYY-MM-DD')}
       className={
         isActive
           ? 'rounded-full w-5 h-5 mx-auto flex items-center justify-center bg-mtmh-red-light text-mtmh-neutral-white'
           : undefined
       }
     >
-      {children}
-    </div>
+      {dayjsGmt7(new Date(dateString)).format('DD')}
+    </time>
   )
 }
 
 function getInitialVariables(startDate: Dayjs, endDate: Dayjs) {
-  const grid: Record<string, number> = {}
+  const grid: Record<string, GridEntry> = {}
   const headers: string[] = []
   let iterator = startDate
 
   while (!iterator.isAfter(endDate)) {
-    grid[getGridIdentifier(iterator.toDate())] = -1
+    grid[getGridIdentifier(iterator.toDate())] = {
+      pageCount: 0,
+      isStudentPresent: false
+    }
     headers.push(iterator.toISOString())
 
     iterator = iterator.add(1, 'day')
@@ -184,5 +218,5 @@ function getInitialVariables(startDate: Dayjs, endDate: Dayjs) {
 }
 
 function getGridIdentifier(date: Date) {
-  return dayjsGmt7(date).format('dd')
+  return dayjsGmt7(date).format('DD MMM')
 }

@@ -66,9 +66,7 @@ export class Activities extends Base {
     let query = (await this.supabase).from('activities').select(selectQuery)
 
     if (student_id) {
-      query = query
-        .eq('students.parent_id', student_id)
-        .not('students', 'is', null)
+      query = query.eq('students.id', student_id).not('students', 'is', null)
     }
 
     if (ustadz_id) {

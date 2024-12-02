@@ -39,6 +39,20 @@ function generateData(
   return Array.from(new Array(7), (_, idx) => ({
     page_amount: idx === 0 ? null : pageAmount + idx,
     type,
-    created_at: dayjs(endDate).add(-idx, 'day').toISOString()
+    created_at: dayjs(endDate).add(-idx, 'day').toISOString(),
+    student_attendance: idx === 0 ? 'absent' : 'present',
+    end_surah: 'Al-Fatihah',
+    end_surah_id: 1,
+    end_verse: 1,
+    halaqah_name: undefined,
+    id: idx,
+    notes: '',
+    start_surah: 'Al-Fatihah',
+    start_surah_id: 1,
+    start_verse: 1,
+    status: '',
+    student_id: undefined,
+    student_name: undefined,
+    tags: []
   }))
 }
