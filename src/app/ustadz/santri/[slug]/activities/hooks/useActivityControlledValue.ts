@@ -62,9 +62,9 @@ export function useActivityControlledValue(
         if (start && end) {
           const startPage = start.verse.page_number
           const endPage = end.verse.page_number
-          const pageCount = endPage - startPage
+          const pageCount = endPage - startPage + 1
 
-          if (endPage - startPage >= GLOBAL_TARGET_PAGE) {
+          if (pageCount >= GLOBAL_TARGET_PAGE) {
             achieveTargetController.field.onChange(true)
           } else {
             achieveTargetController.field.onChange(false)

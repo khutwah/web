@@ -137,7 +137,7 @@ export function FormPresent(props: FormPresentProps) {
       <input type='hidden' {...register('achieve_target')} />
       <input type='hidden' {...register('page_amount')} />
 
-      <div className='bottom-0 left-0 fixed w-full shadow-flat-top bg-white p-6 gap-4 flex flex-col'>
+      <div className='m-auto bottom-0 left-0 right-0 max-w-[500px] fixed w-full shadow-flat-top bg-white p-6 gap-4 flex flex-col'>
         {achieveTarget ? (
           <Alert>
             <Trophy size={16} />
