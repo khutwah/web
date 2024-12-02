@@ -16,8 +16,10 @@ import { ErrorField } from './ErrorField'
 import { Alert, AlertDescription } from '@/components/Alert/Alert'
 import { Trophy } from 'lucide-react'
 
+import { useSubmit } from '../../hooks/useSubmit'
+
 export function FormPresent(props: FormPresentProps) {
-  const { activityType, shiftId, studentId } = props
+  const { activityType, shiftId, studentId, santriPageUri } = props
   const {
     setValue,
     register,
@@ -42,6 +44,10 @@ export function FormPresent(props: FormPresentProps) {
     }
   })
 
+  const { create, isLoading } = useSubmit({
+    successUri: santriPageUri
+  })
+
   const { startSurah, endSurah, startVerse, endVerse, tags, achieveTarget } =
     useActivityControlledValue(control)
   const startVerseItems = getVerseItems(startSurah)
@@ -53,8 +59,8 @@ export function FormPresent(props: FormPresentProps) {
 
   const submit = (status: ActivityStatus) => {
     setValue('status', status)
-    handleSubmit((data) => {
-      console.log(data)
+    handleSubmit(async (data) => {
+      await create(data)
     })()
   }
 
@@ -151,8 +157,10 @@ export function FormPresent(props: FormPresentProps) {
           <Button
             className='basis-1/2'
             variant='primary'
+            disabled={isLoading}
             onClick={(e) => {
               e.preventDefault()
+              if (isLoading) return
               submit(ActivityStatus.completed)
             }}
           >
@@ -161,8 +169,10 @@ export function FormPresent(props: FormPresentProps) {
           <Button
             className='basis-1/2'
             variant='outline'
+            disabled={isLoading}
             onClick={(e) => {
               e.preventDefault()
+              if (isLoading) return
               submit(ActivityStatus.draft)
             }}
           >

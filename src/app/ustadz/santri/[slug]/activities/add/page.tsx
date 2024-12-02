@@ -15,6 +15,7 @@ import {
   TabsTrigger
 } from '@/components/Tabs/Tabs'
 import { FormPresent } from '../components/Forms/Present'
+import { MENU_PATH_RECORD } from '@/utils/menus/ustadz'
 
 interface AddActivityProps {
   params: Promise<{
@@ -30,7 +31,7 @@ export default async function AddActivity(props: AddActivityProps) {
   const params = await props.params
   const searchParams = await props.searchParams
 
-  const santriPage = `/ustadz/santri/${params.slug}`
+  const santriPage = `${MENU_PATH_RECORD.santri}/${params.slug}`
 
   if (!searchParams.activity_type || !searchParams.halaqah_id) {
     return redirect(santriPage)
@@ -82,6 +83,7 @@ export default async function AddActivity(props: AddActivityProps) {
               shiftId={halaqah?.data?.ustadz?.shiftId ?? 0}
               studentId={params.slug}
               activityType={activityType}
+              santriPageUri={santriPage}
             />
           </TabsContent>
           <TabsContent value='absent'>Tidak Hadir</TabsContent>
