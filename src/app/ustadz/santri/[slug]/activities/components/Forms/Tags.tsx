@@ -25,14 +25,21 @@ function TagPicker({ tags, onClick }: TagsProps) {
             <span className='text-mtmh-sm-regular'>{key}</span>
             <div className='flex flex-row flex-wrap gap-2'>
               {value.map((tag) => (
-                <button
-                  onClick={() => onClick(tag)}
-                  data-active={tags.includes(tag)}
+                <label
                   key={tag}
+                  htmlFor={tag}
+                  data-active={tags.includes(tag)}
                   className='py-1 px-2 bg-mtmh-snow-lighter data-[active=true]:bg-mtmh-primary-lightest text-mtmh-grey-base data-[active=true]:text-mtmh-primary-base flex flex-row gap-1 rounded-lg text-mtmh-sm-regular'
                 >
+                  <input
+                    type='checkbox'
+                    id={tag}
+                    onChange={() => onClick(tag)}
+                    checked={tags.includes(tag)}
+                    className='hidden'
+                  />
                   {tag}
-                </button>
+                </label>
               ))}
             </div>
           </div>

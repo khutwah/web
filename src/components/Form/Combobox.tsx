@@ -98,6 +98,7 @@ export function Combobox({
         <div className='overflow-y-scroll max-h-[500px] flex flex-col pt-2 px-4 gap-4 pb-12'>
           {_items.map((item) => (
             <Button
+              asChild
               variant='outline'
               key={item.value}
               onClick={() => {
@@ -106,13 +107,20 @@ export function Combobox({
                 setSearch('')
               }}
             >
-              {item.label}
-              <Check
-                className={cn(
-                  'ml-auto',
-                  value === item.value ? 'opacity-100' : 'opacity-0'
-                )}
-              />
+              <label htmlFor={item.label + '-' + item.value}>
+                <input
+                  id={item.label + '-' + item.value}
+                  type='radio'
+                  className='hidden'
+                />
+                {item.label}
+                <Check
+                  className={cn(
+                    'ml-auto',
+                    value === item.value ? 'opacity-100' : 'opacity-0'
+                  )}
+                />
+              </label>
             </Button>
           ))}
         </div>

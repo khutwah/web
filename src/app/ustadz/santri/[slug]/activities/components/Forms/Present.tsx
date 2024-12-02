@@ -131,19 +131,30 @@ export function FormPresent(props: FormProps) {
 
       <div className='flex flex-row gap-4'>
         <div className='flex flex-col gap-2 basis-4/12'>
-          <Label>Halaman</Label>
-          <Input {...register('page_amount')} type='number' min={0} />
+          <Label htmlFor='page_count'>Halaman</Label>
+          <Input
+            {...register('page_amount')}
+            type='number'
+            min={0}
+            id='page_count'
+            aria-invalid={Boolean(errors.page_amount?.message)}
+          />
+          <ErrorField error={errors.page_amount?.message} />
         </div>
         <div className='flex flex-col gap-2 basis-8/12'>
-          <Label>Penanda</Label>
+          <Label htmlFor=''>Penanda</Label>
           <Tags tags={tags ?? []} onClick={onToggleTag} />
           <ErrorField error={errors.tags?.message} />
         </div>
       </div>
 
       <div className='flex flex-col gap-2'>
-        <Label>Catatan lain</Label>
-        <Textarea {...register('notes')} />
+        <Label htmlFor='notes'>Catatan lain</Label>
+        <Textarea
+          {...register('notes')}
+          id='notes'
+          aria-invalid={Boolean(errors.notes?.message)}
+        />
         <ErrorField error={errors.notes?.message} />
       </div>
 
@@ -161,6 +172,7 @@ export function FormPresent(props: FormProps) {
 
         <div className='flex flex-row gap-2'>
           <Button
+            type='submit'
             className='basis-1/2'
             variant='primary'
             disabled={isLoading}
@@ -173,6 +185,7 @@ export function FormPresent(props: FormProps) {
             Simpan
           </Button>
           <Button
+            type='submit'
             className='basis-1/2'
             variant='outline'
             disabled={isLoading}
