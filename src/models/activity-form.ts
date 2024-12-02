@@ -1,4 +1,4 @@
-export interface FormPresentProps {
+export interface FormProps {
   activityType: number
   shiftId: number
   studentId: number

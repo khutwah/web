@@ -11,7 +11,7 @@ import { ActivityFormValues, ActivityStatus } from '@/models/activities'
 import { activityCreateSchema } from '@/utils/schemas/activities'
 import { useActivityControlledValue } from '../../hooks/useActivityControlledValue'
 import { getVerseItems, SURAH_ITEMS, toggleTag } from '../../utils/form'
-import { FormPresentProps } from '@/models/form-present'
+import { FormProps } from '@/models/activity-form'
 import { ErrorField } from './ErrorField'
 import { Alert, AlertDescription } from '@/components/Alert/Alert'
 import { Trophy } from 'lucide-react'
@@ -19,7 +19,7 @@ import { Trophy } from 'lucide-react'
 import { useSubmit } from '../../hooks/useSubmit'
 import { Input } from '@/components/Form/Input'
 
-export function FormPresent(props: FormPresentProps) {
+export function FormPresent(props: FormProps) {
   const { activityType, shiftId, studentId, santriPageUri } = props
   const {
     setValue,

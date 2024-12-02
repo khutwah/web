@@ -16,6 +16,7 @@ import {
 } from '@/components/Tabs/Tabs'
 import { FormPresent } from '../components/Forms/Present'
 import { MENU_PATH_RECORD } from '@/utils/menus/ustadz'
+import { FormAbsent } from '../components/Forms/Absent'
 
 interface AddActivityProps {
   params: Promise<{
@@ -86,7 +87,14 @@ export default async function AddActivity(props: AddActivityProps) {
               santriPageUri={santriPage}
             />
           </TabsContent>
-          <TabsContent value='absent'>Tidak Hadir</TabsContent>
+          <TabsContent value='absent'>
+            <FormAbsent
+              shiftId={halaqah?.data?.ustadz?.shiftId ?? 0}
+              studentId={params.slug}
+              activityType={activityType}
+              santriPageUri={santriPage}
+            />
+          </TabsContent>
         </Tabs>
       </div>
     </div>
