@@ -27,7 +27,7 @@ interface ActivitiesPayload {
   end_surah: number
   start_verse: number
   end_verse: number
-  page_amount: number
+  page_count: number
   student_attendance: StudentAttendance
   created_at?: string
 }
@@ -39,7 +39,7 @@ const selectQuery = `
     notes,
     tags,
     status,
-    page_amount,
+    page_count,
     created_at,
     start_surah,
     end_surah,
@@ -105,7 +105,7 @@ export class Activities extends Base {
           notes: item.notes,
           status: item.status,
           tags: item.tags ?? [],
-          page_amount: item.page_amount,
+          page_count: item.page_count,
           created_at: item.created_at,
           start_surah: surah.find((s) => s.id === item.start_surah)
             ?.name_simple,
