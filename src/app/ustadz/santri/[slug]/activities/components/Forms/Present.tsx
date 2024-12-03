@@ -147,7 +147,7 @@ export function FormPresent(props: FormProps) {
           <Input
             {...register('page_count')}
             type='number'
-            min={0}
+            min={1}
             id='page_count'
             aria-invalid={Boolean(errors.page_count?.message)}
           />

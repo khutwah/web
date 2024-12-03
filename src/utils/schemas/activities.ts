@@ -91,7 +91,8 @@ export const activityCreateSchema = object({
     .when('student_attendance', {
       is: 'absent',
       then: (schema) => schema.notRequired(),
-      otherwise: (schema) => schema.required('Jumlah halaman wajib diisi')
+      otherwise: (schema) =>
+        schema.required('Jumlah halaman wajib diisi').positive().min(0.5)
     }),
   target_page_count: number().required('Target Jumlah halaman wajib diisi'),
   created_at: string().test(
