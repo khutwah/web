@@ -43,7 +43,7 @@ export type Database = {
           end_verse: number | null
           id: number
           notes: string | null
-          page_amount: number | null
+          page_count: number | null
           shift_id: number | null
           start_surah: number | null
           start_verse: number | null
@@ -62,7 +62,7 @@ export type Database = {
           end_verse?: number | null
           id?: never
           notes?: string | null
-          page_amount?: number | null
+          page_count?: number | null
           shift_id?: number | null
           start_surah?: number | null
           start_verse?: number | null
@@ -81,7 +81,7 @@ export type Database = {
           end_verse?: number | null
           id?: never
           notes?: string | null
-          page_amount?: number | null
+          page_count?: number | null
           shift_id?: number | null
           start_surah?: number | null
           start_verse?: number | null

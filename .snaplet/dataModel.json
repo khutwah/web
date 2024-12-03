@@ -186,20 +186,6 @@
           "maxLength": null
         },
         {
-          "id": "public.activities.page_amount",
-          "name": "page_amount",
-          "columnName": "page_amount",
-          "type": "int2",
-          "isRequired": false,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false,
-          "isId": false,
-          "maxLength": null
-        },
-        {
           "id": "public.activities.achieve_target",
           "name": "achieve_target",
           "columnName": "achieve_target",
@@ -364,6 +350,20 @@
           "isGenerated": false,
           "sequence": false,
           "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "public.activities.page_count",
+          "name": "page_count",
+          "columnName": "page_count",
+          "type": "float4",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
           "isId": false,
           "maxLength": null
         },
