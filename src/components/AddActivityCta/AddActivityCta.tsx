@@ -52,7 +52,7 @@ export function AddActivityCta({
           query: { activity_type: activityType, halaqah_id: halaqahId }
         }}
       >
-        <Plus />
+        <Plus aria-hidden='true' />
         <span className='sr-only'>Input</span>
         <span>{label}</span>
       </Link>
