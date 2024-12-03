@@ -93,6 +93,14 @@ export const activityCreateSchema = object({
       then: (schema) => schema.notRequired(),
       otherwise: (schema) => schema.required('Jumlah halaman wajib diisi')
     }),
+  target_page_count: number()
+    .required('Target Jumlah halaman wajib diisi')
+    .when('student_attendance', {
+      is: 'absent',
+      then: (schema) => schema.notRequired(),
+      otherwise: (schema) =>
+        schema.required('Target Jumlah halaman wajib diisi')
+    }),
   created_at: string().test(
     'is-valid-date',
     'Tanggal harus dalam format ISO yang valid',

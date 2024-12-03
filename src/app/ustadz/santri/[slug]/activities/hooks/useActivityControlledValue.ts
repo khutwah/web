@@ -54,7 +54,7 @@ export function useActivityControlledValue({
             setValue('achieve_target', false)
           }
 
-          setValue('page_amount', pageCount)
+          setValue('page_count', pageCount)
         } else {
           // TODO: Do something when important calculation cannot
           // be done due to technical issue

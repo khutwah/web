@@ -21,7 +21,8 @@ export interface ActivityFormValues {
   notes: string
   status: ActivityStatus
   achieve_target: boolean
-  page_amount: number
+  page_count: number
+  target_page_count: number
   student_attendance: 'present' | 'absent'
   created_at?: string
   type: number

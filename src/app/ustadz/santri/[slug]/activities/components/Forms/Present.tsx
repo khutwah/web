@@ -7,7 +7,11 @@ import { Label } from '@/components/Form/Label'
 import { Textarea } from '@/components/Form/Textarea'
 import { Tags } from './Tags'
 import { Button } from '@/components/Button/Button'
-import { ActivityFormValues, ActivityStatus } from '@/models/activities'
+import {
+  ActivityFormValues,
+  ActivityStatus,
+  GLOBAL_TARGET_PAGE
+} from '@/models/activities'
 import { activityCreateSchema } from '@/utils/schemas/activities'
 import { useActivityControlledValue } from '../../hooks/useActivityControlledValue'
 import { getVerseItems, SURAH_ITEMS, toggleTag } from '../../utils/form'
@@ -45,7 +49,8 @@ export function FormPresent(props: FormProps) {
       notes: undefined,
       achieve_target: false,
       student_attendance: 'present',
-      page_amount: 0,
+      page_count: 0,
+      target_page_count: GLOBAL_TARGET_PAGE,
       type: activityType,
       shift_id: shiftId,
       student_id: studentId
@@ -140,13 +145,13 @@ export function FormPresent(props: FormProps) {
         <div className='flex flex-col gap-2 basis-4/12'>
           <Label htmlFor='page_count'>Halaman</Label>
           <Input
-            {...register('page_amount')}
+            {...register('page_count')}
             type='number'
             min={0}
             id='page_count'
-            aria-invalid={Boolean(errors.page_amount?.message)}
+            aria-invalid={Boolean(errors.page_count?.message)}
           />
-          <ErrorField error={errors.page_amount?.message} />
+          <ErrorField error={errors.page_count?.message} />
         </div>
         <div className='flex flex-col gap-2 basis-8/12'>
           <Label htmlFor=''>Penanda</Label>
