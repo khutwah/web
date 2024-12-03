@@ -20,7 +20,6 @@ export function toggleTag(tags: string[] | undefined, tag: string) {
   const index = tags?.indexOf(tag)
   if (index === -1) {
     return [...(tags || []), tag]
-  } else {
-    return tags?.filter((t) => t !== tag) ?? []
   }
+  return tags?.filter((t) => t !== tag) ?? []
 }

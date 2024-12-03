@@ -5,7 +5,11 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Label } from '@/components/Form/Label'
 import { Textarea } from '@/components/Form/Textarea'
 import { Button } from '@/components/Button/Button'
-import { ActivityFormValues, ActivityStatus } from '@/models/activities'
+import {
+  ActivityFormValues,
+  ActivityStatus,
+  GLOBAL_TARGET_PAGE
+} from '@/models/activities'
 import { activityCreateSchema } from '@/utils/schemas/activities'
 import { FormProps } from '@/models/activity-form'
 import { ErrorField } from './ErrorField'
@@ -26,7 +30,8 @@ export function FormAbsent(props: Omit<FormProps, 'lastSurah' | 'lastVerse'>) {
       student_attendance: 'absent',
       type: activityType,
       shift_id: shiftId,
-      student_id: studentId
+      student_id: studentId,
+      target_page_count: GLOBAL_TARGET_PAGE
     }
   })
 

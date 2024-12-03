@@ -42,16 +42,16 @@ const submit = async ({
     }
   }
 }
-const create = async (data: ActivityFormValues) => {
-  return await submit({
+const create = (data: ActivityFormValues) => {
+  return submit({
     data,
     url: '/api/v1/activities',
     method: 'POST'
   })
 }
 
-const update = async (id: number, data: ActivityFormValues) => {
-  return await submit({
+const update = (id: number, data: ActivityFormValues) => {
+  return submit({
     data,
     url: `/api/v1/activities${id}`,
     method: 'PUT'

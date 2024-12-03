@@ -27,13 +27,11 @@ function TagPicker({ tags, onClick }: TagsProps) {
               {value.map((tag) => (
                 <label
                   key={tag}
-                  htmlFor={tag}
                   data-active={tags.includes(tag)}
                   className='py-1 px-2 bg-mtmh-snow-lighter data-[active=true]:bg-mtmh-primary-lightest text-mtmh-grey-base data-[active=true]:text-mtmh-primary-base flex flex-row gap-1 rounded-lg text-mtmh-sm-regular'
                 >
                   <input
                     type='checkbox'
-                    id={tag}
                     onChange={() => onClick(tag)}
                     checked={tags.includes(tag)}
                     className='hidden'
@@ -85,7 +83,8 @@ export function Tags(props: TagsProps) {
         >
           {tag}
           <button onClick={() => onClick(tag)}>
-            <X size={12} />
+            <span className='sr-only'>remove tag</span>
+            <X size={12} aria-hidden />
           </button>
         </div>
       ))}

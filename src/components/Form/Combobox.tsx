@@ -107,12 +107,8 @@ export function Combobox({
                 setSearch('')
               }}
             >
-              <label htmlFor={item.label + '-' + item.value}>
-                <input
-                  id={item.label + '-' + item.value}
-                  type='radio'
-                  className='hidden'
-                />
+              <label>
+                <input type='radio' className='hidden' />
                 {item.label}
                 <Check
                   className={cn(

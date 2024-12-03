@@ -184,7 +184,6 @@ export function FormPresent(props: FormProps) {
 
         <div className='flex flex-row gap-2'>
           <Button
-            type='submit'
             className='basis-1/2'
             variant='primary'
             disabled={isLoading}
@@ -197,7 +196,6 @@ export function FormPresent(props: FormProps) {
             Simpan
           </Button>
           <Button
-            type='submit'
             className='basis-1/2'
             variant='outline'
             disabled={isLoading}
