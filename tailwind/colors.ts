@@ -79,18 +79,25 @@ export const mtmhColors = {
   },
   // TODO: these are added manually, because the "new design system" can't be parsed yet.
   red: {
+    dark: '#701600',
+    darker: '#580900',
     base: '#7F270F',
     light: '#AA3424'
   },
   blue: {
-    base: '#0065FF'
+    base: '#0065FF',
+    dark: '#0052CF',
+    darker: '#003FA0'
   },
   snow: {
     base: '#CCCCCC',
     lighter: '#E7E7E7'
   },
   green: {
-    base: '#329922'
+    base: '#329922',
+    dark: '#297C1C',
+    darker: '#1F6015',
+    darkest: '#16430F'
   },
   grey: {
     base: '#171717',

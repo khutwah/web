@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader } from '@/components/Card/Card'
+import { AddActivityCta } from '@/components/AddActivityCta/AddActivityCta'
 import { Layout } from '@/components/Layouts/Ustadz'
 import { Navbar } from '@/components/Navbar/Navbar'
 import { navigateToSantriList } from './actions'
@@ -24,6 +25,9 @@ export default async function DetailSantri({
 
   const studentsInstance = new Students()
   const student = await studentsInstance.get(Number(params.slug))
+  const halaqahId = String(student.data?.halaqah?.id)
+  const studentId = params.slug
+
   let pageContent: JSX.Element
 
   if (!student.data) {
@@ -93,6 +97,35 @@ export default async function DetailSantri({
             </CardContent>
           </Card>
         </div>
+
+        <section className='mx-6 mb-8'>
+          <h2 className='text-mtmh-grey-base mb-3 font-semibold text-sm'>
+            Tambah Input
+          </h2>
+          <div className='flex gap-1.5'>
+            <AddActivityCta
+              activityType='Sabaq'
+              className='w-full'
+              halaqahId={halaqahId}
+              size='sm'
+              studentId={studentId}
+            />
+            <AddActivityCta
+              activityType='Sabqi'
+              className='w-full'
+              halaqahId={halaqahId}
+              size='sm'
+              studentId={studentId}
+            />
+            <AddActivityCta
+              activityType='Manzil'
+              className='w-full'
+              halaqahId={halaqahId}
+              size='sm'
+              studentId={studentId}
+            />
+          </div>
+        </section>
 
         <div className='p-6'>
           {/* <HalaqahDetailContent
