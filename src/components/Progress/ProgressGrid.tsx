@@ -16,7 +16,7 @@ type ActivityEntry = NonNullable<
 >[number]
 
 interface Props {
-  activities: Array<ActivityEntry>
+  activities: Array<Omit<ActivityEntry, 'target_page_count'>>
   date: Date
   onChangeDate: Dispatch<SetStateAction<Date>>
   // The number of juz that the student has almost reached.
