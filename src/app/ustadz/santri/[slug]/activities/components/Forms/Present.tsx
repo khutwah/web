@@ -122,6 +122,7 @@ export function FormPresent(props: FormProps) {
               }
               placeholder='Pilih Surah'
               searchPlaceholder='Cari Surah'
+              startFrom={startSurah}
             />
           </div>
           <div className='basis-1/4'>
@@ -133,6 +134,7 @@ export function FormPresent(props: FormProps) {
               }
               placeholder='Pilih Ayat'
               searchPlaceholder='Cari Ayat'
+              startFrom={startSurah === endSurah ? startVerse : undefined}
             />
           </div>
         </div>

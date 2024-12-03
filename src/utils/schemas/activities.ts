@@ -92,7 +92,9 @@ export const activityCreateSchema = object({
       is: 'absent',
       then: (schema) => schema.notRequired(),
       otherwise: (schema) =>
-        schema.required('Jumlah halaman wajib diisi').positive().min(0.5)
+        schema
+          .required('Jumlah halaman wajib diisi')
+          .min(0.5, 'Jumlah halaman minimal 0.5')
     }),
   target_page_count: number().required('Target Jumlah halaman wajib diisi'),
   created_at: string().test(

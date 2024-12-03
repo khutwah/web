@@ -23,6 +23,7 @@ export interface ComboboxProps {
   placeholder?: string
   searchPlaceholder?: string
   withSearch?: boolean
+  startFrom?: number // this is only for "value" that have type number so we can disable the value below defined
 }
 
 function ComboboxSearch({
@@ -47,7 +48,8 @@ export function Combobox({
   items,
   placeholder = '',
   searchPlaceholder = 'Cari',
-  withSearch = true
+  withSearch = true,
+  startFrom
 }: ComboboxProps) {
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState('')
@@ -96,29 +98,38 @@ export function Combobox({
         ) : null}
 
         <div className='overflow-y-scroll max-h-[500px] flex flex-col pt-2 px-4 gap-4 pb-12'>
-          {_items.map((item) => (
-            <Button
-              asChild
-              variant='outline'
-              key={item.value}
-              onClick={() => {
-                onChange(item.value)
-                setOpen(false)
-                setSearch('')
-              }}
-            >
-              <label>
-                <input type='radio' className='hidden' />
-                {item.label}
-                <Check
-                  className={cn(
-                    'ml-auto',
-                    value === item.value ? 'opacity-100' : 'opacity-0'
-                  )}
-                />
-              </label>
-            </Button>
-          ))}
+          {_items.map((item) => {
+            const disabled =
+              startFrom && Number(item.value)
+                ? Number(item.value) < startFrom
+                : false
+            return (
+              <Button
+                asChild
+                variant='outline'
+                key={item.value}
+                onClick={() => {
+                  if (disabled) return
+                  onChange(item.value)
+                  setOpen(false)
+                  setSearch('')
+                }}
+                disabled={disabled}
+              >
+                <label>
+                  <input type='radio' className='hidden' />
+                  {item.label}
+                  <Check
+                    aria-hidden
+                    className={cn(
+                      'ml-auto',
+                      value === item.value ? 'opacity-100' : 'opacity-0'
+                    )}
+                  />
+                </label>
+              </Button>
+            )
+          })}
         </div>
       </DrawerContent>
     </Drawer>
