@@ -37,7 +37,7 @@ function generateData(
   const pageAmount = endDate.date() % 6
 
   return Array.from(new Array(7), (_, idx) => ({
-    page_amount: idx === 0 ? null : pageAmount + idx,
+    page_count: idx === 0 ? null : pageAmount + idx,
     type,
     created_at: dayjs(endDate).add(-idx, 'day').toISOString(),
     student_attendance: idx === 0 ? 'absent' : 'present',

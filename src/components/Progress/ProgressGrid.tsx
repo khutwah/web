@@ -16,7 +16,7 @@ type ActivityEntry = NonNullable<
 >[number]
 
 interface Props {
-  activities: Array<ActivityEntry>
+  activities: Array<Omit<ActivityEntry, 'target_page_count'>>
   date: Date
   onChangeDate: Dispatch<SetStateAction<Date>>
   // The number of juz that the student has almost reached.
@@ -55,17 +55,17 @@ export function ProgressGrid({
     const {
       type: rawType,
       created_at,
-      page_amount,
+      page_count,
       student_attendance
     } = activity
     const type = rawType as ActivityTypeKey
 
-    // Assumption: if page_amount is null, then the student was absent.
-    if (!grids[type] || !created_at || page_amount === null) continue
+    // Assumption: if page_count is null, then the student was absent.
+    if (!grids[type] || !created_at || page_count === null) continue
 
     const gridId = getGridIdentifier(new Date(created_at))
     grids[type][gridId] = {
-      pageCount: page_amount,
+      pageCount: page_count,
       isStudentPresent: student_attendance === 'present'
     }
   }
