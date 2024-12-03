@@ -4,7 +4,7 @@ import Image, { ImageProps } from 'next/image'
 import dayjs from 'dayjs'
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
 import { cn } from '@/utils/classnames'
-import { SalahPrayerTimeRecord } from '@/models/salah-prayer-times'
+import { SalahPrayerTimeRecord } from '@/models/api/salah-prayer-times'
 
 dayjs.extend(isSameOrAfter)
 

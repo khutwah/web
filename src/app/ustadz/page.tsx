@@ -4,12 +4,15 @@ import { Layout } from '@/components/Layouts/Ustadz'
 import { Halaqah } from '@/utils/supabase/models/halaqah'
 import StubAvatarImage from '@/assets/sample-ustadz-photo.png'
 import { getUser } from '@/utils/supabase/get-user'
+import { getSalahPrayerTimes } from '@/utils/api/kemenag'
 
 export default async function Home() {
   const user = await getUser()
 
   const halaqah = new Halaqah()
   const halaqahList = await halaqah.list({ ustadz_id: user.data?.id })
+
+  const salahPrayerTimes = await getSalahPrayerTimes()
 
   return (
     <Layout>
@@ -20,17 +23,7 @@ export default async function Home() {
           className='z-10'
           avatarUrl={StubAvatarImage}
           name={user.data?.name ?? ''}
-          salahPrayerTimes={{
-            // TODO(imballinst): integrate with external API later.
-            imsak: '03:56',
-            subuh: '04:06',
-            terbit: '05:20',
-            dhuha: '05:48',
-            dzuhur: '11:37',
-            ashar: '14:52',
-            maghrib: '17:47',
-            isya: '18:59'
-          }}
+          salahPrayerTimes={salahPrayerTimes}
         />
 
         <section className='flex flex-col gap-y-3'>
