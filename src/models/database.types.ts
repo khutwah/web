@@ -51,6 +51,7 @@ export type Database = {
           student_attendance: string
           student_id: number | null
           tags: Json | null
+          target_page_count: number
           type: number | null
           updated_at: string | null
         }
@@ -70,6 +71,7 @@ export type Database = {
           student_attendance?: string
           student_id?: number | null
           tags?: Json | null
+          target_page_count?: number
           type?: number | null
           updated_at?: string | null
         }
@@ -89,6 +91,7 @@ export type Database = {
           student_attendance?: string
           student_id?: number | null
           tags?: Json | null
+          target_page_count?: number
           type?: number | null
           updated_at?: string | null
         }
