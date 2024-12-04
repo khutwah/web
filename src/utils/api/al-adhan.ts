@@ -3,7 +3,7 @@ import {
   DEFAULT_AL_ADHAN_RESPONSE
 } from '@/models/api/al-adhan'
 
-export async function getGreetingsCardInfo(
+export async function getAlAdhanPrayerTimings(
   date: string,
   position: { lat: number; long: number }
 ): Promise<AlAdhanPrayerTimingsResponse['data']> {

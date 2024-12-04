@@ -8,7 +8,7 @@ import {
   DEFAULT_AL_ADHAN_RESPONSE,
   HIJRI_MONTH_NUMBER_TO_TEXT_RECORD
 } from '@/models/api/al-adhan'
-import { getGreetingsCardInfo } from '@/utils/api/greetings-card'
+import { getAlAdhanPrayerTimings } from '@/utils/api/al-adhan'
 import { getUser } from '@/utils/supabase/get-user'
 import dayjs from 'dayjs'
 import Image from 'next/image'
@@ -29,7 +29,7 @@ export function UstadzHomeHeader({ user }: Props) {
     navigator.geolocation.getCurrentPosition(
       async (position) => {
         try {
-          const greetingsCardInfo = await getGreetingsCardInfo(
+          const greetingsCardInfo = await getAlAdhanPrayerTimings(
             dayjs().format('DD-MM-YYYY'),
             {
               lat: position.coords.latitude,
@@ -38,7 +38,7 @@ export function UstadzHomeHeader({ user }: Props) {
           )
           setAlAdhanInfo(greetingsCardInfo)
         } catch (err) {
-          // Not likely to have an error here since we already handle it inside `getGreetingsCardInfo`. But just so it doesn't crash.
+          // Not likely to have an error here since we already handle it inside `getAlAdhanPrayerTimings`. But just so it doesn't crash.
           console.error(err)
         }
       },

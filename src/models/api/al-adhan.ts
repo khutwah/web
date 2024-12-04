@@ -1,13 +1,15 @@
-import dayjs from 'dayjs'
 import { InferType, number, object, string } from 'yup'
 
 type SalahPrayerTimeFormat = `${number}:${number}`
 
 const DateDetail = object({
+  // DD format, e.g. 01-31.
   day: string().required(),
   month: object({
+    // M format, e.g. 1-12.
     number: number().required()
   }),
+  // YYYY format, e.g. 2024.
   year: string().required()
 })
 
@@ -53,18 +55,10 @@ const DEFAULT_SALAH_PRAYER_TIMES = {
   Midnight: '00:00'
 } as const
 
-const CURRENT_DATETIME = dayjs()
-
-export const DEFAULT_AL_ADHAN_RESPONSE = {
+export const DEFAULT_AL_ADHAN_RESPONSE: AlAdhanPrayerTimingsResponse['data'] = {
   timings: DEFAULT_SALAH_PRAYER_TIMES,
   date: {
-    gregorian: {
-      day: `${CURRENT_DATETIME.day()}`,
-      month: {
-        en: `${CURRENT_DATETIME.month()}`
-      },
-      year: `${CURRENT_DATETIME.year()}`
-    },
+    // In case something happens with the fetch, we revert to `null` and not render the Hijri date.
     hijri: null
   }
 }
