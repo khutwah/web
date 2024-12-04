@@ -1,17 +1,22 @@
+'use client'
+
 import { clsx } from 'clsx'
 import { Card, CardHeader, CardTitle, CardContent } from '../Card/Card'
 import Image, { ImageProps } from 'next/image'
 import dayjs from 'dayjs'
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
 import { cn } from '@/utils/classnames'
-import { SalahPrayerTimeRecord } from '@/models/salah-prayer-times'
+import { AlAdhanPrayerTimingsResponse } from '@/models/api/al-adhan'
+import 'dayjs/locale/id'
+import { PropsWithChildren } from 'react'
 
 dayjs.extend(isSameOrAfter)
+dayjs.locale('id')
 
 interface Props {
   avatarUrl: ImageProps['src']
   name: string
-  salahPrayerTimes: SalahPrayerTimeRecord
+  salahPrayerTimes: AlAdhanPrayerTimingsResponse['data']['timings'] | undefined
   currentDate?: Date
   className?: string
 }
@@ -19,10 +24,11 @@ interface Props {
 export function GreetingsCard({
   avatarUrl,
   name,
-  className,
   salahPrayerTimes,
-  currentDate
-}: Props) {
+  className,
+  currentDate,
+  children
+}: PropsWithChildren<Props>) {
   return (
     <Card
       className={cn(
@@ -48,12 +54,17 @@ export function GreetingsCard({
           />
         </CardTitle>
       </CardHeader>
-      <CardContent className='flex flex-col p-5 pt-0'>
-        <SalahTimebox
-          currentDate={currentDate}
-          salahPrayerTimes={salahPrayerTimes}
-        />
-      </CardContent>
+
+      {salahPrayerTimes && (
+        <CardContent className='flex flex-col p-5 pt-0 gap-y-2'>
+          <SalahTimebox
+            currentDate={currentDate}
+            salahPrayerTimes={salahPrayerTimes}
+          />
+
+          {children}
+        </CardContent>
+      )}
     </Card>
   )
 }
@@ -62,35 +73,35 @@ function SalahTimebox({
   salahPrayerTimes,
   currentDate
 }: {
-  salahPrayerTimes: Props['salahPrayerTimes']
+  salahPrayerTimes: NonNullable<AlAdhanPrayerTimingsResponse['data']['timings']>
   currentDate?: Date
 }) {
   const arrayOfPrayerTimings = [
     {
       name: 'Shubuh',
-      start: salahPrayerTimes.subuh,
-      end: salahPrayerTimes.terbit
+      start: salahPrayerTimes.Fajr,
+      end: salahPrayerTimes.Sunrise
     },
     {
       name: 'Dzuhur',
-      start: salahPrayerTimes.dzuhur,
-      end: salahPrayerTimes.ashar
+      start: salahPrayerTimes.Dhuhr,
+      end: salahPrayerTimes.Asr
     },
     {
       name: 'Ashr',
-      start: salahPrayerTimes.ashar,
-      end: salahPrayerTimes.maghrib
+      start: salahPrayerTimes.Asr,
+      end: salahPrayerTimes.Maghrib
     },
     {
       name: 'Maghrib',
-      start: salahPrayerTimes.maghrib,
-      end: salahPrayerTimes.isya
+      start: salahPrayerTimes.Maghrib,
+      end: salahPrayerTimes.Isha
     },
     {
       // Unfortunately this does not cover the isya prayer time in the next day, e.g. 00:00-shubuh time.
       // This is because the date already changes to a new date, and we don't show isya prayer on the following day.
       name: 'Isya',
-      start: salahPrayerTimes.isya,
+      start: salahPrayerTimes.Isha,
       end: '23:59'
     }
   ].map((item) => ({

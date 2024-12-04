@@ -1,9 +1,8 @@
-import { GreetingsCard } from '@/components/GreetingsCard/GreetingsCard'
 import { HalaqahCard } from '@/components/HalaqahCard/HalaqahCard'
 import { Layout } from '@/components/Layouts/Ustadz'
 import { Halaqah } from '@/utils/supabase/models/halaqah'
-import StubAvatarImage from '@/assets/sample-ustadz-photo.png'
 import { getUser } from '@/utils/supabase/get-user'
+import { UstadzHomeHeader } from './components/UstadzHomeHeader'
 
 export default async function Home() {
   const user = await getUser()
@@ -13,25 +12,10 @@ export default async function Home() {
 
   return (
     <Layout>
-      <div className='w-full h-[218px] bg-mtmh-red-base absolute' />
+      <div className='w-full h-[218px] bg-mtmh-red-base absolute -z-10' />
 
-      <div className='flex flex-col gap-y-6 p-6 mt-28'>
-        <GreetingsCard
-          className='z-10'
-          avatarUrl={StubAvatarImage}
-          name={user.data?.name ?? ''}
-          salahPrayerTimes={{
-            // TODO(imballinst): integrate with external API later.
-            imsak: '03:56',
-            subuh: '04:06',
-            terbit: '05:20',
-            dhuha: '05:48',
-            dzuhur: '11:37',
-            ashar: '14:52',
-            maghrib: '17:47',
-            isya: '18:59'
-          }}
-        />
+      <div className='flex flex-col gap-y-6 p-6 mt-4'>
+        <UstadzHomeHeader displayName={user.data?.name ?? ''} />
 
         <section className='flex flex-col gap-y-3'>
           <h2 className='text-mtmh-m-semibold'>Halaqah Hari Ini</h2>
