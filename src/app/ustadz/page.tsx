@@ -15,7 +15,7 @@ export default async function Home() {
       <div className='w-full h-[218px] bg-mtmh-red-base absolute -z-10' />
 
       <div className='flex flex-col gap-y-6 p-6 mt-4'>
-        <UstadzHomeHeader user={user} />
+        <UstadzHomeHeader displayName={user.data?.name ?? ''} />
 
         <section className='flex flex-col gap-y-3'>
           <h2 className='text-mtmh-m-semibold'>Halaqah Hari Ini</h2>

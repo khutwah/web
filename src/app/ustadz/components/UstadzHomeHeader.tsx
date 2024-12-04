@@ -20,10 +20,10 @@ const PURWAKARTA_LAT_LONG = {
 }
 
 interface Props {
-  user: Awaited<ReturnType<typeof getUser>>
+  displayName: string
 }
 
-export function UstadzHomeHeader({ user }: Props) {
+export function UstadzHomeHeader({ displayName }: Props) {
   const [hasLocationPermission, setHasLocationPermission] = useState(false)
   const [alAdhanInfo, setAlAdhanInfo] = useState<
     AlAdhanPrayerTimingsResponse['data'] | null
@@ -81,7 +81,7 @@ export function UstadzHomeHeader({ user }: Props) {
       <GreetingsCard
         className='z-10'
         avatarUrl={StubAvatarImage}
-        name={user.data?.name ?? ''}
+        name={displayName}
         salahPrayerTimes={alAdhanInfo?.timings}
       >
         {!hasLocationPermission && (
