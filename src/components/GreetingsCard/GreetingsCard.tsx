@@ -1,27 +1,31 @@
+'use client'
+
 import { clsx } from 'clsx'
 import { Card, CardHeader, CardTitle, CardContent } from '../Card/Card'
 import Image, { ImageProps } from 'next/image'
 import dayjs from 'dayjs'
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
 import { cn } from '@/utils/classnames'
-import { SalahPrayerTimeRecord } from '@/models/api/salah-prayer-times'
+import { AlAdhanPrayerTimingsResponse } from '@/models/api/al-adhan'
+import 'dayjs/locale/id'
 
 dayjs.extend(isSameOrAfter)
+dayjs.locale('id')
 
 interface Props {
   avatarUrl: ImageProps['src']
   name: string
-  salahPrayerTimes: SalahPrayerTimeRecord
   currentDate?: Date
   className?: string
+  salahPrayerTimes: AlAdhanPrayerTimingsResponse['data']['timings']
 }
 
 export function GreetingsCard({
   avatarUrl,
   name,
   className,
-  salahPrayerTimes,
-  currentDate
+  currentDate,
+  salahPrayerTimes
 }: Props) {
   return (
     <Card
@@ -62,35 +66,35 @@ function SalahTimebox({
   salahPrayerTimes,
   currentDate
 }: {
-  salahPrayerTimes: Props['salahPrayerTimes']
+  salahPrayerTimes: AlAdhanPrayerTimingsResponse['data']['timings']
   currentDate?: Date
 }) {
   const arrayOfPrayerTimings = [
     {
       name: 'Shubuh',
-      start: salahPrayerTimes.subuh,
-      end: salahPrayerTimes.terbit
+      start: salahPrayerTimes.Fajr,
+      end: salahPrayerTimes.Sunrise
     },
     {
       name: 'Dzuhur',
-      start: salahPrayerTimes.dzuhur,
-      end: salahPrayerTimes.ashar
+      start: salahPrayerTimes.Dhuhr,
+      end: salahPrayerTimes.Asr
     },
     {
       name: 'Ashr',
-      start: salahPrayerTimes.ashar,
-      end: salahPrayerTimes.maghrib
+      start: salahPrayerTimes.Asr,
+      end: salahPrayerTimes.Maghrib
     },
     {
       name: 'Maghrib',
-      start: salahPrayerTimes.maghrib,
-      end: salahPrayerTimes.isya
+      start: salahPrayerTimes.Maghrib,
+      end: salahPrayerTimes.Isha
     },
     {
       // Unfortunately this does not cover the isya prayer time in the next day, e.g. 00:00-shubuh time.
       // This is because the date already changes to a new date, and we don't show isya prayer on the following day.
       name: 'Isya',
-      start: salahPrayerTimes.isya,
+      start: salahPrayerTimes.Isha,
       end: '23:59'
     }
   ].map((item) => ({
