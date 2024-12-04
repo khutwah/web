@@ -48,8 +48,8 @@ npm run dev
 Run this if you want to use seed data so you dont have to manually create one.
 
 ```bash
-npm run seed:sync
 npm run seed
+npm run seed:sync
 ```
 
 ### Available Seeded Users for Login
