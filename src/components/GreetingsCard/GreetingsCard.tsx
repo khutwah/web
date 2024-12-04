@@ -15,17 +15,17 @@ dayjs.locale('id')
 interface Props {
   avatarUrl: ImageProps['src']
   name: string
+  salahPrayerTimes: AlAdhanPrayerTimingsResponse['data']['timings']
   currentDate?: Date
   className?: string
-  salahPrayerTimes: AlAdhanPrayerTimingsResponse['data']['timings']
 }
 
 export function GreetingsCard({
   avatarUrl,
   name,
+  salahPrayerTimes,
   className,
-  currentDate,
-  salahPrayerTimes
+  currentDate
 }: Props) {
   return (
     <Card
