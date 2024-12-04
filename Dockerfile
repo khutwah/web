@@ -3,7 +3,7 @@ FROM node:20-alpine AS base
 # Stage 1: Install dependencies
 FROM base AS deps
 WORKDIR /app
-COPY package.json package-lock.json ./
+COPY package.json package-lock.json .npmrc ./
 RUN npm ci
 
 # Stage 2: Build the application
@@ -13,7 +13,7 @@ ENV NEXT_PUBLIC_APP_VERSION=$NEXT_PUBLIC_APP_VERSION
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-# TODO(dio): Remove this line when seed.ts is well behaved.
+# TODO(dio): Remove the following line when seed.ts is well behaved.
 RUN rm -f seed.ts
 RUN npm run build
 
