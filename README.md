@@ -18,6 +18,7 @@ Three basic env key you can obtain by yourself
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
 DEFAULT_STUDENT_PASSWORD=
+DATABASE_URL=postgresql://postgres:postgres@localhost:54322/postgres
 ```
 
 You can come up with your own DEFAULT_STUDENT_PASSWORD that only work on your local. This is for system used only, student will be authenticated using mumtaz API, and session will be created in our system using this password. More Detail: https://github.com/khutwah/khutwah-web/tree/main/src/app/login
@@ -27,6 +28,9 @@ Then, run local supabase application:
 ```base
 supabase start
 ```
+
+If you already start the supabase before, always good practice to run `supabase migration up` in case there is new update to database
+that you have not already apply to your local database.
 
 Running supabase start will give you information about NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY.
 
@@ -52,15 +56,13 @@ npm run seed:sync
 npm run seed
 ```
 
-### Available Seeded Users for Login
+### Available Seeded Ustadz Users for Login
 
 Password: `orq[s$^zgx6L`
 | Users |
 | -------- |
-| ustadz_1@ustadz.app.minhajulhaq.sch.id |
-| ustadz_2@ustadz.app.minhajulhaq.sch.id |
-| student_1@app.minhajulhaq.sch.id |
-| student_2@app.minhajulhaq.sch.id |
+| iram@ustadz.mtmh.com |
+| latief@ustadz.mtmh.com |
 
 ## Folder Structure
 
