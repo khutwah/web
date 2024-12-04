@@ -10,6 +10,7 @@ import { Button } from '@/components/Button/Button'
 import {
   ActivityFormValues,
   ActivityStatus,
+  ActivityType,
   GLOBAL_TARGET_PAGE
 } from '@/models/activities'
 import { activityCreateSchema } from '@/utils/schemas/activities'
@@ -22,6 +23,15 @@ import { Trophy } from 'lucide-react'
 
 import { useSubmit } from '../../hooks/useSubmit'
 import { Input } from '@/components/Form/Input'
+
+const DEFAULT_START = {
+  [ActivityType.Sabaq]: {
+    surah: Number(SURAH_ITEMS[77].value),
+    verse: 1
+  },
+  [ActivityType.Manzil]: null,
+  [ActivityType.Sabqi]: null
+}
 
 export function FormPresent(props: FormProps) {
   const {
@@ -41,9 +51,9 @@ export function FormPresent(props: FormProps) {
   } = useForm<ActivityFormValues>({
     resolver: yupResolver(activityCreateSchema),
     defaultValues: {
-      start_surah: lastSurah,
+      start_surah: lastSurah || DEFAULT_START[activityType]?.surah,
       end_surah: undefined,
-      start_verse: lastVerse,
+      start_verse: lastVerse || DEFAULT_START[activityType]?.verse,
       end_verse: undefined,
       tags: undefined,
       notes: undefined,

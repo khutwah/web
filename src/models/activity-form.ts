@@ -1,5 +1,7 @@
+import { ActivityType } from './activities'
+
 export interface FormProps {
-  activityType: number
+  activityType: ActivityType
   shiftId: number
   studentId: number
   santriPageUri: string
