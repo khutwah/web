@@ -19,14 +19,16 @@ export function GreetingsCardStory() {
               avatarUrl={photo}
               name='Ust. Fulan Abdurrahman'
               salahPrayerTimes={{
-                imsak: '03:56',
-                subuh: '04:06',
-                terbit: '05:20',
-                dhuha: '05:48',
-                dzuhur: '11:37',
-                ashar: '14:52',
-                maghrib: '17:47',
-                isya: '18:59'
+                Imsak: '03:56',
+                Fajr: '04:06',
+                Sunrise: '05:20',
+                Dhuhr: '11:37',
+                Asr: '14:52',
+                Maghrib: '17:47',
+                Isha: '18:59',
+                // Unused.
+                Midnight: '00:00',
+                Sunset: '00:00'
               }}
               currentDate={currentDate}
             />

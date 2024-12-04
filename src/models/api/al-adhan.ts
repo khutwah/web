@@ -33,7 +33,7 @@ export const AlAdhanPrayerTimingsResponse = object({
   // For example: 'OK'.
   status: string().required(),
   data: object({
-    timings: SalahPrayerTimeRecord.required(),
+    timings: SalahPrayerTimeRecord.nullable(),
     date: object({
       hijri: DateDetail.nullable()
     })
@@ -43,20 +43,8 @@ export const AlAdhanPrayerTimingsResponse = object({
 export interface AlAdhanPrayerTimingsResponse
   extends InferType<typeof AlAdhanPrayerTimingsResponse> {}
 
-const DEFAULT_SALAH_PRAYER_TIMES = {
-  Fajr: '00:00',
-  Sunrise: '00:00',
-  Dhuhr: '00:00',
-  Asr: '00:00',
-  Sunset: '00:00',
-  Maghrib: '00:00',
-  Isha: '00:00',
-  Imsak: '00:00',
-  Midnight: '00:00'
-} as const
-
 export const DEFAULT_AL_ADHAN_RESPONSE: AlAdhanPrayerTimingsResponse['data'] = {
-  timings: DEFAULT_SALAH_PRAYER_TIMES,
+  timings: null,
   date: {
     // In case something happens with the fetch, we revert to `null` and not render the Hijri date.
     hijri: null

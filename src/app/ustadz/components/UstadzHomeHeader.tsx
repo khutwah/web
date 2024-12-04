@@ -5,7 +5,6 @@ import StubAvatarImage from '@/assets/sample-ustadz-photo.png'
 import { GreetingsCard } from '@/components/GreetingsCard/GreetingsCard'
 import {
   AlAdhanPrayerTimingsResponse,
-  DEFAULT_AL_ADHAN_RESPONSE,
   HIJRI_MONTH_NUMBER_TO_TEXT_RECORD
 } from '@/models/api/al-adhan'
 import { getAlAdhanPrayerTimings } from '@/utils/api/al-adhan'
@@ -66,9 +65,7 @@ export function UstadzHomeHeader({ user }: Props) {
         className='z-10'
         avatarUrl={StubAvatarImage}
         name={user.data?.name ?? ''}
-        salahPrayerTimes={
-          alAdhanInfo?.timings ?? DEFAULT_AL_ADHAN_RESPONSE.timings
-        }
+        salahPrayerTimes={alAdhanInfo?.timings}
       />
     </>
   )

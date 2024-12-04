@@ -15,7 +15,7 @@ dayjs.locale('id')
 interface Props {
   avatarUrl: ImageProps['src']
   name: string
-  salahPrayerTimes: AlAdhanPrayerTimingsResponse['data']['timings']
+  salahPrayerTimes: AlAdhanPrayerTimingsResponse['data']['timings'] | undefined
   currentDate?: Date
   className?: string
 }
@@ -52,12 +52,14 @@ export function GreetingsCard({
           />
         </CardTitle>
       </CardHeader>
-      <CardContent className='flex flex-col p-5 pt-0'>
-        <SalahTimebox
-          currentDate={currentDate}
-          salahPrayerTimes={salahPrayerTimes}
-        />
-      </CardContent>
+      {salahPrayerTimes && (
+        <CardContent className='flex flex-col p-5 pt-0'>
+          <SalahTimebox
+            currentDate={currentDate}
+            salahPrayerTimes={salahPrayerTimes}
+          />
+        </CardContent>
+      )}
     </Card>
   )
 }
@@ -66,7 +68,7 @@ function SalahTimebox({
   salahPrayerTimes,
   currentDate
 }: {
-  salahPrayerTimes: AlAdhanPrayerTimingsResponse['data']['timings']
+  salahPrayerTimes: NonNullable<AlAdhanPrayerTimingsResponse['data']['timings']>
   currentDate?: Date
 }) {
   const arrayOfPrayerTimings = [
