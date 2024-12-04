@@ -8,6 +8,7 @@ import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
 import { cn } from '@/utils/classnames'
 import { AlAdhanPrayerTimingsResponse } from '@/models/api/al-adhan'
 import 'dayjs/locale/id'
+import { PropsWithChildren } from 'react'
 
 dayjs.extend(isSameOrAfter)
 dayjs.locale('id')
@@ -25,8 +26,9 @@ export function GreetingsCard({
   name,
   salahPrayerTimes,
   className,
-  currentDate
-}: Props) {
+  currentDate,
+  children
+}: PropsWithChildren<Props>) {
   return (
     <Card
       className={cn(
@@ -52,12 +54,15 @@ export function GreetingsCard({
           />
         </CardTitle>
       </CardHeader>
+
       {salahPrayerTimes && (
-        <CardContent className='flex flex-col p-5 pt-0'>
+        <CardContent className='flex flex-col p-5 pt-0 gap-y-2'>
           <SalahTimebox
             currentDate={currentDate}
             salahPrayerTimes={salahPrayerTimes}
           />
+
+          {children}
         </CardContent>
       )}
     </Card>

@@ -10,14 +10,21 @@ import {
 import { getAlAdhanPrayerTimings } from '@/utils/api/al-adhan'
 import { getUser } from '@/utils/supabase/get-user'
 import dayjs from 'dayjs'
+import { CircleAlert } from 'lucide-react'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
+
+const PURWAKARTA_LAT_LONG = {
+  lat: -6.6167,
+  long: 107.5333
+}
 
 interface Props {
   user: Awaited<ReturnType<typeof getUser>>
 }
 
 export function UstadzHomeHeader({ user }: Props) {
+  const [hasLocationPermission, setHasLocationPermission] = useState(false)
   const [alAdhanInfo, setAlAdhanInfo] = useState<
     AlAdhanPrayerTimingsResponse['data'] | null
   >(null)
@@ -35,14 +42,24 @@ export function UstadzHomeHeader({ user }: Props) {
               long: position.coords.longitude
             }
           )
+
+          setHasLocationPermission(true)
           setAlAdhanInfo(greetingsCardInfo)
         } catch (err) {
           // Not likely to have an error here since we already handle it inside `getAlAdhanPrayerTimings`. But just so it doesn't crash.
           console.error(err)
         }
       },
-      (error) => {
+      async (error) => {
         console.error(error)
+
+        // Use default lat/long when there are no permissions.
+        const greetingsCardInfo = await getAlAdhanPrayerTimings(
+          dayjs().format('DD-MM-YYYY'),
+          PURWAKARTA_LAT_LONG
+        )
+
+        setAlAdhanInfo(greetingsCardInfo)
       }
     )
   }, [])
@@ -66,7 +83,21 @@ export function UstadzHomeHeader({ user }: Props) {
         avatarUrl={StubAvatarImage}
         name={user.data?.name ?? ''}
         salahPrayerTimes={alAdhanInfo?.timings}
-      />
+      >
+        {!hasLocationPermission && (
+          <div className='flex gap-x-2 text-mtmh-sm-regular text-mtmh-red-light'>
+            <div className='flex flex-col justify-center'>
+              <CircleAlert aria-hidden size={16} />
+            </div>
+
+            <div>
+              Izin penggunaan lokasi tidak diberikan. Waktu sholat di atas
+              berlaku untuk daerah Wanayasa, Kabupaten Purwakarta dan
+              sekitarnya.
+            </div>
+          </div>
+        )}
+      </GreetingsCard>
     </>
   )
 }
