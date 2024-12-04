@@ -119,6 +119,54 @@ export type Database = {
           }
         ]
       }
+      checkpoint: {
+        Row: {
+          end_date: string | null
+          id: number
+          last_activity_id: number
+          page_count_accumulation: number
+          part_count: number | null
+          start_date: string
+          status: string
+          student_id: number
+        }
+        Insert: {
+          end_date?: string | null
+          id?: never
+          last_activity_id: number
+          page_count_accumulation: number
+          part_count?: number | null
+          start_date: string
+          status: string
+          student_id: number
+        }
+        Update: {
+          end_date?: string | null
+          id?: never
+          last_activity_id?: number
+          page_count_accumulation?: number
+          part_count?: number | null
+          start_date?: string
+          status?: string
+          student_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'checkpoint_last_activity_id_fkey'
+            columns: ['last_activity_id']
+            isOneToOne: false
+            referencedRelation: 'activities'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'checkpoint_student_id_fkey'
+            columns: ['student_id']
+            isOneToOne: false
+            referencedRelation: 'students'
+            referencedColumns: ['id']
+          }
+        ]
+      }
       halaqah: {
         Row: {
           academic_year: number | null

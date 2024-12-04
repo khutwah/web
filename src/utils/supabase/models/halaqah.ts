@@ -100,7 +100,7 @@ export class Halaqah extends Base {
         `
       )
       .eq('id', id)
-      .gte('shifts.start_date', start_date)
+      .lte('shifts.start_date', start_date)
       .or(`end_date.lte.${end_date},end_date.is.null`, {
         referencedTable: 'shifts'
       })
@@ -130,6 +130,7 @@ export class Halaqah extends Base {
     const ustadz = data?.shifts?.[0]?.id
       ? {
           id: data?.shifts?.[0].users?.id,
+          shiftId: data?.shifts?.[0]?.id,
           name: data?.shifts?.[0].users?.name
         }
       : null
