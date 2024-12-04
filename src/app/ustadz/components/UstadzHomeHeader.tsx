@@ -8,7 +8,6 @@ import {
   HIJRI_MONTH_NUMBER_TO_TEXT_RECORD
 } from '@/models/api/al-adhan'
 import { getAlAdhanPrayerTimings } from '@/utils/api/al-adhan'
-import { getUser } from '@/utils/supabase/get-user'
 import dayjs from 'dayjs'
 import { CircleAlert } from 'lucide-react'
 import Image from 'next/image'
