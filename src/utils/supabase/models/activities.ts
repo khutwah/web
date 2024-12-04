@@ -5,7 +5,8 @@ import surah from '@/data/surah.json'
 import { getUserId } from '../get-user-id'
 import { ApiError } from '@/utils/api-error'
 
-export type StudentAttendance = 'presence' | 'absence'
+export type StudentAttendance = 'present' | 'absent'
+
 export interface GetFilter extends RoleFilter, PaginationFilter {
   type?: ActivityType
   start_date?: string

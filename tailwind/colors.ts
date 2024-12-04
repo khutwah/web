@@ -1,5 +1,7 @@
 export const mtmhColors = {
   primary: {
+    lightest: '#E6F0FF',
+    base: '#0065FF',
     '10': '#F7E4D0',
     '20': '#EFC4A4',
     '30': '#CF916E',
@@ -91,7 +93,11 @@ export const mtmhColors = {
   },
   snow: {
     base: '#CCCCCC',
-    lighter: '#E7E7E7'
+    lighter: '#E7E7E7',
+    lightest: '#F5F5F5'
+  },
+  lightgreen: {
+    lightest: '#F4F8E6'
   },
   green: {
     base: '#329922',
