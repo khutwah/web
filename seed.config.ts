@@ -5,8 +5,7 @@ import { Client } from 'pg'
 export default defineConfig({
   adapter: async () => {
     const client = new Client({
-      connectionString:
-        'postgresql://postgres:postgres@localhost:54322/postgres'
+      connectionString: process.env.DATABASE_URL
     })
     await client.connect()
     return new SeedPg(client)

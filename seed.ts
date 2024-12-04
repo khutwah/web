@@ -7,8 +7,8 @@
 import { createSeedClient } from '@snaplet/seed'
 import { copycat } from '@snaplet/copycat'
 import { createServerClient } from '@supabase/ssr'
-import { DEFAULT_EMAIL_DOMAIN } from '@/models/auth'
 import dayjs from 'dayjs'
+import { JSONSerializable } from 'fictional'
 
 const main = async () => {
   const seed = await createSeedClient()
@@ -39,21 +39,21 @@ const main = async () => {
   try {
     const _ustadz = await Promise.all([
       supabase.auth.signUp({
-        email: `ustadz_1@ustadz.${DEFAULT_EMAIL_DOMAIN!}`,
+        email: 'iram@ustadz.mtmh.com',
         password: 'orq[s$^zgx6L'
       }),
       supabase.auth.signUp({
-        email: `ustadz_2@ustadz.${DEFAULT_EMAIL_DOMAIN!}`,
+        email: 'latief@ustadz.mtmh.com',
         password: 'orq[s$^zgx6L'
       })
     ])
     const _students = await Promise.all([
       supabase.auth.signUp({
-        email: `student_1@${DEFAULT_EMAIL_DOMAIN!}`,
+        email: `usman@santri.mtmh.com`,
         password: 'orq[s$^zgx6L'
       }),
       supabase.auth.signUp({
-        email: `student_2@${DEFAULT_EMAIL_DOMAIN!}`,
+        email: `abdul@santri.mtmh.com`,
         password: 'orq[s$^zgx6L'
       })
     ])
@@ -76,14 +76,14 @@ const main = async () => {
       x(2, (ctx) => {
         return {
           sb_user_id: ustadz[ctx.index].id,
-          email: ustadz[ctx.index].email
+          email: ustadz[ctx.index].email,
+          name: ustadz[ctx.index].email.split('@')[0]
         }
       }),
     {
       models: {
         public_users: {
           data: {
-            name: (ctx) => copycat.fullName(ctx.seed),
             role: () => 2
           }
         }
@@ -97,14 +97,14 @@ const main = async () => {
       x(2, (ctx) => {
         return {
           sb_user_id: students[ctx.index].id,
-          email: students[ctx.index].email
+          email: students[ctx.index].email,
+          name: students[ctx.index].email.split('@')[0]
         }
       }),
     {
       models: {
         public_users: {
           data: {
-            name: (ctx) => copycat.fullName(ctx.seed),
             role: () => 1
           }
         }
@@ -152,17 +152,18 @@ const main = async () => {
   await seed.students(
     (x) =>
       x(2, (ctx) => {
+        const user = seed.$store.public_users.filter((i) => i.role === 1)[
+          ctx.index
+        ]
         return {
-          parent_id: seed.$store.public_users.filter((i) => i.role === 1)[
-            ctx.index
-          ].id
+          parent_id: user.id,
+          name: user.name
         }
       }),
     {
       models: {
         students: {
           data: {
-            name: (ctx) => copycat.fullName(ctx.seed),
             nisn: (ctx) => copycat.scramble(ctx.seed),
             nis: (ctx) => copycat.scramble(ctx.seed),
             pin: (ctx) =>
@@ -177,7 +178,26 @@ const main = async () => {
       connect: true
     }
   )
-  await seed.tags((x) => x(4))
+
+  const tagStore = new Set()
+  const fn = (seed: JSONSerializable): string =>
+    copycat.oneOf(seed, [
+      'Baik Sekali',
+      'Cukup Baik',
+      'Terbata-bata',
+      'Kurang Baik'
+    ])
+  await seed.tags((x) => x(4), {
+    models: {
+      tags: {
+        data: {
+          name: (ctx) => copycat.unique(ctx.seed, fn, tagStore) as string,
+          type: (ctx) =>
+            copycat.oneOf(ctx.seed, ['Kefasihan', 'Kemampuan menghafal'])
+        }
+      }
+    }
+  })
 
   await seed.activities(
     (x) =>
