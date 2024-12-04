@@ -23,6 +23,7 @@ import { Trophy } from 'lucide-react'
 
 import { useSubmit } from '../../hooks/useSubmit'
 import { Input } from '@/components/Form/Input'
+import { Submit } from './Submit'
 
 const DEFAULT_START = {
   [ActivityType.Sabaq]: {
@@ -193,7 +194,7 @@ export function FormPresent(props: FormProps) {
         ) : null}
 
         <div className='flex flex-row gap-2'>
-          <Button
+          <Submit
             className='basis-1/2'
             variant='primary'
             disabled={isLoading}
@@ -202,9 +203,7 @@ export function FormPresent(props: FormProps) {
               if (isLoading) return
               submit(ActivityStatus.completed)
             }}
-          >
-            Simpan
-          </Button>
+          />
           <Button
             className='basis-1/2'
             variant='outline'
