@@ -7,7 +7,6 @@
 import { createSeedClient } from '@snaplet/seed'
 import { copycat } from '@snaplet/copycat'
 import { createServerClient } from '@supabase/ssr'
-import { DEFAULT_EMAIL_DOMAIN } from '@/models/auth'
 import dayjs from 'dayjs'
 import { JSONSerializable } from 'fictional'
 
