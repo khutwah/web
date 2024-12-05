@@ -10,7 +10,7 @@ interface Props {
   venue: string
   substituteeName?: string
   hasGutter?: boolean
-  isOwner: boolean
+  isOwner?: boolean
 }
 
 export function HalaqahCard({
