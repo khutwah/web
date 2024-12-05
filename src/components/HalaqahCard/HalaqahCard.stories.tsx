@@ -22,6 +22,17 @@ export function HalaqahCardStory() {
           key={halaqah.name}
           hasGutter
           substituteeName='Ust. Ade'
+          isOwner={false}
+          {...halaqah}
+        />
+      ))}
+
+      {halaqahList.map((halaqah) => (
+        <HalaqahCard
+          key={halaqah.name}
+          hasGutter
+          substituteeName='Ust. Ikram'
+          isOwner
           {...halaqah}
         />
       ))}

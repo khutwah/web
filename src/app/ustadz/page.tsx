@@ -34,13 +34,21 @@ export default async function Home() {
 
                 const substituteeName = replacementShift?.user.name ?? undefined
 
+                const isOwner = defaultShift?.user.id === user.data?.id
+
                 return (
                   <li key={item.id}>
                     <HalaqahCard
                       id={item.id}
                       name={item.name!}
                       venue={effectiveShift?.location ?? ''}
-                      substituteeName={substituteeName}
+                      substituteeName={
+                        substituteeName &&
+                        (isOwner
+                          ? substituteeName
+                          : defaultShift?.user.name || '')
+                      }
+                      isOwner={isOwner}
                       hasGutter
                     />
                   </li>

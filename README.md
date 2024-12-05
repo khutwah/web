@@ -59,7 +59,7 @@ npm run seed
 
 ### Available Seeded Ustadz Users for Login
 
-Password: `orq[s$^zgx6L`
+Password: `testakun123`
 | Users |
 | -------- |
 | iram@ustadz.mtmh.com |
