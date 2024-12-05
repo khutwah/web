@@ -40,21 +40,21 @@ const main = async () => {
     const _ustadz = await Promise.all([
       supabase.auth.signUp({
         email: 'iram@ustadz.mtmh.com',
-        password: 'orq[s$^zgx6L'
+        password: 'testakun123'
       }),
       supabase.auth.signUp({
         email: 'latief@ustadz.mtmh.com',
-        password: 'orq[s$^zgx6L'
+        password: 'testakun123'
       })
     ])
     const _students = await Promise.all([
       supabase.auth.signUp({
         email: `usman@santri.mtmh.com`,
-        password: 'orq[s$^zgx6L'
+        password: 'testakun123'
       }),
       supabase.auth.signUp({
         email: `abdul@santri.mtmh.com`,
-        password: 'orq[s$^zgx6L'
+        password: 'testakun123'
       })
     ])
 
@@ -113,7 +113,7 @@ const main = async () => {
   )
 
   await seed.halaqah((x) =>
-    x(3, (ctx) => {
+    x(2, (ctx) => {
       return {
         name: `Halaqah ${ctx.index + 1}`,
         academic_year: 2024,
@@ -129,7 +129,7 @@ const main = async () => {
           halaqah_id: ctx.index + 1,
           ustadz_id: ctx.index + 1,
           location: 'Saung Umar bin Khattab',
-          start_date: new Date().toISOString(),
+          start_date: dayjs().startOf('day').toISOString(),
           end_date: null
         }
       }),
@@ -143,7 +143,7 @@ const main = async () => {
           halaqah_id: 2,
           ustadz_id: 1,
           location: 'Saung Umar bin Khattab',
-          start_date: new Date().toISOString(),
+          start_date: dayjs().startOf('day').toISOString(),
           end_date: dayjs().endOf('day').toISOString()
         }
       }),
