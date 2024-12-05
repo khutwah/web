@@ -29,7 +29,7 @@ interface GridEntry {
   isStudentPresent: boolean
 }
 
-// eslint-disable-next-line no-implicit-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const DEFAULT_EMPTY_ARRAY: any[] = []
 
 /**
