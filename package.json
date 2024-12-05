@@ -9,7 +9,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "seed:sync": "snaplet-seed sync",
+    "seed:sync": "NODE_OPTIONS='-r dotenv/config' snaplet-seed sync",
     "seed": "NODE_OPTIONS='-r dotenv/config' npx tsx seed.ts",
     "db-types": "supabase gen types --lang=typescript --local > src/models/database.types.ts",
     "prepare": "husky",
