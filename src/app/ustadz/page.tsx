@@ -3,7 +3,7 @@ import { Layout } from '@/components/Layouts/Ustadz'
 import { Halaqah } from '@/utils/supabase/models/halaqah'
 import { getUser } from '@/utils/supabase/get-user'
 import { UstadzHomeHeader } from './components/UstadzHomeHeader'
-import { HeaderBackground } from './components/HeaderBackground'
+import { HeaderBackground } from '../../components/Header/Background'
 
 export default async function Home() {
   const user = await getUser()

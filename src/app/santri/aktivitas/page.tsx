@@ -1,6 +1,6 @@
 import { Layout } from '@/components/Layouts/Santri'
 import { SantriActivityHeader } from './components/SantriActivityHeader'
-import { HeaderBackground } from '@/app/ustadz/components/HeaderBackground'
+import { HeaderBackground } from '@/components/Header/Background'
 import { ProgressGridWithState } from '@/components/Progress/ProgressGrid'
 import { Activities } from '@/utils/supabase/models/activities'
 import { getUser } from '@/utils/supabase/get-user'
