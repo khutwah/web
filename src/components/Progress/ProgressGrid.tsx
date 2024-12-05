@@ -70,7 +70,7 @@ export function ProgressGrid({
 
     const gridId = getGridIdentifier(new Date(created_at))
     grids[type][gridId] = {
-      pageCount: Math.round(page_count),
+      pageCount: page_count,
       isStudentPresent: student_attendance === 'present'
     }
   }
