@@ -214,7 +214,8 @@ const main = async () => {
             .add(indexWithMaxNumber6, 'days')
             .add(7, 'hour')
             .toISOString(),
-          page_amount: pageAmount,
+          page_count: pageAmount,
+          total_page_count: 4,
           student_attendance: pageAmount === 0 ? 'absent' : 'present',
           achieve_target: pageAmount >= 2,
           end_surah: 1,
