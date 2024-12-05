@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation'
 
 import { logoutSupabase } from '@/utils/auth/logout-supabase'
 
-export async function logout(_prevState: unknown) {
+export async function logout() {
   let redirectUri = ''
 
   try {

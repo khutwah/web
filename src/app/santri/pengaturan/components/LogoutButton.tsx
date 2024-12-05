@@ -6,7 +6,7 @@ import { startTransition } from 'react'
 import { Button } from '@/components/Button/Button'
 
 export function LogoutButton() {
-  const [_, formAction] = useFormState(logout, {
+  const [, formAction] = useFormState(logout, {
     message: ''
   })
 
