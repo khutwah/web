@@ -20,7 +20,6 @@ export async function login(_prevState: unknown, formData: FormData) {
 
     const student = new Students()
     const result = await student.list({ pin, email: email.value })
-    console.info(pin, email.value, result)
     if (!result.data?.length) {
       throw new Error(INVALID_PIN)
     }
