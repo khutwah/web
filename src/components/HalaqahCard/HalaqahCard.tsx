@@ -10,6 +10,7 @@ interface Props {
   venue: string
   substituteeName?: string
   hasGutter?: boolean
+  isOwner?: boolean
 }
 
 export function HalaqahCard({
@@ -17,6 +18,7 @@ export function HalaqahCard({
   name,
   venue,
   substituteeName,
+  isOwner,
   hasGutter
 }: Props) {
   return (
@@ -53,7 +55,7 @@ export function HalaqahCard({
                 <StickyNote className='fill-mtmh-grey-base' />
 
                 <div className='text-mtmh-sm-regular'>
-                  Mewakilkan {substituteeName}
+                  {isOwner ? 'Diwakilkan' : 'Mewakilkan'} {substituteeName}
                 </div>
               </div>
             </div>
