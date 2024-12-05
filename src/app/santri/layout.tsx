@@ -4,5 +4,5 @@ import { PropsWithChildren } from 'react'
 
 export default async function StudentLayout({ children }: PropsWithChildren) {
   await isHaveAccess(ROLE.STUDENT)
-  return <>{children}</>
+  return <main>{children}</main>
 }
