@@ -78,7 +78,7 @@ export default function Pin() {
       <button
         disabled={isSubmitButtonDisabled}
         className={clsx(
-          'mt-10 py-2 px-4 rounded-md text-mtmh-button-large !text-center text-mtmh-neutral-white',
+          'w-full mt-10 py-2 px-4 rounded-md text-mtmh-button-large !text-center text-mtmh-neutral-white',
           {
             'bg-mtmh-neutral-40': isSubmitButtonDisabled,
             'bg-mtmh-primary-primary': !isSubmitButtonDisabled
