@@ -217,7 +217,7 @@ const main = async () => {
           page_count: pageAmount,
           target_page_count: 4,
           student_attendance: pageAmount === 0 ? 'absent' : 'present',
-          achieve_target: pageAmount >= 2,
+          achieve_target: pageAmount >= 4,
           end_surah: 1,
           start_verse: 1,
           end_verse: 7,
