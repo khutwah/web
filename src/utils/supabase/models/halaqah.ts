@@ -52,12 +52,11 @@ export class Halaqah extends Base {
             id,
             name,
             class,
-            selected_shifts:shifts(ustadz_id),
-            shifts(user: users!inner(name,id), start_date, end_date, location),
+            shifts(user: users!inner(name,id), ustadz_id, start_date, end_date, location),
             student_count:students(halaqah_id)
           `
         )
-        .eq('selected_shifts.ustadz_id', ustadz_id)
+        .eq('shifts.ustadz_id', ustadz_id)
         .gte('shifts.start_date', start_date)
         .or(`end_date.lte.${end_date},end_date.is.null`, {
           referencedTable: 'shifts'
@@ -65,9 +64,7 @@ export class Halaqah extends Base {
         .not('shifts', 'is', null)
 
       const _data =
-        // The `selected_shift` is just a "placeholder" so that we can query the right halaqah related to ustadz_id.
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        response.data?.map(({ selected_shifts: _selectedShifts, ...item }) => ({
+        response.data?.map((item) => ({
           ...item,
           student_count: item.student_count.length
         })) ?? []
