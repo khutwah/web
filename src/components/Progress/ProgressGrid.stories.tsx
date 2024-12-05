@@ -32,7 +32,7 @@ export function ProgressGridStory() {
 function generateData(
   type: ActivityTypeKey,
   date: Date
-): ComponentProps<typeof ProgressGrid>['activities'] {
+): NonNullable<ComponentProps<typeof ProgressGrid>['activities']> {
   const endDate = dayjs(date).day(6)
   const pageAmount = endDate.date() % 6
 
