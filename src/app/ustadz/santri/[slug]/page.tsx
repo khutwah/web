@@ -10,12 +10,6 @@ import Image from 'next/image'
 import SampleSantriAvatar from '@/assets/sample-ustadz-photo.png'
 import { ProgressGridWithState } from '@/components/Progress/ProgressGrid'
 
-// Dev's note: doing this instead of `?? []` because the latter creates a new reference every render.
-// Not sure if it's valid in the context of server components though?
-//
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const DEFAULT_EMPTY_ARRAY: any[] = []
-
 export default async function DetailSantri({
   params: paramsPromise
 }: {
@@ -89,7 +83,7 @@ export default async function DetailSantri({
             </CardHeader>
             <CardContent className='flex flex-col p-0 gap-y-3'>
               <ProgressGridWithState
-                activities={activities.data ?? DEFAULT_EMPTY_ARRAY}
+                activities={activities.data}
                 className='border-none rounded-none'
                 // FIXME(imballinst): remove this when we have the mechanism later.
                 lajnahJuzMilestone={5}

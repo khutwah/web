@@ -3,6 +3,7 @@ import { Layout } from '@/components/Layouts/Ustadz'
 import { Halaqah } from '@/utils/supabase/models/halaqah'
 import { getUser } from '@/utils/supabase/get-user'
 import { UstadzHomeHeader } from './components/UstadzHomeHeader'
+import { HeaderBackground } from './components/HeaderBackground'
 
 export default async function Home() {
   const user = await getUser()
@@ -12,7 +13,7 @@ export default async function Home() {
 
   return (
     <Layout>
-      <div className='w-full h-[218px] bg-mtmh-red-base absolute -z-10' />
+      <HeaderBackground />
 
       <div className='flex flex-col gap-y-6 p-6 mt-4'>
         <UstadzHomeHeader displayName={user.data?.name ?? ''} />
