@@ -53,7 +53,7 @@ export class Halaqah extends Base {
             name,
             class,
             selected_shifts:shifts(ustadz_id),
-            shifts(user: users!inner(name), start_date, end_date, location),
+            shifts(user: users!inner(name,id), start_date, end_date, location),
             student_count:students(halaqah_id)
           `
         )
@@ -62,6 +62,7 @@ export class Halaqah extends Base {
         .or(`end_date.lte.${end_date},end_date.is.null`, {
           referencedTable: 'shifts'
         })
+        .not('shifts', 'is', null)
 
       const _data =
         // The `selected_shift` is just a "placeholder" so that we can query the right halaqah related to ustadz_id.

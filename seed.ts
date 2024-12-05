@@ -113,7 +113,7 @@ const main = async () => {
   )
 
   await seed.halaqah((x) =>
-    x(2, (ctx) => {
+    x(3, (ctx) => {
       return {
         name: `Halaqah ${ctx.index + 1}`,
         academic_year: 2024,
