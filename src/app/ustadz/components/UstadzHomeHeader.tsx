@@ -13,7 +13,7 @@ interface Props {
 }
 
 export function UstadzHomeHeader({ displayName }: Props) {
-  const { alAdhanInfo, missingLocationPermissionMessage } = useAlAdhanInfo()
+  const { alAdhanInfo, errorMessage } = useAlAdhanInfo()
 
   return (
     <>
@@ -29,13 +29,13 @@ export function UstadzHomeHeader({ displayName }: Props) {
         name={displayName}
         salahPrayerTimes={alAdhanInfo?.timings}
       >
-        {missingLocationPermissionMessage && (
+        {errorMessage && (
           <div className='flex gap-x-2 text-mtmh-sm-regular text-mtmh-red-light'>
             <div className='flex flex-col justify-center'>
               <CircleAlert aria-hidden size={16} />
             </div>
 
-            <div>{missingLocationPermissionMessage}</div>
+            <div>{errorMessage}</div>
           </div>
         )}
       </GreetingsCard>

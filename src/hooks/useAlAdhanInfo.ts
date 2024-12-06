@@ -1,4 +1,7 @@
-import { AlAdhanPrayerTimingsResponse } from '@/models/api/al-adhan'
+import {
+  AlAdhanPrayerTimingsResponse,
+  DEFAULT_AL_ADHAN_RESPONSE
+} from '@/models/api/al-adhan'
 import { getAlAdhanPrayerTimings } from '@/utils/api/al-adhan'
 import dayjs from 'dayjs'
 import { useState, useEffect } from 'react'
@@ -51,8 +54,11 @@ export function useAlAdhanInfo() {
 
   return {
     alAdhanInfo,
-    missingLocationPermissionMessage: hasLocationPermission
-      ? undefined
-      : 'Izin penggunaan lokasi tidak diberikan. Waktu sholat di atas berlaku untuk daerah Wanayasa, Kabupaten Purwakarta dan sekitarnya.'
+    errorMessage:
+      alAdhanInfo === DEFAULT_AL_ADHAN_RESPONSE
+        ? 'Gagal mengambil data waktu sholat. Silakan refresh untuk mencoba lagi.'
+        : alAdhanInfo && !hasLocationPermission // Here we need to wait alAdhanInfo is not null before checking the location permission.
+          ? 'Izin penggunaan lokasi tidak diberikan. Waktu sholat di atas berlaku untuk daerah Wanayasa, Kabupaten Purwakarta dan sekitarnya.'
+          : undefined // This is also returned when alAdhanInfo is null.
   }
 }
