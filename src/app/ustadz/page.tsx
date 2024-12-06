@@ -7,6 +7,7 @@ import { HeaderBackground } from '../../components/Header/Background'
 import { Activities } from '@/utils/supabase/models/activities'
 import { ActivityCard } from '@/components/ActivityCard/ActivityCard'
 import { ActivityTypeKey } from '@/models/activities'
+import Link from 'next/link'
 
 export default async function Home() {
   const user = await getUser()
@@ -73,7 +74,15 @@ export default async function Home() {
         </section>
 
         <section className='flex flex-col gap-3'>
-          <h2 className='text-mtmh-m-semibold px-6'>Input Terakhir</h2>
+          <div className='flex flex-row items-center justify-between px-6'>
+            <h2 className='text-mtmh-m-semibold'>Input Terakhir</h2>
+            <Link
+              className='text-mtmh-sm-semibold text-mtmh-secondary-secondary'
+              href='/ustadz/aktivitas'
+            >
+              Lihat semua
+            </Link>
+          </div>
 
           <ul className='flex overflow-x-scroll gap-3 px-6 items-start'>
             {activityList.data?.map((item) => {
