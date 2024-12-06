@@ -75,7 +75,7 @@ export default async function Home() {
           <div className='flex flex-row items-center justify-between px-6'>
             <h2 className='text-mtmh-m-semibold'>Input Terakhir</h2>
             <Link
-              className='text-mtmh-sm-semibold text-mtmh-secondary-secondary'
+              className='text-mtmh-sm-semibold text-mtmh-tamarind-base'
               href='/ustadz/aktivitas'
             >
               Lihat semua
