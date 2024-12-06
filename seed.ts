@@ -225,10 +225,11 @@ const main = async () => {
           target_page_count: 4,
           student_attendance: pageCount === 0 ? 'absent' : 'present',
           achieve_target: pageCount >= 4,
+          start_surah: 1,
           end_surah: 1,
           start_verse: 1,
           end_verse: 7,
-          tags: '["Terbata-bata", "Cukup Baik"]'
+          tags: ['Terbata-bata', 'Cukup Baik']
         }
       }),
     { connect: true }
