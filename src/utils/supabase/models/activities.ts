@@ -15,6 +15,8 @@ export interface GetFilter extends RoleFilter, PaginationFilter {
   status?: ActivityStatus
   halaqah_ids?: number[]
   student_attendance?: StudentAttendance
+  order_by?: 'asc' | 'desc'
+  limit?: number
 }
 
 interface ActivitiesPayload {
@@ -65,7 +67,8 @@ export class Activities extends Base {
       type,
       start_date,
       end_date,
-      student_attendance
+      student_attendance,
+      order_by
     } = args
 
     let query = (await this.supabase).from('activities').select(selectQuery)
@@ -81,7 +84,7 @@ export class Activities extends Base {
     }
 
     if (ustadz_id) {
-      query = query.eq('shifts.ustadz_id', ustadz_id)
+      query = query.eq('shifts.ustadz_id', ustadz_id).not('shifts', 'is', null)
     }
 
     if (type) {
@@ -104,6 +107,14 @@ export class Activities extends Base {
 
     if (student_attendance) {
       query = query.eq('student_attendance', student_attendance)
+    }
+
+    if (order_by) {
+      query = query.order('created_at', { ascending: order_by === 'asc' })
+    }
+
+    if (limit) {
+      query = query.limit(limit)
     }
 
     const result = await query.range(offset, offset + limit - 1)

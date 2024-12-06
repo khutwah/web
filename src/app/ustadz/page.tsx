@@ -4,6 +4,9 @@ import { Halaqah } from '@/utils/supabase/models/halaqah'
 import { getUser } from '@/utils/supabase/get-user'
 import { UstadzHomeHeader } from './components/UstadzHomeHeader'
 import { HeaderBackground } from '../../components/Header/Background'
+import { Activities } from '@/utils/supabase/models/activities'
+import { ActivityCard } from '@/components/ActivityCard/ActivityCard'
+import { ActivityTypeKey } from '@/models/activities'
 
 export default async function Home() {
   const user = await getUser()
@@ -11,15 +14,26 @@ export default async function Home() {
   const halaqah = new Halaqah()
   const halaqahList = await halaqah.list({ ustadz_id: user.data?.id })
 
+  const activities = new Activities()
+  const activityList = await activities.list({
+    ustadz_id: user.data?.id,
+    order_by: 'desc',
+    limit: 4
+  })
+
   return (
     <Layout>
       <HeaderBackground />
 
-      <div className='flex flex-col gap-y-6 p-6 mt-4'>
-        <UstadzHomeHeader displayName={user.data?.name ?? ''} />
+      <div className='flex flex-col gap-y-6 mt-4 py-6'>
+        <section className='px-6 gap-y-6 flex flex-col'>
+          <UstadzHomeHeader displayName={user.data?.name ?? ''} />
+        </section>
 
-        <section className='flex flex-col gap-y-3'>
-          <h2 className='text-mtmh-m-semibold'>Halaqah Hari Ini</h2>
+        <section className='flex flex-col gap-y-3 px-6'>
+          <div className=''>
+            <h2 className='text-mtmh-m-semibold'>Halaqah Hari Ini</h2>
+          </div>
 
           {halaqahList?.kind === 'ustadz' && (
             <ul className='flex flex-col gap-y-3'>
@@ -56,6 +70,38 @@ export default async function Home() {
               })}
             </ul>
           )}
+        </section>
+
+        <section className='flex flex-col gap-3'>
+          <h2 className='text-mtmh-m-semibold px-6'>Input Terakhir</h2>
+
+          <ul className='flex overflow-x-scroll gap-3 px-6 items-start'>
+            {activityList.data?.map((item) => {
+              const tags = (item.tags as string[]) || []
+              return (
+                <li key={item.id} className='w-[300px] flex-shrink-0'>
+                  <ActivityCard
+                    id={String(item.id)}
+                    surahEnd={{
+                      name: String(item.end_surah),
+                      verse: String(item.end_verse)
+                    }}
+                    surahStart={{
+                      name: String(item.start_surah),
+                      verse: String(item.start_verse)
+                    }}
+                    timestamp={item.created_at!}
+                    notes={item.notes ?? ''}
+                    type={item.type as ActivityTypeKey}
+                    isStudentPresent={item.student_attendance === 'present'}
+                    studentName={item.student_name!}
+                    halaqahName={item.halaqah_name!}
+                    labels={tags}
+                  />
+                </li>
+              )
+            })}
+          </ul>
         </section>
       </div>
     </Layout>
