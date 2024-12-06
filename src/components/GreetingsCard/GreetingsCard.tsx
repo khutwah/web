@@ -73,7 +73,7 @@ function SalahTimebox({
   salahPrayerTimes,
   currentDate
 }: {
-  salahPrayerTimes?: AlAdhanPrayerTimingsResponse['data']['timings'] | null
+  salahPrayerTimes?: Props['salahPrayerTimes']
   currentDate?: Date
 }) {
   if (!salahPrayerTimes) {
