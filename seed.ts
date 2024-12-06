@@ -211,7 +211,7 @@ const main = async () => {
       // 3 for each activities.
       x(7 * 3, (ctx) => {
         const indexWithMaxNumber6 = ctx.index % 7
-        const pageAmount = 7 - indexWithMaxNumber6 - 1
+        const pageCount = 7 - indexWithMaxNumber6 - 1
 
         return {
           student_id: 1,
@@ -221,10 +221,10 @@ const main = async () => {
             .add(indexWithMaxNumber6, 'days')
             .add(7, 'hour')
             .toISOString(),
-          page_count: pageAmount,
+          page_count: pageCount,
           target_page_count: 4,
-          student_attendance: pageAmount === 0 ? 'absent' : 'present',
-          achieve_target: pageAmount >= 4,
+          student_attendance: pageCount === 0 ? 'absent' : 'present',
+          achieve_target: pageCount >= 4,
           end_surah: 1,
           start_verse: 1,
           end_verse: 7,

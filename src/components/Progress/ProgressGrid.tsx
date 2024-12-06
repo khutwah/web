@@ -16,7 +16,7 @@ type ActivityEntry = NonNullable<
 >[number]
 
 interface Props {
-  activities: Array<Omit<ActivityEntry, 'target_page_count'>>
+  activities: Array<Omit<ActivityEntry, 'target_page_count'>> | null
   date: Date
   onChangeDate: Dispatch<SetStateAction<Date>>
   // The number of juz that the student has almost reached.
@@ -29,16 +29,21 @@ interface GridEntry {
   isStudentPresent: boolean
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const DEFAULT_EMPTY_ARRAY: any[] = []
+
 /**
  * Vanilla `<ProgressGrid>`. Offers activities in the form of grid. Directly used only in Ladle stories.
  */
 export function ProgressGrid({
-  activities,
+  activities: activitiesProp,
   date,
   onChangeDate,
   lajnahJuzMilestone,
   className
 }: Props) {
+  const activities = activitiesProp ?? DEFAULT_EMPTY_ARRAY
+
   const startDate = dayjs(date).day(0)
   const endDate = dayjs(date).day(6)
 

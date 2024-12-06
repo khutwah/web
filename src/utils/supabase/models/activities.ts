@@ -8,6 +8,7 @@ import { ApiError } from '@/utils/api-error'
 export type StudentAttendance = 'present' | 'absent'
 
 export interface GetFilter extends RoleFilter, PaginationFilter {
+  parent_id?: number
   type?: ActivityType
   start_date?: string
   end_date?: string
@@ -56,6 +57,7 @@ export class Activities extends Base {
   async list(args: GetFilter) {
     const {
       student_id,
+      parent_id,
       halaqah_ids,
       ustadz_id,
       limit = 10,
@@ -70,6 +72,12 @@ export class Activities extends Base {
 
     if (student_id) {
       query = query.eq('students.id', student_id).not('students', 'is', null)
+    }
+
+    if (parent_id) {
+      query = query
+        .eq('students.parent_id', parent_id)
+        .not('students', 'is', null)
     }
 
     if (ustadz_id) {
