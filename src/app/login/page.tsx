@@ -148,7 +148,7 @@ export default function LoginPage() {
                 Perubahan sandi
               </DialogTitle>
               <DialogDescription className='!mt-3'>
-                Saat ini, Anda dapat menghubungi admin Markaz Tahfizh Minhajul
+                Saat ini, antum dapat menghubungi admin Markaz Tahfizh Minhajul
                 Haq melalui WhatsApp untuk melakukan perubahan kata sandi.
               </DialogDescription>
             </DialogHeader>

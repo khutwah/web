@@ -28,6 +28,9 @@ export class Students extends Base {
     if (pin) query = query.eq('pin', pin)
     if (email) query = query.eq('users.email', email)
     if (student_id) query = query.eq('parent_id', student_id)
+
+    if (halaqah_ids) query = query.in('halaqah_id', halaqah_ids)
+
     if (ustadz_id) {
       const halaqahIds = await this.getHalaqahByUstad({
         ustadz_id: ustadz_id,

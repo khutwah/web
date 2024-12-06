@@ -36,25 +36,32 @@ const main = async () => {
 
   let ustadz: User[] = []
   let students: User[] = []
+
+  const USTADZ_TO_REGISTER = [
+    'iram@ustadz.mtmh.com',
+    'latief@ustadz.mtmh.com',
+    'ardi@ustadz.mtmh.com',
+    'alfaz@ustadz.mtmh.com',
+    'ahmad@ustadz.mtmh.com',
+    'adi@ustadz.mtmh.com'
+  ]
   try {
-    const _ustadz = await Promise.all([
-      supabase.auth.signUp({
-        email: 'iram@ustadz.mtmh.com',
-        password: 'orq[s$^zgx6L'
-      }),
-      supabase.auth.signUp({
-        email: 'latief@ustadz.mtmh.com',
-        password: 'orq[s$^zgx6L'
-      })
-    ])
+    const _ustadz = await Promise.all(
+      USTADZ_TO_REGISTER.map((email) =>
+        supabase.auth.signUp({
+          email: email,
+          password: 'testakun123'
+        })
+      )
+    )
     const _students = await Promise.all([
       supabase.auth.signUp({
         email: `usman@santri.mtmh.com`,
-        password: 'orq[s$^zgx6L'
+        password: 'testakun123'
       }),
       supabase.auth.signUp({
         email: `abdul@santri.mtmh.com`,
-        password: 'orq[s$^zgx6L'
+        password: 'testakun123'
       })
     ])
 
@@ -73,7 +80,7 @@ const main = async () => {
   // seed ustad
   await seed.public_users(
     (x) =>
-      x(2, (ctx) => {
+      x(4, (ctx) => {
         return {
           sb_user_id: ustadz[ctx.index].id,
           email: ustadz[ctx.index].email,
@@ -124,12 +131,12 @@ const main = async () => {
 
   await seed.shifts(
     (x) =>
-      x(2, (ctx) => {
+      x(3, (ctx) => {
         return {
           halaqah_id: ctx.index + 1,
           ustadz_id: ctx.index + 1,
           location: 'Saung Umar bin Khattab',
-          start_date: new Date().toISOString(),
+          start_date: dayjs().startOf('day').toISOString(),
           end_date: null
         }
       }),
@@ -141,9 +148,9 @@ const main = async () => {
       x(1, () => {
         return {
           halaqah_id: 2,
-          ustadz_id: 1,
+          ustadz_id: 4,
           location: 'Saung Umar bin Khattab',
-          start_date: new Date().toISOString(),
+          start_date: dayjs().startOf('day').toISOString(),
           end_date: dayjs().endOf('day').toISOString()
         }
       }),
@@ -214,9 +221,10 @@ const main = async () => {
             .add(indexWithMaxNumber6, 'days')
             .add(7, 'hour')
             .toISOString(),
-          page_amount: pageAmount,
+          page_count: pageAmount,
+          target_page_count: 4,
           student_attendance: pageAmount === 0 ? 'absent' : 'present',
-          achieve_target: pageAmount >= 2,
+          achieve_target: pageAmount >= 4,
           end_surah: 1,
           start_verse: 1,
           end_verse: 7,
