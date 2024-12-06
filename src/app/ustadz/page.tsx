@@ -32,9 +32,7 @@ export default async function Home() {
         </section>
 
         <section className='flex flex-col gap-y-3 px-6'>
-          <div className=''>
-            <h2 className='text-mtmh-m-semibold'>Halaqah Hari Ini</h2>
-          </div>
+          <h2 className='text-mtmh-m-semibold'>Halaqah Hari Ini</h2>
 
           {halaqahList?.kind === 'ustadz' && (
             <ul className='flex flex-col gap-y-3'>
@@ -86,7 +84,7 @@ export default async function Home() {
 
           <ul className='flex overflow-x-scroll gap-3 px-6 items-start'>
             {activityList.data?.map((item) => {
-              const tags = (item.tags as string[]) || []
+              const tags = item.tags as string[]
               return (
                 <li key={item.id} className='w-[300px] flex-shrink-0'>
                   <ActivityCard
