@@ -16,7 +16,10 @@ dayjs.locale('id')
 interface Props {
   avatarUrl: ImageProps['src']
   name: string
-  salahPrayerTimes: AlAdhanPrayerTimingsResponse['data']['timings'] | undefined
+  salahPrayerTimes:
+    | AlAdhanPrayerTimingsResponse['data']['timings']
+    | null
+    | undefined
   currentDate?: Date
   className?: string
 }
@@ -54,17 +57,14 @@ export function GreetingsCard({
           />
         </CardTitle>
       </CardHeader>
+      <CardContent className='flex flex-col p-5 pt-0 gap-y-2'>
+        <SalahTimebox
+          currentDate={currentDate}
+          salahPrayerTimes={salahPrayerTimes}
+        />
 
-      {salahPrayerTimes && (
-        <CardContent className='flex flex-col p-5 pt-0 gap-y-2'>
-          <SalahTimebox
-            currentDate={currentDate}
-            salahPrayerTimes={salahPrayerTimes}
-          />
-
-          {children}
-        </CardContent>
-      )}
+        {children}
+      </CardContent>
     </Card>
   )
 }
@@ -73,9 +73,27 @@ function SalahTimebox({
   salahPrayerTimes,
   currentDate
 }: {
-  salahPrayerTimes: NonNullable<AlAdhanPrayerTimingsResponse['data']['timings']>
+  salahPrayerTimes?: AlAdhanPrayerTimingsResponse['data']['timings'] | null
   currentDate?: Date
 }) {
+  if (!salahPrayerTimes) {
+    // Render skeleton when salahPrayerTimes is null or undefined
+    return (
+      <ol className='flex justify-between gap-x-1'>
+        {['Shubuh', 'Dzuhur', 'Ashr', 'Maghrib', 'Isya'].map((name) => (
+          <li key={name} className='flex flex-1'>
+            <div className='flex flex-col bg-mtmh-neutral-10 px-1 py-2 rounded items-center w-full'>
+              <div className='text-mtmh-grey-lightest text-mtmh-sm-regular'>
+                {name}
+              </div>
+              <div className='bg-mtmh-grey-lightest h-4 w-12 rounded animate-pulse mt-1'></div>
+            </div>
+          </li>
+        ))}
+      </ol>
+    )
+  }
+
   const arrayOfPrayerTimings = [
     {
       name: 'Shubuh',
