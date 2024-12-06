@@ -132,7 +132,7 @@ export default function LoginPage() {
           <DialogTrigger asChild>
             <Link
               href=''
-              className='text-mtmh-secondary-secondary text-mtmh-body-small underline'
+              className='text-mtmh-tamarind-base text-mtmh-body-small underline'
             >
               Lupa sandi?
             </Link>
