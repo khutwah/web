@@ -29,7 +29,7 @@ export function UstadzHomeHeader({ displayName }: Props) {
         name={displayName}
         salahPrayerTimes={alAdhanInfo?.timings}
       >
-        {!missingLocationPermissionMessage && (
+        {missingLocationPermissionMessage && (
           <div className='flex gap-x-2 text-mtmh-sm-regular text-mtmh-red-light'>
             <div className='flex flex-col justify-center'>
               <CircleAlert aria-hidden size={16} />
