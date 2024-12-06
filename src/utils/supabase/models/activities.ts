@@ -130,8 +130,7 @@ export class Activities extends Base {
           target_page_count: item.target_page_count,
           page_count: item.page_count,
           created_at: item.created_at,
-          start_surah: surah.find((s) => s.id === item.start_surah)
-            ?.name_simple,
+          start_surah: surah.find((s) => s.id === item.start_surah)?.name,
           start_surah_id: item.start_surah,
           end_surah: surah.find((s) => s.id === item.end_surah)?.name,
           end_surah_id: item.end_surah,
