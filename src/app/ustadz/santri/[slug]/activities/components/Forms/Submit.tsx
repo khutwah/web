@@ -22,10 +22,10 @@ export function Submit(props: ButtonProps) {
       <DialogContent className='bg-mtmh-neutral-white bottom-0 top-auto !translate-y-0'>
         <DialogHeader>
           <DialogTitle className='flex justify-between border-b border-mtmh-neutral-30 pb-2'>
-            Anda yakin ingin melanjutkan?
+            Antum yakin ingin melanjutkan?
           </DialogTitle>
           <DialogDescription className='!mt-3'>
-            Pastikan semua informasi yang Anda masukkan sudah benar sebelum
+            Pastikan semua informasi yang antum masukkan sudah benar sebelum
             melanjutkan.
           </DialogDescription>
         </DialogHeader>
