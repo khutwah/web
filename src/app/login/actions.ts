@@ -30,7 +30,7 @@ export async function login(_prevState: unknown, formData: FormData) {
       })
 
       if (process.env.NEXT_PUBLIC_SKIP_MUMTAZ_LOGIN === 'true') {
-        // Skip mumtaz login in case we want to use the seed data (instead of real email data).
+        // Ignore the response from Mumtaz' login process and always log in using PIN.
         mumtazResponse = undefined
         status = -1
       }

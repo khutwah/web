@@ -8,6 +8,7 @@ import { startTransition, useEffect } from 'react'
 import { useToast } from '@/hooks/useToast'
 import { CircleAlert } from 'lucide-react'
 import clsx from 'clsx'
+import { Button } from '@/components/Button/Button'
 
 export default function Pin() {
   const [state, formAction, isTransitioning] = useFormState(login, {
@@ -51,7 +52,7 @@ export default function Pin() {
 
   const { pin } = useWatch({ control })
   const isSubmitButtonDisabled =
-    pin === '' && formState.errors.pin !== undefined
+    pin === '' || formState.errors.pin !== undefined
 
   return (
     <form onSubmit={onSubmit}>
@@ -75,18 +76,13 @@ export default function Pin() {
         error={formState.errors.pin?.message}
       />
 
-      <button
+      <Button
+        variant='primary'
         disabled={isSubmitButtonDisabled}
-        className={clsx(
-          'w-full mt-10 py-2 px-4 rounded-md text-mtmh-button-large !text-center text-mtmh-neutral-white',
-          {
-            'bg-mtmh-neutral-40': isSubmitButtonDisabled,
-            'bg-mtmh-primary-primary': !isSubmitButtonDisabled
-          }
-        )}
+        className='mt-10 w-full'
       >
         Masuk
-      </button>
+      </Button>
     </form>
   )
 }

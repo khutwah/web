@@ -19,6 +19,7 @@ import {
 } from '@/components/Dialog/Dialog'
 import { useToast } from '@/hooks/useToast'
 import { CircleAlert } from 'lucide-react'
+import { Button } from '@/components/Button/Button'
 
 export default function LoginPage() {
   const [state, formAction, isTransitioning] = useFormState(login, {
@@ -115,18 +116,13 @@ export default function LoginPage() {
           </div>
         </div>
 
-        <button
+        <Button
+          variant='primary'
           disabled={isSubmitButtonDisabled}
-          className={classNames(
-            'mt-10 py-2 px-4 rounded-md text-mtmh-button-large !text-center text-mtmh-neutral-white',
-            {
-              'bg-mtmh-neutral-40': isSubmitButtonDisabled,
-              'bg-mtmh-primary-primary': !isSubmitButtonDisabled
-            }
-          )}
+          className='mt-10'
         >
           Masuk
-        </button>
+        </Button>
       </form>
 
       <div className='text-center'>
@@ -147,18 +143,19 @@ export default function LoginPage() {
               <DialogTitle className='flex justify-between border-b border-mtmh-neutral-30 pb-2'>
                 Perubahan sandi
               </DialogTitle>
-              <DialogDescription className='!mt-3'>
+              <DialogDescription className='mt-3'>
                 Saat ini, antum dapat menghubungi admin Markaz Tahfizh Minhajul
                 Haq melalui WhatsApp untuk melakukan perubahan kata sandi.
               </DialogDescription>
             </DialogHeader>
-            <DialogFooter className='mt-[44px]'>
-              <button
-                className='w-full py-2 px-4 rounded-md text-mtmh-button-large !text-center text-mtmh-neutral-white bg-mtmh-primary-primary'
+            <DialogFooter className='mt-11'>
+              <Button
+                variant='primary'
                 onClick={() => setIsForgotPasswordDialogOpen(false)}
+                className='w-full'
               >
                 Hubungi admin
-              </button>
+              </Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
