@@ -24,10 +24,16 @@ export async function login(_prevState: unknown, formData: FormData) {
     const isNeedMumtaz = isNeedMumtazLogin(data.username)
 
     if (isNeedMumtaz) {
-      const { status, data: mumtazResponse } = await loginMumtaz({
+      let { status, data: mumtazResponse } = await loginMumtaz({
         username: data.username,
         password: data.password
       })
+
+      if (process.env.NEXT_PUBLIC_SKIP_MUMTAZ_LOGIN === 'true') {
+        // Ignore the response from Mumtaz' login process and always log in using PIN.
+        mumtazResponse = undefined
+        status = -1
+      }
 
       /**
        * Logged in via mumtaz API
