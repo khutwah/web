@@ -1,3 +1,5 @@
+import { Activities } from '@/utils/supabase/models/activities'
+
 export enum ActivityType {
   Sabaq = 1,
   Sabqi = 2,
@@ -31,3 +33,7 @@ export interface ActivityFormValues {
 }
 
 export const GLOBAL_TARGET_PAGE = 4
+
+export type ActivityEntry = NonNullable<
+  Awaited<ReturnType<Activities['list']>>['data']
+>[number]
