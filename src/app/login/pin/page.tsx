@@ -7,7 +7,6 @@ import { useForm, useWatch } from 'react-hook-form'
 import { startTransition, useEffect } from 'react'
 import { useToast } from '@/hooks/useToast'
 import { CircleAlert } from 'lucide-react'
-import clsx from 'clsx'
 import { Button } from '@/components/Button/Button'
 
 export default function Pin() {
