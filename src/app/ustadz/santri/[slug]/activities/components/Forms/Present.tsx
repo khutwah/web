@@ -172,7 +172,7 @@ export function FormPresent(props: FormProps) {
       </div>
 
       <div className='flex flex-col gap-2'>
-        <Label htmlFor='notes'>Catatan lain</Label>
+        <Label htmlFor='notes'>Catatan Lain</Label>
         <Textarea
           {...register('notes')}
           id='notes'
