@@ -77,7 +77,7 @@ function SalahTimebox({
   currentDate?: Date
 }) {
   if (!salahPrayerTimes) {
-    // Render skeleton when salahPrayerTimes is null or undefined
+    // Render skeleton when salahPrayerTimes is null or undefined.
     return (
       <ol className='flex justify-between gap-x-1'>
         {['Shubuh', 'Dzuhur', 'Ashr', 'Maghrib', 'Isya'].map((name) => (
