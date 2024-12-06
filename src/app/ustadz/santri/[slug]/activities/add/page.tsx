@@ -81,7 +81,7 @@ export default async function AddActivity(props: AddActivityProps) {
         ustadName={halaqah?.data?.ustadz?.name ?? ''}
         lastSurah={
           lastActivity
-            ? `${lastActivity?.end_surah} : ${lastActivity?.end_verse}`
+            ? `${lastActivity?.end_surah}: ${lastActivity?.end_verse}`
             : ''
         }
       />

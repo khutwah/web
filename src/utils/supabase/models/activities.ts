@@ -114,7 +114,7 @@ export class Activities extends Base {
           start_surah: surah.find((s) => s.id === item.start_surah)
             ?.name_simple,
           start_surah_id: item.start_surah,
-          end_surah: surah.find((s) => s.id === item.end_surah)?.name_simple,
+          end_surah: surah.find((s) => s.id === item.end_surah)?.name,
           end_surah_id: item.end_surah,
           start_verse: item.start_verse,
           end_verse: item.end_verse,
