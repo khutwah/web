@@ -10,6 +10,7 @@ RUN npm ci
 FROM base AS builder
 ARG NEXT_PUBLIC_APP_VERSION
 ENV NEXT_PUBLIC_APP_VERSION=$NEXT_PUBLIC_APP_VERSION
+ENV DOCKER_BUILD=true
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
