@@ -3,7 +3,8 @@ import surah from '@/data/surah.json'
 
 export const SURAH_ITEMS = surah.map((s) => ({
   value: String(s.id),
-  label: s.name_simple
+  label: s.name,
+  searchable: s.name_simple
 }))
 
 export function getVerseItems(surahValue: number): ComboboxProps['items'] {
@@ -12,7 +13,7 @@ export function getVerseItems(surahValue: number): ComboboxProps['items'] {
 
   return Array.from({ length: _surah.verses_count }, (_, i) => {
     const value = String(i + 1)
-    return { value, label: value }
+    return { value, label: value, searchable: value }
   })
 }
 

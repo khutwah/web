@@ -17,6 +17,7 @@ export interface ComboboxProps {
   items: Array<{
     value: string
     label: string
+    searchable: string
   }>
   onChange: (value: string) => void
   value: string
@@ -58,7 +59,7 @@ export function Combobox({
     if (!search || !withSearch) return items
 
     return items.filter((item) =>
-      item.label.toLowerCase().includes(search.toLowerCase())
+      item.searchable.toLowerCase().includes(search.toLowerCase())
     )
   }, [search, items, withSearch])
 
