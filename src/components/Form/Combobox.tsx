@@ -16,8 +16,8 @@ import { Input } from './Input'
 export interface ComboboxProps {
   items: Array<{
     value: string
-    searchable: string
     label: string
+    searchable: string
   }>
   onChange: (value: string) => void
   value: string
