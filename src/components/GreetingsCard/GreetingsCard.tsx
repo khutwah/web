@@ -40,7 +40,7 @@ export function GreetingsCard({
         <CardTitle className='flex justify-between'>
           <div className='flex-col'>
             <div className='text-mtmh-m-regular text-mtmh-grey-lightest'>
-              Selamat datang
+              اهلا وسهلا
             </div>
             <div className='text-mtmh-l-semibold'>{name}</div>
           </div>
