@@ -166,7 +166,7 @@ function Subchart({
         {formatChartTimerange(currentDatetime, datePeriod)}
       </div>
 
-      <ChartContainer config={CHART_CONFIG} className='flex-1'>
+      <ChartContainer config={CHART_CONFIG}>
         <AreaChart
           accessibilityLayer
           data={data}
