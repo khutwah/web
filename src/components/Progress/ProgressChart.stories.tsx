@@ -1,6 +1,7 @@
 import { ProgressChart } from './ProgressChart'
 import { ComponentProps, useState } from 'react'
 import dayjsGmt7 from '@/utils/dayjs-gmt7'
+import { GLOBAL_TARGET_PAGE } from '@/models/activities'
 
 export function ProgressChartStory() {
   return (
@@ -55,6 +56,7 @@ function generateData(
     page_count:
       idx === 0 ? 0 : idx > numberOfActivities ? null : pageCount + idx,
     type: 'Sabaq',
+    target_page_count: GLOBAL_TARGET_PAGE,
     created_at: startDatetime.add(idx, 'day').toISOString(),
     student_attendance: idx === 0 ? 'absent' : 'present',
     end_surah: 'Al-Fatihah',

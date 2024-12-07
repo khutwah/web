@@ -18,7 +18,7 @@ import 'dayjs/locale/id'
 dayjs.locale('id')
 
 const CHART_CONFIG = {
-  page_count: {
+  page_count_accumulation: {
     label: 'Jumlah halaman'
   },
   expected_total_page_count: {
@@ -30,7 +30,7 @@ const LONGER_DATE_FORMAT = 'D MMMM YYYY'
 const DEFAULT_ARRAY: ActivityEntry[] = []
 
 interface Props {
-  activities: Array<Omit<ActivityEntry, 'target_page_count'>> | null
+  activities: Array<ActivityEntry> | null
   datePeriod: 'week' | 'month'
   onDatePeriodChange: (value: 'week' | 'month') => void
 }
@@ -53,16 +53,21 @@ export function ProgressChart({
           <TabsTrigger value='month'>Bulan ini</TabsTrigger>
         </TabsList>
 
-        <TabsContent value='week' className='py-6'>
+        <TabsContent value='week'>
           <Subchart data={activities} datePeriod={datePeriod} />
         </TabsContent>
 
-        <TabsContent value='month' className='py-6'>
+        <TabsContent value='month'>
           <Subchart data={activities} datePeriod={datePeriod} />
         </TabsContent>
       </Tabs>
     </>
   )
+}
+
+interface ActivityChartEntry extends ActivityEntry {
+  page_count_accumulation: number
+  expected_total_page_count: number
 }
 
 function Subchart({
@@ -74,10 +79,18 @@ function Subchart({
 }) {
   const [currentDatetime] = useState(() => dayjsGmt7())
 
-  const data = dataProp.map((el, index) => ({
-    ...el,
-    expected_total_page_count: (index + 1) * GLOBAL_TARGET_PAGE
-  }))
+  const data: ActivityChartEntry[] = []
+  let currentPageCountAccumulation = 0
+
+  dataProp.forEach((activity, index) => {
+    currentPageCountAccumulation += activity.page_count ?? 0
+
+    data.push({
+      ...activity,
+      page_count_accumulation: currentPageCountAccumulation,
+      expected_total_page_count: (index + 1) * GLOBAL_TARGET_PAGE
+    })
+  })
 
   return (
     <div className='flex flex-col gap-y-3'>
@@ -125,7 +138,7 @@ function Subchart({
             }}
           />
           <Area
-            dataKey='page_count'
+            dataKey='page_count_accumulation'
             // stroke-mtmh-primary-base
             stroke='#0065FF'
             strokeWidth={2}
