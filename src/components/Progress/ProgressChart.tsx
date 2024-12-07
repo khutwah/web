@@ -74,7 +74,7 @@ function Subchart({
   data: dataProp,
   datePeriod
 }: {
-  data: any[]
+  data: NonNullable<Props['activities']>
   datePeriod: Props['datePeriod']
 }) {
   const [currentDatetime] = useState(() => dayjsGmt7())
