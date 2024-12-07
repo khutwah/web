@@ -214,6 +214,7 @@ export class Activities extends Base {
       .select('last_activity_id, page_count_accumulation')
       .order('id', { ascending: false })
       .eq('student_id', student_id)
+      .lt('created_at', end_date)
       .limit(1)
       .maybeSingle()
 
