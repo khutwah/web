@@ -61,7 +61,7 @@ function HalaqahCard(props: HalaqahCardProps) {
 
 export function Halaqah(props: HalaqahCardProps) {
   return (
-    <div className='p-6 bg-mtmh-primary-primary'>
+    <div className='p-6 bg-mtmh-red-base'>
       <HalaqahCard {...props} />
     </div>
   )

@@ -50,7 +50,7 @@ export default async function DetailHalaqah({
           onClickBackButton={navigateToHalaqahList}
         />
 
-        <div className='bg-mtmh-primary-primary w-full p-4'>
+        <div className='bg-mtmh-red-base w-full p-4'>
           <Card className='bg-mtmh-neutral-white text-mtmh-grey-base shadow-md'>
             <CardContent className='flex flex-col p-4 gap-y-3'>
               <dl className='grid grid-cols-3 text-mtmh-m-regular gap-y-2'>

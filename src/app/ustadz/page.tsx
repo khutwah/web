@@ -6,8 +6,9 @@ import { UstadzHomeHeader } from './components/UstadzHomeHeader'
 import { HeaderBackground } from '../../components/Header/Background'
 import { Activities } from '@/utils/supabase/models/activities'
 import { ActivityCard } from '@/components/ActivityCard/ActivityCard'
-import { ActivityTypeKey } from '@/models/activities'
+import { ActivityStatus, ActivityTypeKey } from '@/models/activities'
 import Link from 'next/link'
+import { ActivityPopup } from '@/components/ActivityPopup'
 
 export default async function Home() {
   const user = await getUser()
@@ -25,6 +26,7 @@ export default async function Home() {
   return (
     <Layout>
       <HeaderBackground />
+      <ActivityPopup activities={activityList.data} />
 
       <div className='flex flex-col gap-y-6 mt-4 py-6'>
         <section className='px-6 gap-y-6 flex flex-col'>
@@ -75,7 +77,7 @@ export default async function Home() {
           <div className='flex flex-row items-center justify-between px-6'>
             <h2 className='text-mtmh-m-semibold'>Input Terakhir</h2>
             <Link
-              className='text-mtmh-sm-semibold text-mtmh-secondary-secondary'
+              className='text-mtmh-sm-semibold text-mtmh-tamarind-base'
               href='/ustadz/aktivitas'
             >
               Lihat semua
@@ -104,6 +106,7 @@ export default async function Home() {
                     studentName={item.student_name!}
                     halaqahName={item.halaqah_name!}
                     labels={tags}
+                    status={item.status as ActivityStatus}
                   />
                 </li>
               )
