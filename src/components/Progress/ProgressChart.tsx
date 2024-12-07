@@ -1,6 +1,14 @@
 'use client'
 
-import { CartesianGrid, Label, Area, AreaChart, XAxis, YAxis } from 'recharts'
+import {
+  CartesianGrid,
+  Label,
+  Area,
+  AreaChart,
+  XAxis,
+  YAxis,
+  ReferenceLine
+} from 'recharts'
 
 import {
   ChartConfig,
@@ -66,7 +74,7 @@ export function ProgressChart({
 }
 
 interface ActivityChartEntry extends ActivityEntry {
-  page_count_accumulation: number
+  page_count_accumulation: number | null
   expected_total_page_count: number
 }
 
@@ -79,18 +87,24 @@ function Subchart({
 }) {
   const [currentDatetime] = useState(() => dayjsGmt7())
 
-  const data: ActivityChartEntry[] = []
+  const dayToActivityRecord = getInitialChartData(datePeriod)
   let currentPageCountAccumulation = 0
 
-  dataProp.forEach((activity, index) => {
+  for (let i = 0; i < dataProp.length; i++) {
+    const activity = dataProp[i]
+    if (!activity.created_at) continue
+
+    const xAxisValue = formatChartXAxis(activity.created_at)
+    const recordValue = dayToActivityRecord[xAxisValue]
+
+    if (!recordValue || activity.student_attendance === 'absent') continue
+
     currentPageCountAccumulation += activity.page_count ?? 0
 
-    data.push({
-      ...activity,
-      page_count_accumulation: currentPageCountAccumulation,
-      expected_total_page_count: (index + 1) * GLOBAL_TARGET_PAGE
-    })
-  })
+    recordValue.page_count_accumulation = currentPageCountAccumulation
+  }
+
+  const data: ActivityChartEntry[] = Object.values(dayToActivityRecord)
 
   return (
     <div className='flex flex-col gap-y-3'>
@@ -105,7 +119,8 @@ function Subchart({
           data={data}
           margin={{
             left: 12,
-            right: 12
+            right: 12,
+            bottom: 18
           }}
         >
           <CartesianGrid vertical={false} />
@@ -114,6 +129,10 @@ function Subchart({
             tickLine={false}
             axisLine={false}
             tickMargin={8}
+            tick={{
+              // fill-mtmh-grey-lightest
+              fill: '#A2A2A2'
+            }}
             tickFormatter={(value) => dayjsGmt7(value).format('D/M')}
           >
             <Label value='Tanggal' position='bottom' />
@@ -129,12 +148,24 @@ function Subchart({
               position: 'left',
               style: { textAnchor: 'middle' }
             }}
+            tick={{
+              // fill-mtmh-grey-lightest
+              fill: '#A2A2A2'
+            }}
+            stroke='transparent'
           />
+
+          <ReferenceLine
+            x={formatChartXAxis()}
+            // stroke-mtmh-red-base
+            stroke='#7F270F'
+          />
+
           <ChartTooltip
             cursor={false}
             content={<ChartTooltipContent />}
             labelFormatter={(label) => {
-              return dayjsGmt7(new Date(label)).format(LONGER_DATE_FORMAT)
+              return dayjs(label).format(LONGER_DATE_FORMAT)
             }}
           />
           <Area
@@ -172,4 +203,59 @@ function formatChartTimerange(
   }
 
   return `${datetime.startOf('month').format('D')}–${datetime.endOf('month').format(LONGER_DATE_FORMAT)}`
+}
+
+function formatChartXAxis(dateString?: string) {
+  return dayjsGmt7(dateString ? new Date(dateString) : undefined)
+    .startOf('day')
+    .toISOString()
+}
+
+function getInitialChartData(datePeriod: Props['datePeriod']) {
+  const record: Record<string, ActivityChartEntry> = {}
+  let expectedTotalPageCount = 0
+  let it: Dayjs
+  let end: Dayjs
+
+  if (datePeriod === 'week') {
+    it = dayjsGmt7().startOf('week')
+    end = dayjsGmt7().endOf('week')
+  } else {
+    it = dayjsGmt7().startOf('month')
+    end = dayjsGmt7().endOf('month')
+  }
+
+  while (it.isBefore(end)) {
+    // This is only used in the chart, so it's okay if we "abuse" this.
+    const createdAt = formatChartXAxis(it.toString())
+    expectedTotalPageCount += 4
+
+    record[createdAt] = {
+      page_count: null,
+      created_at: createdAt,
+      expected_total_page_count: expectedTotalPageCount,
+      page_count_accumulation: null,
+      // Mostly default values.
+      type: 'Sabaq',
+      target_page_count: GLOBAL_TARGET_PAGE,
+      student_attendance: 'present',
+      end_surah: '',
+      end_surah_id: -1,
+      end_verse: -1,
+      halaqah_name: undefined,
+      id: -1,
+      notes: '',
+      start_surah: '',
+      start_surah_id: -1,
+      start_verse: -1,
+      status: '',
+      student_id: undefined,
+      student_name: undefined,
+      tags: []
+    }
+
+    it = it.add(1, 'day')
+  }
+
+  return record
 }

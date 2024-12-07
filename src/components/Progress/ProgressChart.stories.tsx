@@ -43,6 +43,7 @@ function generateData(
   let numberOfData: number
 
   if (datePeriod === 'week') {
+    startDatetime = startDatetime.startOf('week')
     numberOfData = 7
   } else {
     startDatetime = startDatetime.startOf('month')
