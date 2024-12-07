@@ -7,7 +7,8 @@ import {
   AreaChart,
   XAxis,
   YAxis,
-  ReferenceLine
+  ReferenceLine,
+  ReferenceDot
 } from 'recharts'
 
 import {
@@ -118,8 +119,9 @@ function Subchart({
           accessibilityLayer
           data={data}
           margin={{
+            top: 18,
             left: 12,
-            right: 12,
+            right: 18,
             bottom: 18
           }}
         >
@@ -159,6 +161,27 @@ function Subchart({
             x={formatChartXAxis()}
             // stroke-mtmh-red-base
             stroke='#7F270F'
+          />
+
+          <ReferenceDot
+            stroke='transparent'
+            x={
+              datePeriod === 'week'
+                ? currentDatetime.endOf('week').startOf('day').toISOString()
+                : currentDatetime.endOf('month').startOf('day').toISOString()
+            }
+            y={
+              datePeriod === 'week'
+                ? GLOBAL_TARGET_PAGE * 7
+                : GLOBAL_TARGET_PAGE * currentDatetime.daysInMonth()
+            }
+            label={{
+              value: 'Target',
+              position: 'top',
+              // fill-mtmh-grey-lightest
+              fill: '#A2A2A2',
+              offset: -5
+            }}
           />
 
           <ChartTooltip
