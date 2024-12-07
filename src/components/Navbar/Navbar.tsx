@@ -6,7 +6,7 @@ export function Navbar(props: NavbarProps) {
   return (
     <nav
       aria-label='top navigation'
-      className='p-4 gap-4 flex items-center text-mtmh-neutral-white bg-mtmh-primary-primary'
+      className='p-4 gap-4 flex items-center text-mtmh-neutral-white bg-mtmh-red-base'
     >
       {onClickBackButton ? (
         <button onClick={onClickBackButton}>
