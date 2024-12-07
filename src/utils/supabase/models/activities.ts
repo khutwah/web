@@ -52,7 +52,8 @@ const selectQuery = `
     start_verse,
     end_verse,
     student_attendance,
-    shifts(ustadz_id, users(name), halaqah(name)),
+    achieve_target,
+    shifts(id, ustadz_id, users(name), halaqah(name)),
     students(parent_id, id, name)`
 
 export class Activities extends Base {
@@ -147,6 +148,15 @@ export class Activities extends Base {
     }
   }
 
+  async get(id: number) {
+    return await (await this.supabase)
+      .from('activities')
+      .select(selectQuery)
+      .eq('id', id)
+      .limit(1)
+      .maybeSingle()
+  }
+
   async create(payload: ActivitiesPayload) {
     const userId = Object.values((await getUserId()) ?? {})[0]
 
@@ -171,13 +181,23 @@ export class Activities extends Base {
 
     const result = await supabase
       .from('activities')
-      .select('id,created_by')
+      .select('id, created_by, shifts!inner(id, ustadz_id)')
       .eq('id', id)
-      .eq('created_by', userId)
       .limit(1)
       .maybeSingle()
 
     if (!result.data) {
+      throw new ApiError({
+        message: 'Not Found',
+        code: '404',
+        status: 404
+      })
+    }
+
+    if (
+      result.data.shifts.ustadz_id !== userId &&
+      result.data.created_by !== userId
+    ) {
       throw new ApiError({
         message: 'You are not authorize to perform this action',
         code: '403',

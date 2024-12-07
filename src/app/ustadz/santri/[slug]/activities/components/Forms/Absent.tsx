@@ -17,7 +17,14 @@ import { ErrorField } from './ErrorField'
 import { useSubmit } from '../../hooks/useSubmit'
 
 export function FormAbsent(props: Omit<FormProps, 'lastSurah' | 'lastVerse'>) {
-  const { activityType, shiftId, studentId, santriPageUri } = props
+  const {
+    activityType,
+    shiftId,
+    studentId,
+    santriPageUri,
+    defaultValues,
+    activityId
+  } = props
   const {
     setValue,
     register,
@@ -31,18 +38,23 @@ export function FormAbsent(props: Omit<FormProps, 'lastSurah' | 'lastVerse'>) {
       type: activityType,
       shift_id: shiftId,
       student_id: studentId,
-      target_page_count: GLOBAL_TARGET_PAGE
+      target_page_count: GLOBAL_TARGET_PAGE,
+      ...defaultValues
     }
   })
 
-  const { create, isLoading } = useSubmit({
+  const { create, update, isLoading } = useSubmit({
     successUri: santriPageUri
   })
 
   const submit = (status: ActivityStatus) => {
     setValue('status', status)
     handleSubmit(async (data) => {
-      await create(data)
+      if (activityId) {
+        await update(activityId, data)
+      } else {
+        await create(data)
+      }
     })()
   }
 
