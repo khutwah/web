@@ -32,7 +32,7 @@ export function ActivityPopup({ activities }: Props) {
 
   const closeModal = () => {
     if (activity) {
-      const params = new URLSearchParams(query.toString())
+      const params = new URLSearchParams(query)
       params.delete('activity')
       const _params = params.toString()
       router.replace(pathname + _params ? `?${_params}` : '')
