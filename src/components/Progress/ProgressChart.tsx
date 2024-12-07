@@ -13,7 +13,10 @@ import { UniversalPortal } from '@jesstelford/react-portal-universal'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../Tabs/Tabs'
 import dayjsGmt7 from '@/utils/dayjs-gmt7'
 import { useState } from 'react'
-import { Dayjs } from 'dayjs'
+import dayjs, { Dayjs } from 'dayjs'
+import 'dayjs/locale/id'
+
+dayjs.locale('id')
 
 const CHART_CONFIG = {
   page_count: {
@@ -23,6 +26,7 @@ const CHART_CONFIG = {
     label: 'Target jumlah halaman'
   }
 } satisfies ChartConfig
+const LONGER_DATE_FORMAT = 'D MMMM YYYY'
 
 export const PROGRESS_CHART_DATE_CONTROLS_PORTAL_ID =
   'progress-chart-date-controls'
@@ -109,29 +113,38 @@ function Subchart({
           >
             <Label value='Tanggal' position='bottom' />
           </XAxis>
-          <YAxis>
-            <Label
-              value={
-                datePeriod === 'week' ? 'Lembar pekan ini' : 'Lembar bulan ini'
-              }
-              angle={-90}
-              position='center'
-            />
-          </YAxis>
-          <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+          <YAxis
+            // This is so that there are not too many whitespace on the Y-axis label.
+            // Reference: https://github.com/recharts/recharts/issues/2027#issuecomment-2111387338.
+            width={30}
+            label={{
+              value:
+                datePeriod === 'week' ? 'Lembar pekan ini' : 'Lembar bulan ini',
+              angle: -90,
+              position: 'left',
+              style: { textAnchor: 'middle' }
+            }}
+          />
+          <ChartTooltip
+            cursor={false}
+            content={<ChartTooltipContent />}
+            labelFormatter={(label) => {
+              return dayjsGmt7(new Date(label)).format(LONGER_DATE_FORMAT)
+            }}
+          />
           <Line
             dataKey='page_count'
-            type='monotone'
-            className='stroke-mtmh-primary-base'
+            // stroke-mtmh-primary-base
+            stroke='#0065FF'
             strokeWidth={2}
             dot={false}
           />
           <Line
             dataKey='expected_total_page_count'
-            type='monotone'
-            className='stroke-mtmh-grey-lighter'
+            // stroke-mtmh-grey-lightest
+            stroke='#A2A2A2'
             strokeWidth={2}
-            strokeDasharray={8}
+            strokeDasharray='6'
             dot={false}
           />
         </LineChart>
@@ -146,8 +159,8 @@ function formatChartTimerange(
 ) {
   // Dev's note: the en-dash is intended to indicate range rather than hyphen (-).
   if (datePeriod === 'week') {
-    return `${datetime.startOf('week').format('D')}–${datetime.endOf('week').format('D MMMM YYYY')}`
+    return `${datetime.startOf('week').format('D')}–${datetime.endOf('week').format(LONGER_DATE_FORMAT)}`
   }
 
-  return `${datetime.startOf('month').format('D')}–${datetime.endOf('month').format('D MMMM YYYY')}`
+  return `${datetime.startOf('month').format('D')}–${datetime.endOf('month').format(LONGER_DATE_FORMAT)}`
 }

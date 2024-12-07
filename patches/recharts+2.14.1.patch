@@ -1,0 +1,15 @@
+diff --git a/node_modules/recharts/es6/cartesian/Line.js b/node_modules/recharts/es6/cartesian/Line.js
+index 8daece6..d37ab25 100755
+--- a/node_modules/recharts/es6/cartesian/Line.js
++++ b/node_modules/recharts/es6/cartesian/Line.js
+@@ -59,6 +59,10 @@ export var Line = /*#__PURE__*/function (_PureComponent) {
+       return "".concat(length, "px ").concat(totalLength - length, "px");
+     });
+     _defineProperty(_this, "getStrokeDasharray", function (length, totalLength, lines) {
++      if (lines.length === 1) {
++        return `${lines[0]}px`
++      }
++
+       var lineLength = lines.reduce(function (pre, next) {
+         return pre + next;
+       });
