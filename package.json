@@ -14,8 +14,7 @@
     "db-types": "supabase gen types --lang=typescript --local > src/models/database.types.ts",
     "prepare": "husky",
     "format": "npx prettier . --write",
-    "type:check": "npx tsc --noEmit",
-    "postinstall": "patch-package"
+    "type:check": "npx tsc --noEmit"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
@@ -56,7 +55,6 @@
     "eslint-config-next": "15.0.2",
     "husky": "^9.1.7",
     "lint-staged": "^15.2.10",
-    "patch-package": "8.0.0",
     "pg": "^8.13.1",
     "postcss": "^8",
     "prettier": "^3.3.3",

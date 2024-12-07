@@ -142,7 +142,9 @@ function Subchart({
             // stroke-mtmh-grey-lightest
             stroke='#A2A2A2'
             strokeWidth={2}
-            strokeDasharray='6'
+            // Expected to repeat, if we only put single entry it will not render the dashes after animation finishes.
+            // Reference: https://github.com/recharts/recharts/issues/3588.
+            strokeDasharray='6px 6px'
             dot={false}
             fill='transparent'
           />
