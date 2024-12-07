@@ -9,7 +9,6 @@ import {
   ChartTooltipContent
 } from '@/components/Chart/Chart'
 import { ActivityEntry, GLOBAL_TARGET_PAGE } from '@/models/activities'
-import { UniversalPortal } from '@jesstelford/react-portal-universal'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../Tabs/Tabs'
 import dayjsGmt7 from '@/utils/dayjs-gmt7'
 import { useState } from 'react'
@@ -32,14 +31,12 @@ const DEFAULT_ARRAY: ActivityEntry[] = []
 
 interface Props {
   activities: Array<Omit<ActivityEntry, 'target_page_count'>> | null
-  dateControlsContainerId: string
   datePeriod: 'week' | 'month'
   onDatePeriodChange: (value: 'week' | 'month') => void
 }
 
 export function ProgressChart({
   activities: activitiesProp,
-  dateControlsContainerId,
   datePeriod,
   onDatePeriodChange
 }: Props) {
@@ -51,12 +48,10 @@ export function ProgressChart({
         defaultValue='week'
         onValueChange={(value) => onDatePeriodChange(value as 'week' | 'month')}
       >
-        <UniversalPortal selector={`#${dateControlsContainerId}`}>
-          <TabsList className='grid w-full grid-cols-2'>
-            <TabsTrigger value='week'>Pekan ini</TabsTrigger>
-            <TabsTrigger value='month'>Bulan ini</TabsTrigger>
-          </TabsList>
-        </UniversalPortal>
+        <TabsList className='grid w-full grid-cols-2'>
+          <TabsTrigger value='week'>Pekan ini</TabsTrigger>
+          <TabsTrigger value='month'>Bulan ini</TabsTrigger>
+        </TabsList>
 
         <TabsContent value='week'>
           <Subchart data={activities} datePeriod={datePeriod} />
