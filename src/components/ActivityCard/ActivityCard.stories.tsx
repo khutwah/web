@@ -1,3 +1,4 @@
+import { ActivityStatus } from '@/models/activities'
 import { ActivityCard } from './ActivityCard'
 
 export function ActivityCardStory() {
@@ -14,6 +15,7 @@ export function ActivityCardStory() {
         notes='Santri kesulitan menghafal ayat yang memiliki beberapa titik stop dan kemiripan di antara titik-titik tersebut.'
         type='Sabaq'
         labels={['Terbata-bata', 'Makhrajul salah: ra']}
+        status={ActivityStatus.completed}
       />
       <ActivityCard
         id='2'
@@ -26,6 +28,7 @@ export function ActivityCardStory() {
         notes='Santri kesulitan menghafal ayat yang memiliki beberapa titik stop dan kemiripan di antara titik-titik tersebut.'
         type='Sabqi'
         labels={['Terbata-bata']}
+        status={ActivityStatus.completed}
       />
       <ActivityCard
         id='3'
@@ -38,6 +41,7 @@ export function ActivityCardStory() {
         notes=''
         type='Manzil'
         labels={['Makhrajul salah: ra']}
+        status={ActivityStatus.completed}
       />
       <ActivityCard
         id='4'
@@ -47,6 +51,7 @@ export function ActivityCardStory() {
         timestamp={new Date(2024, 1, 1, 7).toISOString()}
         notes='Santri kesulitan menghafal ayat yang memiliki beberapa titik stop dan kemiripan di antara titik-titik tersebut.'
         type='Sabaq'
+        status={ActivityStatus.completed}
       />
       <ActivityCard
         id='5'
@@ -56,6 +61,7 @@ export function ActivityCardStory() {
         timestamp={new Date(2024, 10, 10, 27).toISOString()}
         notes='Santri kesulitan menghafal ayat yang memiliki beberapa titik stop dan kemiripan di antara titik-titik tersebut.'
         type='Sabqi'
+        status={ActivityStatus.completed}
       />
       <ActivityCard
         id='6'
@@ -65,6 +71,7 @@ export function ActivityCardStory() {
         timestamp={new Date(2024, 10, 10, 27).toISOString()}
         notes=''
         type='Manzil'
+        status={ActivityStatus.draft}
       />
       <ActivityCard
         id='7'
@@ -74,6 +81,7 @@ export function ActivityCardStory() {
         timestamp={new Date(2024, 1, 1, 7).toISOString()}
         notes=''
         type='Sabaq'
+        status={ActivityStatus.completed}
       />
       <ActivityCard
         id='8'
@@ -83,6 +91,7 @@ export function ActivityCardStory() {
         timestamp={new Date(2024, 10, 10, 27).toISOString()}
         notes=''
         type='Sabqi'
+        status={ActivityStatus.completed}
       />
       <ActivityCard
         id='9'
@@ -92,6 +101,7 @@ export function ActivityCardStory() {
         timestamp={new Date(2024, 10, 10, 27).toISOString()}
         notes=''
         type='Manzil'
+        status={ActivityStatus.draft}
       />
     </div>
   )

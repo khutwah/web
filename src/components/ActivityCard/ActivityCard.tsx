@@ -1,10 +1,11 @@
 import { Card, CardHeader, CardTitle, CardContent } from '../Card/Card'
 import { BookOpen, MoveRight } from 'lucide-react'
 import Link from 'next/link'
-import { ActivityTypeKey } from '@/models/activities'
+import { ActivityStatus, ActivityTypeKey } from '@/models/activities'
 import { ActivityBadge } from '../Badge/ActivityBadge'
 import dayjsGmt7 from '@/utils/dayjs-gmt7'
 import { StickyNote } from '../icons'
+import { cn } from '@/utils/classnames'
 
 interface SurahSubmissionInfo {
   name: string
@@ -17,6 +18,7 @@ interface Props {
   isStudentPresent: boolean
   notes: string
   timestamp: string
+  status: ActivityStatus
   surahStart: SurahSubmissionInfo
   surahEnd: SurahSubmissionInfo
   studentName?: string
@@ -34,13 +36,14 @@ export function ActivityCard({
   isStudentPresent,
   studentName,
   halaqahName,
-  labels
+  labels,
+  status
 }: Props) {
   const date = new Date(timestamp)
 
   return (
-    <Link href={`/activities/${id}`}>
-      <Card className='w-full bg-mtmh-neutral-10 text-mtmh-grey-base'>
+    <Link href={`?activity=${id}`}>
+      <Card className='w-full bg-mtmh-neutral-10 text-mtmh-grey-base relative'>
         <CardHeader className='rounded-t-xl p-5 pb-3'>
           <CardTitle className='flex justify-between items-start'>
             <div className='flex flex-col gap-y-1'>
@@ -56,7 +59,11 @@ export function ActivityCard({
             <ActivityBadge type={type} isStudentPresent={isStudentPresent} />
           </CardTitle>
         </CardHeader>
-        <CardContent className='flex flex-col p-5 pt-0 gap-y-4'>
+        <CardContent
+          className={cn('flex flex-col p-5 pt-0 gap-y-4', {
+            'pb-8': status === 'draft'
+          })}
+        >
           {halaqahName && (
             <div className='text-xs text-mtmh-grey-light'>{halaqahName}</div>
           )}
@@ -92,15 +99,21 @@ export function ActivityCard({
           </div>
 
           {labels && <Labels labels={labels} />}
+
+          {status === 'draft' ? (
+            <div className='text-center bottom-0 right-0 left-0 absolute w-auto bg-mtmh-tamarind-lighter text-xs py-0.5 px-4 rounded-b-md'>
+              Data Belum Lengkap
+            </div>
+          ) : null}
         </CardContent>
       </Card>
     </Link>
   )
 }
 
-function Labels({ labels }: { labels: string[] }) {
+export function Labels({ labels }: { labels: string[] }) {
   return (
-    <ul className='flex gap-x-1 text-xs'>
+    <ul className='flex gap-1 text-xs flex-wrap'>
       {labels.map((tag, index) => (
         <li
           key={`${tag}-${index}`}
