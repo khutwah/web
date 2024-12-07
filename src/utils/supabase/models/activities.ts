@@ -37,6 +37,12 @@ interface ActivitiesPayload {
   created_at?: string
 }
 
+interface ActivitiesForChart {
+  student_id: number
+  start_date: string
+  end_date: string
+}
+
 const selectQuery = `
     id,
     student_id,
@@ -198,5 +204,45 @@ export class Activities extends Base {
       })
     }
     return response
+  }
+
+  async chart({ student_id, start_date, end_date }: ActivitiesForChart) {
+    const supabase = await this.supabase
+
+    const checkpoint = await supabase
+      .from('checkpoint')
+      .select('last_activity_id, page_count_accumulation')
+      .order('id', { ascending: false })
+      .eq('student_id', student_id)
+      .limit(1)
+      .maybeSingle()
+
+    const activities = supabase
+      .from('activities')
+      .select('id, page_count, target_page_count, created_at')
+      .eq('student_id', student_id)
+      .eq('student_attendance', 'present')
+      .gte('created_at', start_date)
+      .lte('created_at', end_date)
+
+    if (checkpoint.data?.last_activity_id) {
+      activities.gt('id', checkpoint.data?.last_activity_id)
+    }
+
+    const result = await activities
+
+    let pageCountStart = checkpoint.data?.page_count_accumulation ?? 0
+
+    const data =
+      result.data?.map((item) => {
+        pageCountStart += item.page_count!
+        return {
+          target_page_count: item.target_page_count,
+          page_count: pageCountStart,
+          created_at: item.created_at
+        }
+      }) ?? []
+
+    return data
   }
 }
