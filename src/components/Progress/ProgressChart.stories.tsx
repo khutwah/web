@@ -1,5 +1,5 @@
 import { ProgressChart } from './ProgressChart'
-import { ComponentProps, useId, useState } from 'react'
+import { ComponentProps, useState } from 'react'
 import dayjsGmt7 from '@/utils/dayjs-gmt7'
 
 export function ProgressChartStory() {
@@ -13,9 +13,6 @@ export function ProgressChartStory() {
 }
 
 function Segment({ numberOfActivities }: { numberOfActivities?: number }) {
-  const rawId = useId()
-  const id = rawId.replace(/:/g, '')
-
   const [date] = useState(() => new Date())
   const [datePeriod, setDatePeriod] = useState<'week' | 'month'>('week')
 
@@ -25,21 +22,13 @@ function Segment({ numberOfActivities }: { numberOfActivities?: number }) {
     numberOfActivities
   )
 
-  const [portalRef, setPortalRef] = useState<HTMLDivElement | null>(null)
-
   return (
     <div className='w-[300px] flex flex-col'>
-      <div id={id} ref={setPortalRef} className='w-full' />
-
-      {/* Force the div to render first, then the chart. This is only needed for client-side rendering (Ladle, in this case). */}
-      {portalRef && (
-        <ProgressChart
-          dateControlsContainerId={id}
-          activities={data}
-          onDatePeriodChange={setDatePeriod}
-          datePeriod={datePeriod}
-        />
-      )}
+      <ProgressChart
+        activities={data}
+        onDatePeriodChange={setDatePeriod}
+        datePeriod={datePeriod}
+      />
     </div>
   )
 }
