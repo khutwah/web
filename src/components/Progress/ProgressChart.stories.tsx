@@ -1,4 +1,4 @@
-import { ProgressChart } from './ProgressChart'
+import { ProgressChart, ProgressChartPeriod } from './ProgressChart'
 import { ComponentProps, useState } from 'react'
 import dayjsGmt7 from '@/utils/dayjs-gmt7'
 import { GLOBAL_TARGET_PAGE } from '@/models/activities'
@@ -6,20 +6,19 @@ import { GLOBAL_TARGET_PAGE } from '@/models/activities'
 export function ProgressChartStory() {
   return (
     <ul className='grid gap-4 lg:grid-cols-2'>
-      {[undefined, 5, 26].map((value, idx) => (
+      {[0, 31, 5, 26].map((value, idx) => (
         <Segment numberOfActivities={value} key={idx} />
       ))}
     </ul>
   )
 }
 
-function Segment({ numberOfActivities }: { numberOfActivities?: number }) {
+function Segment({ numberOfActivities }: { numberOfActivities: number }) {
   const [date] = useState(() => new Date())
-  const [datePeriod, setDatePeriod] = useState<'week' | 'month'>('week')
+  const [datePeriod, setDatePeriod] = useState<ProgressChartPeriod>('pekan')
 
   const data: ComponentProps<typeof ProgressChart>['activities'] = generateData(
     date,
-    datePeriod,
     numberOfActivities
   )
 
@@ -36,23 +35,14 @@ function Segment({ numberOfActivities }: { numberOfActivities?: number }) {
 
 function generateData(
   date: Date,
-  datePeriod: 'week' | 'month',
-  numberOfActivities = 99
+  numberOfActivities: number
 ): NonNullable<ComponentProps<typeof ProgressChart>['activities']> {
-  let startDatetime = dayjsGmt7(date)
-  let numberOfData: number
+  const startDatetime = dayjsGmt7(date).startOf('month')
 
-  if (datePeriod === 'week') {
-    numberOfData = 7
-  } else {
-    startDatetime = startDatetime.startOf('month')
-    numberOfData = startDatetime.daysInMonth()
-  }
+  const endDate = startDatetime.day(numberOfActivities - 1)
+  const pageCount = endDate.date() % (numberOfActivities - 1)
 
-  const endDate = startDatetime.day(numberOfData - 1)
-  const pageCount = endDate.date() % (numberOfData - 1)
-
-  return Array.from(new Array(numberOfData), (_, idx) => ({
+  return Array.from(new Array(numberOfActivities), (_, idx) => ({
     page_count:
       idx === 0 ? 0 : idx > numberOfActivities ? null : pageCount + idx,
     type: 'Sabaq',
