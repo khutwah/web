@@ -6,8 +6,6 @@ import { getUser } from '@/utils/supabase/get-user'
 import { Activities } from '@/utils/supabase/models/activities'
 import dayjs from 'dayjs'
 
-const DATE_CONTROLS_CONTAINER_ID = 'chart-date-period-controls'
-
 export default async function Pencapaian() {
   const parentUser = await getUser()
 
@@ -24,14 +22,13 @@ export default async function Pencapaian() {
 
       <HeaderBackground height={112} />
 
-      <div id={DATE_CONTROLS_CONTAINER_ID} />
-
-      <ProgressChart
-        activities={activities?.data}
-        dateControlsContainerId={DATE_CONTROLS_CONTAINER_ID}
-        datePeriod='week'
-        // onDatePeriodChange={() => {}}
-      />
+      <div className='p-4 pt-0'>
+        <ProgressChart
+          activities={activities?.data}
+          datePeriod='week'
+          // onDatePeriodChange={() => {}}
+        />
+      </div>
     </Layout>
   )
 }

@@ -53,11 +53,11 @@ export function ProgressChart({
           <TabsTrigger value='month'>Bulan ini</TabsTrigger>
         </TabsList>
 
-        <TabsContent value='week'>
+        <TabsContent value='week' className='py-6'>
           <Subchart data={activities} datePeriod={datePeriod} />
         </TabsContent>
 
-        <TabsContent value='month'>
+        <TabsContent value='month' className='py-6'>
           <Subchart data={activities} datePeriod={datePeriod} />
         </TabsContent>
       </Tabs>
