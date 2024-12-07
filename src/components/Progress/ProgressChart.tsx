@@ -47,27 +47,25 @@ export function ProgressChart({
 
   return (
     <>
-      <UniversalPortal selector={`#${dateControlsContainerId}`}>
-        <Tabs
-          defaultValue='week'
-          onValueChange={(value) =>
-            onDatePeriodChange(value as 'week' | 'month')
-          }
-        >
+      <Tabs
+        defaultValue='week'
+        onValueChange={(value) => onDatePeriodChange(value as 'week' | 'month')}
+      >
+        <UniversalPortal selector={`#${dateControlsContainerId}`}>
           <TabsList className='grid w-full grid-cols-2'>
             <TabsTrigger value='week'>Pekan ini</TabsTrigger>
             <TabsTrigger value='month'>Bulan ini</TabsTrigger>
           </TabsList>
+        </UniversalPortal>
 
-          {/* <TabsContent value='week'>
+        {/* <TabsContent value='week'>
           <Subchart data={activities} datePeriod={datePeriod} />
-          </TabsContent>
-          
-          <TabsContent value='month'>
+        </TabsContent>
+
+        <TabsContent value='month'>
           <Subchart data={activities} datePeriod={datePeriod} />
-          </TabsContent> */}
-        </Tabs>
-      </UniversalPortal>
+        </TabsContent> */}
+      </Tabs>
     </>
   )
 }
