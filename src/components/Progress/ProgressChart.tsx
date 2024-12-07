@@ -18,7 +18,7 @@ import 'dayjs/locale/id'
 dayjs.locale('id')
 
 const CHART_CONFIG = {
-  page_count: {
+  page_count_accumulation: {
     label: 'Jumlah halaman'
   },
   expected_total_page_count: {
