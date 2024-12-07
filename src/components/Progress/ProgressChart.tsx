@@ -98,7 +98,7 @@ export function ProgressChartWithNavigation(
 
 // Helper function and components.
 interface ActivityChartEntry extends ActivityEntry {
-  page_count_accumulation: number
+  page_count_accumulation: number | null
   expected_total_page_count: number
 }
 
@@ -135,7 +135,7 @@ function Subchart({
     for (let i = length; i < periodLength; i++) {
       data.push({
         expected_total_page_count: (i + 1) * GLOBAL_TARGET_PAGE,
-        page_count_accumulation: currentPageCountAccumulation,
+        page_count_accumulation: null,
         created_at: currentDatetime.add(i, 'days').toISOString(),
         // The rest are not really important.
         end_surah: '',
