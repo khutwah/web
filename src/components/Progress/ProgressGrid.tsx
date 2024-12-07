@@ -1,7 +1,6 @@
 'use client'
 
-import { ActivityTypeKey } from '@/models/activities'
-import { Activities } from '@/utils/supabase/models/activities'
+import { ActivityEntry, ActivityTypeKey } from '@/models/activities'
 import { ActivityBadge } from '../Badge/ActivityBadge'
 import { Dispatch, SetStateAction, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
@@ -10,10 +9,6 @@ import ThumbsUpImage from './indikator-manzil.png'
 import dayjsGmt7 from '@/utils/dayjs-gmt7'
 import dayjs, { Dayjs } from 'dayjs'
 import { cn } from '@/utils/classnames'
-
-type ActivityEntry = NonNullable<
-  Awaited<ReturnType<Activities['list']>>['data']
->[number]
 
 interface Props {
   activities: Array<Omit<ActivityEntry, 'target_page_count'>> | null
