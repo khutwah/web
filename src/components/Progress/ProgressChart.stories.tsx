@@ -59,7 +59,7 @@ function generateData(
     type: 'Sabaq',
     target_page_count: GLOBAL_TARGET_PAGE,
     created_at: startDatetime.add(idx, 'day').toISOString(),
-    student_attendance: idx === 0 ? 'absent' : 'present',
+    student_attendance: idx % 7 === 0 ? 'absent' : 'present',
     end_surah: 'Al-Fatihah',
     end_surah_id: 1,
     end_verse: 1,
