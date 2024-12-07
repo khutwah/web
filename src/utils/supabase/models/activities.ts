@@ -217,7 +217,7 @@ export class Activities extends Base {
       .limit(1)
       .maybeSingle()
 
-    const activities = supabase
+    const activities = await supabase
       .from('activities')
       .select('id, page_count, target_page_count, created_at')
       .eq('student_id', student_id)
@@ -225,17 +225,24 @@ export class Activities extends Base {
       .gte('created_at', start_date)
       .lte('created_at', end_date)
 
-    if (checkpoint.data?.last_activity_id) {
-      activities.gt('id', checkpoint.data?.last_activity_id)
-    }
-
-    const result = await activities
-
     let pageCountStart = checkpoint.data?.page_count_accumulation ?? 0
 
+    if (checkpoint.data?.last_activity_id) {
+      // Deduct pageCountStart if there is activity is found
+      // before reaching checkpoint
+      // because page_count_accumulation already include
+      // those page_count numbers
+      activities.data?.forEach((item) => {
+        if (item.id < checkpoint.data!.last_activity_id) {
+          pageCountStart -= item.page_count!
+        }
+      })
+    }
+
     const data =
-      result.data?.map((item) => {
+      activities.data?.map((item) => {
         pageCountStart += item.page_count!
+
         return {
           target_page_count: item.target_page_count,
           page_count: pageCountStart,
