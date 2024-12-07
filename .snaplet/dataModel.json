@@ -853,6 +853,34 @@
           "maxLength": null
         },
         {
+          "id": "public.checkpoint.created_at",
+          "name": "created_at",
+          "columnName": "created_at",
+          "type": "timestamp",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "public.checkpoint.updated_at",
+          "name": "updated_at",
+          "columnName": "updated_at",
+          "type": "timestamp",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
           "name": "activities",
           "type": "activities",
           "isRequired": true,
