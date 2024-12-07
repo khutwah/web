@@ -1,37 +1,40 @@
-import { ActivityEntry, ActivityTypeKey } from '@/models/activities'
-import {
-  PROGRESS_CHART_DATE_CONTROLS_PORTAL_ID,
-  ProgressChart
-} from './ProgressChart'
-import { ComponentProps, useState } from 'react'
-import dayjs from 'dayjs'
+import { ProgressChart } from './ProgressChart'
+import { ComponentProps, useId, useState } from 'react'
 import dayjsGmt7 from '@/utils/dayjs-gmt7'
 
 export function ProgressChartStory() {
+  return (
+    <ul className='grid gap-4 lg:grid-cols-2'>
+      {[undefined, 5, 26].map((value, idx) => (
+        <Segment numberOfActivities={value} key={idx} />
+      ))}
+    </ul>
+  )
+}
+
+function Segment({ numberOfActivities }: { numberOfActivities?: number }) {
+  const rawId = useId()
+  const id = rawId.replace(/:/g, '')
+
   const [date] = useState(() => new Date())
   const [datePeriod, setDatePeriod] = useState<'week' | 'month'>('week')
 
   const data: ComponentProps<typeof ProgressChart>['activities'] = generateData(
-    'Sabaq',
     date,
-    datePeriod
+    datePeriod,
+    numberOfActivities
   )
 
   const [portalRef, setPortalRef] = useState<HTMLDivElement | null>(null)
 
-  console.info(data)
-
   return (
     <div className='w-[300px] flex flex-col'>
-      <div
-        id={PROGRESS_CHART_DATE_CONTROLS_PORTAL_ID}
-        ref={setPortalRef}
-        className='w-full'
-      />
+      <div id={id} ref={setPortalRef} className='w-full' />
 
       {/* Force the div to render first, then the chart. This is only needed for client-side rendering (Ladle, in this case). */}
       {portalRef && (
         <ProgressChart
+          dateControlsContainerId={id}
           activities={data}
           onDatePeriodChange={setDatePeriod}
           datePeriod={datePeriod}
@@ -42,9 +45,9 @@ export function ProgressChartStory() {
 }
 
 function generateData(
-  type: ActivityTypeKey,
   date: Date,
-  datePeriod: 'week' | 'month'
+  datePeriod: 'week' | 'month',
+  numberOfActivities = 99
 ): NonNullable<ComponentProps<typeof ProgressChart>['activities']> {
   let startDatetime = dayjsGmt7(date)
   let numberOfData: number
@@ -60,8 +63,9 @@ function generateData(
   const pageCount = endDate.date() % (numberOfData - 1)
 
   return Array.from(new Array(numberOfData), (_, idx) => ({
-    page_count: idx === 0 ? 0 : pageCount + idx,
-    type,
+    page_count:
+      idx === 0 ? 0 : idx > numberOfActivities ? null : pageCount + idx,
+    type: 'Sabaq',
     created_at: startDatetime.add(idx, 'day').toISOString(),
     student_attendance: idx === 0 ? 'absent' : 'present',
     end_surah: 'Al-Fatihah',

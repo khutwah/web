@@ -1,6 +1,6 @@
 'use client'
 
-import { CartesianGrid, Label, Line, LineChart, XAxis, YAxis } from 'recharts'
+import { CartesianGrid, Label, Area, AreaChart, XAxis, YAxis } from 'recharts'
 
 import {
   ChartConfig,
@@ -28,19 +28,18 @@ const CHART_CONFIG = {
 } satisfies ChartConfig
 const LONGER_DATE_FORMAT = 'D MMMM YYYY'
 
-export const PROGRESS_CHART_DATE_CONTROLS_PORTAL_ID =
-  'progress-chart-date-controls'
-
 const DEFAULT_ARRAY: ActivityEntry[] = []
 
 interface Props {
   activities: Array<Omit<ActivityEntry, 'target_page_count'>> | null
+  dateControlsContainerId: string
   datePeriod: 'week' | 'month'
   onDatePeriodChange: (value: 'week' | 'month') => void
 }
 
 export function ProgressChart({
   activities: activitiesProp,
+  dateControlsContainerId,
   datePeriod,
   onDatePeriodChange
 }: Props) {
@@ -52,9 +51,7 @@ export function ProgressChart({
         defaultValue='week'
         onValueChange={(value) => onDatePeriodChange(value as 'week' | 'month')}
       >
-        <UniversalPortal
-          selector={`#${PROGRESS_CHART_DATE_CONTROLS_PORTAL_ID}`}
-        >
+        <UniversalPortal selector={`#${dateControlsContainerId}`}>
           <TabsList className='grid w-full grid-cols-2'>
             <TabsTrigger value='week'>Pekan ini</TabsTrigger>
             <TabsTrigger value='month'>Bulan ini</TabsTrigger>
@@ -95,7 +92,7 @@ function Subchart({
       </div>
 
       <ChartContainer config={CHART_CONFIG}>
-        <LineChart
+        <AreaChart
           accessibilityLayer
           data={data}
           margin={{
@@ -132,22 +129,24 @@ function Subchart({
               return dayjsGmt7(new Date(label)).format(LONGER_DATE_FORMAT)
             }}
           />
-          <Line
+          <Area
             dataKey='page_count'
             // stroke-mtmh-primary-base
             stroke='#0065FF'
             strokeWidth={2}
             dot={false}
+            fill='#0065FF30'
           />
-          <Line
+          <Area
             dataKey='expected_total_page_count'
             // stroke-mtmh-grey-lightest
             stroke='#A2A2A2'
             strokeWidth={2}
             strokeDasharray='6'
             dot={false}
+            fill='transparent'
           />
-        </LineChart>
+        </AreaChart>
       </ChartContainer>
     </div>
   )
