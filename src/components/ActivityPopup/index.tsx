@@ -42,7 +42,7 @@ export function ActivityPopup({ activities }: Props) {
   const _activity = activities?.find((item) => item.id === Number(activity))
 
   return (
-    <Drawer open={Boolean(activity)} onOpenChange={closeModal}>
+    <Drawer open={Boolean(_activity)} onOpenChange={closeModal}>
       <DrawerContent>
         <DrawerHeader className='hidden'>
           <DrawerTitle>Drawer Title</DrawerTitle>
