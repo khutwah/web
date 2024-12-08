@@ -53,7 +53,7 @@ const create = (data: ActivityFormValues) => {
 const update = (id: number, data: ActivityFormValues) => {
   return submit({
     data,
-    url: `/api/v1/activities${id}`,
+    url: `/api/v1/activities/${id}`,
     method: 'PUT'
   })
 }

@@ -3,13 +3,17 @@ import { Control, UseFormSetValue, useWatch } from 'react-hook-form'
 import { getVersesByKey } from '../utils/getVersesByKey'
 import { useSecondEffect } from '@/hooks/useSecondEffect'
 
-export function useActivityControlledValue({
-  control,
-  setValue
-}: {
+interface UseActivityControlledValueArgs {
   control: Control<ActivityFormValues>
   setValue: UseFormSetValue<ActivityFormValues>
-}) {
+  autofillSurah?: boolean
+}
+
+export function useActivityControlledValue({
+  control,
+  setValue,
+  autofillSurah = true
+}: UseActivityControlledValueArgs) {
   const [startSurah, endSurah, startVerse, endVerse, tags, achieveTarget] =
     useWatch({
       control,
@@ -24,16 +28,16 @@ export function useActivityControlledValue({
     })
 
   useSecondEffect(() => {
-    if (startSurah) {
+    if (autofillSurah && startSurah) {
       setValue('end_surah', startSurah)
     }
-  }, [startSurah])
+  }, [autofillSurah, startSurah])
 
   useSecondEffect(() => {
-    if (startVerse) {
+    if (autofillSurah && startVerse) {
       setValue('end_verse', startVerse)
     }
-  }, [startVerse])
+  }, [autofillSurah, startVerse])
 
   useSecondEffect(() => {
     if (startSurah && startVerse && endSurah && endVerse) {

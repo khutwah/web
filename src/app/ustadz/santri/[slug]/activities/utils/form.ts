@@ -1,12 +1,6 @@
 import { ComboboxProps } from '@/components/Form/Combobox'
 import surah from '@/data/surah.json'
 
-export const SURAH_ITEMS = surah.map((s) => ({
-  value: String(s.id),
-  label: s.name,
-  searchable: s.name_simple
-}))
-
 export function getVerseItems(surahValue: number): ComboboxProps['items'] {
   const _surah = surah.find((item) => item.id === surahValue)
   if (!_surah) return []

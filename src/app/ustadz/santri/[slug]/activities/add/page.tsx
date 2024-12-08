@@ -5,7 +5,11 @@ import { redirect } from 'next/navigation'
 import { Halaqah as HalaqahComponent } from '../components/Halaqah'
 
 import { Halaqah } from '@/utils/supabase/models/halaqah'
-import { ActivityType, ActivityTypeKey } from '@/models/activities'
+import {
+  ActivityStatus,
+  ActivityType,
+  ActivityTypeKey
+} from '@/models/activities'
 import { Students } from '@/utils/supabase/models/students'
 import { Activities } from '@/utils/supabase/models/activities'
 import {
@@ -51,11 +55,13 @@ export default async function AddActivity(props: AddActivityProps) {
   const activities = await _activities.list({
     student_id: Number(params.slug),
     student_attendance: 'present',
-    type: activityKey
+    type: activityKey,
+    order_by: 'desc',
+    status: ActivityStatus.completed,
+    limit: 1
   })
 
-  const totalData = activities?.data?.length ?? 0
-  const lastActivity = activities?.data?.[totalData - 1]
+  const lastActivity = activities?.data?.[0]
 
   const optionalProps = {
     ...(lastActivity && {

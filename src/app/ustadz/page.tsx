@@ -88,17 +88,25 @@ export default async function Home() {
             {activityList.data?.map((item) => {
               const tags = item.tags as string[]
               return (
-                <li key={item.id} className='w-[300px] flex-shrink-0'>
+                <li key={item.id} className='w-[300px] flex-shrink-0 h-full'>
                   <ActivityCard
                     id={String(item.id)}
-                    surahEnd={{
-                      name: String(item.end_surah),
-                      verse: String(item.end_verse)
-                    }}
-                    surahStart={{
-                      name: String(item.start_surah),
-                      verse: String(item.start_verse)
-                    }}
+                    surahEnd={
+                      item.student_attendance === 'present'
+                        ? {
+                            name: String(item.end_surah),
+                            verse: String(item.end_verse)
+                          }
+                        : null
+                    }
+                    surahStart={
+                      item.student_attendance === 'present'
+                        ? {
+                            name: String(item.start_surah),
+                            verse: String(item.start_verse)
+                          }
+                        : null
+                    }
                     timestamp={item.created_at!}
                     notes={item.notes ?? ''}
                     type={item.type as ActivityTypeKey}

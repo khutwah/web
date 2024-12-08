@@ -19,8 +19,8 @@ interface Props {
   notes: string
   timestamp: string
   status: ActivityStatus
-  surahStart: SurahSubmissionInfo
-  surahEnd: SurahSubmissionInfo
+  surahStart?: SurahSubmissionInfo | null
+  surahEnd?: SurahSubmissionInfo | null
   studentName?: string
   halaqahName?: string
   labels?: string[]
@@ -43,7 +43,7 @@ export function ActivityCard({
 
   return (
     <Link href={`?activity=${id}`}>
-      <Card className='w-full bg-mtmh-neutral-10 text-mtmh-grey-base relative'>
+      <Card className='w-full bg-mtmh-neutral-10 text-mtmh-grey-base relative h-full'>
         <CardHeader className='rounded-t-xl p-5 pb-3'>
           <CardTitle className='flex justify-between items-start'>
             <div className='flex flex-col gap-y-1'>
@@ -60,7 +60,7 @@ export function ActivityCard({
           </CardTitle>
         </CardHeader>
         <CardContent
-          className={cn('flex flex-col p-5 pt-0 gap-y-4', {
+          className={cn('flex flex-col gap-y-4', {
             'pb-8': status === 'draft'
           })}
         >
@@ -68,25 +68,27 @@ export function ActivityCard({
             <div className='text-xs text-mtmh-grey-light'>{halaqahName}</div>
           )}
 
-          <div className='flex items-center gap-x-2 text-sm'>
-            <div className='pt-1'>
-              <BookOpen className='text-mtmh-grey-lightest' size={16} />
+          {surahStart && surahEnd ? (
+            <div className='flex items-center gap-x-2 text-sm'>
+              <div className='pt-1'>
+                <BookOpen className='text-mtmh-grey-lightest' size={16} />
+              </div>
+
+              <div className='flex items-center gap-x-2'>
+                <div>
+                  {surahStart.name}: {surahStart.verse}
+                </div>
+
+                <div>
+                  <MoveRight size={16} />
+                </div>
+
+                <div>
+                  {surahEnd.name}: {surahEnd.verse}
+                </div>
+              </div>
             </div>
-
-            <div className='flex items-center gap-x-2'>
-              <div>
-                {surahStart.name}: {surahStart.verse}
-              </div>
-
-              <div>
-                <MoveRight size={16} />
-              </div>
-
-              <div>
-                {surahEnd.name}: {surahEnd.verse}
-              </div>
-            </div>
-          </div>
+          ) : null}
 
           <div className='flex items-start gap-x-2 text-sm'>
             <div className='pt-1'>

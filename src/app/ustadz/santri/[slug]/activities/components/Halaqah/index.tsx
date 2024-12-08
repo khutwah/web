@@ -14,7 +14,7 @@ interface HalaqahCardProps {
   studentName: string
   activityType: ActivityTypeKey
   ustadName: string
-  lastSurah: string
+  lastSurah?: string
 }
 
 function HalaqahCard(props: HalaqahCardProps) {
@@ -45,15 +45,17 @@ function HalaqahCard(props: HalaqahCardProps) {
           </div>
         </div>
 
-        <div className='flex items-start gap-x-2 text-sm'>
-          <div className='pt-1'>
-            <BookmarkIcon className='size-4 text-mtmh-grey-lightest' />
-          </div>
+        {lastSurah ? (
+          <div className='flex items-start gap-x-2 text-sm'>
+            <div className='pt-1'>
+              <BookmarkIcon className='size-4 text-mtmh-grey-lightest' />
+            </div>
 
-          <div className='w-full text-ellipsis line-clamp-2'>
-            {lastSurah || '-'}
+            <div className='w-full text-ellipsis line-clamp-2'>
+              {lastSurah || '-'}
+            </div>
           </div>
-        </div>
+        ) : null}
       </CardContent>
     </Card>
   )

@@ -10,13 +10,12 @@ import { Button } from '@/components/Button/Button'
 import {
   ActivityFormValues,
   ActivityStatus,
-  ActivityType,
   GLOBAL_TARGET_PAGE
 } from '@/models/activities'
 import { activityCreateSchema } from '@/utils/schemas/activities'
 import { useActivityControlledValue } from '../../hooks/useActivityControlledValue'
-import { getVerseItems, SURAH_ITEMS, toggleTag } from '../../utils/form'
-import { FormProps } from '@/models/activity-form'
+import { getVerseItems, toggleTag } from '../../utils/form'
+import { DEFAULT_START, FormProps, SURAH_ITEMS } from '@/models/activity-form'
 import { ErrorField } from './ErrorField'
 import { Alert, AlertDescription } from '@/components/Alert/Alert'
 import { Trophy } from 'lucide-react'
@@ -25,15 +24,6 @@ import { useSubmit } from '../../hooks/useSubmit'
 import { Input } from '@/components/Form/Input'
 import { Submit } from './Submit'
 
-const DEFAULT_START = {
-  [ActivityType.Sabaq]: {
-    surah: Number(SURAH_ITEMS[77].value),
-    verse: 1
-  },
-  [ActivityType.Manzil]: null,
-  [ActivityType.Sabqi]: null
-}
-
 export function FormPresent(props: FormProps) {
   const {
     activityType,
@@ -41,7 +31,9 @@ export function FormPresent(props: FormProps) {
     studentId,
     santriPageUri,
     lastSurah,
-    lastVerse
+    lastVerse,
+    defaultValues,
+    activityId
   } = props
   const {
     setValue,
@@ -64,16 +56,22 @@ export function FormPresent(props: FormProps) {
       target_page_count: GLOBAL_TARGET_PAGE,
       type: activityType,
       shift_id: shiftId,
-      student_id: studentId
+      student_id: studentId,
+      ...defaultValues
     }
   })
 
-  const { create, isLoading } = useSubmit({
+  const { create, update, isLoading } = useSubmit({
     successUri: santriPageUri
   })
 
   const { startSurah, endSurah, startVerse, endVerse, tags, achieveTarget } =
-    useActivityControlledValue({ control, setValue })
+    useActivityControlledValue({
+      control,
+      setValue,
+      autofillSurah: !activityId
+    })
+
   const startVerseItems = getVerseItems(startSurah)
   const endVerseItems = getVerseItems(endSurah)
 
@@ -84,7 +82,11 @@ export function FormPresent(props: FormProps) {
   const submit = (status: ActivityStatus) => {
     setValue('status', status)
     handleSubmit(async (data) => {
-      await create(data)
+      if (activityId) {
+        await update(activityId, data)
+      } else {
+        await create(data)
+      }
     })()
   }
 
