@@ -1,8 +1,15 @@
-import { Card, CardHeader, CardTitle, CardContent } from '../Card/Card'
-import { BookOpen, MoveRight } from 'lucide-react'
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardFooter
+} from '../Card/Card'
+import { BookOpen, CircleAlert, Clock, MoveRight } from 'lucide-react'
 import Link from 'next/link'
 import { ActivityStatus, ActivityTypeKey } from '@/models/activities'
 import { ActivityBadge } from '../Badge/ActivityBadge'
+import { Alert, AlertDescription } from '../Alert/Alert'
 import dayjsGmt7 from '@/utils/dayjs-gmt7'
 import { StickyNote } from '../icons'
 import { cn } from '@/utils/classnames'
@@ -56,7 +63,11 @@ export function ActivityCard({
               )}
             </div>
 
-            <ActivityBadge type={type} isStudentPresent={isStudentPresent} />
+            <ActivityBadge
+              type={type}
+              isStudentPresent={isStudentPresent}
+              icon={status === 'draft' && <Clock size={12} />}
+            />
           </CardTitle>
         </CardHeader>
         <CardContent
@@ -101,13 +112,17 @@ export function ActivityCard({
           </div>
 
           {labels && <Labels labels={labels} />}
-
-          {status === 'draft' ? (
-            <div className='text-center bottom-0 right-0 left-0 absolute w-auto bg-mtmh-tamarind-lighter text-xs py-0.5 px-4 rounded-b-md'>
-              Data Belum Lengkap
-            </div>
-          ) : null}
         </CardContent>
+        {status === 'draft' && (
+          <CardFooter>
+            <Alert variant={'warning'}>
+              <CircleAlert size={16} />
+              <AlertDescription>
+                Aktivitas {type} ini perlu dilengkapi.
+              </AlertDescription>
+            </Alert>
+          </CardFooter>
+        )}
       </Card>
     </Link>
   )
