@@ -227,6 +227,7 @@ export class Activities extends Base {
       .eq('status', ActivityStatus.completed)
       .gte('created_at', start_date)
       .lte('created_at', end_date)
+      .order('id', { ascending: true })
 
     let pageCountStart = checkpoint.data?.page_count_accumulation ?? 0
 
@@ -247,6 +248,7 @@ export class Activities extends Base {
         pageCountStart += item.page_count || 0
 
         return {
+          id: item.id,
           target_page_count: item.target_page_count,
           page_count: pageCountStart,
           created_at: item.created_at,
