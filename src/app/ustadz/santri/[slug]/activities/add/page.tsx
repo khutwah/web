@@ -57,11 +57,11 @@ export default async function AddActivity(props: AddActivityProps) {
     student_attendance: 'present',
     type: activityKey,
     order_by: 'desc',
-    status: ActivityStatus.completed
+    status: ActivityStatus.completed,
+    limit: 1
   })
 
-  const totalData = activities?.data?.length ?? 0
-  const lastActivity = activities?.data?.[totalData - 1]
+  const lastActivity = activities?.data?.[0]
 
   const optionalProps = {
     ...(lastActivity && {
