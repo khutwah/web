@@ -69,7 +69,8 @@ export class Activities extends Base {
       start_date,
       end_date,
       student_attendance,
-      order_by
+      order_by,
+      status
     } = args
 
     let query = (await this.supabase).from('activities').select(selectQuery)
@@ -90,6 +91,10 @@ export class Activities extends Base {
 
     if (type) {
       query = query.eq('type', type)
+    }
+
+    if (status) {
+      query = query.eq('status', status)
     }
 
     if (start_date) {
