@@ -88,7 +88,7 @@ export default async function Home() {
             {activityList.data?.map((item) => {
               const tags = item.tags as string[]
               return (
-                <li key={item.id} className='w-[300px] flex-shrink-0'>
+                <li key={item.id} className='w-[300px] flex-shrink-0 h-full'>
                   <ActivityCard
                     id={String(item.id)}
                     surahEnd={
