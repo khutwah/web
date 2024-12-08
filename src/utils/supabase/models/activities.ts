@@ -220,9 +220,11 @@ export class Activities extends Base {
 
     const activities = await supabase
       .from('activities')
-      .select('id, page_count, target_page_count, created_at')
+      .select(
+        'id, page_count, target_page_count, created_at, student_attendance'
+      )
       .eq('student_id', student_id)
-      .eq('student_attendance', 'present')
+      .eq('status', ActivityStatus.completed)
       .gte('created_at', start_date)
       .lte('created_at', end_date)
 
@@ -235,19 +237,20 @@ export class Activities extends Base {
       // those page_count numbers
       activities.data?.forEach((item) => {
         if (item.id < checkpoint.data!.last_activity_id) {
-          pageCountStart -= item.page_count!
+          pageCountStart -= item.page_count || 0
         }
       })
     }
 
     const data =
       activities.data?.map((item) => {
-        pageCountStart += item.page_count!
+        pageCountStart += item.page_count || 0
 
         return {
           target_page_count: item.target_page_count,
           page_count: pageCountStart,
-          created_at: item.created_at
+          created_at: item.created_at,
+          student_attendance: item.student_attendance
         }
       }) ?? []
 
