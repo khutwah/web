@@ -149,7 +149,7 @@ export class Activities extends Base {
   }
 
   async get(id: number) {
-    return await (await this.supabase)
+    return (await this.supabase)
       .from('activities')
       .select(selectQuery)
       .eq('id', id)
