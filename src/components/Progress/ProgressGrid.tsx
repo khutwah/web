@@ -8,7 +8,10 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import dayjsGmt7 from '@/utils/dayjs-gmt7'
 import dayjs, { Dayjs } from 'dayjs'
 import { cn } from '@/utils/classnames'
-import { ProgressGridStatus } from './ProgressGridStatus'
+import {
+  ProgressGridStatus,
+  ProgressGridStatusProps
+} from './ProgressGridStatus'
 
 type ActivityEntry = NonNullable<
   Awaited<ReturnType<Activities['list']>>['data']
@@ -18,13 +21,8 @@ interface Props {
   activities: Array<Omit<ActivityEntry, 'target_page_count'>> | null
   date: Date
   onChangeDate: Dispatch<SetStateAction<Date>>
-  status?:
-    | 'default'
-    | 'lajnah-approaching'
-    | 'lajnah-ready'
-    | 'lajnah-exam'
-    | undefined
-  statusParameter?: string
+  status?: ProgressGridStatusProps['status']
+  statusParameter?: ProgressGridStatusProps['parameter']
   className?: string
 }
 

@@ -6,7 +6,7 @@ import StatusLajnahApproaching from './statuses/lajnah-approaching.png'
 import StatusLajnahReady from './statuses/lajnah-ready.png'
 import StatusLajnahExam from './statuses/lajnah-exam.png'
 
-interface Props {
+export interface ProgressGridStatusProps {
   status?:
     | 'default'
     | 'lajnah-approaching'
@@ -16,7 +16,10 @@ interface Props {
   parameter?: string | undefined
 }
 
-export function ProgressGridStatus({ status, parameter }: Props) {
+export function ProgressGridStatus({
+  status,
+  parameter
+}: ProgressGridStatusProps) {
   const Status = resolveStatus(status, parameter)
 
   return (
