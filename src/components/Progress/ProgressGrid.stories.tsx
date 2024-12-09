@@ -19,7 +19,7 @@ export function ProgressGridStory() {
           activities={data}
           date={date}
           onChangeDate={setDate}
-          status={'lajnah-approaching'}
+          status='lajnah-approaching'
           statusParameter='5'
         />
       </div>
