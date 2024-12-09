@@ -17,7 +17,7 @@ import {
   ChartTooltip,
   ChartTooltipContent
 } from '@/components/Chart/Chart'
-import { ActivityEntry, GLOBAL_TARGET_PAGE } from '@/models/activities'
+import { ActivityChartEntry, GLOBAL_TARGET_PAGE } from '@/models/activities'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../Tabs/Tabs'
 import dayjsGmt7 from '@/utils/dayjs-gmt7'
 import { useState } from 'react'
@@ -38,23 +38,19 @@ const CHART_CONFIG = {
 } satisfies ChartConfig
 const LONGER_DATE_FORMAT = 'D MMMM YYYY'
 
-const DEFAULT_ARRAY: ActivityEntry[] = []
-
 export type ProgressChartPeriod = 'pekan' | 'bulan'
 
 interface Props {
-  activities: Array<ActivityEntry> | null
+  activities: Array<ActivityChartEntry>
   datePeriod: ProgressChartPeriod
   onDatePeriodChange: (value: ProgressChartPeriod) => void
 }
 
 export function ProgressChart({
-  activities: activitiesProp,
+  activities,
   datePeriod,
   onDatePeriodChange
 }: Props) {
-  const activities = activitiesProp ?? DEFAULT_ARRAY
-
   return (
     <>
       <Tabs
@@ -69,11 +65,11 @@ export function ProgressChart({
         </TabsList>
 
         <TabsContent value='pekan' className='py-6'>
-          <Subchart data={activities} datePeriod='pekan' />
+          <Subchart activities={activities} datePeriod='pekan' />
         </TabsContent>
 
         <TabsContent value='bulan' className='py-6'>
-          <Subchart data={activities} datePeriod='bulan' />
+          <Subchart activities={activities} datePeriod='bulan' />
         </TabsContent>
       </Tabs>
     </>
@@ -106,40 +102,13 @@ export function ProgressChartWithNavigation(
 }
 
 // Helper function and components.
-interface ActivityChartEntry extends ActivityEntry {
-  page_count_accumulation: number | null
-  expected_total_page_count: number
-}
-
 function Subchart({
-  data: dataProp,
+  activities,
   datePeriod
-}: {
-  data: NonNullable<Props['activities']>
-  datePeriod: Props['datePeriod']
-}) {
+}: Pick<Props, 'activities' | 'datePeriod'>) {
   const [currentDatetime] = useState(() =>
     dayjsGmt7().startOf(datePeriod === 'bulan' ? 'month' : 'week')
   )
-
-  const dayToActivityRecord = getInitialChartData(datePeriod)
-  let currentPageCountAccumulation = 0
-
-  for (let i = 0; i < dataProp.length; i++) {
-    const activity = dataProp[i]
-    if (!activity.created_at) continue
-
-    const xAxisValue = formatChartXAxis(activity.created_at)
-    const recordValue = dayToActivityRecord[xAxisValue]
-
-    if (!recordValue || activity.student_attendance === 'absent') continue
-
-    currentPageCountAccumulation += activity.page_count ?? 0
-
-    recordValue.page_count_accumulation = currentPageCountAccumulation
-  }
-
-  const data: ActivityChartEntry[] = Object.values(dayToActivityRecord)
 
   return (
     <div className='flex flex-col gap-y-3'>
@@ -151,7 +120,7 @@ function Subchart({
       <ChartContainer config={CHART_CONFIG}>
         <AreaChart
           accessibilityLayer
-          data={data}
+          data={activities}
           margin={{
             top: 18,
             left: 12,
@@ -223,7 +192,7 @@ function Subchart({
             }}
           />
           <Area
-            dataKey='page_count_accumulation'
+            dataKey='page_count'
             // stroke-mtmh-primary-base
             stroke='#0065FF'
             strokeWidth={2}
@@ -231,7 +200,7 @@ function Subchart({
             fill='#0065FF30'
           />
           <Area
-            dataKey='expected_total_page_count'
+            dataKey='target_page_count'
             // stroke-mtmh-grey-lightest
             stroke='#A2A2A2'
             strokeWidth={2}
@@ -263,53 +232,4 @@ function formatChartXAxis(dateString?: string) {
   return dayjsGmt7(dateString ? new Date(dateString) : undefined)
     .startOf('day')
     .toISOString()
-}
-
-function getInitialChartData(datePeriod: Props['datePeriod']) {
-  const record: Record<string, ActivityChartEntry> = {}
-  let expectedTotalPageCount = 0
-  let it: Dayjs
-  let end: Dayjs
-
-  if (datePeriod === 'pekan') {
-    it = dayjsGmt7().startOf('week')
-    end = dayjsGmt7().endOf('week')
-  } else {
-    it = dayjsGmt7().startOf('month')
-    end = dayjsGmt7().endOf('month')
-  }
-
-  while (it.isBefore(end)) {
-    // This is only used in the chart, so it's okay if we "abuse" this.
-    const createdAt = formatChartXAxis(it.toString())
-    expectedTotalPageCount += 4
-
-    record[createdAt] = {
-      page_count: null,
-      created_at: createdAt,
-      expected_total_page_count: expectedTotalPageCount,
-      page_count_accumulation: null,
-      // Mostly default values.
-      type: 'Sabaq',
-      target_page_count: GLOBAL_TARGET_PAGE,
-      student_attendance: 'present',
-      end_surah: '',
-      end_surah_id: -1,
-      end_verse: -1,
-      halaqah_name: undefined,
-      id: -1,
-      notes: '',
-      start_surah: '',
-      start_surah_id: -1,
-      start_verse: -1,
-      status: '',
-      student_id: undefined,
-      student_name: undefined,
-      tags: []
-    }
-
-    it = it.add(1, 'day')
-  }
-
-  return record
 }

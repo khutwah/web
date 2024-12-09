@@ -37,3 +37,7 @@ export const GLOBAL_TARGET_PAGE = 4
 export type ActivityEntry = NonNullable<
   Awaited<ReturnType<Activities['list']>>['data']
 >[number]
+
+export type ActivityChartEntry = Awaited<
+  ReturnType<Activities['chart']>
+>[number]

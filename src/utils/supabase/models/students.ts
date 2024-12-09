@@ -88,6 +88,22 @@ export class Students extends Base {
     }
   }
 
+  async getByParentId(id: number) {
+    const query = (await this.supabase)
+      .from('students')
+      .select(COLUMNS)
+      .eq('parent_id', id)
+
+    const response = await query.limit(1).single()
+
+    const data = response?.data?.users ? response.data : null
+
+    return {
+      ...response,
+      data
+    }
+  }
+
   async create(payload: CreatePayload) {
     return (await this.supabase).from('students').insert(payload)
   }

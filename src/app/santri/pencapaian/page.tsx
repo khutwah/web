@@ -5,10 +5,9 @@ import {
   ProgressChartPeriod,
   ProgressChartWithNavigation
 } from '@/components/Progress/ProgressChart'
-import { ActivityType } from '@/models/activities'
-import dayjsGmt7 from '@/utils/dayjs-gmt7'
 import { getUser } from '@/utils/supabase/get-user'
 import { Activities } from '@/utils/supabase/models/activities'
+import { Students } from '@/utils/supabase/models/students'
 import dayjs from 'dayjs'
 
 interface PencapaianProps {
@@ -21,15 +20,16 @@ export default async function Pencapaian({ searchParams }: PencapaianProps) {
   const { periode: periodParam } = await searchParams
   const period = periodParam === 'bulan' ? 'month' : 'week'
 
-  const parentUser = await getUser()
+  const studentInstance = new Students()
+
+  const parent = await getUser()
+  const student = await studentInstance.getByParentId(parent.data!.id)
 
   const activitiesInstance = new Activities()
-  const activities = await activitiesInstance.list({
-    parent_id: parentUser.data?.id,
+  const activities = await activitiesInstance.chart({
+    student_id: student.data!.id,
     start_date: dayjs().startOf(period).toISOString(),
-    end_date: dayjs().endOf(period).toISOString(),
-    type: ActivityType.Sabaq,
-    limit: period === 'week' ? 7 : dayjsGmt7().daysInMonth()
+    end_date: dayjs().endOf(period).toISOString()
   })
 
   return (
@@ -40,7 +40,7 @@ export default async function Pencapaian({ searchParams }: PencapaianProps) {
 
       <div className='p-4 pt-0'>
         <ProgressChartWithNavigation
-          activities={activities?.data}
+          activities={activities}
           datePeriod={periodParam ?? 'pekan'}
         />
       </div>

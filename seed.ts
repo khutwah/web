@@ -9,6 +9,7 @@ import { copycat } from '@snaplet/copycat'
 import { createServerClient } from '@supabase/ssr'
 import dayjs from 'dayjs'
 import { JSONSerializable } from 'fictional'
+import { ActivityStatus } from '@/models/activities'
 
 const main = async () => {
   const seed = await createSeedClient()
@@ -206,10 +207,12 @@ const main = async () => {
     }
   })
 
+  // Add 1 entry for each activity, for a month.
+  const numberOfActivities = 31 * 3
+
   await seed.activities(
     (x) =>
-      // Add 1 entry for each activity, for a month.
-      x(31 * 3, (ctx) => {
+      x(numberOfActivities, (ctx) => {
         const type = Math.floor(ctx.index / 31) + 1
 
         const numberOfDaysAdded = ctx.index % 31
@@ -225,6 +228,11 @@ const main = async () => {
             .add(numberOfDaysAdded, 'days')
             .add(7, 'hour')
             .toISOString(),
+          // On day 26th, the status is always draft.
+          status:
+            ctx.index === numberOfActivities - 5
+              ? ActivityStatus.draft
+              : ActivityStatus.completed,
           page_count: pageCount,
           target_page_count: 4,
           student_attendance: pageCount === 0 ? 'absent' : 'present',

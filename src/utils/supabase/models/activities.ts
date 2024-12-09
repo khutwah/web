@@ -4,11 +4,11 @@ import { ActivityStatus, ActivityType } from '@/models/activities'
 import surah from '@/data/surah.json'
 import { getUserId } from '../get-user-id'
 import { ApiError } from '@/utils/api-error'
+import dayjs from 'dayjs'
 
 export type StudentAttendance = 'present' | 'absent'
 
 export interface GetFilter extends RoleFilter, PaginationFilter {
-  parent_id?: number
   type?: ActivityType
   start_date?: string
   end_date?: string
@@ -66,7 +66,6 @@ export class Activities extends Base {
   async list(args: GetFilter) {
     const {
       student_id,
-      parent_id,
       halaqah_ids,
       ustadz_id,
       limit = 10,
@@ -83,12 +82,6 @@ export class Activities extends Base {
 
     if (student_id) {
       query = query.eq('students.id', student_id).not('students', 'is', null)
-    }
-
-    if (parent_id) {
-      query = query
-        .eq('students.parent_id', parent_id)
-        .not('students', 'is', null)
     }
 
     if (ustadz_id) {
@@ -246,10 +239,11 @@ export class Activities extends Base {
     const activities = await supabase
       .from('activities')
       .select(
-        'id, page_count, target_page_count, created_at, student_attendance'
+        'id, page_count, target_page_count, created_at, status, student_attendance'
       )
       .eq('student_id', student_id)
       .eq('status', ActivityStatus.completed)
+      .eq('type', ActivityType.Sabaq)
       .gte('created_at', start_date)
       .lte('created_at', end_date)
       .order('id', { ascending: true })
@@ -269,15 +263,18 @@ export class Activities extends Base {
     }
 
     const data =
-      activities.data?.map((item) => {
+      activities.data?.map((item, index) => {
         pageCountStart += item.page_count || 0
 
         return {
           id: item.id,
-          target_page_count: item.target_page_count,
+          target_page_count: item.target_page_count * (index + 1),
           page_count:
-            item.student_attendance !== 'present' ? 0 : pageCountStart,
-          created_at: item.created_at,
+            item.student_attendance !== 'present' ||
+            item.status !== ActivityStatus.completed
+              ? null
+              : pageCountStart,
+          created_at: dayjs(item.created_at).startOf('day').toISOString(),
           student_attendance: item.student_attendance
         }
       }) ?? []
