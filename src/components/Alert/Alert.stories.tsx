@@ -11,7 +11,7 @@ export function BottomNavbarStory() {
         </AlertDescription>
       </Alert>
 
-      <Alert variant={'warning'}>
+      <Alert variant='warning'>
         <CircleAlert size={16} />
         <AlertDescription>Mohon data dilengkapi.</AlertDescription>
       </Alert>

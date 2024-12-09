@@ -115,7 +115,7 @@ export function ActivityCard({
         </CardContent>
         {status === 'draft' && (
           <CardFooter>
-            <Alert variant={'warning'}>
+            <Alert variant='warning'>
               <CircleAlert size={16} />
               <AlertDescription>
                 Aktivitas {type} ini perlu dilengkapi.
