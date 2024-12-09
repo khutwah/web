@@ -1,3 +1,8 @@
-export function HeaderBackground() {
-  return <div className='w-full h-[218px] bg-mtmh-red-base absolute -z-10' />
+export function HeaderBackground({ height = 218 }: { height?: number }) {
+  return (
+    <div
+      className='w-full bg-mtmh-red-base absolute -z-10'
+      style={{ height }}
+    />
+  )
 }

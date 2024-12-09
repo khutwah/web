@@ -9,6 +9,7 @@ import { copycat } from '@snaplet/copycat'
 import { createServerClient } from '@supabase/ssr'
 import dayjs from 'dayjs'
 import { JSONSerializable } from 'fictional'
+import { ActivityStatus } from '@/models/activities'
 
 const main = async () => {
   const seed = await createSeedClient()
@@ -206,21 +207,32 @@ const main = async () => {
     }
   })
 
+  // Add 1 entry for each activity, for a month.
+  const numberOfActivities = 31 * 3
+
   await seed.activities(
     (x) =>
-      // 3 for each activities.
-      x(7 * 3, (ctx) => {
+      x(numberOfActivities, (ctx) => {
+        const type = Math.floor(ctx.index / 31) + 1
+
+        const numberOfDaysAdded = ctx.index % 31
+        // The idea is so that on Saturday, there are 0 page_count.
         const indexWithMaxNumber6 = ctx.index % 7
         const pageCount = 7 - indexWithMaxNumber6 - 1
 
         return {
           student_id: 1,
-          type: (ctx.index % 3) + 1,
+          type,
           created_at: dayjs()
-            .startOf('week')
-            .add(indexWithMaxNumber6, 'days')
+            .startOf('month')
+            .add(numberOfDaysAdded, 'days')
             .add(7, 'hour')
             .toISOString(),
+          // On day 26th, the status is always draft.
+          status:
+            ctx.index === numberOfActivities - 5
+              ? ActivityStatus.draft
+              : ActivityStatus.completed,
           page_count: pageCount,
           target_page_count: 4,
           student_attendance: pageCount === 0 ? 'absent' : 'present',
