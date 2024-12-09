@@ -60,10 +60,16 @@ const selectQuery = `
     end_verse,
     student_attendance,
     achieve_target,
+    created_by,
     shifts(id, ustadz_id, users(name), halaqah(name)),
     students(parent_id, id, name)`
 
 export class Activities extends Base {
+  async _getUserId() {
+    const userId = Object.values((await getUserId()) ?? {})[0]
+    return userId
+  }
+
   async list(args: GetFilter) {
     const {
       student_id,
@@ -131,6 +137,8 @@ export class Activities extends Base {
     }
 
     const result = await query.range(offset, offset + limit - 1)
+
+    const userId = await this._getUserId()
     const data = result.data
       ? result.data.map((item) => ({
           id: item.id,
@@ -150,7 +158,9 @@ export class Activities extends Base {
           start_verse: item.start_verse,
           end_verse: item.end_verse,
           halaqah_name: item.shifts?.halaqah?.name,
-          student_attendance: item.student_attendance
+          student_attendance: item.student_attendance,
+          created_by: item.created_by,
+          has_edit_access: item.created_by === userId
         }))
       : result.data
 
@@ -170,7 +180,7 @@ export class Activities extends Base {
   }
 
   async create(payload: ActivitiesPayload) {
-    const userId = Object.values((await getUserId()) ?? {})[0]
+    const userId = await this._getUserId()
 
     let _payload: ActivitiesPayload & {
       updated_at?: string
@@ -188,7 +198,7 @@ export class Activities extends Base {
   }
 
   async update(id: number, payload: ActivitiesPayload) {
-    const userId = Object.values((await getUserId()) ?? {})[0]
+    const userId = await this._getUserId()
     const supabase = await this.supabase
 
     const result = await supabase

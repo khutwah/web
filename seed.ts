@@ -241,6 +241,8 @@ const main = async () => {
           end_surah: 1,
           start_verse: 1,
           end_verse: 7,
+          shift_id: 1,
+          created_by: 1,
           tags: ['Terbata-bata', 'Cukup Baik']
         }
       }),

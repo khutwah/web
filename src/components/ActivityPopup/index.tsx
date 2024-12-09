@@ -93,12 +93,23 @@ export function ActivityPopup({ activities }: Props) {
             </div>
 
             {_activity.status === 'draft' ? (
-              <Button variant='primary' asChild className='mt-4'>
-                <Link
-                  href={`/ustadz/santri/${_activity.student_id}/activities/edit/${_activity.id}`}
-                >
-                  Lanjutkan Mengedit
-                </Link>
+              <Button
+                variant='primary'
+                asChild
+                className='mt-4'
+                disabled={!_activity.has_edit_access}
+              >
+                {_activity.has_edit_access ? (
+                  <Link
+                    href={`/ustadz/santri/${_activity.student_id}/activities/edit/${_activity.id}`}
+                  >
+                    Lanjutkan Mengedit
+                  </Link>
+                ) : (
+                  <button type='button' disabled={!_activity.has_edit_access}>
+                    Maaf, anda tidak punya akses edit
+                  </button>
+                )}
               </Button>
             ) : null}
           </div>
