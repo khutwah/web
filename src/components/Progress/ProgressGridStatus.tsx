@@ -1,10 +1,10 @@
 import { Pencil } from 'lucide-react'
 import Image, { StaticImageData } from 'next/image'
-import IndicatorDefault from './indicators/default.png'
-import IndicatorInactive from './indicators/inactive.png'
-import IndicatorLajnahApproaching from './indicators/lajnah-approaching.png'
-import IndicatorLajnahReady from './indicators/lajnah-ready.png'
-import IndicatorLajnahExam from './indicators/lajnah-exam.png'
+import StatusDefault from './statuses/default.png'
+import StatusInactive from './statuses/inactive.png'
+import StatusLajnahApproaching from './statuses/lajnah-approaching.png'
+import StatusLajnahReady from './statuses/lajnah-ready.png'
+import StatusLajnahExam from './statuses/lajnah-exam.png'
 
 interface Props {
   status?:
@@ -16,19 +16,19 @@ interface Props {
   parameter?: string | undefined
 }
 
-export function ProgressGridIndicator({ status, parameter }: Props) {
-  const indicator = resolveIndicator(status, parameter)
+export function ProgressGridStatus({ status, parameter }: Props) {
+  const Status = resolveStatus(status, parameter)
 
   return (
     <button
       className='group flex p-3 gap-x-2 bg-mtmh-tamarind-lightest border-t border-mtmh-snow-lighter rounded-b-md'
-      aria-label={`Indicator: ${indicator.text}`}
+      aria-label={`Status: ${Status.text}`}
       aria-live='polite'
     >
       <div className='transform transition-transform group-active:rotate-6'>
         <Image
-          alt={indicator.image.alt}
-          src={indicator.image.src}
+          alt={Status.image.alt}
+          src={Status.image.src}
           width={32}
           height={32}
         />
@@ -37,8 +37,8 @@ export function ProgressGridIndicator({ status, parameter }: Props) {
       <div className='flex flex-1 flex-col gap-y-1 text-mtmh-tamarind-darkest'>
         <div className='flex justify-between items-center'>
           <div>
-            <div className='text-mtmh-m-semibold'>{indicator.text}</div>
-            <div className='text-mtmh-sm-regular'>{indicator.description}</div>
+            <div className='text-mtmh-m-semibold'>{Status.text}</div>
+            <div className='text-mtmh-sm-regular'>{Status.description}</div>
           </div>
           <Pencil size={16} aria-hidden='true' />
         </div>
@@ -47,21 +47,21 @@ export function ProgressGridIndicator({ status, parameter }: Props) {
   )
 }
 
-interface Indicator {
-  image: IndicatorImage
+interface Status {
+  image: StatusIcon
   text: string
   description: string
 }
 
-interface IndicatorImage {
+interface StatusIcon {
   alt: string
   src: StaticImageData
 }
 
-function resolveIndicator(
+function resolveStatus(
   status: string | undefined,
   parameter: string | undefined
-): Indicator {
+): Status {
   switch (status) {
     case 'lajnah-approaching':
       return {
@@ -69,9 +69,9 @@ function resolveIndicator(
         description: `Alhamdulillah, hafalan anada sudah mendekati ${parameter} juz.`,
         image: {
           alt: 'Jempol arah ke atas',
-          src: IndicatorLajnahApproaching
+          src: StatusLajnahApproaching
         }
-      } as Indicator
+      } as Status
 
     case 'lajnah-ready':
       return {
@@ -79,9 +79,9 @@ function resolveIndicator(
         description: `Bismillah, ananda sedang persiapan untuk lajnah ${parameter} juz.`,
         image: {
           alt: 'Bendera berkibar berwarna merah',
-          src: IndicatorLajnahReady
+          src: StatusLajnahReady
         }
-      } as Indicator
+      } as Status
 
     case 'lajnah-exam':
       return {
@@ -89,9 +89,9 @@ function resolveIndicator(
         description: `Bi'idznillah, ananda sedang mengikuti lajnah ${parameter} juz.`,
         image: {
           alt: 'Api menyala',
-          src: IndicatorLajnahExam
+          src: StatusLajnahExam
         }
-      } as Indicator
+      } as Status
 
     case 'inactive':
       return {
@@ -99,9 +99,9 @@ function resolveIndicator(
         description: `Qadarullah, ananda berhalangan karena ${parameter}.`,
         image: {
           alt: 'Hati berwarna merah',
-          src: IndicatorInactive
+          src: StatusInactive
         }
-      } as Indicator
+      } as Status
 
     default:
       return {
@@ -109,8 +109,8 @@ function resolveIndicator(
         description: 'Alhamdulillah, ananda terus bersemangat menghafal.',
         image: {
           alt: 'Buku catatan',
-          src: IndicatorDefault
+          src: StatusDefault
         }
-      } as Indicator
+      } as Status
   }
 }

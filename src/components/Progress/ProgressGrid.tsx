@@ -8,7 +8,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import dayjsGmt7 from '@/utils/dayjs-gmt7'
 import dayjs, { Dayjs } from 'dayjs'
 import { cn } from '@/utils/classnames'
-import { ProgressGridIndicator } from './ProgressGridIndicator'
+import { ProgressGridStatus } from './ProgressGridStatus'
 
 type ActivityEntry = NonNullable<
   Awaited<ReturnType<Activities['list']>>['data']
@@ -152,7 +152,7 @@ export function ProgressGrid({
         </div>
       </div>
 
-      <ProgressGridIndicator status={status} />
+      <ProgressGridStatus status={status} />
     </div>
   )
 }
