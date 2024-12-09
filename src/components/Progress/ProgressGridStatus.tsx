@@ -69,7 +69,7 @@ function resolveStatus(
     case 'lajnah-approaching':
       return {
         text: 'Siap-siap lajnah...',
-        description: `Alhamdulillah, hafalan anada sudah mendekati ${parameter} juz.`,
+        description: `Alhamdulillah, hafalan ananda sudah mendekati ${parameter} juz.`,
         image: {
           alt: 'Jempol arah ke atas',
           src: StatusLajnahApproaching
