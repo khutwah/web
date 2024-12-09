@@ -214,7 +214,7 @@ function Subchart({
 }
 
 function formatChartTimerange(
-  datetime: typeof Dayjs,
+  datetime: Dayjs,
   datePeriod: Props['datePeriod']
 ) {
   // Dev's note: the en-dash is intended to indicate range rather than hyphen (-).

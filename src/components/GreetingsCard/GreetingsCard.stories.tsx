@@ -1,6 +1,6 @@
 import { GreetingsCard } from './GreetingsCard'
 import photo from '../../assets/sample-ustadz-photo.png'
-import dayjs from 'dayjs'
+import dayjs from '@/utils/dayjs'
 
 export function GreetingsCardStory() {
   const hours = [5, 9, 12, 16, 18, 20, 3, undefined]
