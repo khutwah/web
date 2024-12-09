@@ -24,6 +24,7 @@ interface Props {
     | 'lajnah-ready'
     | 'lajnah-exam'
     | undefined
+  statusParameter?: string
   className?: string
 }
 
@@ -43,6 +44,7 @@ export function ProgressGrid({
   date,
   onChangeDate,
   status,
+  statusParameter,
   className
 }: Props) {
   const activities = activitiesProp ?? DEFAULT_EMPTY_ARRAY
@@ -152,7 +154,7 @@ export function ProgressGrid({
         </div>
       </div>
 
-      <ProgressGridStatus status={status} />
+      <ProgressGridStatus status={status} parameter={statusParameter} />
     </div>
   )
 }
