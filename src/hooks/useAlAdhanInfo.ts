@@ -3,7 +3,7 @@ import {
   DEFAULT_AL_ADHAN_RESPONSE
 } from '@/models/api/al-adhan'
 import { getAlAdhanPrayerTimings } from '@/utils/api/al-adhan'
-import dayjs from 'dayjs'
+import dayjs from '@/utils/dayjs'
 import { useState, useEffect } from 'react'
 
 const PURWAKARTA_LAT_LONG = {

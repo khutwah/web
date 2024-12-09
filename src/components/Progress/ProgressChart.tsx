@@ -21,10 +21,7 @@ import { ActivityEntry, GLOBAL_TARGET_PAGE } from '@/models/activities'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../Tabs/Tabs'
 import dayjsGmt7 from '@/utils/dayjs-gmt7'
 import { useState } from 'react'
-import dayjs, { Dayjs } from 'dayjs'
-import 'dayjs/locale/id'
-
-dayjs.locale('id')
+import dayjs, { Dayjs } from '@/utils/dayjs'
 
 const CHART_CONFIG = {
   page_count_accumulation: {
@@ -217,7 +214,7 @@ function Subchart({
 }
 
 function formatChartTimerange(
-  datetime: Dayjs,
+  datetime: typeof Dayjs,
   datePeriod: Props['datePeriod']
 ) {
   // Dev's note: the en-dash is intended to indicate range rather than hyphen (-).
