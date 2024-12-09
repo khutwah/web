@@ -33,8 +33,6 @@ export default async function Aktivitas() {
             <ProgressGridWithState
               activities={activities.data}
               className='border-none rounded-none'
-              // FIXME(imballinst): remove this when we have the mechanism later.
-              lajnahJuzMilestone={5}
             />
           </CardContent>
         </Card>
