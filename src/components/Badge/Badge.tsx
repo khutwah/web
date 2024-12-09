@@ -9,7 +9,7 @@ interface BadgeProps {
 const COLOR_TO_CLASSNAME_RECORD: Record<BadgeProps['color'], string> = {
   blue: 'bg-mtmh-blue-base',
   green: 'bg-mtmh-green-base',
-  tamarind: 'bg-mtmh-tamarind-base',
+  tamarind: 'bg-mtmh-warning-70', // FIXME: We should have a color-naming pattern for this.
   mute: 'bg-mtmh-snow-base'
 }
 
