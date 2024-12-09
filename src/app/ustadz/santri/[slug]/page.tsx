@@ -5,10 +5,11 @@ import { Navbar } from '@/components/Navbar/Navbar'
 import { navigateToSantriList } from './actions'
 import { Students } from '@/utils/supabase/models/students'
 import { Activities } from '@/utils/supabase/models/activities'
-import dayjs from 'dayjs'
+import dayjs from '@/utils/dayjs'
 import Image from 'next/image'
 import SampleSantriAvatar from '@/assets/sample-ustadz-photo.png'
 import { ProgressGridWithState } from '@/components/Progress/ProgressGrid'
+import { SantriActivityHeader } from '@/components/SantriActivity/Header'
 
 export default async function DetailSantri({
   params: paramsPromise
@@ -35,8 +36,6 @@ export default async function DetailSantri({
       limit: 21
     })
 
-    const currentDatetime = dayjs()
-
     pageContent = (
       <>
         <Navbar
@@ -52,14 +51,7 @@ export default async function DetailSantri({
 
         <div className='flex flex-col p-6 gap-y-4'>
           <div className='flex justify-center gap-x-[6.5px] text-mtmh-neutral-white text-mtmh-m-regular'>
-            {/* FIXME(imballinst): convert Gregorian calendar to Hijri calendar. */}
-            <div>10 Jumadil Ula 1446 H</div>
-
-            <div>•</div>
-
-            <time dateTime={currentDatetime.format('YYYY-MM-DD')}>
-              {currentDatetime.format('DD MMMM YYYY')}
-            </time>
+            <SantriActivityHeader />
           </div>
 
           <Card className='bg-mtmh-neutral-white text-mtmh-grey-base shadow-md border border-mtmh-snow-lighter rounded-md'>

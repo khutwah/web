@@ -2,7 +2,7 @@ import {
   AlAdhanPrayerTimingsResponse,
   HIJRI_MONTH_NUMBER_TO_TEXT_RECORD
 } from '@/models/api/al-adhan'
-import dayjs from 'dayjs'
+import dayjs from '@/utils/dayjs'
 
 interface Props {
   hijriDate: AlAdhanPrayerTimingsResponse['data']['date']['hijri'] | undefined

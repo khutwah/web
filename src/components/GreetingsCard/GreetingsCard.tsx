@@ -3,15 +3,10 @@
 import { clsx } from 'clsx'
 import { Card, CardHeader, CardTitle, CardContent } from '../Card/Card'
 import Image, { ImageProps } from 'next/image'
-import dayjs from 'dayjs'
-import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
+import dayjs from '@/utils/dayjs'
 import { cn } from '@/utils/classnames'
 import { AlAdhanPrayerTimingsResponse } from '@/models/api/al-adhan'
-import 'dayjs/locale/id'
 import { PropsWithChildren } from 'react'
-
-dayjs.extend(isSameOrAfter)
-dayjs.locale('id')
 
 interface Props {
   avatarUrl: ImageProps['src']

@@ -21,12 +21,9 @@ import { ActivityChartEntry, GLOBAL_TARGET_PAGE } from '@/models/activities'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../Tabs/Tabs'
 import dayjsGmt7 from '@/utils/dayjs-gmt7'
 import { useState } from 'react'
-import dayjs, { Dayjs } from 'dayjs'
-import 'dayjs/locale/id'
+import dayjs, { Dayjs } from '@/utils/dayjs'
 import { useRouter } from 'next/navigation'
 import { extractPathnameAndQueryFromURL } from '@/utils/url'
-
-dayjs.locale('id')
 
 const CHART_CONFIG = {
   page_count_accumulation: {
