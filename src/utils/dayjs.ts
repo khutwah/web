@@ -1,11 +1,12 @@
 import { default as _dayjs } from 'dayjs'
-import 'dayjs/locale/id'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
 import isBetween from 'dayjs/plugin/isBetween'
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
 import minMax from 'dayjs/plugin/minMax'
 import localizedFormat from 'dayjs/plugin/localizedFormat'
+
+import 'dayjs/locale/id'
 
 _dayjs.extend(utc)
 _dayjs.extend(timezone)
