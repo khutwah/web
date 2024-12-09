@@ -13,7 +13,7 @@ export function SettingsSharedContent({ children }: PropsWithChildren) {
         Pengaturan
       </div>
 
-      <div className='flex flex-1 flex-col h-full justify-between'>
+      <div className='flex flex-1 flex-col p-6 gap-y-4 h-full justify-between'>
         <div className='flex flex-col gap-y-4 items-center'>
           <Image alt='Minhajul Haq' src={Logo} width={121} height={46} />
 
@@ -23,7 +23,6 @@ export function SettingsSharedContent({ children }: PropsWithChildren) {
         </div>
 
         <div>{children}</div>
-
         <LogoutButton />
       </div>
     </>

@@ -7,6 +7,7 @@ import { Checkbox } from '@/components/Form/Checkbox'
 import Link from 'next/link'
 import { useForm, useWatch } from 'react-hook-form'
 import { startTransition, useEffect, useState } from 'react'
+import { Loader2 } from 'lucide-react'
 import {
   DialogHeader,
   DialogFooter,
@@ -117,10 +118,17 @@ export default function LoginPage() {
 
         <Button
           variant='primary'
-          disabled={isSubmitButtonDisabled}
+          disabled={isSubmitButtonDisabled || isTransitioning}
           className='mt-10'
         >
-          Masuk
+          {isTransitioning ? (
+            <>
+              <Loader2 className='w-5 h-5 mr-2 animate-spin' />
+              Mencoba masuk...
+            </>
+          ) : (
+            'Masuk'
+          )}
         </Button>
       </form>
 
