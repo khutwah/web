@@ -12,13 +12,14 @@ import { ActivityPopup } from '@/components/ActivityPopup'
 
 export default async function Home() {
   const user = await getUser()
+  const userId = user.data?.id
 
   const halaqah = new Halaqah()
-  const halaqahList = await halaqah.list({ ustadz_id: user.data?.id })
+  const halaqahList = await halaqah.list({ ustadz_id: userId })
 
   const activities = new Activities()
   const activityList = await activities.list({
-    ustadz_id: user.data?.id,
+    ustadz_id: userId,
     order_by: 'desc',
     limit: 10
   })

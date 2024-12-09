@@ -55,7 +55,9 @@ function generateData(
     status: '',
     student_id: undefined,
     student_name: undefined,
-    tags: []
+    tags: [],
+    has_edit_access: false,
+    created_by: 1
   }))
 }
 

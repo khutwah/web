@@ -10,6 +10,10 @@ import Image from 'next/image'
 import SampleSantriAvatar from '@/assets/sample-ustadz-photo.png'
 import { ProgressGridWithState } from '@/components/Progress/ProgressGrid'
 import { SantriActivityHeader } from '@/components/SantriActivity/Header'
+import { ActivityPopup } from '@/components/ActivityPopup'
+import { ActivityCard } from '@/components/ActivityCard/ActivityCard'
+import Link from 'next/link'
+import { ActivityStatus, ActivityTypeKey } from '@/models/activities'
 
 export default async function DetailSantri({
   params: paramsPromise
@@ -18,10 +22,10 @@ export default async function DetailSantri({
 }) {
   const params = await paramsPromise
 
-  const studentsInstance = new Students()
-  const student = await studentsInstance.get(Number(params.slug))
-  const halaqahId = String(student.data?.halaqah?.id)
   const studentId = params.slug
+  const studentsInstance = new Students()
+  const student = await studentsInstance.get(Number(studentId))
+  const halaqahId = String(student.data?.halaqah?.id)
 
   let pageContent: JSX.Element
 
@@ -36,8 +40,19 @@ export default async function DetailSantri({
       limit: 21
     })
 
+    const lastActivities = await activitiesInstance.list({
+      student_id: student.data.id,
+      order_by: 'desc',
+      limit: 10
+    })
+
+    const isUserManageStudent = await studentsInstance.isUserManagesStudent(
+      Number(studentId)
+    )
+
     pageContent = (
       <>
+        <ActivityPopup activities={lastActivities.data} />
         <Navbar
           text='Detil Santri'
           // FIXME(imballinst): this doesn't go back to the previous path.
@@ -82,41 +97,85 @@ export default async function DetailSantri({
           </Card>
         </div>
 
-        <section className='mx-6 mb-8'>
-          <h2 className='text-mtmh-grey-base mb-3 font-semibold text-sm'>
-            Tambah Input
-          </h2>
-          <div className='flex gap-1.5'>
-            <AddActivityCta
-              activityType='Sabaq'
-              className='w-full'
-              halaqahId={halaqahId}
-              size='sm'
-              studentId={studentId}
-            />
-            <AddActivityCta
-              activityType='Sabqi'
-              className='w-full'
-              halaqahId={halaqahId}
-              size='sm'
-              studentId={studentId}
-            />
-            <AddActivityCta
-              activityType='Manzil'
-              className='w-full'
-              halaqahId={halaqahId}
-              size='sm'
-              studentId={studentId}
-            />
-          </div>
-        </section>
+        {isUserManageStudent ? (
+          <section className='mx-6 mb-6'>
+            <h2 className='text-mtmh-grey-base mb-3 font-semibold text-sm'>
+              Tambah Input
+            </h2>
+            <div className='flex gap-1.5'>
+              <AddActivityCta
+                activityType='Sabaq'
+                className='w-full'
+                halaqahId={halaqahId}
+                size='sm'
+                studentId={studentId}
+              />
+              <AddActivityCta
+                activityType='Sabqi'
+                className='w-full'
+                halaqahId={halaqahId}
+                size='sm'
+                studentId={studentId}
+              />
+              <AddActivityCta
+                activityType='Manzil'
+                className='w-full'
+                halaqahId={halaqahId}
+                size='sm'
+                studentId={studentId}
+              />
+            </div>
+          </section>
+        ) : null}
 
-        <div className='p-6'>
-          {/* <HalaqahDetailContent
-            students={students.data ?? DEFAULT_EMPTY_ARRAY}
-            activities={activities.data ?? DEFAULT_EMPTY_ARRAY}
-          /> */}
-        </div>
+        <section className='flex flex-col gap-3 mb-8'>
+          <div className='flex flex-row items-center justify-between px-6'>
+            <h2 className='text-mtmh-m-semibold'>Input Terakhir</h2>
+            <Link
+              className='text-mtmh-sm-semibold text-mtmh-tamarind-base'
+              href={`/ustadz/aktivitas?student_id=${student.data.id}`}
+            >
+              Lihat inputan
+            </Link>
+          </div>
+
+          <ul className='flex overflow-x-scroll gap-3 px-6 items-start'>
+            {lastActivities.data?.map((item) => {
+              const tags = item.tags as string[]
+              return (
+                <li key={item.id} className='w-[300px] flex-shrink-0 h-full'>
+                  <ActivityCard
+                    id={String(item.id)}
+                    surahEnd={
+                      item.student_attendance === 'present'
+                        ? {
+                            name: String(item.end_surah),
+                            verse: String(item.end_verse)
+                          }
+                        : null
+                    }
+                    surahStart={
+                      item.student_attendance === 'present'
+                        ? {
+                            name: String(item.start_surah),
+                            verse: String(item.start_verse)
+                          }
+                        : null
+                    }
+                    timestamp={item.created_at!}
+                    notes={item.notes ?? ''}
+                    type={item.type as ActivityTypeKey}
+                    isStudentPresent={item.student_attendance === 'present'}
+                    studentName={item.student_name!}
+                    halaqahName={item.halaqah_name!}
+                    labels={tags}
+                    status={item.status as ActivityStatus}
+                  />
+                </li>
+              )
+            })}
+          </ul>
+        </section>
       </>
     )
   }
