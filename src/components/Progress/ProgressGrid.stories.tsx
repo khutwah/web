@@ -63,10 +63,10 @@ export function StatusStory() {
   return (
     <div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8'>
       <ProgressGridStatus />
-      <ProgressGridStatus status={'inactive'} parameter={'belum siap'} />
-      <ProgressGridStatus status={'lajnah-approaching'} parameter={'5'} />
-      <ProgressGridStatus status={'lajnah-ready'} parameter={'5'} />
-      <ProgressGridStatus status={'lajnah-exam'} parameter={'5'} />
+      <ProgressGridStatus status='inactive' parameter='belum siap' />
+      <ProgressGridStatus status='lajnah-approaching' parameter='5' />
+      <ProgressGridStatus status='lajnah-ready' parameter='5' />
+      <ProgressGridStatus status='lajnah-exam' parameter='5' />
     </div>
   )
 }
