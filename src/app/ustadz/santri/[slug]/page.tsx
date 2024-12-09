@@ -22,10 +22,10 @@ export default async function DetailSantri({
 }) {
   const params = await paramsPromise
 
-  const studentsInstance = new Students()
-  const student = await studentsInstance.get(Number(params.slug))
-  const halaqahId = String(student.data?.halaqah?.id)
   const studentId = params.slug
+  const studentsInstance = new Students()
+  const student = await studentsInstance.get(Number(studentId))
+  const halaqahId = String(student.data?.halaqah?.id)
 
   let pageContent: JSX.Element
 
@@ -45,6 +45,10 @@ export default async function DetailSantri({
       order_by: 'desc',
       limit: 10
     })
+
+    const isUserManageStudent = await studentsInstance.isUserManagesStudent(
+      Number(studentId)
+    )
 
     pageContent = (
       <>
@@ -93,34 +97,36 @@ export default async function DetailSantri({
           </Card>
         </div>
 
-        <section className='mx-6 mb-6'>
-          <h2 className='text-mtmh-grey-base mb-3 font-semibold text-sm'>
-            Tambah Input
-          </h2>
-          <div className='flex gap-1.5'>
-            <AddActivityCta
-              activityType='Sabaq'
-              className='w-full'
-              halaqahId={halaqahId}
-              size='sm'
-              studentId={studentId}
-            />
-            <AddActivityCta
-              activityType='Sabqi'
-              className='w-full'
-              halaqahId={halaqahId}
-              size='sm'
-              studentId={studentId}
-            />
-            <AddActivityCta
-              activityType='Manzil'
-              className='w-full'
-              halaqahId={halaqahId}
-              size='sm'
-              studentId={studentId}
-            />
-          </div>
-        </section>
+        {isUserManageStudent ? (
+          <section className='mx-6 mb-6'>
+            <h2 className='text-mtmh-grey-base mb-3 font-semibold text-sm'>
+              Tambah Input
+            </h2>
+            <div className='flex gap-1.5'>
+              <AddActivityCta
+                activityType='Sabaq'
+                className='w-full'
+                halaqahId={halaqahId}
+                size='sm'
+                studentId={studentId}
+              />
+              <AddActivityCta
+                activityType='Sabqi'
+                className='w-full'
+                halaqahId={halaqahId}
+                size='sm'
+                studentId={studentId}
+              />
+              <AddActivityCta
+                activityType='Manzil'
+                className='w-full'
+                halaqahId={halaqahId}
+                size='sm'
+                studentId={studentId}
+              />
+            </div>
+          </section>
+        ) : null}
 
         <section className='flex flex-col gap-3 mb-8'>
           <div className='flex flex-row items-center justify-between px-6'>

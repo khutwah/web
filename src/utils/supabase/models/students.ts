@@ -1,6 +1,7 @@
 import { RoleFilter } from '@/models/supabase/models/filter'
 import { Base } from './base'
 import { Halaqah } from './halaqah'
+import { getUser } from '../get-user'
 
 interface ListFilter extends RoleFilter {
   virtual_account?: string
@@ -102,6 +103,22 @@ export class Students extends Base {
       ...response,
       data
     }
+  }
+
+  async isUserManagesStudent(id: number) {
+    const halaqahIds = await this.getHalaqahByUstad({
+      ustadz_id: (await getUser()).data?.id ?? 0
+    })
+
+    const query = await (await this.supabase)
+      .from('students')
+      .select('id')
+      .eq('id', id)
+      .in('halaqah_id', halaqahIds)
+      .limit(1)
+      .maybeSingle()
+
+    return Boolean(query.data)
   }
 
   async create(payload: CreatePayload) {
