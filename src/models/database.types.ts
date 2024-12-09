@@ -121,6 +121,7 @@ export type Database = {
       }
       checkpoint: {
         Row: {
+          created_at: string | null
           end_date: string | null
           id: number
           last_activity_id: number
@@ -129,8 +130,10 @@ export type Database = {
           start_date: string
           status: string
           student_id: number
+          updated_at: string | null
         }
         Insert: {
+          created_at?: string | null
           end_date?: string | null
           id?: never
           last_activity_id: number
@@ -139,8 +142,10 @@ export type Database = {
           start_date: string
           status: string
           student_id: number
+          updated_at?: string | null
         }
         Update: {
+          created_at?: string | null
           end_date?: string | null
           id?: never
           last_activity_id?: number
@@ -149,6 +154,7 @@ export type Database = {
           start_date?: string
           status?: string
           student_id?: number
+          updated_at?: string | null
         }
         Relationships: [
           {

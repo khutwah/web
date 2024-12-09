@@ -37,6 +37,12 @@ interface ActivitiesPayload {
   created_at?: string
 }
 
+interface ActivitiesForChart {
+  student_id: number
+  start_date: string
+  end_date: string
+}
+
 const selectQuery = `
     id,
     student_id,
@@ -223,5 +229,59 @@ export class Activities extends Base {
       })
     }
     return response
+  }
+
+  async chart({ student_id, start_date, end_date }: ActivitiesForChart) {
+    const supabase = await this.supabase
+
+    const checkpoint = await supabase
+      .from('checkpoint')
+      .select('last_activity_id, page_count_accumulation')
+      .order('id', { ascending: false })
+      .eq('student_id', student_id)
+      .lt('created_at', end_date)
+      .limit(1)
+      .maybeSingle()
+
+    const activities = await supabase
+      .from('activities')
+      .select(
+        'id, page_count, target_page_count, created_at, student_attendance'
+      )
+      .eq('student_id', student_id)
+      .eq('status', ActivityStatus.completed)
+      .gte('created_at', start_date)
+      .lte('created_at', end_date)
+      .order('id', { ascending: true })
+
+    let pageCountStart = checkpoint.data?.page_count_accumulation ?? 0
+
+    if (checkpoint.data?.last_activity_id) {
+      // Deduct pageCountStart if there is activity is found
+      // before reaching checkpoint
+      // because page_count_accumulation already include
+      // those page_count numbers
+      activities.data?.forEach((item) => {
+        if (item.id <= checkpoint.data!.last_activity_id) {
+          pageCountStart -= item.page_count || 0
+        }
+      })
+    }
+
+    const data =
+      activities.data?.map((item) => {
+        pageCountStart += item.page_count || 0
+
+        return {
+          id: item.id,
+          target_page_count: item.target_page_count,
+          page_count:
+            item.student_attendance !== 'present' ? 0 : pageCountStart,
+          created_at: item.created_at,
+          student_attendance: item.student_attendance
+        }
+      }) ?? []
+
+    return data
   }
 }
