@@ -5,7 +5,7 @@ import { ActivityBadge } from '../Badge/ActivityBadge'
 import { Dispatch, SetStateAction, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import dayjsGmt7 from '@/utils/dayjs-gmt7'
-import dayjs, { Dayjs } from 'dayjs'
+import dayjs, { Dayjs } from '@/utils/dayjs'
 import { cn } from '@/utils/classnames'
 import {
   ProgressGridStatus,
