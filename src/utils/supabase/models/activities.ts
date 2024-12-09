@@ -274,6 +274,7 @@ export class Activities extends Base {
             item.status !== ActivityStatus.completed
               ? null
               : pageCountStart,
+          // Note: this is intended so that every tick in X axis is always at the start of day.
           created_at: dayjs(item.created_at).startOf('day').toISOString(),
           student_attendance: item.student_attendance
         }
