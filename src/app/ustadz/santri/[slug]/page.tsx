@@ -9,7 +9,7 @@ import dayjs from '@/utils/dayjs'
 import Image from 'next/image'
 import SampleSantriAvatar from '@/assets/sample-ustadz-photo.png'
 import { ProgressGridWithState } from '@/components/Progress/ProgressGrid'
-import { SantriActivityHeader } from '@/app/santri/aktivitas/components/SantriActivityHeader'
+import { SantriActivityHeader } from '@/components/SantriActivity/Header'
 
 export default async function DetailSantri({
   params: paramsPromise
@@ -35,8 +35,6 @@ export default async function DetailSantri({
       end_date: dayjs().endOf('week').toISOString(),
       limit: 21
     })
-
-    const currentDatetime = dayjs()
 
     pageContent = (
       <>

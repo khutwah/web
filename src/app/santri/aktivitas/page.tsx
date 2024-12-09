@@ -1,10 +1,10 @@
 import { Layout } from '@/components/Layouts/Santri'
-import { SantriActivityHeader } from './components/SantriActivityHeader'
+import { SantriActivityHeader } from '@/components/SantriActivity/Header'
 import { HeaderBackground } from '@/components/Header/Background'
 import { ProgressGridWithState } from '@/components/Progress/ProgressGrid'
 import { Activities } from '@/utils/supabase/models/activities'
 import { getUser } from '@/utils/supabase/get-user'
-import dayjs from 'dayjs'
+import dayjs from '@/utils/dayjs'
 import { Card, CardContent } from '@/components/Card/Card'
 
 export default async function Aktivitas() {

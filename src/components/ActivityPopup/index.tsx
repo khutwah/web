@@ -73,7 +73,7 @@ export function ActivityPopup({ activities }: Props) {
                 </div>
 
                 <div>
-                  {_activity.end_surah} : {_activity.end_verse}
+                  {_activity.end_surah}: {_activity.end_verse}
                 </div>
               </div>
             </div>
