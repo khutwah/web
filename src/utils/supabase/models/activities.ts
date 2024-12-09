@@ -4,7 +4,7 @@ import { ActivityStatus, ActivityType } from '@/models/activities'
 import surah from '@/data/surah.json'
 import { getUserId } from '../get-user-id'
 import { ApiError } from '@/utils/api-error'
-import dayjs from 'dayjs'
+import dayjs from '@/utils/dayjs'
 
 export type StudentAttendance = 'present' | 'absent'
 

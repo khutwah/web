@@ -8,7 +8,7 @@ import {
 import { getUser } from '@/utils/supabase/get-user'
 import { Activities } from '@/utils/supabase/models/activities'
 import { Students } from '@/utils/supabase/models/students'
-import dayjs from 'dayjs'
+import dayjs from '@/utils/dayjs'
 
 interface PencapaianProps {
   searchParams: Promise<{
