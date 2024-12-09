@@ -250,7 +250,8 @@ export class Activities extends Base {
         return {
           id: item.id,
           target_page_count: item.target_page_count,
-          page_count: pageCountStart,
+          page_count:
+            item.student_attendance !== 'present' ? 0 : pageCountStart,
           created_at: item.created_at,
           student_attendance: item.student_attendance
         }
