@@ -94,7 +94,11 @@ export function ActivityPopup({ activities }: Props) {
 
             {_activity.status === 'draft' ? (
               <Button variant='primary' asChild className='mt-4'>
-                <Link href='/ustadz'>Lanjutkan Mengedit</Link>
+                <Link
+                  href={`/ustadz/santri/${_activity.student_id}/activities/edit/${_activity.id}`}
+                >
+                  Lanjutkan Mengedit
+                </Link>
               </Button>
             ) : null}
           </div>

@@ -4,18 +4,20 @@ import { ActivityEntry, ActivityTypeKey } from '@/models/activities'
 import { ActivityBadge } from '../Badge/ActivityBadge'
 import { Dispatch, SetStateAction, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import Image from 'next/image'
-import ThumbsUpImage from './indikator-manzil.png'
 import dayjsGmt7 from '@/utils/dayjs-gmt7'
 import dayjs, { Dayjs } from 'dayjs'
 import { cn } from '@/utils/classnames'
+import {
+  ProgressGridStatus,
+  ProgressGridStatusProps
+} from './ProgressGridStatus'
 
 interface Props {
   activities: Array<Omit<ActivityEntry, 'target_page_count'>> | null
   date: Date
   onChangeDate: Dispatch<SetStateAction<Date>>
-  // The number of juz that the student has almost reached.
-  lajnahJuzMilestone?: number
+  status?: ProgressGridStatusProps['status']
+  statusParameter?: ProgressGridStatusProps['parameter']
   className?: string
 }
 
@@ -34,7 +36,8 @@ export function ProgressGrid({
   activities: activitiesProp,
   date,
   onChangeDate,
-  lajnahJuzMilestone,
+  status,
+  statusParameter,
   className
 }: Props) {
   const activities = activitiesProp ?? DEFAULT_EMPTY_ARRAY
@@ -144,27 +147,7 @@ export function ProgressGrid({
         </div>
       </div>
 
-      {lajnahJuzMilestone && (
-        <div className='flex p-3 gap-x-2 bg-mtmh-tamarind-lightest border-t border-mtmh-snow-lighter rounded-b-md'>
-          <div>
-            <Image
-              alt='Jempol arah ke atas'
-              src={ThumbsUpImage}
-              width={32}
-              height={32}
-            />
-          </div>
-
-          <div className='flex flex-1 flex-col gap-y-1 text-mtmh-tamarind-darkest'>
-            <div className='text-mtmh-m-semibold'>Siap-siap lajnah...</div>
-
-            <div className='text-mtmh-sm-regular'>
-              Alhamdulillah, hafalan ananda sudah mendekati {lajnahJuzMilestone}{' '}
-              juz.
-            </div>
-          </div>
-        </div>
-      )}
+      <ProgressGridStatus status={status} parameter={statusParameter} />
     </div>
   )
 }

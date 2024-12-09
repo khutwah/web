@@ -1,0 +1,10 @@
+BEGIN;
+
+ALTER TABLE checkpoint
+    ADD COLUMN created_at TIMESTAMP DEFAULT NOW();
+
+ALTER TABLE checkpoint
+    ADD COLUMN updated_at TIMESTAMP DEFAULT NOW();
+
+COMMIT;
+

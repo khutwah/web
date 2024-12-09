@@ -1,5 +1,5 @@
 import { Alert, AlertDescription } from './Alert'
-import { Trophy } from 'lucide-react'
+import { Trophy, CircleAlert } from 'lucide-react'
 
 export function BottomNavbarStory() {
   return (
@@ -9,6 +9,11 @@ export function BottomNavbarStory() {
         <AlertDescription>
           Alhamdulillah, target hari ini tercapai
         </AlertDescription>
+      </Alert>
+
+      <Alert variant='warning'>
+        <CircleAlert size={16} />
+        <AlertDescription>Mohon data dilengkapi.</AlertDescription>
       </Alert>
 
       <Alert>

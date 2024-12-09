@@ -176,10 +176,7 @@ function Subchart({
             // Reference: https://github.com/recharts/recharts/issues/2027#issuecomment-2111387338.
             width={30}
             label={{
-              value:
-                datePeriod === 'pekan'
-                  ? 'Lembar pekan ini'
-                  : 'Lembar bulan ini',
+              value: 'Lembar total',
               angle: -90,
               position: 'left',
               style: { textAnchor: 'middle' }

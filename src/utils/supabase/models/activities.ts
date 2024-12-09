@@ -37,6 +37,12 @@ interface ActivitiesPayload {
   created_at?: string
 }
 
+interface ActivitiesForChart {
+  student_id: number
+  start_date: string
+  end_date: string
+}
+
 const selectQuery = `
     id,
     student_id,
@@ -52,7 +58,8 @@ const selectQuery = `
     start_verse,
     end_verse,
     student_attendance,
-    shifts(ustadz_id, users(name), halaqah(name)),
+    achieve_target,
+    shifts(id, ustadz_id, users(name), halaqah(name)),
     students(parent_id, id, name)`
 
 export class Activities extends Base {
@@ -68,7 +75,8 @@ export class Activities extends Base {
       start_date,
       end_date,
       student_attendance,
-      order_by
+      order_by,
+      status
     } = args
 
     let query = (await this.supabase).from('activities').select(selectQuery)
@@ -89,6 +97,10 @@ export class Activities extends Base {
 
     if (type) {
       query = query.eq('type', type)
+    }
+
+    if (status) {
+      query = query.eq('status', status)
     }
 
     if (start_date) {
@@ -147,6 +159,15 @@ export class Activities extends Base {
     }
   }
 
+  async get(id: number) {
+    return (await this.supabase)
+      .from('activities')
+      .select(selectQuery)
+      .eq('id', id)
+      .limit(1)
+      .maybeSingle()
+  }
+
   async create(payload: ActivitiesPayload) {
     const userId = Object.values((await getUserId()) ?? {})[0]
 
@@ -171,13 +192,23 @@ export class Activities extends Base {
 
     const result = await supabase
       .from('activities')
-      .select('id,created_by')
+      .select('id, created_by, shifts!inner(id, ustadz_id)')
       .eq('id', id)
-      .eq('created_by', userId)
       .limit(1)
       .maybeSingle()
 
     if (!result.data) {
+      throw new ApiError({
+        message: 'Not Found',
+        code: '404',
+        status: 404
+      })
+    }
+
+    if (
+      result.data.shifts.ustadz_id !== userId &&
+      result.data.created_by !== userId
+    ) {
       throw new ApiError({
         message: 'You are not authorize to perform this action',
         code: '403',
@@ -198,5 +229,59 @@ export class Activities extends Base {
       })
     }
     return response
+  }
+
+  async chart({ student_id, start_date, end_date }: ActivitiesForChart) {
+    const supabase = await this.supabase
+
+    const checkpoint = await supabase
+      .from('checkpoint')
+      .select('last_activity_id, page_count_accumulation')
+      .order('id', { ascending: false })
+      .eq('student_id', student_id)
+      .lt('created_at', end_date)
+      .limit(1)
+      .maybeSingle()
+
+    const activities = await supabase
+      .from('activities')
+      .select(
+        'id, page_count, target_page_count, created_at, student_attendance'
+      )
+      .eq('student_id', student_id)
+      .eq('status', ActivityStatus.completed)
+      .gte('created_at', start_date)
+      .lte('created_at', end_date)
+      .order('id', { ascending: true })
+
+    let pageCountStart = checkpoint.data?.page_count_accumulation ?? 0
+
+    if (checkpoint.data?.last_activity_id) {
+      // Deduct pageCountStart if there is activity is found
+      // before reaching checkpoint
+      // because page_count_accumulation already include
+      // those page_count numbers
+      activities.data?.forEach((item) => {
+        if (item.id <= checkpoint.data!.last_activity_id) {
+          pageCountStart -= item.page_count || 0
+        }
+      })
+    }
+
+    const data =
+      activities.data?.map((item) => {
+        pageCountStart += item.page_count || 0
+
+        return {
+          id: item.id,
+          target_page_count: item.target_page_count,
+          page_count:
+            item.student_attendance !== 'present' ? 0 : pageCountStart,
+          created_at: item.created_at,
+          student_attendance: item.student_attendance
+        }
+      }) ?? []
+
+    return data
   }
 }

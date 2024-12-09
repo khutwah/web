@@ -9,7 +9,9 @@ const alertVariants = cva(
     variants: {
       variant: {
         success:
-          'bg-mtmh-lightgreen-lightest text-mtmh-green-darkest [&>svg]:text-mtmh-green-darkest'
+          'bg-mtmh-lightgreen-lightest text-mtmh-green-darkest [&>svg]:text-mtmh-green-darkest',
+        warning:
+          'bg-mtmh-tamarind-lighter text-mtmh-tamarind-darkest [&>svg]:text-mtmh-tamarind-darkest'
       }
     },
     defaultVariants: {

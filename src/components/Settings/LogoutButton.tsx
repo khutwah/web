@@ -1,7 +1,7 @@
 'use client'
 
 import { useFormState } from 'react-dom'
-import { logout } from '../actions'
+import { logout } from './actions'
 import { startTransition } from 'react'
 import { Button } from '@/components/Button/Button'
 
