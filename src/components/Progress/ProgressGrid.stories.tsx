@@ -62,10 +62,10 @@ export function IndicatorStory() {
   return (
     <div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8'>
       <ProgressGridIndicator />
-      <ProgressGridIndicator type={'inactive'} parameter={'belum siap'} />
-      <ProgressGridIndicator type={'lajnah-approaching'} parameter={'5'} />
-      <ProgressGridIndicator type={'lajnah-ready'} parameter={'5'} />
-      <ProgressGridIndicator type={'lajnah-exam'} parameter={'5'} />
+      <ProgressGridIndicator status={'inactive'} parameter={'belum siap'} />
+      <ProgressGridIndicator status={'lajnah-approaching'} parameter={'5'} />
+      <ProgressGridIndicator status={'lajnah-ready'} parameter={'5'} />
+      <ProgressGridIndicator status={'lajnah-exam'} parameter={'5'} />
     </div>
   )
 }

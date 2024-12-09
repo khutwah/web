@@ -7,7 +7,7 @@ import IndicatorLajnahReady from './indicators/lajnah-ready.png'
 import IndicatorLajnahExam from './indicators/lajnah-exam.png'
 
 interface Props {
-  type?:
+  status?:
     | 'default'
     | 'lajnah-approaching'
     | 'lajnah-ready'
@@ -16,8 +16,8 @@ interface Props {
   parameter?: string | undefined
 }
 
-export function ProgressGridIndicator({ type, parameter }: Props) {
-  const indicator = resolveIndicator(type, parameter)
+export function ProgressGridIndicator({ status, parameter }: Props) {
+  const indicator = resolveIndicator(status, parameter)
 
   return (
     <button
@@ -59,10 +59,10 @@ interface IndicatorImage {
 }
 
 function resolveIndicator(
-  type: string | undefined,
+  status: string | undefined,
   parameter: string | undefined
 ): Indicator {
-  switch (type) {
+  switch (status) {
     case 'lajnah-approaching':
       return {
         text: 'Siap-siap lajnah...',

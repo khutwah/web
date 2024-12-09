@@ -152,7 +152,7 @@ export function ProgressGrid({
         </div>
       </div>
 
-      <ProgressGridIndicator type={status} />
+      <ProgressGridIndicator status={status} />
     </div>
   )
 }
