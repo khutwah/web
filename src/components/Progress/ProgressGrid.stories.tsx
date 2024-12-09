@@ -1,5 +1,6 @@
 import { ActivityTypeKey } from '@/models/activities'
 import { ProgressGrid } from './ProgressGrid'
+import { ProgressGridIndicator } from './ProgressGridIndicator'
 import { ComponentProps, useState } from 'react'
 import dayjs from 'dayjs'
 
@@ -18,7 +19,7 @@ export function ProgressGridStory() {
           activities={data}
           date={date}
           onChangeDate={setDate}
-          lajnahJuzMilestone={5}
+          status={'lajnah-approaching'}
         />
       </div>
 
@@ -55,4 +56,16 @@ function generateData(
     student_name: undefined,
     tags: []
   }))
+}
+
+export function IndicatorStory() {
+  return (
+    <div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8'>
+      <ProgressGridIndicator />
+      <ProgressGridIndicator type={'inactive'} parameter={'belum siap'} />
+      <ProgressGridIndicator type={'lajnah-approaching'} parameter={'5'} />
+      <ProgressGridIndicator type={'lajnah-ready'} parameter={'5'} />
+      <ProgressGridIndicator type={'lajnah-exam'} parameter={'5'} />
+    </div>
+  )
 }
