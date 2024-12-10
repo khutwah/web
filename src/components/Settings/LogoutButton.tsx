@@ -1,8 +1,7 @@
 'use client'
 
-import { useActionState } from 'react'
+import { startTransition, useState, useActionState } from 'react'
 import { logout } from './actions'
-import { startTransition, useState } from 'react'
 import { Button } from '@/components/Button/Button'
 import { Loader2 } from 'lucide-react'
 
