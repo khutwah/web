@@ -25,14 +25,17 @@ export default async function Aktivitas() {
         Aktivitas
       </div>
 
-      <div className='flex flex-col gap-y-4 items-center mt-4'>
-        <SantriActivityHeader />
+      <div className='flex flex-col p-6 gap-y-4'>
+        <div className='flex justify-center gap-x-[6.5px] text-mtmh-neutral-white text-mtmh-m-regular'>
+          <SantriActivityHeader />
+        </div>
 
         <Card className='bg-mtmh-neutral-white text-mtmh-grey-base shadow-md border border-mtmh-snow-lighter rounded-md'>
           <CardContent className='flex flex-col p-0 gap-y-3'>
             <ProgressGridWithState
               activities={activities.data}
               className='border-none rounded-none'
+              editable={false}
             />
           </CardContent>
         </Card>

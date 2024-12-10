@@ -25,6 +25,17 @@ export function ProgressGridStory() {
       </div>
 
       <div>
+        <ProgressGrid
+          activities={data}
+          date={date}
+          onChangeDate={setDate}
+          status='lajnah-exam'
+          statusParameter='5'
+          editable={false}
+        />
+      </div>
+
+      <div>
         <ProgressGrid activities={data} date={date} onChangeDate={setDate} />
       </div>
     </div>
@@ -69,6 +80,7 @@ export function StatusStory() {
       <ProgressGridStatus status='lajnah-approaching' parameter='5' />
       <ProgressGridStatus status='lajnah-ready' parameter='5' />
       <ProgressGridStatus status='lajnah-exam' parameter='5' />
+      <ProgressGridStatus status='lajnah-exam' parameter='5' editable={false} />
     </div>
   )
 }
