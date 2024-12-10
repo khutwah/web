@@ -37,7 +37,7 @@ jobs:
         env:
           NEXT_PUBLIC_SUPABASE_URL: ${{ env.REVIEW_SUPABASE_URL }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ env.REVIEW_SUPABASE_ANON_KEY }}
-          DATABASE_URL: ${{ env.REVIEW_DATABASE_URL }}
+          DATABASE_URL: ${{ secrets.REVIEW_DATABASE_URL }}
       - uses: superfly/fly-pr-review-apps@f7152c133b1fe7767b6e549ca09598655c1f8ca4 # v1.3.0
         id: deploy
         with:
