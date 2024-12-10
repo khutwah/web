@@ -26,16 +26,18 @@ export default async function DetailHalaqah({
     pageContent = <div>Unexpected error: {halaqahInfo?.error.message}</div>
   } else {
     const studentsInstance = new Students()
-    const students = await studentsInstance.list({
-      halaqah_ids: [halaqahInfo.data.id]
-    })
-
     const activitiesInstance = new Activities()
-    const activities = await activitiesInstance.list({
-      halaqah_ids: [halaqahInfo.data.id],
-      start_date: dayjs().startOf('day').toISOString(),
-      end_date: dayjs().endOf('day').toISOString()
-    })
+
+    const [students, activities] = await Promise.all([
+      studentsInstance.list({
+        halaqah_ids: [halaqahInfo.data.id]
+      }),
+      activitiesInstance.list({
+        halaqah_ids: [halaqahInfo.data.id],
+        start_date: dayjs().startOf('day').toISOString(),
+        end_date: dayjs().endOf('day').toISOString()
+      })
+    ])
 
     pageContent = (
       <>

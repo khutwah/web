@@ -2,7 +2,7 @@
 
 import { Students } from '@/utils/supabase/models/students'
 import { Activities } from '@/utils/supabase/models/activities'
-import { useContext, useState } from 'react'
+import { useContext, useMemo } from 'react'
 import { ActivityTypeKey } from '@/models/activities'
 import {
   SantriCard,
@@ -28,7 +28,7 @@ export function SantriList({
   students: studentsProp,
   activities: activitiesProp
 }: Props) {
-  const [defaultStudentsWithActivities] = useState(() => {
+  const defaultStudentsWithActivities = useMemo(() => {
     const students = studentsProp ?? DEFAULT_EMPTY_ARRAY
     const activities = activitiesProp ?? DEFAULT_EMPTY_ARRAY
 
@@ -47,7 +47,7 @@ export function SantriList({
     }
 
     return Object.values(studentRecord)
-  })
+  }, [studentsProp, activitiesProp])
 
   const searchContext = useContext(SearchContext)
   if (searchContext === undefined) {

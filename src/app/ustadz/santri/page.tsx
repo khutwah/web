@@ -18,16 +18,18 @@ export default async function Santri() {
   const user = await getUser()
 
   const studentsInstance = new Students()
-  const students = await studentsInstance.list({
-    ustadz_id: user.data?.id
-  })
-
   const activitiesInstance = new Activities()
-  const activities = await activitiesInstance.list({
-    ustadz_id: user.data?.id,
-    start_date: dayjs().startOf('day').toISOString(),
-    end_date: dayjs().endOf('day').toISOString()
-  })
+
+  const [students, activities] = await Promise.all([
+    studentsInstance.list({
+      ustadz_id: user.data?.id
+    }),
+    activitiesInstance.list({
+      ustadz_id: user.data?.id,
+      start_date: dayjs().startOf('day').toISOString(),
+      end_date: dayjs().endOf('day').toISOString()
+    })
+  ])
 
   return (
     <Layout>
