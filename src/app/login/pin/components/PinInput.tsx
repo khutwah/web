@@ -48,7 +48,7 @@ export function PinInput({ onChange, value }: PinInputProps) {
       {[...Array(6)].map((_, index) => (
         <Input
           key={index}
-          type='text'
+          type='password'
           inputMode='numeric'
           pattern='\d*'
           maxLength={1}
