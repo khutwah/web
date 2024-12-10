@@ -1,7 +1,7 @@
 'use client'
 
 import { startTransition, useEffect } from 'react'
-import { useFormState } from 'react-dom'
+import { useActionState } from 'react'
 import { useForm } from 'react-hook-form'
 import { login } from '../actions'
 import { useToast } from '@/hooks/useToast'
@@ -14,7 +14,7 @@ interface FormData {
 }
 
 export function PinForm() {
-  const [state, formAction, isTransitioning] = useFormState(login, {
+  const [state, formAction, isTransitioning] = useActionState(login, {
     message: ''
   })
   const { handleSubmit, formState, setValue, watch } = useForm<FormData>({
