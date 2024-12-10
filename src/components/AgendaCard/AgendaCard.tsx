@@ -35,18 +35,18 @@ export default function AgendaCard({
         <div className='relative z-10 flex flex-col h-full'>
           <CardContent className='flex-grow p-6 bg-gradient-to-b from-black/70 via-black/50 to-transparent text-white'>
             <div className='flex justify-between items-start'>
-              <div className='space-y-1'>
+              <div className='space-y-3'>
                 <div className='flex items-center text-xs'>
                   <Calendar className='mr-1 h-4 w-4' />
                   <p>{date}</p>
                 </div>
-                <h2 className='text-2xl font-bold'>{title}</h2>
+                <h2 className='text-xl font-bold'>{title}</h2>
               </div>
               <Badge color='outline' text={category} />
             </div>
           </CardContent>
           <CardFooter className='bg-mtmh-red-base/70 p-4 text-white'>
-            <p className='text-sm'>{description}</p>
+            <p className='text-xs'>{description}</p>
           </CardFooter>
         </div>
       </Card>
