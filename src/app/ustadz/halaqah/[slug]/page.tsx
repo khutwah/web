@@ -10,12 +10,6 @@ import dayjs from 'dayjs'
 import SearchProvider from '../../components/Search/SearchProvider'
 import { SearchSection } from '../../components/Search/SearchSection'
 
-// Dev's note: doing this instead of `?? []` because the latter creates a new reference every render.
-// Not sure if it's valid in the context of server components though?
-//
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const DEFAULT_EMPTY_ARRAY: any[] = []
-
 export default async function DetailHalaqah({
   params: paramsPromise
 }: {
@@ -76,10 +70,7 @@ export default async function DetailHalaqah({
               placeholder='Cari santri...'
             />
 
-            <SantriList
-              students={students.data ?? DEFAULT_EMPTY_ARRAY}
-              activities={activities.data ?? DEFAULT_EMPTY_ARRAY}
-            />
+            <SantriList students={students.data} activities={activities.data} />
           </SearchProvider>
         </div>
       </>
