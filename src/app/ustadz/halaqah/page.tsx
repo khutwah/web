@@ -2,8 +2,8 @@ import { Layout } from '@/components/Layouts/Ustadz'
 import { Navbar } from '@/components/Navbar/Navbar'
 import { Skeleton } from '@/components/Skeleton/Skeleton'
 import { Suspense } from 'react'
-import SearchProvider from './components/SearchProvider'
-import { SearchSection } from './components/SearchSection'
+import SearchProvider from '../components/Search/SearchProvider'
+import { SearchSection } from '../components/Search/SearchSection'
 import { YourHalaqahList } from './components/YourHalaqahList'
 import { AllHalaqahList } from './components/AllHalaqahList'
 import { ErrorBoundary } from '@/components/ErrorBoundary/ErrorBoundary'
@@ -15,7 +15,11 @@ export default function HalaqahListPage() {
       <SearchProvider>
         <header className='sticky top-0 bg-mtmh-red-base'>
           <Navbar text='Halaqah' />
-          <SearchSection />
+          <SearchSection
+            id='search-halaqah'
+            name='search-halaqah'
+            placeholder='Cari halaqah...'
+          />
         </header>
 
         <ErrorBoundary

@@ -2,7 +2,7 @@
 
 import { HalaqahCard } from '@/components/HalaqahCard/HalaqahCard'
 import { useContext } from 'react'
-import { SearchContext } from './SearchProvider'
+import { SearchContext } from '../../components/Search/SearchProvider'
 
 type HalaqahListProps = {
   items: Array<HalaqahItem>
