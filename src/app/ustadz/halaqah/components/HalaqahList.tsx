@@ -4,7 +4,7 @@ import { HalaqahCard } from '@/components/HalaqahCard/HalaqahCard'
 import { useContext } from 'react'
 import { SearchContext } from './SearchProvider'
 
-type HalaqahListProp = {
+type HalaqahListProps = {
   items: Array<HalaqahItem>
 }
 
@@ -17,7 +17,7 @@ export type HalaqahItem = {
   isOwner?: boolean
 }
 
-export function HalaqahList({ items }: HalaqahListProp) {
+export function HalaqahList({ items }: HalaqahListProps) {
   const searchContext = useContext(SearchContext)
   if (searchContext === undefined) {
     throw new Error('HalaqahList must be used within a SearchContext')
