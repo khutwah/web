@@ -1,17 +1,12 @@
 import {
   HomeIcon as HomeIconSolid,
   UserIcon as UserIconSolid,
-  CalendarIcon as CalendarIconSolid,
   Cog6ToothIcon as Cog6ToothIconSolid
 } from '@heroicons/react/24/solid'
-import {
-  HomeIcon,
-  UserIcon,
-  CalendarIcon,
-  Cog6ToothIcon
-} from '@heroicons/react/24/outline'
+import { HomeIcon, UserIcon, Cog6ToothIcon } from '@heroicons/react/24/outline'
 import { BottomNavbarLink } from '@/models/bottom-navbar'
 import { Menu } from '@/models/menus'
+import { HalaqahIcon } from '@/components/HalaqahIcon/HalaqahIcon'
 
 export const MENU_PATH_RECORD = {
   home: '/ustadz',
@@ -23,7 +18,7 @@ export const MENU_PATH_RECORD = {
 export const ACTIVE_ICONS: Record<string, BottomNavbarLink['icon']> = {
   [MENU_PATH_RECORD.home]: HomeIconSolid,
   [MENU_PATH_RECORD.santri]: UserIconSolid,
-  [MENU_PATH_RECORD.halaqah]: CalendarIconSolid,
+  [MENU_PATH_RECORD.halaqah]: HalaqahIcon,
   [MENU_PATH_RECORD.settings]: Cog6ToothIconSolid
 }
 
@@ -43,9 +38,8 @@ export const MENUS: Menu[] = [
     active: false
   },
   {
-    // TODO(imballinst): adjust to halaqah icon.
-    icon: CalendarIcon,
-    text: 'Kalender',
+    icon: HalaqahIcon,
+    text: 'Halaqah',
     href: MENU_PATH_RECORD.halaqah,
     pattern: /^\/ustadz\/halaqah(\/.*)?$/,
     active: false

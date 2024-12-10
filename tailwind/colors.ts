@@ -28,7 +28,8 @@ export const mtmhColors = {
     dark: '#701600',
     darker: '#580900',
     base: '#7F270F',
-    light: '#AA3424'
+    light: '#AA3424',
+    lightest: '#F4DAD9'
   },
   blue: {
     base: '#0065FF',

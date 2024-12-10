@@ -1,5 +1,6 @@
 import { Base } from './base'
 import { RoleFilter } from '@/models/supabase/models/filter'
+import { ApiError } from '@/utils/api-error'
 import dayjsGmt7 from '@/utils/dayjs-gmt7'
 interface GetFilter extends RoleFilter {
   start_date?: string
@@ -7,7 +8,7 @@ interface GetFilter extends RoleFilter {
 }
 
 export class Halaqah extends Base {
-  async list(filter: GetFilter) {
+  async list(filter: GetFilter = {}) {
     const {
       start_date = dayjsGmt7().startOf('day').toISOString(),
       end_date = dayjsGmt7().endOf('day').toISOString(),
@@ -29,6 +30,14 @@ export class Halaqah extends Base {
           `
         )
         .eq('students.parent_id', student_id)
+
+      if (response.error) {
+        throw new ApiError({
+          message: response.error.message,
+          code: response.error.code,
+          status: response.status
+        })
+      }
 
       const data: NonNullable<typeof response.data> = response.data ?? []
 
@@ -64,6 +73,14 @@ export class Halaqah extends Base {
         })
         .not('shifts', 'is', null)
 
+      if (response.error) {
+        throw new ApiError({
+          message: response.error.message,
+          code: response.error.code,
+          status: response.status
+        })
+      }
+
       let _data =
         // The `selected_shift` is just a "placeholder" so that we can query the right halaqah related to ustadz_id.
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -83,7 +100,45 @@ export class Halaqah extends Base {
       }
     }
 
-    return null
+    const response = await supabase
+      .from('halaqah')
+      .select(
+        `
+        id,
+        name,
+        class,
+        selected_shifts:shifts(ustadz_id),
+        shifts(user: users!inner(name,id), ustadz_id, start_date, end_date, location),
+        student_count:students(halaqah_id)
+      `
+      )
+      .gte('shifts.start_date', start_date)
+      .or(`end_date.lte.${end_date},end_date.is.null`, {
+        referencedTable: 'shifts'
+      })
+      .not('shifts', 'is', null)
+
+    if (response.error) {
+      throw new ApiError({
+        message: response.error.message,
+        code: response.error.code,
+        status: response.status
+      })
+    }
+
+    const data =
+      // The `selected_shift` is just a "placeholder" so that we can query the right halaqah related to ustadz_id.
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      response.data?.map(({ selected_shifts: _selectedShifts, ...item }) => ({
+        ...item,
+        student_count: item.student_count.length
+      })) ?? []
+
+    return {
+      ...response,
+      kind: 'ustadz' as const,
+      data
+    }
   }
 
   async get(id: number, filter?: GetFilter) {
