@@ -35,7 +35,7 @@ jobs:
           message: |
             مَا شَاءَ ٱللَّٰهُ
 
-            You changes are deployed on ${{ steps.deploy.outputs.url }} ✨
+            You changes are deployed on [${{ steps.deploy.outputs.url }}](${{ steps.deploy.outputs.url }}){:target="_blank"} ✨
 
             اَلْحَمْدُ لِلَّهِ
           comment-tag: review
