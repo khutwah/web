@@ -13,7 +13,7 @@ export default function HalaqahListPage() {
   return (
     <Layout>
       <SearchProvider>
-        <header className='sticky top-0'>
+        <header className='sticky top-0 bg-mtmh-red-base'>
           <Navbar text='Halaqah' />
           <SearchSection />
         </header>
