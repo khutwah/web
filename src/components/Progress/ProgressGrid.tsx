@@ -17,6 +17,7 @@ interface Props {
   date: Date
   onChangeDate: Dispatch<SetStateAction<Date>>
   status?: ProgressGridStatusProps['status']
+  editable?: ProgressGridStatusProps['editable']
   statusParameter?: ProgressGridStatusProps['parameter']
   className?: string
 }
@@ -37,6 +38,7 @@ export function ProgressGrid({
   date,
   onChangeDate,
   status,
+  editable,
   statusParameter,
   className
 }: Props) {
@@ -147,7 +149,11 @@ export function ProgressGrid({
         </div>
       </div>
 
-      <ProgressGridStatus status={status} parameter={statusParameter} />
+      <ProgressGridStatus
+        status={status}
+        parameter={statusParameter}
+        editable={editable}
+      />
     </div>
   )
 }

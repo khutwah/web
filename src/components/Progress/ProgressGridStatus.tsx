@@ -7,6 +7,7 @@ import StatusLajnahReady from './statuses/lajnah-ready.png'
 import StatusLajnahExam from './statuses/lajnah-exam.png'
 
 export interface ProgressGridStatusProps {
+  editable?: boolean
   status?:
     | 'default'
     | 'lajnah-approaching'
@@ -17,6 +18,7 @@ export interface ProgressGridStatusProps {
 }
 
 export function ProgressGridStatus({
+  editable = true,
   status,
   parameter
 }: ProgressGridStatusProps) {
@@ -45,7 +47,7 @@ export function ProgressGridStatus({
               {resolvedStatus.description}
             </div>
           </div>
-          <Pencil size={16} aria-hidden='true' />
+          {editable && <Pencil size={16} aria-hidden='true' />}
         </div>
       </div>
     </button>
