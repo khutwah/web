@@ -2,13 +2,13 @@ import { HalaqahCard } from '@/components/HalaqahCard/HalaqahCard'
 import { Layout } from '@/components/Layouts/Ustadz'
 import { Halaqah } from '@/utils/supabase/models/halaqah'
 import { getUser } from '@/utils/supabase/get-user'
-import { UstadzHomeHeader } from './components/UstadzHomeHeader'
 import { HeaderBackground } from '../../components/Header/Background'
 import { Activities } from '@/utils/supabase/models/activities'
 import { ActivityCard } from '@/components/ActivityCard/ActivityCard'
 import { ActivityStatus, ActivityTypeKey } from '@/models/activities'
 import Link from 'next/link'
 import { ActivityPopup } from '@/components/ActivityPopup'
+import { HomeHeader } from '@/components/Home/Header'
 
 export default async function Home() {
   const user = await getUser()
@@ -31,7 +31,7 @@ export default async function Home() {
 
       <div className='flex flex-col gap-y-6 mt-4 py-6'>
         <section className='px-6 gap-y-6 flex flex-col'>
-          <UstadzHomeHeader displayName={user.data?.name ?? ''} />
+          <HomeHeader displayName={user.data?.name ?? ''} />
         </section>
 
         <section className='flex flex-col gap-y-3 px-6'>
