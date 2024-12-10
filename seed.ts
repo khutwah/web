@@ -78,6 +78,8 @@ const main = async () => {
     console.error(e)
   }
 
+  console.log(JSON.stringify(ustadz, null, 2))
+
   // seed ustad
   await seed.public_users(
     (x) =>
