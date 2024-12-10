@@ -12,7 +12,7 @@ interface Props {
   displayName: string
 }
 
-export function UstadzHomeHeader({ displayName }: Props) {
+export function HomeHeader({ displayName }: Props) {
   const { alAdhanInfo, errorMessage } = useAlAdhanInfo()
 
   return (
