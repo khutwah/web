@@ -22,10 +22,10 @@ export default function AgendaCard({
   return (
     // FIXME(dio): We need to have a proper URL for the following Link.
     <Link href={`?agenda=${id}`}>
-      <Card className='max-w-2xl overflow-hidden relative'>
-        <div className='absolute inset-0 z-0'>
+      <Card className='max-w-2xl overflow-hidden relative group'>
+        <div className='absolute inset-0 z-0 transition-transform duration-500 group-active:brightness-75'>
           <Image
-            src='https://images.unsplash.com/photo-1641069419212-2ba5f8de1dcd?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80'
+            src='https://images.unsplash.com/photo-1641069419212-2ba5f8de1dcd?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ix'
             alt='Background image'
             layout='fill'
             className='object-cover'
