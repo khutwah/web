@@ -16,8 +16,8 @@ export function SearchSection() {
       <div className='flex rounded-md relative w-full bg-mtmh-red-darker text-mtmh-red-lightest focus-within:text-white'>
         <Search size={16} aria-hidden className='absolute h-full ml-3' />
         <Input
-          id='search-santri'
-          name='search-santri'
+          id='search-halaqah'
+          name='search-halaqah'
           type='text'
           placeholder='Cari halaqah...'
           className='pl-10 border-mtmh-red-darker placeholder-mtmh-red-lightest focus:placeholder-white ring-mtmh-red-lightest'
