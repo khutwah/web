@@ -22,7 +22,7 @@ export default function HalaqahListPage() {
           fallback={
             <ErrorState
               className='my-14'
-              description='Tidak dapat menampilkan data'
+              description='Tidak dapat menampilkan data halaqah'
               title='Terjadi Kesalahan'
             />
           }
