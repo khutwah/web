@@ -6,7 +6,6 @@ import AgendaCard from '@/components/AgendaCard/AgendaCard'
 
 export default async function Home() {
   const user = await getUser()
-  const userId = user.data?.id
 
   return (
     <Layout>
