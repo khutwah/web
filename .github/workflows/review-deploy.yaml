@@ -11,6 +11,10 @@ concurrency:
   group: pr-${{ github.event.number }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+  pull-requests: write # To alllow commenting on PRs
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
