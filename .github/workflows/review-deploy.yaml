@@ -33,9 +33,5 @@ jobs:
       - uses: thollander/actions-comment-pull-request@24bffb9b452ba05a4f3f77933840a6a841d1b32b # v3.0.1
         with:
           message: |
-            مَا شَاءَ ٱللَّٰهُ
-
-            You changes are deployed on [${{ steps.deploy.outputs.url }}](${{ steps.deploy.outputs.url }}){:target="_blank"} ✨
-
-            اَلْحَمْدُ لِلَّهِ
+            ✨ مَا شَاءَ ٱللَّٰهُ 🍃 your changes are deployed on [${{ steps.deploy.outputs.url }}](${{ steps.deploy.outputs.url }}){:target="_blank"}. اَلْحَمْدُ لِلَّهِ ✨
           comment-tag: review
