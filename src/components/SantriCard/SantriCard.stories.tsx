@@ -1,14 +1,18 @@
-import { SantriCard } from './SantriCard'
+import { SantriCard, SantriCardSkeleton } from './SantriCard'
 
 export function Default() {
   return (
-    <SantriCard
-      activities={['Sabaq', 'Manzil']}
-      avatarUrl='https://i.pravatar.cc/300'
-      halaqahName='Halaqah 4.1'
-      href='#'
-      name='Kukuh Sulistyo'
-    />
+    <div className='flex flex-col gap-4'>
+      <SantriCard
+        activities={['Sabaq', 'Manzil']}
+        avatarUrl='https://i.pravatar.cc/300'
+        halaqahName='Halaqah 4.1'
+        href='#'
+        name='Kukuh Sulistyo'
+      />
+
+      <SantriCardSkeleton />
+    </div>
   )
 }
 
