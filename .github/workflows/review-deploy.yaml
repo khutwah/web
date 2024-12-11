@@ -27,17 +27,17 @@ jobs:
       - uses: supabase/setup-cli@fe52e8551e5e65c2c6a20121b1c0998d6c5e3e1f # v1.4.0
         with:
           version: latest
-      - run: supabase link --project-ref xogqlhevomyaklpozrre # previewer project
-      - run: supabase db push
-      - uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
-        with:
-          node-version: 22.x
-      - run: npm ci
-      - run: npm run seed
-        env:
-          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.REVIEW_SUPABASE_URL }}
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.REVIEW_SUPABASE_ANON_KEY }}
-          DATABASE_URL: ${{ secrets.REVIEW_DATABASE_URL }}
+      # - run: supabase link --project-ref xogqlhevomyaklpozrre # previewer project
+      # - run: supabase db push
+      # - uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
+      #   with:
+      #     node-version: 22.x
+      # - run: npm ci
+      # - run: npm run seed
+      #   env:
+      #     NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.REVIEW_SUPABASE_URL }}
+      #     NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.REVIEW_SUPABASE_ANON_KEY }}
+      #     DATABASE_URL: ${{ secrets.REVIEW_DATABASE_URL }}
       - uses: superfly/fly-pr-review-apps@f7152c133b1fe7767b6e549ca09598655c1f8ca4 # v1.3.0
         id: deploy
         with:
