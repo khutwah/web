@@ -15,7 +15,7 @@ export function ErrorState({
   className
 }: ErrorStateProps) {
   return (
-    <div className={cn('space-y-3 text-center', className)}>
+    <div className={cn('space-y-3 text-center', className)} role='alert'>
       <CircleAlert className='mx-auto' />
       <div className='space-y-1'>
         <h2 className='text-mtmh-title-medium !text-center'>{title}</h2>

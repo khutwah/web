@@ -8,7 +8,7 @@ interface BadgeProps {
 
 const COLOR_TO_CLASSNAME_RECORD: Record<BadgeProps['color'], string> = {
   blue: 'bg-mtmh-blue-base',
-  green: 'bg-mtmh-green-base',
+  green: 'bg-mtmh-green-dark',
   tamarind: 'bg-mtmh-warning-70', // FIXME: We should have a color-naming pattern for this.
   mute: 'bg-mtmh-snow-base',
   outline: 'none'
@@ -18,7 +18,7 @@ export function Badge({ color, text, icon }: BadgeProps) {
   return (
     <div
       className={cn(
-        'text-xs text-mtmh-neutral-white py-0.5 px-2 rounded-md flex items-center gap-1',
+        'text-xs justify-center text-mtmh-neutral-white py-0.5 px-2 rounded-md flex items-center gap-1',
         COLOR_TO_CLASSNAME_RECORD[color],
         {
           border: color === 'outline'
