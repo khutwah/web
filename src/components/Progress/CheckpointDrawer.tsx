@@ -64,7 +64,7 @@ export function CheckpointDrawer({
     }
   }, [state])
 
-  let message = state && 'message' in state ? state.message : ''
+  const message = state && 'message' in state ? state.message : ''
 
   if (status === 'inactive') {
     return (
