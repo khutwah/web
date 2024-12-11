@@ -1,4 +1,4 @@
-name: Ladle Deploy
+name: Ladle Deployment
 on:
   push:
     branches:
@@ -22,7 +22,6 @@ permissions:
 
 jobs:
   deploy:
-    name: Deploy ladle
     runs-on: ubuntu-latest
     concurrency: deploy-group # optional: ensure only one action runs at a time
     steps:
