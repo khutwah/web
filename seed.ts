@@ -11,81 +11,108 @@ import dayjs from 'dayjs'
 import { JSONSerializable } from 'fictional'
 import { ActivityStatus } from '@/models/activities'
 
-const main = async () => {
-  const seed = await createSeedClient()
+const USTADZ_TO_REGISTER = [
+  {
+    email: 'iram@ustadz.mtmh.com',
+    name: 'Muhammad Iram'
+  },
+  {
+    email: 'latif@ustadz.mtmh.com',
+    name: 'Latif Riyandi'
+  },
+  {
+    email: 'ardi@ustadz.mtmh.com',
+    name: 'Muhammad Ardi Nurfattah'
+  },
+  {
+    email: 'alfaz@ustadz.mtmh.com',
+    name: 'Najjalloh Alfaz'
+  },
+  {
+    email: 'galih@ustadz.mtmh.com',
+    name: 'Galih Sekarmeda'
+  },
+  {
+    email: 'salman@ustadz.mtmh.com',
+    name: 'Salman Alfikri Syuhada'
+  }
+]
 
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return null
-        },
-        setAll() {}
-      }
-    }
-  )
+const SANTRI_TO_REGISTER = [
+  {
+    email: 'usman@santri.mtmh.com',
+    name: 'Usman Alhabsyi'
+  },
+  {
+    email: 'abdul@santri.mtmh.com',
+    name: 'Abdul Aziz'
+  }
+]
+
+// Run the seeder.
+;(async () => {
+  await runSeeder()
+  process.exit()
+})()
+
+const supabase = createSupabase()
+
+async function runSeeder() {
+  const seed = await createSeedClient()
 
   // Truncate all tables in the database
   await seed.$resetDatabase()
 
   interface User {
     email: string
+    name: string
     id: string
   }
 
   let ustadz: User[] = []
   let students: User[] = []
 
-  const USTADZ_TO_REGISTER = [
-    'iram@ustadz.mtmh.com',
-    'latief@ustadz.mtmh.com',
-    'ardi@ustadz.mtmh.com',
-    'alfaz@ustadz.mtmh.com',
-    'ahmad@ustadz.mtmh.com',
-    'adi@ustadz.mtmh.com'
-  ]
-  try {
-    const _ustadz = await Promise.all(
-      USTADZ_TO_REGISTER.map((email) =>
-        supabase.auth.signUp({
-          email: email,
-          password: 'testakun123'
-        })
-      )
-    )
-    const _students = await Promise.all([
-      supabase.auth.signUp({
-        email: `usman@santri.mtmh.com`,
-        password: 'testakun123'
-      }),
-      supabase.auth.signUp({
-        email: `abdul@santri.mtmh.com`,
-        password: 'testakun123'
+  // Register all ustadz.
+  const _ustadz = await Promise.all(
+    USTADZ_TO_REGISTER.map((entry) =>
+      userSignup({
+        email: entry.email,
+        password: process.env.DEFAULT_PASSWORD || 'testakun123',
+        displayName: entry.name
       })
-    ])
+    )
+  )
 
-    ustadz = _ustadz.map((data) => ({
-      email: data.data.user?.email ?? '',
-      id: data.data.user?.id ?? ''
-    }))
-    students = _students.map((data) => ({
-      email: data.data.user?.email ?? '',
-      id: data.data.user?.id ?? ''
-    }))
-  } catch (e) {
-    console.error(e)
-  }
+  // Register all students.
+  const _students = await Promise.all(
+    SANTRI_TO_REGISTER.map((entry) =>
+      userSignup({
+        email: entry.email,
+        password: process.env.DEFAULT_PASSWORD || 'testakun123',
+        displayName: entry.name
+      })
+    )
+  )
 
-  // seed ustad
+  ustadz = _ustadz.map((data) => ({
+    email: data.user?.email ?? '',
+    id: data.user?.id ?? '',
+    name: data.user?.user_metadata?.displayName ?? ''
+  }))
+  students = _students.map((data) => ({
+    email: data.user?.email ?? '',
+    id: data.user?.id ?? '',
+    name: data.user?.user_metadata?.displayName ?? ''
+  }))
+
+  // seed ustadz data.
   await seed.public_users(
     (x) =>
       x(4, (ctx) => {
         return {
           sb_user_id: ustadz[ctx.index].id,
           email: ustadz[ctx.index].email,
-          name: ustadz[ctx.index].email.split('@')[0]
+          name: ustadz[ctx.index].name
         }
       }),
     {
@@ -99,14 +126,14 @@ const main = async () => {
     }
   )
 
-  // seed student
+  // seed students data.
   await seed.public_users(
     (x) =>
       x(2, (ctx) => {
         return {
           sb_user_id: students[ctx.index].id,
           email: students[ctx.index].email,
-          name: students[ctx.index].email.split('@')[0]
+          name: students[ctx.index].name
         }
       }),
     {
@@ -299,8 +326,44 @@ const main = async () => {
   // Type completion not working? You might want to reload your TypeScript Server to pick up the changes
 
   console.log('Database seeded successfully!')
-
-  process.exit()
 }
 
-main()
+// Helper function to sign up a user.
+async function userSignup({
+  email,
+  password,
+  displayName
+}: {
+  email: string
+  password: string
+  displayName: string
+}) {
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        displayName
+      }
+    }
+  })
+  if (error) {
+    throw error
+  }
+  return data
+}
+
+function createSupabase() {
+  return createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return null
+        },
+        setAll() {}
+      }
+    }
+  )
+}
