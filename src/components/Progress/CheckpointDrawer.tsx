@@ -86,7 +86,10 @@ export function CheckpointDrawer({
   }
 
   return (
-    <form className='p-4 pt-2 flex flex-col gap-4' action={formAction}>
+    <form
+      className='p-4 pt-2 flex flex-col gap-4 overflow-y-scroll max-h-[500px]'
+      action={formAction}
+    >
       {id ? <input type='hidden' name='id' value={id} /> : null}
 
       {studentId ? (
