@@ -27,13 +27,15 @@ jobs:
       - uses: supabase/setup-cli@fe52e8551e5e65c2c6a20121b1c0998d6c5e3e1f # v1.4.0
         with:
           version: latest
-      - uses: superfly/fly-pr-review-apps@f7152c133b1fe7767b6e549ca09598655c1f8ca4 # v1.3.0
+      - uses: JoeyRichter/fly-pr-review-apps@de8b3a752a672c987de9b1d4277995de2795a6bf # main, with build-arg.
         id: deploy
         with:
           name: khutwah-review-${{ github.event.number }}
           config: deployments/review/fly.toml
           secrets: NEXT_PUBLIC_SUPABASE_URL=${{ secrets.REVIEW_SUPABASE_URL }} NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ secrets.REVIEW_SUPABASE_ANON_KEY }} DEFAULT_STUDENT_PASSWORD=${{ secrets.DEFAULT_STUDENT_PASSWORD }} DATABASE_URL=${{ secrets.REVIEW_DATABASE_URL }}
-          launch_options: --build-arg NEXT_PUBLIC_APP_VERSION=pr-${{ github.event.number }} \
+          launch_options: --build-arg NEXT_PUBLIC_APP_VERSION=pr-${{ github.event.number }}
+          build_args: |
+            NEXT_PUBLIC_APP_VERSION=pr-${{ github.event.number }}
         env:
           DOCKER_BUILD: true
           NEXT_PUBLIC_APP_VERSION: pr-${{ github.event.number }}
