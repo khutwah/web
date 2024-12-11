@@ -15,7 +15,7 @@ export function SettingsSharedContent({ children }: PropsWithChildren) {
 
       <div className='flex flex-1 flex-col p-6 gap-y-4 h-full justify-between'>
         <div className='flex flex-col gap-y-4 items-center'>
-          <Image alt='Minhajul Haq' src={Logo} width={121} height={46} />
+          <Image alt='Minhajul Haq' src={Logo} width={121} priority />
 
           <div className='text-mtmh-neutral-white text-mtmh-sm-regular'>
             App version: {process.env.NEXT_PUBLIC_APP_VERSION}
