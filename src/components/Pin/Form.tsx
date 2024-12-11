@@ -13,12 +13,14 @@ interface Payload {
 
 interface PinForm {
   buttonText?: string
-  action: (prevState: any, formData: FormData) => Promise<any>
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+  action: (prevState: unknown, formData: FormData) => Promise<any>
   isConfirmationStep?: boolean
 }
 
 export function PinForm({ buttonText, action, isConfirmationStep }: PinForm) {
   const [state, formAction] = useActionState(
+    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
     async (previousState: any, formData: FormData) => {
       return action(previousState, formData)
     },

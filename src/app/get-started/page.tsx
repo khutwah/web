@@ -11,7 +11,8 @@ export default function PinPage() {
   const { toast } = useToast()
 
   const handleInitialSubmit = useCallback(
-    async (prevState: any, formData: FormData) => {
+    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+    async (_: any, formData: FormData) => {
       const pin = formData.get('pin') as string
       setInitialPin(pin)
       setStep('confirmation')
@@ -34,7 +35,7 @@ export default function PinPage() {
         return { message: 'mismatch', timestamp: Date.now() }
       }
     },
-    [initialPin, toast, action]
+    [initialPin, toast]
   )
 
   return (

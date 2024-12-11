@@ -8,7 +8,7 @@ import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
-export async function login(_prevState: any, formData: FormData) {
+export async function login(_prevState: unknown, formData: FormData) {
   let isRedirect = false
   try {
     const pin = formData.get('pin') as string
