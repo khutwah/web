@@ -16,10 +16,8 @@ interface Props {
   activities: Array<Omit<ActivityEntry, 'target_page_count'>> | null
   date: Date
   onChangeDate: Dispatch<SetStateAction<Date>>
-  status?: ProgressGridStatusProps['status']
-  editable?: ProgressGridStatusProps['editable']
-  statusParameter?: ProgressGridStatusProps['parameter']
   className?: string
+  statusProps?: ProgressGridStatusProps
 }
 
 interface GridEntry {
@@ -37,10 +35,8 @@ export function ProgressGrid({
   activities: activitiesProp,
   date,
   onChangeDate,
-  status,
-  editable,
-  statusParameter,
-  className
+  className,
+  statusProps
 }: Props) {
   const activities = activitiesProp ?? DEFAULT_EMPTY_ARRAY
 
@@ -149,11 +145,7 @@ export function ProgressGrid({
         </div>
       </div>
 
-      <ProgressGridStatus
-        status={status}
-        parameter={statusParameter}
-        editable={editable}
-      />
+      <ProgressGridStatus {...statusProps} />
     </div>
   )
 }

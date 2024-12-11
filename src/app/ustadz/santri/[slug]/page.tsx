@@ -14,6 +14,12 @@ import { ActivityPopup } from '@/components/ActivityPopup'
 import { ActivityCard } from '@/components/ActivityCard/ActivityCard'
 import Link from 'next/link'
 import { ActivityStatus, ActivityTypeKey } from '@/models/activities'
+import { Checkpoint } from '@/utils/supabase/models/checkpoint'
+import { CheckpointStatus } from '@/models/checkpoint'
+import { parseParameter } from '@/utils/parse-parameter'
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const DEFAULT_EMPTY_ARRAY: any[] = []
 
 export default async function DetailSantri({
   params: paramsPromise
@@ -33,26 +39,64 @@ export default async function DetailSantri({
     pageContent = <div>Unexpected error: {student.error?.message}</div>
   } else {
     const activitiesInstance = new Activities()
-    const activities = await activitiesInstance.list({
-      student_id: student.data.id,
-      start_date: dayjs().startOf('week').toISOString(),
-      end_date: dayjs().endOf('week').toISOString(),
-      limit: 21
-    })
 
-    const lastActivities = await activitiesInstance.list({
-      student_id: student.data.id,
-      order_by: 'desc',
-      limit: 10
-    })
+    const [
+      activitiesPromise,
+      lastActivitiesPromise,
+      lastCompletedActivityPromise,
+      isUserManageStudentPromise,
+      checkpointPromise
+    ] = await Promise.allSettled([
+      activitiesInstance.list({
+        student_id: student.data.id,
+        start_date: dayjs().startOf('week').toISOString(),
+        end_date: dayjs().endOf('week').toISOString(),
+        limit: 21
+      }),
+      activitiesInstance.list({
+        student_id: student.data.id,
+        order_by: 'desc',
+        limit: 10
+      }),
+      activitiesInstance.checkpoint({
+        student_id: student.data.id
+      }),
+      studentsInstance.isUserManagesStudent(Number(studentId)),
+      new Checkpoint().list({
+        student_id: Number(studentId)
+      })
+    ])
 
-    const isUserManageStudent = await studentsInstance.isUserManagesStudent(
-      Number(studentId)
-    )
+    const activities =
+      activitiesPromise.status === 'fulfilled'
+        ? activitiesPromise.value
+        : undefined
+
+    const checkpointData =
+      checkpointPromise.status === 'fulfilled'
+        ? checkpointPromise.value.data?.[0]
+        : undefined
+
+    const lastActivities =
+      lastActivitiesPromise.status === 'fulfilled'
+        ? lastActivitiesPromise.value
+        : undefined
+
+    const isUserManageStudent =
+      isUserManageStudentPromise.status === 'fulfilled'
+        ? isUserManageStudentPromise.value
+        : undefined
+
+    const lastCompletedActivity =
+      lastCompletedActivityPromise.status === 'fulfilled'
+        ? lastCompletedActivityPromise.value
+        : undefined
 
     pageContent = (
       <>
-        <ActivityPopup activities={lastActivities.data} />
+        <ActivityPopup
+          activities={lastActivities?.data ?? DEFAULT_EMPTY_ARRAY}
+        />
         <Navbar
           text='Detil Santri'
           // FIXME(imballinst): this doesn't go back to the previous path.
@@ -90,8 +134,18 @@ export default async function DetailSantri({
             </CardHeader>
             <CardContent className='flex flex-col p-0 gap-y-3'>
               <ProgressGridWithState
-                activities={activities.data}
+                activities={activities?.data ?? DEFAULT_EMPTY_ARRAY}
                 className='border-none rounded-none'
+                statusProps={{
+                  editable: isUserManageStudent,
+                  status: checkpointData?.status as CheckpointStatus,
+                  parameter: parseParameter(checkpointData),
+                  checkpointId: checkpointData?.id,
+                  lastActivityId: lastCompletedActivity?.last_activity_id,
+                  pageCountAccumulation:
+                    lastCompletedActivity?.page_count_accumulation,
+                  studentId: Number(studentId)
+                }}
               />
             </CardContent>
           </Card>
@@ -140,7 +194,7 @@ export default async function DetailSantri({
           </div>
 
           <ul className='flex overflow-x-scroll gap-3 px-6 items-start'>
-            {lastActivities.data?.map((item) => {
+            {lastActivities?.data?.map((item) => {
               const tags = item.tags as string[]
               return (
                 <li key={item.id} className='w-[300px] flex-shrink-0 h-full'>

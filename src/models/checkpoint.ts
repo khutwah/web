@@ -1,4 +1,6 @@
-type CheckpointStatus =
+import type { Checkpoint } from '@/utils/supabase/models/checkpoint'
+
+export type CheckpointStatus =
   | 'lajnah-approaching'
   | 'lajnah-ready'
   | 'lajnah-exam'
@@ -12,7 +14,7 @@ export interface InsertPayload {
   student_id: number
   start_date: string
   part_count?: number
-  end_date?: string | null
+  end_date?: string
   notes?: string
 }
 
@@ -24,8 +26,30 @@ export interface UpdatePayload {
 
 export interface Filter {
   student_id?: number
-  start_date?: string
-  end_date?: string
   limit?: number
   status?: CheckpointStatus
 }
+
+export type CheckpointList = NonNullable<
+  Awaited<ReturnType<Checkpoint['list']>>['data']
+>
+
+export interface FormStateErrors {
+  id?: string
+  notes?: string
+  page_count_accumulation?: string
+  last_activity_id?: string
+  part_count?: string
+  student_id?: string
+  start_date?: string
+  end_date?: string
+}
+
+export type FormState =
+  | {
+      message?: string
+    }
+  | undefined
+  | {
+      success: boolean
+    }

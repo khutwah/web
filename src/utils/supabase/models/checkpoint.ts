@@ -2,6 +2,7 @@ import { Filter, InsertPayload, UpdatePayload } from '@/models/checkpoint'
 import { Base } from './base'
 
 const SELECTED = `
+    id,
     status,
     start_date,
     end_date,
@@ -12,7 +13,13 @@ const SELECTED = `
 
 export class Checkpoint extends Base {
   async list(filter: Filter) {
-    let query = (await this.supabase).from('checkpoint').select(SELECTED)
+    const now = new Date().toISOString()
+
+    let query = (await this.supabase)
+      .from('checkpoint')
+      .select(SELECTED)
+      .lt('start_date', now)
+      .or(`end_date.is.null,end_date.gt.${now}`)
 
     if (filter.student_id) {
       query = query.eq('student_id', filter.student_id)
@@ -20,18 +27,6 @@ export class Checkpoint extends Base {
 
     if (filter.status) {
       query = query.eq('status', filter.status)
-    }
-
-    if (filter.start_date) {
-      query = query.gte('start_date', filter.start_date)
-    }
-
-    if (filter.end_date === null) {
-      query = query.is('end_date', null)
-    }
-
-    if (filter.end_date) {
-      query = query.not('end_date', 'is', null).lte('end_date', filter.end_date)
     }
 
     if (filter.limit) {

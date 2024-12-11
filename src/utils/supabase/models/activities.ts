@@ -242,6 +242,44 @@ export class Activities extends Base {
     return response
   }
 
+  async checkpoint({ student_id }: { student_id: number }) {
+    const supabase = await this.supabase
+    const checkpoint = await supabase
+      .from('checkpoint')
+      .select('last_activity_id, page_count_accumulation')
+      .order('id', { ascending: false })
+      .eq('student_id', student_id)
+      .eq('status', 'lajnah-completed')
+      .limit(1)
+      .maybeSingle()
+
+    const lastActivityId = checkpoint.data?.last_activity_id
+    const pageCountAccumulation = checkpoint.data?.page_count_accumulation ?? 0
+
+    let activities = supabase
+      .from('activities')
+      .select('id, page_count')
+      .eq('student_id', student_id)
+      .eq('type', ActivityType.Sabaq)
+      .eq('status', ActivityStatus.completed)
+
+    if (lastActivityId) {
+      activities = activities.gt('id', lastActivityId)
+    }
+
+    const result = await activities.order('id', { ascending: false })
+
+    const pageCounts =
+      result.data?.reduce((acc, item) => {
+        return acc + (item.page_count ?? 0)
+      }, 0) ?? 0
+
+    return {
+      last_activity_id: result.data?.[0]?.id || lastActivityId,
+      page_count_accumulation: pageCounts + pageCountAccumulation
+    }
+  }
+
   async chart({ student_id, start_date, end_date }: ActivitiesForChart) {
     const supabase = await this.supabase
 
