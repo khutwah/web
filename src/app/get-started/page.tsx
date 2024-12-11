@@ -1,10 +1,10 @@
 'use client'
 
-import { useFormState } from 'react-dom'
+import { useActionState } from 'react'
 import { action } from './actions'
 
 export default function GetStarted() {
-  const [state, formAction] = useFormState(action, { message: '' })
+  const [state, formAction] = useActionState(action, { message: '' })
 
   return (
     <div>

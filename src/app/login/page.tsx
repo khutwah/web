@@ -1,12 +1,11 @@
 'use client'
 
-import { useFormState } from 'react-dom'
+import { startTransition, useEffect, useState, useActionState } from 'react'
 import { login } from './actions'
 import { InputWithLabel } from '@/components/Form/InputWithLabel'
 import { Checkbox } from '@/components/Form/Checkbox'
 import Link from 'next/link'
 import { useForm, useWatch } from 'react-hook-form'
-import { startTransition, useEffect, useState } from 'react'
 import { Loader2 } from 'lucide-react'
 import {
   DialogHeader,
@@ -22,7 +21,7 @@ import { CircleAlert } from 'lucide-react'
 import { Button } from '@/components/Button/Button'
 
 export default function LoginPage() {
-  const [state, formAction, isTransitioning] = useFormState(login, {
+  const [state, formAction, isTransitioning] = useActionState(login, {
     message: ''
   })
   const { toast } = useToast()
