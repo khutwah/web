@@ -73,9 +73,11 @@ export function ProgressGridStatus({
         </button>
       </DrawerTrigger>
       <DrawerContent>
-        <DrawerHeader className='hidden'>
-          <DrawerTitle>Ubah Status Ananda</DrawerTitle>
-          <DrawerDescription>Pilih status Ananda</DrawerDescription>
+        <DrawerHeader>
+          <DrawerTitle className='text-left'>Update Status</DrawerTitle>
+          <DrawerDescription className='hidden'>
+            Pilih status Ananda
+          </DrawerDescription>
         </DrawerHeader>
 
         <CheckpointDrawer

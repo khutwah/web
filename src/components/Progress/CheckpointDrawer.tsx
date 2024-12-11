@@ -6,7 +6,6 @@ import { useActionState, useEffect, useState } from 'react'
 import { upsert } from './actions/checkpoints'
 import { ComboboxButton } from '../Form/Combobox'
 import { InputWithLabel } from '../Form/InputWithLabel'
-import { Label } from '../Form/Label'
 
 interface CheckpointDrawerProps {
   id?: number
@@ -87,7 +86,7 @@ export function CheckpointDrawer({
   }
 
   return (
-    <form className='p-4 flex flex-col gap-4' action={formAction}>
+    <form className='p-4 pt-2 flex flex-col gap-4' action={formAction}>
       {id ? <input type='hidden' name='id' value={id} /> : null}
 
       {studentId ? (
@@ -119,7 +118,6 @@ export function CheckpointDrawer({
       ) : null}
 
       <div className='flex flex-col gap-2'>
-        <Label>Status</Label>
         {STATUS_LIST.map((item, index) => (
           <ComboboxButton
             key={item.value}
