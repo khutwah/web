@@ -3,16 +3,12 @@ import { Layout } from '@/components/Layouts/Ustadz'
 import { Navbar } from '@/components/Navbar/Navbar'
 import { Halaqah } from '@/utils/supabase/models/halaqah'
 import { navigateToHalaqahList } from './actions'
-import { HalaqahDetailContent } from '@/components/Halaqah/DetailHalaqah'
+import { SantriList } from '@/app/ustadz/components/SantriList/SantriList'
 import { Students } from '@/utils/supabase/models/students'
 import { Activities } from '@/utils/supabase/models/activities'
 import dayjs from 'dayjs'
-
-// Dev's note: doing this instead of `?? []` because the latter creates a new reference every render.
-// Not sure if it's valid in the context of server components though?
-//
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const DEFAULT_EMPTY_ARRAY: any[] = []
+import SearchProvider from '../../components/Search/SearchProvider'
+import { SearchSection } from '../../components/Search/SearchSection'
 
 export default async function DetailHalaqah({
   params: paramsPromise
@@ -26,19 +22,22 @@ export default async function DetailHalaqah({
   let pageContent: JSX.Element
 
   if (!halaqahInfo?.data) {
+    // TODO: implement proper error handling.
     pageContent = <div>Unexpected error: {halaqahInfo?.error.message}</div>
   } else {
     const studentsInstance = new Students()
-    const students = await studentsInstance.list({
-      halaqah_ids: [halaqahInfo.data.id]
-    })
-
     const activitiesInstance = new Activities()
-    const activities = await activitiesInstance.list({
-      halaqah_ids: [halaqahInfo.data.id],
-      start_date: dayjs().startOf('day').toISOString(),
-      end_date: dayjs().endOf('day').toISOString()
-    })
+
+    const [students, activities] = await Promise.all([
+      studentsInstance.list({
+        halaqah_ids: [halaqahInfo.data.id]
+      }),
+      activitiesInstance.list({
+        halaqah_ids: [halaqahInfo.data.id],
+        start_date: dayjs().startOf('day').toISOString(),
+        end_date: dayjs().endOf('day').toISOString()
+      })
+    ])
 
     pageContent = (
       <>
@@ -64,11 +63,17 @@ export default async function DetailHalaqah({
           </Card>
         </div>
 
-        <div className='p-6'>
-          <HalaqahDetailContent
-            students={students.data ?? DEFAULT_EMPTY_ARRAY}
-            activities={activities.data ?? DEFAULT_EMPTY_ARRAY}
-          />
+        <div className='p-6 space-y-6'>
+          <SearchProvider>
+            <SearchSection
+              color='white'
+              id='search-santri'
+              name='search-santri'
+              placeholder='Cari santri...'
+            />
+
+            <SantriList students={students.data} activities={activities.data} />
+          </SearchProvider>
         </div>
       </>
     )
