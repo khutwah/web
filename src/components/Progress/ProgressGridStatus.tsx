@@ -87,6 +87,7 @@ export function ProgressGridStatus({
           lastActivityId={lastActivityId}
           pageCountAccumulation={pageCountAccumulation}
           studentId={studentId}
+          onFinish={() => setOpen(false)}
         />
       </DrawerContent>
     </Drawer>

@@ -7,6 +7,7 @@ import { upsert } from './actions/checkpoints'
 import { ComboboxButton } from '../Form/Combobox'
 import { InputWithLabel } from '../Form/InputWithLabel'
 import { CheckpointDeleteConfirm } from './CheckpointDeleteConfirm'
+import { useRouter } from 'next/navigation'
 
 interface CheckpointDrawerProps {
   id?: number
@@ -15,6 +16,7 @@ interface CheckpointDrawerProps {
   lastActivityId?: number
   pageCountAccumulation?: number
   studentId?: number
+  onFinish: () => void
 }
 
 export function CheckpointDrawer({
@@ -23,13 +25,16 @@ export function CheckpointDrawer({
   parameter,
   lastActivityId,
   pageCountAccumulation,
-  studentId
+  studentId,
+  onFinish
 }: CheckpointDrawerProps) {
   const formRef = useRef<HTMLFormElement>(null)
   const [state, formAction, isPending] = useActionState<FormState, FormData>(
     upsert,
     undefined
   )
+
+  const router = useRouter()
 
   const [payload, setPayload] = useState({
     status,
@@ -39,9 +44,10 @@ export function CheckpointDrawer({
 
   useEffect(() => {
     if (typeof state !== 'undefined' && 'success' in state && state.success) {
-      window.location.reload()
+      router.refresh()
+      onFinish()
     }
-  }, [state])
+  }, [state, router])
 
   const message = state && 'message' in state ? state.message : ''
 
