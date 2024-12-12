@@ -18,7 +18,7 @@ export function HomeHeader({ displayName }: Props) {
   return (
     <>
       <div className='flex flex-col gap-y-4 items-center'>
-        <Image alt='Minhajul Haq' src={Logo} width={121} height={46} />
+        <Image alt='Minhajul Haq' src={Logo} width={121} />
 
         <DateHeader hijriDate={alAdhanInfo?.date.hijri} />
       </div>
