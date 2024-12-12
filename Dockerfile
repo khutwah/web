@@ -15,7 +15,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-# TODO(dio): Remove the following line when seed.ts is well behaved.
+# # TODO(dio): Remove the following line when seed.ts is well behaved.
 RUN rm -f seed.ts
 RUN npm run build
 
@@ -25,6 +25,7 @@ ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
+RUN if [ -d "/app/public" ]; then cp -r /app/public ./public; fi # Copy public folder if it exists
 
 EXPOSE 3000
 CMD ["server.js"]
