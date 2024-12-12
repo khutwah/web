@@ -12,21 +12,23 @@ import { useRouter } from 'next/navigation'
 interface CheckpointDrawerProps {
   id?: number
   status?: CheckpointStatus
-  parameter?: string
   lastActivityId?: number
   pageCountAccumulation?: number
   studentId?: number
   onFinish: () => void
+  notes?: string
+  partCount?: number
 }
 
 export function CheckpointDrawer({
   id,
   status,
-  parameter,
   lastActivityId,
   pageCountAccumulation,
   studentId,
-  onFinish
+  onFinish,
+  notes,
+  partCount
 }: CheckpointDrawerProps) {
   const formRef = useRef<HTMLFormElement>(null)
   const [state, formAction, isPending] = useActionState<FormState, FormData>(
@@ -38,8 +40,8 @@ export function CheckpointDrawer({
 
   const [payload, setPayload] = useState({
     status,
-    part_count: parameter ?? '',
-    notes: parameter ?? ''
+    part_count: partCount ?? '',
+    notes: notes ?? ''
   })
 
   useEffect(() => {
@@ -47,7 +49,7 @@ export function CheckpointDrawer({
       router.refresh()
       onFinish()
     }
-  }, [state, router])
+  }, [state, router, onFinish])
 
   const message = state && 'message' in state ? state.message : ''
 

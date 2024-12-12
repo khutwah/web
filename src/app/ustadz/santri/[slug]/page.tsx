@@ -144,7 +144,9 @@ export default async function DetailSantri({
                   lastActivityId: lastCompletedActivity?.last_activity_id,
                   pageCountAccumulation:
                     lastCompletedActivity?.page_count_accumulation,
-                  studentId: Number(studentId)
+                  studentId: Number(studentId),
+                  notes: lastCompletedActivity?.notes ?? undefined,
+                  partCount: lastCompletedActivity?.part_count ?? undefined
                 }}
               />
             </CardContent>

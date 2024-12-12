@@ -246,7 +246,9 @@ export class Activities extends Base {
     const supabase = await this.supabase
     const checkpoint = await supabase
       .from('checkpoint')
-      .select('last_activity_id, page_count_accumulation, end_date')
+      .select(
+        'last_activity_id, page_count_accumulation, end_date, part_count, notes'
+      )
       .order('id', { ascending: false })
       .eq('student_id', student_id)
       .limit(1)
@@ -255,7 +257,9 @@ export class Activities extends Base {
     if (checkpoint.data?.end_date === null) {
       return {
         last_activity_id: checkpoint.data.last_activity_id,
-        page_count_accumulation: checkpoint.data.page_count_accumulation
+        page_count_accumulation: checkpoint.data.page_count_accumulation,
+        part_count: checkpoint.data.part_count,
+        notes: checkpoint.data.notes
       }
     }
 
@@ -282,7 +286,9 @@ export class Activities extends Base {
 
     return {
       last_activity_id: result.data?.[0]?.id ?? lastActivityId,
-      page_count_accumulation: pageCounts + pageCountAccumulation
+      page_count_accumulation: pageCounts + pageCountAccumulation,
+      part_count: undefined,
+      notes: undefined
     }
   }
 

@@ -5,8 +5,7 @@ export const CHECKPOINT_STATUS: CheckpointStatus[] = [
   'lajnah-ready',
   'lajnah-exam',
   'lajnah-completed',
-  'inactive',
-  'cancelled'
+  'inactive'
 ]
 
 export const STATUS_LIST: Array<{ label: string; value: CheckpointStatus }> = [
@@ -35,7 +34,6 @@ export type CheckpointStatus =
   | 'lajnah-exam'
   | 'lajnah-completed'
   | 'inactive'
-  | 'cancelled'
 
 export interface InsertPayload {
   status: CheckpointStatus

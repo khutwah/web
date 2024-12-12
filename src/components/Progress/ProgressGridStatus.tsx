@@ -25,6 +25,8 @@ export interface ProgressGridStatusProps {
   lastActivityId?: number
   pageCountAccumulation?: number
   studentId?: number
+  partCount?: number
+  notes?: string
 }
 
 export function ProgressGridStatus({
@@ -34,7 +36,9 @@ export function ProgressGridStatus({
   checkpointId,
   lastActivityId,
   pageCountAccumulation,
-  studentId
+  studentId,
+  partCount,
+  notes
 }: ProgressGridStatusProps) {
   const resolvedStatus = resolveStatus(status, parameter)
   const [open, setOpen] = useState(false)
@@ -83,11 +87,12 @@ export function ProgressGridStatus({
         <CheckpointDrawer
           id={checkpointId}
           status={status}
-          parameter={parameter}
           lastActivityId={lastActivityId}
           pageCountAccumulation={pageCountAccumulation}
           studentId={studentId}
           onFinish={() => setOpen(false)}
+          notes={notes}
+          partCount={partCount}
         />
       </DrawerContent>
     </Drawer>
