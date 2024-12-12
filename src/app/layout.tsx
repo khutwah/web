@@ -3,8 +3,8 @@ import './globals.css'
 import { Toaster } from '@/components/Toast/Toaster'
 
 export const metadata: Metadata = {
-  title: 'Khutwah Web',
-  description: 'Khutwah Web'
+  title: 'MTMH',
+  description: 'Markaz Tahfizh Minhajul Haq'
 }
 
 export default function RootLayout({
