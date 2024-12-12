@@ -44,6 +44,9 @@ const DrawerContent = React.forwardRef<
       ref={ref}
       className={cn(
         'fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-[10px] border bg-white',
+        // Hence the max-width is the same as the max-width of the "body".
+        // See: src/app/globals.css.
+        'w-full max-w-[500px] mx-auto',
         className
       )}
       {...props}
