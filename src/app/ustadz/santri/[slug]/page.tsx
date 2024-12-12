@@ -43,7 +43,7 @@ export default async function DetailSantri({
     const [
       activitiesPromise,
       lastActivitiesPromise,
-      lastCompletedActivityPromise,
+      latestActivityPromise,
       isUserManageStudentPromise,
       checkpointPromise
     ] = await Promise.allSettled([
@@ -87,9 +87,9 @@ export default async function DetailSantri({
         ? isUserManageStudentPromise.value
         : undefined
 
-    const lastCompletedActivity =
-      lastCompletedActivityPromise.status === 'fulfilled'
-        ? lastCompletedActivityPromise.value
+    const latestActivity =
+      latestActivityPromise.status === 'fulfilled'
+        ? latestActivityPromise.value
         : undefined
 
     pageContent = (
@@ -141,19 +141,19 @@ export default async function DetailSantri({
                   status: checkpointData?.status as CheckpointStatus,
                   parameter: parseParameter(checkpointData),
                   checkpointId: checkpointData?.id,
-                  lastActivityId: lastCompletedActivity?.last_activity_id,
+                  lastActivityId: latestActivity?.last_activity_id,
                   pageCountAccumulation:
-                    lastCompletedActivity?.page_count_accumulation,
+                    latestActivity?.page_count_accumulation,
                   studentId: Number(studentId),
-                  notes: lastCompletedActivity?.notes ?? undefined,
-                  partCount: lastCompletedActivity?.part_count ?? undefined
+                  notes: latestActivity?.notes ?? undefined,
+                  partCount: latestActivity?.part_count ?? undefined
                 }}
               />
             </CardContent>
           </Card>
         </div>
 
-        {isUserManageStudent ? (
+        {isUserManageStudent && latestActivity?.status !== 'inactive' ? (
           <section className='mx-6 mb-6'>
             <h2 className='text-mtmh-grey-base mb-3 font-semibold text-sm'>
               Tambah Input
