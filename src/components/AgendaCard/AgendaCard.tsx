@@ -27,8 +27,8 @@ export default function AgendaCard({
           <Image
             src='https://images.unsplash.com/photo-1641069419212-2ba5f8de1dcd?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ix'
             alt='Background image'
-            fill
             className='object-cover'
+            fill
             priority
           />
         </div>
