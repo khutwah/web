@@ -7,6 +7,7 @@ import {
   DrawerTrigger
 } from '@/components/Drawer/Drawer'
 import { useTags } from '@/hooks/useTags'
+import { TAG_DURING_LAJNAH } from '@/models/checkpoint'
 import { PlusIcon, X } from 'lucide-react'
 import { useState } from 'react'
 
@@ -76,18 +77,20 @@ export function Tags(props: TagsProps) {
   const { tags, onClick } = props
   return (
     <div className='flex flex-row flex-wrap	gap-1.5'>
-      {tags.map((tag) => (
-        <div
-          key={tag}
-          className='py-1 px-2 bg-mtmh-primary-lightest text-mtmh-blue-base flex flex-row gap-1 rounded-lg text-mtmh-sm-regular'
-        >
-          {tag}
-          <button onClick={() => onClick(tag)}>
-            <span className='sr-only'>remove tag</span>
-            <X size={12} aria-hidden />
-          </button>
-        </div>
-      ))}
+      {tags
+        .filter((tag) => tag !== TAG_DURING_LAJNAH)
+        .map((tag) => (
+          <div
+            key={tag}
+            className='py-1 px-2 bg-mtmh-primary-lightest text-mtmh-blue-base flex flex-row gap-1 rounded-lg text-mtmh-sm-regular'
+          >
+            {tag}
+            <button onClick={() => onClick(tag)}>
+              <span className='sr-only'>remove tag</span>
+              <X size={12} aria-hidden />
+            </button>
+          </div>
+        ))}
       <TagsDrawer {...props} />
     </div>
   )

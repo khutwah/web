@@ -55,7 +55,7 @@ export interface UpdatePayload {
 export interface Filter {
   student_id?: number
   limit?: number
-  status?: CheckpointStatus
+  status?: CheckpointStatus[]
 }
 
 export type CheckpointList = NonNullable<
@@ -81,3 +81,5 @@ export type FormState =
   | {
       success: boolean
     }
+
+export const TAG_DURING_LAJNAH = 'sedang-lajnah'

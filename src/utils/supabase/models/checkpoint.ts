@@ -12,7 +12,7 @@ const SELECTED = `
 `
 
 export class Checkpoint extends Base {
-  async list(filter: Filter) {
+  async list(filter?: Filter) {
     const now = new Date().toISOString()
 
     let query = (await this.supabase)
@@ -21,16 +21,16 @@ export class Checkpoint extends Base {
       .lt('start_date', now)
       .or(`end_date.is.null,end_date.gt.${now}`)
 
-    if (filter.student_id) {
-      query = query.eq('student_id', filter.student_id)
+    if (filter?.student_id) {
+      query = query.eq('student_id', filter?.student_id)
     }
 
-    if (filter.status) {
-      query = query.eq('status', filter.status)
+    if (filter?.status) {
+      query = query.in('status', filter?.status)
     }
 
-    if (filter.limit) {
-      query = query.limit(filter.limit)
+    if (filter?.limit) {
+      query = query.limit(filter?.limit)
     }
 
     return query
