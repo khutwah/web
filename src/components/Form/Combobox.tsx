@@ -91,7 +91,6 @@ export function Combobox({
       <DrawerTrigger asChild>
         <Button
           variant='outline'
-          role='combobox'
           aria-expanded={open}
           className='w-full justify-between'
         >
@@ -179,8 +178,10 @@ export function ComboboxButton({
         <input
           type='radio'
           className='hidden'
+          defaultChecked={checked}
           {...inputProps}
           aria-hidden='true'
+          tabIndex={-1}
         />
         {label}
         <Check

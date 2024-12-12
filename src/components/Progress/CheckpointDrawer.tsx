@@ -1,11 +1,12 @@
-import { CheckpointStatus, FormState } from '@/models/checkpoint'
+import { CheckpointStatus, FormState, STATUS_LIST } from '@/models/checkpoint'
 import { ErrorField } from '@/components/Form/ErrorField'
 
 import { Button } from '../Button/Button'
-import { useActionState, useEffect, useState } from 'react'
+import { useActionState, useEffect, useRef, useState } from 'react'
 import { upsert } from './actions/checkpoints'
 import { ComboboxButton } from '../Form/Combobox'
 import { InputWithLabel } from '../Form/InputWithLabel'
+import { CheckpointDeleteConfirm } from './CheckpointDeleteConfirm'
 
 interface CheckpointDrawerProps {
   id?: number
@@ -16,26 +17,6 @@ interface CheckpointDrawerProps {
   studentId?: number
 }
 
-const STATUS_LIST: Array<{ label: string; value: CheckpointStatus }> = [
-  { label: 'Sedang Berhalangan', value: 'inactive' },
-  {
-    label: 'Mendekati Lajnah',
-    value: 'lajnah-approaching'
-  },
-  {
-    label: 'Persiapan Lajnah',
-    value: 'lajnah-ready'
-  },
-  {
-    label: 'Sedang Lajnah',
-    value: 'lajnah-exam'
-  },
-  {
-    label: 'Lajnah Selesai',
-    value: 'lajnah-completed'
-  }
-]
-
 export function CheckpointDrawer({
   id,
   status,
@@ -44,6 +25,7 @@ export function CheckpointDrawer({
   pageCountAccumulation,
   studentId
 }: CheckpointDrawerProps) {
+  const formRef = useRef<HTMLFormElement>(null)
   const [state, formAction, isPending] = useActionState<FormState, FormData>(
     upsert,
     undefined
@@ -55,8 +37,6 @@ export function CheckpointDrawer({
     notes: parameter ?? ''
   })
 
-  const currentStatus = STATUS_LIST.findIndex((item) => item.value === status)
-
   useEffect(() => {
     if (typeof state !== 'undefined' && 'success' in state && state.success) {
       window.location.reload()
@@ -65,30 +45,25 @@ export function CheckpointDrawer({
 
   const message = state && 'message' in state ? state.message : ''
 
-  if (status === 'inactive') {
-    return (
-      <form className='p-4' action={formAction}>
-        <input type='hidden' name='id' value={id} />
-        <input type='hidden' name='status' value={status} />
-        <input type='hidden' name='notes' value={parameter} />
-        <input type='hidden' name='end_date' value={new Date().toISOString()} />
+  const onDeleteConfirmed = () => {
+    if (formRef.current) {
+      if (!document.getElementsByName('end_date').length) {
+        const endDate = document.createElement('input')
+        endDate.type = 'hidden'
+        endDate.name = 'end_date'
+        endDate.value = new Date().toISOString()
+        formRef.current.appendChild(endDate)
+      }
 
-        <Button
-          variant='primary'
-          type='submit'
-          className='w-full'
-          disabled={isPending}
-        >
-          Ananda Sudah Tidak Berhalangan
-        </Button>
-      </form>
-    )
+      formRef.current.requestSubmit()
+    }
   }
 
   return (
     <form
       className='p-4 pt-2 flex flex-col gap-4 overflow-y-scroll max-h-[500px]'
       action={formAction}
+      ref={formRef}
     >
       {id ? <input type='hidden' name='id' value={id} /> : null}
 
@@ -121,11 +96,10 @@ export function CheckpointDrawer({
       ) : null}
 
       <div className='flex flex-col gap-2'>
-        {STATUS_LIST.map((item, index) => (
+        {STATUS_LIST.map((item) => (
           <ComboboxButton
             key={item.value}
             label={item.label}
-            disabled={index < currentStatus && index === 0}
             checked={item.value === payload.status}
             inputProps={{ value: item.value, name: 'status' }}
             onClick={() =>
@@ -173,14 +147,23 @@ export function CheckpointDrawer({
 
       {message ? <ErrorField error={message} /> : null}
 
-      <Button
-        variant='primary'
-        type='submit'
-        className='w-full mt-2'
-        disabled={isPending}
-      >
-        Submit
-      </Button>
+      <div className='flex flex-row gap-2 items-center mt-2'>
+        <Button
+          variant='primary'
+          type='submit'
+          className='basis-4/5 flex-1'
+          disabled={isPending}
+        >
+          Simpan
+        </Button>
+        {id ? (
+          <CheckpointDeleteConfirm
+            variant='outline'
+            className='basis-1/5'
+            onClick={onDeleteConfirmed}
+          />
+        ) : null}
+      </div>
     </form>
   )
 }

@@ -75,7 +75,6 @@ export async function upsert(
   formData: FormData
 ): Promise<FormState> {
   const _id = formData.get('id')
-
   if (_id) {
     const validatedFields = await validateOrFail<UpdateSchema>(() =>
       updateCheckpointSchema.validate({

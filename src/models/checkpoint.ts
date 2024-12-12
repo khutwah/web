@@ -1,11 +1,41 @@
 import type { Checkpoint } from '@/utils/supabase/models/checkpoint'
 
+export const CHECKPOINT_STATUS: CheckpointStatus[] = [
+  'lajnah-approaching',
+  'lajnah-ready',
+  'lajnah-exam',
+  'lajnah-completed',
+  'inactive',
+  'cancelled'
+]
+
+export const STATUS_LIST: Array<{ label: string; value: CheckpointStatus }> = [
+  { label: 'Sedang Berhalangan', value: 'inactive' },
+  {
+    label: 'Mendekati Lajnah',
+    value: 'lajnah-approaching'
+  },
+  {
+    label: 'Persiapan Lajnah',
+    value: 'lajnah-ready'
+  },
+  {
+    label: 'Sedang Lajnah',
+    value: 'lajnah-exam'
+  },
+  {
+    label: 'Lajnah Selesai',
+    value: 'lajnah-completed'
+  }
+]
+
 export type CheckpointStatus =
   | 'lajnah-approaching'
   | 'lajnah-ready'
   | 'lajnah-exam'
   | 'lajnah-completed'
   | 'inactive'
+  | 'cancelled'
 
 export interface InsertPayload {
   status: CheckpointStatus

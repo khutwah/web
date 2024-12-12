@@ -1,16 +1,9 @@
 import { object, string, number } from 'yup'
 import { testTimestamp } from '../is-valid-date'
+import { CHECKPOINT_STATUS } from '@/models/checkpoint'
 
 export const createCheckpointSchema = object({
-  status: string()
-    .oneOf([
-      'lajnah-approaching',
-      'lajnah-ready',
-      'lajnah-exam',
-      'lajnah-completed',
-      'inactive'
-    ])
-    .required(),
+  status: string().oneOf(CHECKPOINT_STATUS).required(),
   notes: string().when('status', {
     is: (status: string) => status === 'inactive',
     then: (schema) => schema.min(0).required(),
@@ -35,15 +28,7 @@ export const createCheckpointSchema = object({
 
 export const updateCheckpointSchema = object({
   id: number().required(),
-  status: string()
-    .oneOf([
-      'lajnah-approaching',
-      'lajnah-ready',
-      'lajnah-exam',
-      'lajnah-completed',
-      'inactive'
-    ])
-    .required(),
+  status: string().oneOf(CHECKPOINT_STATUS).required(),
   notes: string().when('status', {
     is: (status: string) => status === 'inactive',
     then: (schema) => schema.required(),
@@ -52,7 +37,7 @@ export const updateCheckpointSchema = object({
   end_date: string()
     .when('status', {
       is: (status: string) =>
-        status === 'lajnah-completed' || status === 'inactive',
+        status === 'lajnah-completed' || status === 'cancelled',
       then: (schema) => schema.required(),
       otherwise: (schema) => schema.notRequired()
     })
