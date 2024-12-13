@@ -13,7 +13,7 @@ export function Navbar(props: NavbarProps) {
           <ChevronLeftIcon className='size-6 text-mtmh-neutral-white' />
         </button>
       ) : null}
-      <span className='text-mtmh-title-medium truncate'>{text}</span>
+      <h1 className='text-mtmh-title-medium truncate'>{text}</h1>
       {rightComponent ? (
         <div className='size-6 ml-auto'>{rightComponent}</div>
       ) : null}

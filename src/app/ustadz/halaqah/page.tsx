@@ -7,7 +7,7 @@ import { SearchSection } from '../components/Search/SearchSection'
 import { YourHalaqahList } from './components/YourHalaqahList'
 import { AllHalaqahList } from './components/AllHalaqahList'
 import { ErrorBoundary } from '@/components/ErrorBoundary/ErrorBoundary'
-import { ErrorState } from '@/components/ErrorState/ErrorState'
+import { StateMessage } from '@/components/StateMessage/StateMessage'
 
 export default function HalaqahListPage() {
   return (
@@ -24,10 +24,11 @@ export default function HalaqahListPage() {
 
         <ErrorBoundary
           fallback={
-            <ErrorState
+            <StateMessage
               className='my-14'
               description='Tidak dapat menampilkan data halaqah'
               title='Terjadi Kesalahan'
+              type='error'
             />
           }
         >
