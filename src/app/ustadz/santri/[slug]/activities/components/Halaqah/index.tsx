@@ -6,7 +6,7 @@ import {
   CardTitle
 } from '@/components/Card/Card'
 import { ActivityTypeKey } from '@/models/activities'
-import dayjsLocal from '@/utils/dayjs-gmt7'
+import dayjsClientSideLocal from '@/utils/dayjs-gmt7'
 import { BookmarkIcon, BookOpenIcon } from '@heroicons/react/24/outline'
 
 interface HalaqahCardProps {
@@ -25,7 +25,7 @@ function HalaqahCard(props: HalaqahCardProps) {
         <CardTitle className='flex justify-between items-start'>
           <div className='flex flex-col gap-y-1'>
             <div className='text-xs text-mtmh-neutral-50'>
-              {dayjsLocal(date).format('dddd, DD MMM YYYY. HH:mm')}
+              {dayjsClientSideLocal(date).format('dddd, DD MMM YYYY. HH:mm')}
             </div>
 
             <div className='font-semibold'>{studentName}</div>

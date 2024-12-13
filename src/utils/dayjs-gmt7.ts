@@ -1,6 +1,6 @@
 import dayjs from './dayjs'
 
-export default function dayjsLocal(
+export default function dayjsClientSideLocal(
   stringDate: string = new Date().toISOString()
 ) {
   // See: https://day.js.org/docs/en/manipulate/local.

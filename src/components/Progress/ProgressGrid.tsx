@@ -4,7 +4,7 @@ import { ActivityEntry, ActivityTypeKey } from '@/models/activities'
 import { ActivityBadge } from '../Badge/ActivityBadge'
 import { Dispatch, SetStateAction, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import dayjsLocal from '@/utils/dayjs-gmt7'
+import dayjsClientSideLocal from '@/utils/dayjs-gmt7'
 import dayjs, { Dayjs } from '@/utils/dayjs'
 import { cn } from '@/utils/classnames'
 import {
@@ -91,7 +91,7 @@ export function ProgressGrid({
           <thead>
             <tr className='text-mtmh-xs-regular h-[28px]'>
               <td className='text-mtmh-xs-semibold text-mtmh-red-light w-[51px]'>
-                {dayjsLocal(date.toISOString()).format('MMM YY')}
+                {dayjsClientSideLocal(date.toISOString()).format('MMM YY')}
               </td>
               {headers.map((header) => {
                 return (
@@ -188,7 +188,7 @@ function TableHeaderDate({ dateString }: { dateString: string }) {
           : undefined
       }
     >
-      {dayjsLocal(dateString).format('DD')}
+      {dayjsClientSideLocal(dateString).format('DD')}
     </time>
   )
 }
@@ -213,5 +213,5 @@ function getInitialVariables(startDate: Dayjs, endDate: Dayjs) {
 }
 
 function getGridIdentifier(date: Date) {
-  return dayjsLocal(date.toISOString()).format('DD MMM')
+  return dayjsClientSideLocal(date.toISOString()).format('DD MMM')
 }
