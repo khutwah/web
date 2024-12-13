@@ -6,9 +6,12 @@ import { navigateToHalaqahList } from './actions'
 import { SantriList } from '@/app/ustadz/components/SantriList/SantriList'
 import { Students } from '@/utils/supabase/models/students'
 import { Activities } from '@/utils/supabase/models/activities'
-import dayjs from 'dayjs'
 import SearchProvider from '../../components/Search/SearchProvider'
 import { SearchSection } from '../../components/Search/SearchSection'
+import getTimezoneInfo from '@/utils/get-timezone-info'
+import dayjs from '@/utils/dayjs'
+import { Alert, AlertDescription } from '@/components/Alert/Alert'
+import { CircleAlert } from 'lucide-react'
 
 export default async function DetailHalaqah({
   params: paramsPromise
@@ -28,17 +31,22 @@ export default async function DetailHalaqah({
     const studentsInstance = new Students()
     const activitiesInstance = new Activities()
 
+    // This gets the current day in the client's timezone.
+    const tz = await getTimezoneInfo()
+    const day = dayjs().tz(tz)
+
     const [students, activities] = await Promise.all([
       studentsInstance.list({
         halaqah_ids: [halaqahInfo.data.id]
       }),
       activitiesInstance.list({
         halaqah_ids: [halaqahInfo.data.id],
-        start_date: dayjs().startOf('day').toISOString(),
-        end_date: dayjs().endOf('day').toISOString()
+        // So this means, startOf and endOf the day in the client's timezone.
+        // Then we convert it to UTC, before formatting it to ISO string.
+        start_date: day.startOf('day').utc().toISOString(),
+        end_date: day.endOf('day').utc().toISOString()
       })
     ])
-
     pageContent = (
       <>
         <Navbar
@@ -71,7 +79,12 @@ export default async function DetailHalaqah({
               name='search-santri'
               placeholder='Cari santri...'
             />
-
+            <Alert variant='warning'>
+              <CircleAlert aria-hidden size={16} />
+              <AlertDescription>
+                Menampilkan data untuk hari {day.format('dddd, D MMMM YYYY')}.
+              </AlertDescription>
+            </Alert>
             <SantriList students={students.data} activities={activities.data} />
           </SearchProvider>
         </div>
