@@ -11,6 +11,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/Alert/Alert'
 import { ActivityCard } from '@/components/ActivityCard/ActivityCard'
 import { Skeleton } from '@/components/Skeleton/Skeleton'
 import { StateMessage } from '@/components/StateMessage/StateMessage'
+import { ErrorBoundary } from '@/components/ErrorBoundary/ErrorBoundary'
 
 import {
   ActivityStatus,
@@ -19,7 +20,6 @@ import {
 } from '@/models/activities'
 import { Activities } from '@/utils/supabase/models/activities'
 import { getUser } from '@/utils/supabase/get-user'
-import { ErrorBoundary } from '@/components/ErrorBoundary/ErrorBoundary'
 
 export function LatestActivitiesSection() {
   return (
