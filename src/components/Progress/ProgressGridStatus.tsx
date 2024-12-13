@@ -22,11 +22,11 @@ export interface ProgressGridStatusProps {
   status?: CheckpointStatus
   parameter?: string | undefined
   checkpointId?: number
-  lastActivityId?: number
-  pageCountAccumulation?: number
-  studentId?: number
-  partCount?: number
-  notes?: string
+  lastActivityId?: number | null
+  pageCountAccumulation?: number | null
+  studentId?: number | null
+  partCount?: number | null
+  notes?: string | null
 }
 
 export function ProgressGridStatus({

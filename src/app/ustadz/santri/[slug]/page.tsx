@@ -144,8 +144,8 @@ export default async function DetailSantri({
                   pageCountAccumulation:
                     latestCheckpoint?.page_count_accumulation,
                   studentId: Number(studentId),
-                  notes: latestCheckpoint?.notes ?? undefined,
-                  partCount: latestCheckpoint?.part_count ?? undefined
+                  notes: latestCheckpoint?.notes,
+                  partCount: latestCheckpoint?.part_count
                 }}
               />
             </CardContent>

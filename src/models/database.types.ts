@@ -124,7 +124,7 @@ export type Database = {
           created_at: string | null
           end_date: string | null
           id: number
-          last_activity_id: number
+          last_activity_id: number | null
           notes: string | null
           page_count_accumulation: number
           part_count: number | null
@@ -137,7 +137,7 @@ export type Database = {
           created_at?: string | null
           end_date?: string | null
           id?: never
-          last_activity_id: number
+          last_activity_id?: number | null
           notes?: string | null
           page_count_accumulation: number
           part_count?: number | null
@@ -150,7 +150,7 @@ export type Database = {
           created_at?: string | null
           end_date?: string | null
           id?: never
-          last_activity_id?: number
+          last_activity_id?: number | null
           notes?: string | null
           page_count_accumulation?: number
           part_count?: number | null

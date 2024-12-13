@@ -12,12 +12,12 @@ import { useRouter } from 'next/navigation'
 interface CheckpointDrawerProps {
   id?: number
   status?: CheckpointStatus
-  lastActivityId?: number
-  pageCountAccumulation?: number
-  studentId?: number
+  lastActivityId?: number | null
+  pageCountAccumulation?: number | null
+  studentId?: number | null
   onFinish: () => void
-  notes?: string
-  partCount?: number
+  notes?: string | null
+  partCount?: number | null
 }
 
 export function CheckpointDrawer({
