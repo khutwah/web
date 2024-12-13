@@ -11,8 +11,9 @@ export function getVerseItems(surahValue: number): ComboboxProps['items'] {
   })
 }
 
-export function toggleTag(tags: string[] | undefined, tag: string) {
-  const index = tags?.indexOf(tag)
+export function toggleTag(tags: string[], tag: string) {
+  const index = tags.indexOf(tag)
+
   if (index === -1) {
     return [...(tags || []), tag]
   }
