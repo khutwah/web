@@ -73,7 +73,7 @@ export function useActivityControlledValue({
     endSurah: endSurah,
     startVerse: startVerse,
     endVerse: endVerse,
-    tags: tags,
+    tags: tags ?? [],
     achieveTarget
   }
 }
