@@ -25,7 +25,7 @@ function HalaqahCard(props: HalaqahCardProps) {
         <CardTitle className='flex justify-between items-start'>
           <div className='flex flex-col gap-y-1'>
             <div className='text-xs text-mtmh-neutral-50'>
-              {dayjsGmt7(new Date(date)).format('dddd, DD MMM YYYY. HH:mm')}
+              {dayjsGmt7(date).format('dddd, DD MMM YYYY. HH:mm')}
             </div>
 
             <div className='font-semibold'>{studentName}</div>

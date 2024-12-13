@@ -26,7 +26,7 @@ export class Halaqah extends Base {
             id,
             name,
             class,
-            students!inner(parent_id)  
+            students!inner(parent_id)
           `
         )
         .eq('students.parent_id', student_id)

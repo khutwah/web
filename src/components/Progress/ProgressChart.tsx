@@ -104,7 +104,10 @@ function Subchart({
   datePeriod
 }: Pick<Props, 'activities' | 'datePeriod'>) {
   const [currentDatetime] = useState(() =>
-    dayjsGmt7().startOf(datePeriod === 'bulan' ? 'month' : 'week')
+    // This is on client-side. Hence, new Date() here gets the data from the client, not the server.
+    dayjsGmt7(new Date().toISOString()).startOf(
+      datePeriod === 'bulan' ? 'month' : 'week'
+    )
   )
 
   return (
@@ -226,7 +229,8 @@ function formatChartTimerange(
 }
 
 function formatChartXAxis(dateString?: string) {
-  return dayjsGmt7(dateString ? new Date(dateString) : undefined)
+  // This is on client-side. Hence, new Date() here gets the data from the client, not the server.
+  return dayjsGmt7(dateString || new Date().toISOString())
     .startOf('day')
     .toISOString()
 }

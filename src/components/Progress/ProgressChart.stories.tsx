@@ -37,7 +37,7 @@ function generateData(
   date: Date,
   numberOfActivities: number
 ): ComponentProps<typeof ProgressChart>['activities'] {
-  const startDatetime = dayjsGmt7(date).startOf('month')
+  const startDatetime = dayjsGmt7(date.toISOString()).startOf('month')
 
   const endDate = startDatetime.day(numberOfActivities - 1)
   const pageCount = endDate.date() % (numberOfActivities - 1)
