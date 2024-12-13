@@ -234,6 +234,11 @@ async function runSeeder() {
     }
   })
 
+  if (process.env.EMPTY_SEED) {
+    console.log('Database seeded successfully!')
+    return
+  }
+
   // Add 1 entry for each activity, for a month.
   const numberOfActivities = 31 * 3
 
