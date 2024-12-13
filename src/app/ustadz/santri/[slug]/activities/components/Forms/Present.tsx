@@ -16,7 +16,7 @@ import { activityCreateSchema } from '@/utils/schemas/activities'
 import { useActivityControlledValue } from '../../hooks/useActivityControlledValue'
 import { getVerseItems, toggleTag } from '../../utils/form'
 import { DEFAULT_START, FormProps, SURAH_ITEMS } from '@/models/activity-form'
-import { ErrorField } from './ErrorField'
+import { ErrorField } from '@/components/Form/ErrorField'
 import { Alert, AlertDescription } from '@/components/Alert/Alert'
 import { Trophy } from 'lucide-react'
 
