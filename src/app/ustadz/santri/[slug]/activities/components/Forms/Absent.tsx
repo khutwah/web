@@ -12,7 +12,7 @@ import {
 } from '@/models/activities'
 import { activityCreateSchema } from '@/utils/schemas/activities'
 import { FormProps } from '@/models/activity-form'
-import { ErrorField } from './ErrorField'
+import { ErrorField } from '@/components/Form/ErrorField'
 
 import { useSubmit } from '../../hooks/useSubmit'
 

@@ -2,7 +2,13 @@ import { Button } from '@/components/Button/Button'
 import { Check, ChevronsUpDown } from 'lucide-react'
 import { useDebouncedCallback } from 'use-debounce'
 
-import { useEffect, useMemo, useRef, useState } from 'react'
+import {
+  ComponentProps,
+  DetailedHTMLProps,
+  InputHTMLAttributes,
+  useMemo,
+  useState
+} from 'react'
 import {
   Drawer,
   DrawerContent,
@@ -25,6 +31,17 @@ export interface ComboboxProps {
   searchPlaceholder?: string
   withSearch?: boolean
   startFrom?: number // this is only for "value" that have type number so we can disable the value below defined
+}
+
+interface ComboboxButtonProps {
+  onClick?: ComponentProps<typeof Button>['onClick']
+  disabled?: boolean
+  label: string
+  checked: boolean
+  inputProps?: DetailedHTMLProps<
+    InputHTMLAttributes<HTMLInputElement>,
+    HTMLInputElement
+  >
 }
 
 function ComboboxSearch({
@@ -55,8 +72,6 @@ export function Combobox({
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState('')
 
-  const selectedRef = useRef<HTMLLabelElement | null>(null)
-
   const _items = useMemo(() => {
     if (!search || !withSearch) return items
 
@@ -64,20 +79,6 @@ export function Combobox({
       item.searchable.toLowerCase().includes(search.toLowerCase())
     )
   }, [search, items, withSearch])
-
-  useEffect(() => {
-    if (open && value) {
-      // Use requestAnimationFrame to ensure it's called after the DOM has rendered
-      requestAnimationFrame(() => {
-        if (selectedRef.current) {
-          selectedRef.current.scrollIntoView({
-            behavior: 'auto',
-            block: 'center'
-          })
-        }
-      })
-    }
-  }, [open, value])
 
   return (
     <Drawer
@@ -90,7 +91,6 @@ export function Combobox({
       <DrawerTrigger asChild>
         <Button
           variant='outline'
-          role='combobox'
           aria-expanded={open}
           className='w-full justify-between'
         >
@@ -121,34 +121,74 @@ export function Combobox({
                 ? Number(item.value) < startFrom
                 : false
             return (
-              <Button
-                asChild
-                variant='outline'
+              <ComboboxButton
                 key={item.value}
+                disabled={disabled}
                 onClick={() => {
                   if (disabled) return
                   onChange(item.value)
                   setOpen(false)
                   setSearch('')
                 }}
-                disabled={disabled}
-              >
-                <label ref={value === item.value ? selectedRef : null}>
-                  <input type='radio' className='hidden' />
-                  {item.label}
-                  <Check
-                    aria-hidden
-                    className={cn(
-                      'ml-auto',
-                      value === item.value ? 'opacity-100' : 'opacity-0'
-                    )}
-                  />
-                </label>
-              </Button>
+                label={item.label}
+                checked={value === item.value}
+              />
             )
           })}
         </div>
       </DrawerContent>
     </Drawer>
+  )
+}
+
+export function ComboboxButton({
+  onClick,
+  disabled,
+  label,
+  checked,
+  inputProps
+}: ComboboxButtonProps) {
+  const handleKeyDown: ComponentProps<typeof Button>['onKeyDown'] = (event) => {
+    if (disabled) return
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault()
+      onClick?.(
+        event as unknown as Parameters<
+          NonNullable<ComponentProps<typeof Button>['onClick']>
+        >[0]
+      )
+    }
+  }
+
+  return (
+    <Button
+      asChild
+      variant='outline'
+      onClick={(e) => {
+        if (disabled) return
+        return onClick?.(e)
+      }}
+      disabled={disabled}
+      tabIndex={0}
+      aria-checked={checked}
+      role='radio'
+      onKeyDown={handleKeyDown}
+    >
+      <label>
+        <input
+          type='radio'
+          className='hidden'
+          defaultChecked={checked}
+          {...inputProps}
+          aria-hidden='true'
+          tabIndex={-1}
+        />
+        {label}
+        <Check
+          aria-hidden
+          className={cn('ml-auto', checked ? 'opacity-100' : 'opacity-0')}
+        />
+      </label>
+    </Button>
   )
 }
