@@ -6,7 +6,7 @@ import {
   CardTitle
 } from '@/components/Card/Card'
 import { ActivityTypeKey } from '@/models/activities'
-import dayjsClientSideLocal from '@/utils/dayjs-client-side-local'
+import { FormattedLocalDate } from '@/components/Local'
 import { BookmarkIcon, BookOpenIcon } from '@heroicons/react/24/outline'
 
 interface HalaqahCardProps {
@@ -25,9 +25,11 @@ function HalaqahCard(props: HalaqahCardProps) {
         <CardTitle className='flex justify-between items-start'>
           <div className='flex flex-col gap-y-1'>
             <div className='text-xs text-mtmh-neutral-50'>
-              {dayjsClientSideLocal(date).format('dddd, DD MMM YYYY. HH:mm')}
+              <FormattedLocalDate
+                date={date}
+                format='dddd, DD MMM YYYY. HH:mm'
+              />
             </div>
-
             <div className='font-semibold'>{studentName}</div>
           </div>
 

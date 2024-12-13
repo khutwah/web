@@ -10,10 +10,10 @@ import Link from 'next/link'
 import { ActivityStatus, ActivityTypeKey } from '@/models/activities'
 import { ActivityBadge } from '../Badge/ActivityBadge'
 import { Alert, AlertDescription } from '../Alert/Alert'
-import dayjsClientSideLocal from '@/utils/dayjs-client-side-local'
 import { StickyNote } from '../icons'
 import { cn } from '@/utils/classnames'
 import dayjs from '@/utils/dayjs'
+import { FormattedLocalDate } from '@/components/Local'
 
 interface SurahSubmissionInfo {
   name: string
@@ -56,9 +56,10 @@ export function ActivityCard({
           <CardTitle className='flex justify-between items-start'>
             <div className='flex flex-col gap-y-1'>
               <div className='text-xs text-mtmh-neutral-50'>
-                {dayjsClientSideLocal(date.toISOString()).format(
-                  'dddd, DD MMM YYYY. HH:mm'
-                )}
+                <FormattedLocalDate
+                  date={date.toISOString()}
+                  format='dddd, DD MMM YYYY. HH:mm'
+                />
               </div>
 
               {studentName && (
