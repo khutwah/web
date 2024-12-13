@@ -116,7 +116,8 @@ async function LatestActivitiesByType({ type }: { type: ActivityType }) {
     parent_id: user.data?.id,
     type,
     limit: 10,
-    order_by: 'asc'
+    order_by: 'desc',
+    status: ActivityStatus.completed
   })
 
   if (activities?.data?.length === 0) {
