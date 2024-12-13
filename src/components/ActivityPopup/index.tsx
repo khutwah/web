@@ -61,11 +61,6 @@ export function ActivityPopup({ activities }: Props) {
                 type={_activity.type as ActivityTypeKey}
                 isStudentPresent={_activity.student_attendance === 'present'}
                 isDraft={_activity.status === ActivityStatus.draft}
-                icon={
-                  _activity.status === ActivityStatus.draft && (
-                    <Clock size={12} />
-                  )
-                }
               />
             </div>
             <div className='flex flex-col gap-1'>

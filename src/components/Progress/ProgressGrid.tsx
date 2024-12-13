@@ -120,6 +120,7 @@ export function ProgressGrid({
                         <Skeleton className='h-6 mx-auto max-w-10' />
                       ) : (
                         <ActivityBadge
+                          hideIcon
                           type={activityName}
                           isStudentPresent={isStudentPresent}
                           isDraft={status === ActivityStatus.draft}

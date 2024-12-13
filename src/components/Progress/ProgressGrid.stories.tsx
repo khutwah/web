@@ -72,7 +72,7 @@ function generateData(
     start_surah: 'Al-Fatihah',
     start_surah_id: 1,
     start_verse: 1,
-    status: '',
+    status: idx % 2 === 0 ? 'completed' : 'draft',
     student_id: undefined,
     student_name: undefined,
     tags: [],

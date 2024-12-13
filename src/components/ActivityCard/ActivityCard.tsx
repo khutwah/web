@@ -71,7 +71,6 @@ export function ActivityCard({
               type={type}
               isStudentPresent={isStudentPresent}
               isDraft={status === ActivityStatus.draft}
-              icon={status === ActivityStatus.draft && <Clock size={12} />}
             />
           </CardTitle>
         </CardHeader>

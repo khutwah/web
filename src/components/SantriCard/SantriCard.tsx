@@ -81,7 +81,6 @@ export function SantriCard({
                     type={activityKey}
                     isStudentPresent={isStudentPresent}
                     isDraft={isDraft}
-                    icon={isDraft && <Clock size={12} />}
                   />
                 )
               })}
