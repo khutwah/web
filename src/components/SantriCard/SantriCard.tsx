@@ -5,7 +5,6 @@ import { useId } from 'react'
 import { ActivityTypeKey, MappedActivityStatus } from '@/models/activities'
 import { ActivityBadge } from '@/components/Badge/ActivityBadge'
 import { Skeleton } from '../Skeleton/Skeleton'
-import { Clock } from 'lucide-react'
 
 interface SantriCardProps {
   activities: Array<MappedActivityStatus>

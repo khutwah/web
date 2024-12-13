@@ -5,7 +5,7 @@ import {
   CardContent,
   CardFooter
 } from '../Card/Card'
-import { BookOpen, CircleAlert, Clock, MoveRight } from 'lucide-react'
+import { BookOpen, CircleAlert, MoveRight } from 'lucide-react'
 import Link from 'next/link'
 import { ActivityStatus, ActivityTypeKey } from '@/models/activities'
 import { ActivityBadge } from '../Badge/ActivityBadge'
