@@ -4,7 +4,7 @@ import { ActivityEntry, ActivityTypeKey } from '@/models/activities'
 import { ActivityBadge } from '../Badge/ActivityBadge'
 import { Dispatch, SetStateAction, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import dayjsClientSideLocal from '@/utils/dayjs-gmt7'
+import dayjsClientSideLocal from '@/utils/dayjs-client-side-local'
 import dayjs, { Dayjs } from '@/utils/dayjs'
 import { cn } from '@/utils/classnames'
 import {

@@ -1,6 +1,6 @@
 import { ProgressChart, ProgressChartPeriod } from './ProgressChart'
 import { ComponentProps, useState } from 'react'
-import dayjsClientSideLocal from '@/utils/dayjs-gmt7'
+import dayjsClientSideLocal from '@/utils/dayjs-client-side-local'
 import { GLOBAL_TARGET_PAGE } from '@/models/activities'
 
 export function ProgressChartStory() {

@@ -19,7 +19,7 @@ import {
 } from '@/components/Chart/Chart'
 import { ActivityChartEntry, GLOBAL_TARGET_PAGE } from '@/models/activities'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../Tabs/Tabs'
-import dayjsClientSideLocal from '@/utils/dayjs-gmt7'
+import dayjsClientSideLocal from '@/utils/dayjs-client-side-local'
 import { useState } from 'react'
 import dayjs, { Dayjs } from '@/utils/dayjs'
 import { useRouter } from 'next/navigation'

@@ -6,7 +6,7 @@ import {
   CardTitle
 } from '@/components/Card/Card'
 import { ActivityTypeKey } from '@/models/activities'
-import dayjsClientSideLocal from '@/utils/dayjs-gmt7'
+import dayjsClientSideLocal from '@/utils/dayjs-client-side-local'
 import { BookmarkIcon, BookOpenIcon } from '@heroicons/react/24/outline'
 
 interface HalaqahCardProps {

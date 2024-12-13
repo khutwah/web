@@ -1,7 +1,7 @@
 import { Base } from './base'
 import { RoleFilter } from '@/models/supabase/models/filter'
 import { ApiError } from '@/utils/api-error'
-import dayjsClientSideLocal from '@/utils/dayjs-gmt7'
+import dayjsClientSideLocal from '@/utils/dayjs-client-side-local'
 interface GetFilter extends RoleFilter {
   start_date?: string
   end_date?: string
