@@ -39,7 +39,6 @@ export default async function DetailSantri({
     pageContent = <div>Unexpected error: {student.error?.message}</div>
   } else {
     const activitiesInstance = new Activities()
-
     const [
       activitiesPromise,
       lastActivitiesPromise,
