@@ -1,6 +1,10 @@
 'use client'
 
-import { ActivityEntry, ActivityTypeKey } from '@/models/activities'
+import {
+  ActivityEntry,
+  ActivityTypeKey,
+  ActivityStatus
+} from '@/models/activities'
 import { ActivityBadge } from '../Badge/ActivityBadge'
 import { Dispatch, SetStateAction, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
@@ -25,7 +29,7 @@ interface Props {
 interface GridEntry {
   pageCount: number
   isStudentPresent: boolean
-  status: string
+  status: ActivityStatus
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -116,7 +120,7 @@ export function ProgressGrid({
                       <ActivityBadge
                         type={activityName}
                         isStudentPresent={isStudentPresent}
-                        isDraft={status === 'draft'}
+                        isDraft={status === ActivityStatus.draft}
                         text={isStudentPresent ? `${pageCount}` : '-'}
                       />
                     </td>
@@ -202,7 +206,7 @@ function getInitialVariables(startDate: Dayjs, endDate: Dayjs) {
     grid[getGridIdentifier(iterator.toDate())] = {
       pageCount: 0,
       isStudentPresent: false,
-      status: 'completed'
+      status: ActivityStatus.completed
     }
     headers.push(iterator.toISOString())
 

@@ -69,13 +69,13 @@ export function ActivityCard({
             <ActivityBadge
               type={type}
               isStudentPresent={isStudentPresent}
-              icon={status === 'draft' && <Clock size={12} />}
+              icon={status === ActivityStatus.draft && <Clock size={12} />}
             />
           </CardTitle>
         </CardHeader>
         <CardContent
           className={cn('flex flex-col gap-y-4', {
-            'pb-8': status === 'draft'
+            'pb-8': status === ActivityStatus.draft
           })}
         >
           {halaqahName && (
@@ -116,7 +116,7 @@ export function ActivityCard({
 
           {labels && <Labels labels={labels} />}
         </CardContent>
-        {status === 'draft' && (
+        {status === ActivityStatus.draft && (
           <CardFooter>
             <Alert variant='warning'>
               <CircleAlert size={16} />

@@ -258,8 +258,8 @@ async function runSeeder() {
           // On day 26th, the status is always draft.
           status:
             ctx.index === numberOfActivities - 5
-              ? ActivityStatus.draft
-              : ActivityStatus.completed,
+              ? (ActivityStatus.draft as string)
+              : (ActivityStatus.completed as string),
           page_count: pageCount,
           target_page_count: 4,
           student_attendance: pageCount === 0 ? 'absent' : 'present',
@@ -302,7 +302,7 @@ async function runSeeder() {
         tags: ['Terbata-bata', 'Cukup Baik'],
         shift_id: 5,
         created_by: 5,
-        status: 'completed'
+        status: ActivityStatus.completed as string
       }
     })
   )
@@ -317,7 +317,7 @@ async function runSeeder() {
         end_date: dayjs(lastActivity.created_at).add(14, 'hour').toISOString(),
         page_count_accumulation: 20,
         last_activity_id: lastActivity.id!,
-        status: 'completed',
+        status: ActivityStatus.completed as string,
         part_count: 1
       }
     })

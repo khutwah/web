@@ -11,7 +11,7 @@ import {
 import { useSearchParams } from 'next/navigation'
 import { Activities } from '@/utils/supabase/models/activities'
 import { ActivityBadge } from '../Badge/ActivityBadge'
-import { ActivityTypeKey } from '@/models/activities'
+import { ActivityTypeKey, ActivityStatus } from '@/models/activities'
 import dayjsClientSideLocal from '@/utils/dayjs-client-side-local'
 import { MoveRight, Clock } from 'lucide-react'
 import { Labels } from '../ActivityCard/ActivityCard'
@@ -60,7 +60,11 @@ export function ActivityPopup({ activities }: Props) {
               <ActivityBadge
                 type={_activity.type as ActivityTypeKey}
                 isStudentPresent={_activity.student_attendance === 'present'}
-                icon={_activity.status === 'draft' && <Clock size={12} />}
+                icon={
+                  _activity.status === ActivityStatus.draft && (
+                    <Clock size={12} />
+                  )
+                }
               />
             </div>
             <div className='flex flex-col gap-1'>
@@ -94,7 +98,7 @@ export function ActivityPopup({ activities }: Props) {
               <div className='text-sm'>{_activity.notes}</div>
             </div>
 
-            {_activity.status === 'draft' ? (
+            {_activity.status === ActivityStatus.draft ? (
               <Button
                 variant='primary'
                 asChild
