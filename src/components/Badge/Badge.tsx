@@ -35,7 +35,8 @@ export function Badge({ color, text, icon, dashed }: BadgeProps) {
       <span
         className={cn(
           !isNaN(Number(text)) && 'ml-auto',
-          dashed && COLOR_TO_CLASSNAME_RECORD[color].replace('bg-', 'text-')
+          dashed &&
+            `${COLOR_TO_CLASSNAME_RECORD[color].replace('bg-', 'text-')}`
         )}
       >
         {text}
