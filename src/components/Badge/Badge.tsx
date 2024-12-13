@@ -19,7 +19,7 @@ export function Badge({ color, text, icon, dashed }: BadgeProps) {
   return (
     <div
       className={cn(
-        'text-xs text-mtmh-neutral-white py-0.5 px-2 rounded-md flex justify-cente items-center gap-1',
+        'text-xs text-mtmh-neutral-white py-0.5 px-2 rounded-md flex justify-center items-center gap-1',
         'bg-mtmh-snow-base',
         COLOR_TO_CLASSNAME_RECORD[dashed ? 'mute' : color],
         {
