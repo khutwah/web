@@ -25,6 +25,7 @@ interface Props {
 interface GridEntry {
   pageCount: number
   isStudentPresent: boolean
+  status: string
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -59,19 +60,22 @@ export function ProgressGrid({
   for (const activity of activities) {
     const {
       type: rawType,
-      created_at,
+      created_at, // WARNING: created_at is in UTC.
       page_count,
-      student_attendance
+      student_attendance,
+      status
     } = activity
     const type = rawType as ActivityTypeKey
 
     // Assumption: if page_count is null, then the student was absent.
     if (!grids[type] || !created_at || page_count === null) continue
 
-    const gridId = getGridIdentifier(new Date(created_at))
+    // Keep created_at in UTC, since this is a "use client" component.
+    const gridId = getGridIdentifier(dayjs.utc(created_at).toDate())
     grids[type][gridId] = {
       pageCount: page_count,
-      isStudentPresent: student_attendance === 'present'
+      isStudentPresent: student_attendance === 'present',
+      status
     }
   }
 
@@ -87,7 +91,7 @@ export function ProgressGrid({
           <thead>
             <tr className='text-mtmh-xs-regular h-[28px]'>
               <td className='text-mtmh-xs-semibold text-mtmh-red-light w-[51px]'>
-                {dayjsGmt7(date).format('MMM YY')}
+                {dayjsGmt7(date.toISOString()).format('MMM YY')}
               </td>
               {headers.map((header) => {
                 return (
@@ -104,7 +108,7 @@ export function ProgressGrid({
                 <td className='text-mtmh-sm-semibold'>{activityName}</td>
                 {headers.map((header) => {
                   const headerKey = getGridIdentifier(new Date(header))
-                  const { pageCount, isStudentPresent } =
+                  const { pageCount, isStudentPresent, status } =
                     grids[activityName][headerKey]
 
                   return (
@@ -112,6 +116,7 @@ export function ProgressGrid({
                       <ActivityBadge
                         type={activityName}
                         isStudentPresent={isStudentPresent}
+                        isDraft={status === 'draft'}
                         text={isStudentPresent ? `${pageCount}` : '-'}
                       />
                     </td>
@@ -183,7 +188,7 @@ function TableHeaderDate({ dateString }: { dateString: string }) {
           : undefined
       }
     >
-      {dayjsGmt7(new Date(dateString)).format('DD')}
+      {dayjsGmt7(dateString).format('DD')}
     </time>
   )
 }
@@ -196,7 +201,8 @@ function getInitialVariables(startDate: Dayjs, endDate: Dayjs) {
   while (!iterator.isAfter(endDate)) {
     grid[getGridIdentifier(iterator.toDate())] = {
       pageCount: 0,
-      isStudentPresent: false
+      isStudentPresent: false,
+      status: 'completed'
     }
     headers.push(iterator.toISOString())
 
@@ -207,5 +213,5 @@ function getInitialVariables(startDate: Dayjs, endDate: Dayjs) {
 }
 
 function getGridIdentifier(date: Date) {
-  return dayjsGmt7(date).format('DD MMM')
+  return dayjsGmt7(date.toISOString()).format('DD MMM')
 }

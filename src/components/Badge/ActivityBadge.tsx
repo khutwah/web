@@ -5,6 +5,7 @@ import { ActivityTypeKey } from '@/models/activities'
 interface ActivityBadgeProps {
   type: ActivityTypeKey
   isStudentPresent: boolean
+  isDraft?: boolean
   /** When `type` is provided, text will always be "Sabaq", "Sabqi", and "Manzil". Use this to override the text. */
   text?: string
   icon?: React.ReactNode
@@ -21,6 +22,7 @@ const ACTIVITY_TYPE_TO_BADGE_PROPS: Record<ActivityTypeKey, BadgeProps> = {
 export function ActivityBadge({
   type,
   isStudentPresent,
+  isDraft,
   text: textOverride,
   icon
 }: ActivityBadgeProps) {
@@ -29,6 +31,7 @@ export function ActivityBadge({
   return (
     <Badge
       color={isStudentPresent ? color : 'mute'}
+      dashed={isDraft}
       text={textOverride ?? text}
       icon={icon}
     />

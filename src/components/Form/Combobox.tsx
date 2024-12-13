@@ -2,7 +2,7 @@ import { Button } from '@/components/Button/Button'
 import { Check, ChevronsUpDown } from 'lucide-react'
 import { useDebouncedCallback } from 'use-debounce'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import {
   Drawer,
   DrawerContent,
@@ -55,6 +55,8 @@ export function Combobox({
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState('')
 
+  const selectedRef = useRef<HTMLLabelElement | null>(null)
+
   const _items = useMemo(() => {
     if (!search || !withSearch) return items
 
@@ -62,6 +64,20 @@ export function Combobox({
       item.searchable.toLowerCase().includes(search.toLowerCase())
     )
   }, [search, items, withSearch])
+
+  useEffect(() => {
+    if (open && value) {
+      // Use requestAnimationFrame to ensure it's called after the DOM has rendered
+      requestAnimationFrame(() => {
+        if (selectedRef.current) {
+          selectedRef.current.scrollIntoView({
+            behavior: 'auto',
+            block: 'center'
+          })
+        }
+      })
+    }
+  }, [open, value])
 
   return (
     <Drawer
@@ -117,7 +133,7 @@ export function Combobox({
                 }}
                 disabled={disabled}
               >
-                <label>
+                <label ref={value === item.value ? selectedRef : null}>
                   <input type='radio' className='hidden' />
                   {item.label}
                   <Check

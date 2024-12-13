@@ -234,94 +234,94 @@ async function runSeeder() {
     }
   })
 
-  // Add 1 entry for each activity, for a month.
-  const numberOfActivities = 31 * 3
+  // // Add 1 entry for each activity, for a month.
+  // const numberOfActivities = 31 * 3
 
-  await seed.activities(
-    (x) =>
-      x(numberOfActivities, (ctx) => {
-        const type = Math.floor(ctx.index / 31) + 1
+  // await seed.activities(
+  //   (x) =>
+  //     x(numberOfActivities, (ctx) => {
+  //       const type = Math.floor(ctx.index / 31) + 1
 
-        const numberOfDaysAdded = ctx.index % 31
-        // The idea is so that on Saturday, there are 0 page_count.
-        const indexWithMaxNumber6 = ctx.index % 7
-        const pageCount = 7 - indexWithMaxNumber6 - 1
+  //       const numberOfDaysAdded = ctx.index % 31
+  //       // The idea is so that on Saturday, there are 0 page_count.
+  //       const indexWithMaxNumber6 = ctx.index % 7
+  //       const pageCount = 7 - indexWithMaxNumber6 - 1
 
-        return {
-          student_id: 1,
-          type,
-          created_at: dayjs()
-            .startOf('month')
-            .add(numberOfDaysAdded, 'days')
-            .add(7, 'hour')
-            .toISOString(),
-          // On day 26th, the status is always draft.
-          status:
-            ctx.index === numberOfActivities - 5
-              ? ActivityStatus.draft
-              : ActivityStatus.completed,
-          page_count: pageCount,
-          target_page_count: 4,
-          student_attendance: pageCount === 0 ? 'absent' : 'present',
-          achieve_target: pageCount >= 4,
-          start_surah: 1,
-          end_surah: 1,
-          start_verse: 1,
-          end_verse: 7,
-          shift_id: 1,
-          created_by: 1,
-          tags: ['Terbata-bata', 'Cukup Baik']
-        }
-      }),
-    { connect: true }
-  )
+  //       return {
+  //         student_id: 1,
+  //         type,
+  //         created_at: dayjs()
+  //           .startOf('month')
+  //           .add(numberOfDaysAdded, 'days')
+  //           .add(7, 'hour')
+  //           .toISOString(),
+  //         // On day 26th, the status is always draft.
+  //         status:
+  //           ctx.index === numberOfActivities - 5
+  //             ? ActivityStatus.draft
+  //             : ActivityStatus.completed,
+  //         page_count: pageCount,
+  //         target_page_count: 4,
+  //         student_attendance: pageCount === 0 ? 'absent' : 'present',
+  //         achieve_target: pageCount >= 4,
+  //         start_surah: 1,
+  //         end_surah: 1,
+  //         start_verse: 1,
+  //         end_verse: 7,
+  //         shift_id: 1,
+  //         created_by: 1,
+  //         tags: ['Terbata-bata', 'Cukup Baik']
+  //       }
+  //     }),
+  //   { connect: true }
+  // )
 
-  // sabaq only for testing chart usecase
-  await seed.activities((x) =>
-    x(7, (ctx) => {
-      const indexWithMaxNumber6 = ctx.index % 7
+  // // sabaq only for testing chart usecase
+  // await seed.activities((x) =>
+  //   x(7, (ctx) => {
+  //     const indexWithMaxNumber6 = ctx.index % 7
 
-      const pageCount = 7 - indexWithMaxNumber6 - 1
+  //     const pageCount = 7 - indexWithMaxNumber6 - 1
 
-      return {
-        student_id: 2,
-        type: 1,
-        created_at: dayjs()
-          .startOf('week')
-          .add(indexWithMaxNumber6, 'days')
-          .add(7, 'hour')
-          .toISOString(),
-        page_count: pageCount,
-        target_page_count: 4,
-        student_attendance: pageCount === 0 ? 'absent' : 'present',
-        achieve_target: pageCount >= 4,
-        start_surah: 1,
-        end_surah: 1,
-        start_verse: 1,
-        end_verse: 7,
-        tags: ['Terbata-bata', 'Cukup Baik'],
-        shift_id: 5,
-        created_by: 5,
-        status: 'completed'
-      }
-    })
-  )
+  //     return {
+  //       student_id: 2,
+  //       type: 1,
+  //       created_at: dayjs()
+  //         .startOf('week')
+  //         .add(indexWithMaxNumber6, 'days')
+  //         .add(7, 'hour')
+  //         .toISOString(),
+  //       page_count: pageCount,
+  //       target_page_count: 4,
+  //       student_attendance: pageCount === 0 ? 'absent' : 'present',
+  //       achieve_target: pageCount >= 4,
+  //       start_surah: 1,
+  //       end_surah: 1,
+  //       start_verse: 1,
+  //       end_verse: 7,
+  //       tags: ['Terbata-bata', 'Cukup Baik'],
+  //       shift_id: 5,
+  //       created_by: 5,
+  //       status: 'completed'
+  //     }
+  //   })
+  // )
 
-  await seed.checkpoint((x) =>
-    x(1, () => {
-      const lastActivity =
-        seed.$store.activities[seed.$store.activities.length - 6]
-      return {
-        student_id: 2,
-        start_date: lastActivity.created_at!,
-        end_date: dayjs(lastActivity.created_at).add(14, 'hour').toISOString(),
-        page_count_accumulation: 20,
-        last_activity_id: lastActivity.id!,
-        status: 'completed',
-        part_count: 1
-      }
-    })
-  )
+  // await seed.checkpoint((x) =>
+  //   x(1, () => {
+  //     const lastActivity =
+  //       seed.$store.activities[seed.$store.activities.length - 6]
+  //     return {
+  //       student_id: 2,
+  //       start_date: lastActivity.created_at!,
+  //       end_date: dayjs(lastActivity.created_at).add(14, 'hour').toISOString(),
+  //       page_count_accumulation: 20,
+  //       last_activity_id: lastActivity.id!,
+  //       status: 'completed',
+  //       part_count: 1
+  //     }
+  //   })
+  // )
 
   // Type completion not working? You might want to reload your TypeScript Server to pick up the changes
 
