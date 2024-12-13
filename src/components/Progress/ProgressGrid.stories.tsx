@@ -19,8 +19,11 @@ export function ProgressGridStory() {
           activities={data}
           date={date}
           onChangeDate={setDate}
-          status='lajnah-approaching'
-          statusParameter='5'
+          statusProps={{
+            status: 'lajnah-approaching',
+            parameter: '5',
+            editable: true
+          }}
         />
       </div>
 
@@ -29,9 +32,11 @@ export function ProgressGridStory() {
           activities={data}
           date={date}
           onChangeDate={setDate}
-          status='lajnah-exam'
-          statusParameter='5'
-          editable={false}
+          statusProps={{
+            status: 'lajnah-exam',
+            parameter: '5',
+            editable: false
+          }}
         />
       </div>
 
