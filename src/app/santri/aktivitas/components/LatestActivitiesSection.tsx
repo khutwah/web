@@ -101,6 +101,12 @@ export function LatestActivitiesSection() {
   )
 }
 
+const TYPE_TO_LABEL_MAP = {
+  [ActivityType.Sabaq]: 'Sabaq',
+  [ActivityType.Sabqi]: 'Sabqi',
+  [ActivityType.Manzil]: 'Manzil'
+}
+
 async function LatestActivitiesByType({ type }: { type: ActivityType }) {
   const user = await getUser()
 
@@ -113,10 +119,14 @@ async function LatestActivitiesByType({ type }: { type: ActivityType }) {
     order_by: 'asc'
   })
 
-  console.log(activities)
-
   if (activities?.data?.length === 0) {
-    return <StateMessage type='empty' title='Tidak ada data aktivitas' />
+    return (
+      <StateMessage
+        type='empty'
+        title={`Tidak ada data aktivitas ${TYPE_TO_LABEL_MAP[type]}`}
+        className='py-8'
+      />
+    )
   }
 
   return (
