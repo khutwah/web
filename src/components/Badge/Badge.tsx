@@ -28,7 +28,7 @@ const COLOR_TO_CLASSNAME_RECORD: Record<BadgeProps['color'], string> = {
     'bg-mtmh-neutral-white text-mtmh-warning-70 border border-dashed border-mtmh-warning-70', // FIXME: We should have a color-naming pattern for this.
 
   mute: 'bg-mtmh-snow-base',
-  outline: 'none'
+  outline: 'bg-none'
 }
 
 export function Badge({ color, text, icon, dashed }: BadgeProps) {
@@ -37,11 +37,11 @@ export function Badge({ color, text, icon, dashed }: BadgeProps) {
     <div
       className={cn(
         'text-xs text-mtmh-neutral-white py-0.5 px-2 rounded-md flex justify-center items-center gap-1',
-        COLOR_TO_CLASSNAME_RECORD[colorKey as BadgeProps['color']],
         {
           border: color === 'outline',
           'bg-mtmh-snow-base': color !== 'outline'
-        }
+        },
+        COLOR_TO_CLASSNAME_RECORD[colorKey as BadgeProps['color']]
       )}
     >
       {icon}

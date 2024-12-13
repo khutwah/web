@@ -13,7 +13,7 @@ import { Activities } from '@/utils/supabase/models/activities'
 import { ActivityBadge } from '../Badge/ActivityBadge'
 import { ActivityTypeKey, ActivityStatus } from '@/models/activities'
 import dayjsClientSideLocal from '@/utils/dayjs-client-side-local'
-import { MoveRight, Clock } from 'lucide-react'
+import { MoveRight } from 'lucide-react'
 import { Labels } from '../ActivityCard/ActivityCard'
 import { Button } from '../Button/Button'
 import Link from 'next/link'
@@ -61,11 +61,6 @@ export function ActivityPopup({ activities }: Props) {
                 type={_activity.type as ActivityTypeKey}
                 isStudentPresent={_activity.student_attendance === 'present'}
                 isDraft={_activity.status === ActivityStatus.draft}
-                icon={
-                  _activity.status === ActivityStatus.draft && (
-                    <Clock size={12} />
-                  )
-                }
               />
             </div>
             <div className='flex flex-col gap-1'>
