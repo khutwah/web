@@ -1,7 +1,7 @@
 import { Base } from './base'
 import { RoleFilter } from '@/models/supabase/models/filter'
 import { ApiError } from '@/utils/api-error'
-import dayjsClientSideLocal from '@/utils/dayjs-client-side-local'
+import dayjs from '@/utils/dayjs'
 interface GetFilter extends RoleFilter {
   start_date?: string
   end_date?: string
@@ -10,8 +10,8 @@ interface GetFilter extends RoleFilter {
 export class Halaqah extends Base {
   async list(filter: GetFilter = {}) {
     const {
-      start_date = dayjsClientSideLocal().startOf('day').toISOString(),
-      end_date = dayjsClientSideLocal().endOf('day').toISOString(),
+      start_date = dayjs().utc().startOf('day').toISOString(),
+      end_date = dayjs().utc().endOf('day').toISOString(),
       student_id,
       ustadz_id
     } = filter ?? {}
@@ -143,8 +143,8 @@ export class Halaqah extends Base {
 
   async get(id: number, filter?: GetFilter) {
     const {
-      start_date = dayjsClientSideLocal().startOf('day').toISOString(),
-      end_date = dayjsClientSideLocal().endOf('day').toISOString()
+      start_date = dayjs().utc().startOf('day').toISOString(),
+      end_date = dayjs().utc().endOf('day').toISOString()
     } = filter ?? {}
 
     let query = (await this.supabase)
