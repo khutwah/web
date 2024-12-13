@@ -37,10 +37,10 @@ export function Badge({ color, text, icon, dashed }: BadgeProps) {
     <div
       className={cn(
         'text-xs text-mtmh-neutral-white py-0.5 px-2 rounded-md flex justify-center items-center gap-1',
-        'bg-mtmh-snow-base',
         COLOR_TO_CLASSNAME_RECORD[colorKey as BadgeProps['color']],
         {
-          border: color === 'outline'
+          border: color === 'outline',
+          'bg-mtmh-snow-base': color !== 'outline'
         }
       )}
     >
