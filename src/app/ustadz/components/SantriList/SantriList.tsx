@@ -8,7 +8,7 @@ import {
   SantriCard,
   SantriCardSkeleton
 } from '../../../../components/SantriCard/SantriCard'
-import SampleSantriAvatar from '@/assets/sample-ustadz-photo.png'
+import SampleSantriAvatar from '@/assets/sample-santri-photo.png'
 import { MENU_PATH_RECORD } from '@/utils/menus/ustadz'
 import { SearchContext } from '../Search/SearchProvider'
 
