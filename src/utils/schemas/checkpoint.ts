@@ -9,8 +9,16 @@ export const createCheckpointSchema = object({
     then: (schema) => schema.min(0).required(),
     otherwise: (schema) => schema.notRequired()
   }),
-  page_count_accumulation: number().required(),
-  last_activity_id: number().required(),
+  page_count_accumulation: number().when('status', {
+    is: (status: string) => status !== 'inactive',
+    then: (schema) => schema.required(),
+    otherwise: (schema) => schema.notRequired()
+  }),
+  last_activity_id: number().when('status', {
+    is: (status: string) => status !== 'inactive',
+    then: (schema) => schema.required(),
+    otherwise: (schema) => schema.notRequired()
+  }),
   part_count: number().when('status', {
     is: (status: string) => status !== 'inactive',
     then: (schema) => schema.min(0).required(),
@@ -50,5 +58,15 @@ export const updateCheckpointSchema = object({
     is: 'inactive',
     then: (schema) => schema.notRequired(),
     otherwise: (schema) => schema.required()
+  }),
+  page_count_accumulation: number().when('status', {
+    is: (status: string) => status !== 'inactive',
+    then: (schema) => schema.required(),
+    otherwise: (schema) => schema.notRequired()
+  }),
+  last_activity_id: number().when('status', {
+    is: (status: string) => status !== 'inactive',
+    then: (schema) => schema.required(),
+    otherwise: (schema) => schema.notRequired()
   })
 })

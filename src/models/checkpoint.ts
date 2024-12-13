@@ -37,8 +37,8 @@ export type CheckpointStatus =
 
 export interface InsertPayload {
   status: CheckpointStatus
-  page_count_accumulation: number
-  last_activity_id: number
+  page_count_accumulation?: number
+  last_activity_id?: number
   student_id: number
   start_date: string
   part_count?: number

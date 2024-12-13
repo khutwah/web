@@ -338,7 +338,7 @@ export class Activities extends Base {
       // because page_count_accumulation already include
       // those page_count numbers
       activities.data?.forEach((item) => {
-        if (item.id <= checkpoint.data!.last_activity_id) {
+        if (item.id <= (checkpoint?.data?.last_activity_id ?? 0)) {
           pageCountStart -= item.page_count || 0
         }
       })
