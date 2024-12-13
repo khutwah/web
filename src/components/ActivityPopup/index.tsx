@@ -11,9 +11,9 @@ import {
 import { useSearchParams } from 'next/navigation'
 import { Activities } from '@/utils/supabase/models/activities'
 import { ActivityBadge } from '../Badge/ActivityBadge'
-import { ActivityTypeKey } from '@/models/activities'
-import dayjsGmt7 from '@/utils/dayjs-gmt7'
-import { MoveRight } from 'lucide-react'
+import { ActivityTypeKey, ActivityStatus } from '@/models/activities'
+import dayjsClientSideLocal from '@/utils/dayjs-client-side-local'
+import { MoveRight, Clock } from 'lucide-react'
 import { Labels } from '../ActivityCard/ActivityCard'
 import { Button } from '../Button/Button'
 import Link from 'next/link'
@@ -45,27 +45,33 @@ export function ActivityPopup({ activities }: Props) {
     <Drawer open={Boolean(_activity)} onOpenChange={closeModal}>
       <DrawerContent>
         <DrawerHeader className='hidden'>
-          <DrawerTitle>Drawer Title</DrawerTitle>
-          <DrawerDescription>Drawer Description</DrawerDescription>
+          <DrawerTitle>Activity Drawer</DrawerTitle>
+          <DrawerDescription>Activity Drawer</DrawerDescription>
         </DrawerHeader>
         {_activity ? (
           <div className='overflow-y-scroll max-h-[500px] flex flex-col p-5 gap-4'>
             <div className='flex flex-row items-start justify-between'>
               <div className='text-xs text-mtmh-neutral-50'>
-                {dayjsGmt7(new Date(_activity.created_at ?? '')).format(
+                {/* WARNING: _activity.created_at is in UTC */}
+                {dayjsClientSideLocal(_activity.created_at ?? '').format(
                   'dddd, DD MMM YYYY. HH:mm'
                 )}
               </div>
               <ActivityBadge
                 type={_activity.type as ActivityTypeKey}
                 isStudentPresent={_activity.student_attendance === 'present'}
+                icon={
+                  _activity.status === ActivityStatus.draft && (
+                    <Clock size={12} />
+                  )
+                }
               />
             </div>
             <div className='flex flex-col gap-1'>
               <div className='text-xs text-mtmh-neutral-50'>Setoran</div>
-              <div className='flex flex-row items-center justify-between text-sm'>
+              <div className='flex flex-row items-center space-x-4 text-sm'>
                 <div>
-                  {_activity.start_surah} : {_activity.start_verse}
+                  {_activity.start_surah}: {_activity.start_verse}
                 </div>
 
                 <div>
@@ -92,7 +98,7 @@ export function ActivityPopup({ activities }: Props) {
               <div className='text-sm'>{_activity.notes}</div>
             </div>
 
-            {_activity.status === 'draft' ? (
+            {_activity.status === ActivityStatus.draft ? (
               <Button
                 variant='primary'
                 asChild
