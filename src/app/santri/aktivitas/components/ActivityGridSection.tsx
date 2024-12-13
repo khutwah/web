@@ -43,7 +43,6 @@ async function ActivityGrid() {
     <ProgressGridWithState
       activities={activities.data}
       className='border-none rounded-none'
-      editable={false}
     />
   )
 }
