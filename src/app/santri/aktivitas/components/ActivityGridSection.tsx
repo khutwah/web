@@ -7,10 +7,11 @@ import {
   ProgressGridSkeleton,
   ProgressGridWithState
 } from '@/components/Progress/ProgressGrid'
+import { StateMessage } from '@/components/StateMessage/StateMessage'
+import { ErrorBoundary } from '@/components/ErrorBoundary/ErrorBoundary'
 
 import { Activities } from '@/utils/supabase/models/activities'
 import { getUser } from '@/utils/supabase/get-user'
-
 export async function ActivityGridSection() {
   return (
     <section className='flex flex-col gap-y-4'>
@@ -20,9 +21,20 @@ export async function ActivityGridSection() {
 
       <Card className='bg-mtmh-neutral-white text-mtmh-grey-base shadow-md border border-mtmh-snow-lighter rounded-md'>
         <CardContent className='flex flex-col p-0 gap-y-3'>
-          <Suspense fallback={<ProgressGridSkeleton />}>
-            <ActivityGrid />
-          </Suspense>
+          <ErrorBoundary
+            fallback={
+              <StateMessage
+                className='py-8 px-4'
+                description='Tidak dapat menampilkan data progres aktivitas'
+                title='Terjadi Kesalahan'
+                type='error'
+              />
+            }
+          >
+            <Suspense fallback={<ProgressGridSkeleton />}>
+              <ActivityGrid />
+            </Suspense>
+          </ErrorBoundary>
         </CardContent>
       </Card>
     </section>
