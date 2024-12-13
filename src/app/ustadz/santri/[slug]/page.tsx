@@ -184,15 +184,18 @@ export default async function DetailSantri({
         ) : null}
 
         <section className='flex flex-col gap-3 mb-8'>
-          <div className='flex flex-row items-center justify-between px-6'>
-            <h2 className='text-mtmh-m-semibold'>Input Terakhir</h2>
-            <Link
-              className='text-mtmh-sm-semibold text-mtmh-tamarind-base'
-              href={`/ustadz/aktivitas?student_id=${student.data.id}`}
-            >
-              Lihat inputan
-            </Link>
-          </div>
+          {/* FIXME(dio): Add empty state component for last activities. */}
+          {lastActivities?.data && lastActivities?.data.length > 0 && (
+            <div className='flex flex-row items-center justify-between px-6'>
+              <h2 className='text-mtmh-m-semibold'>Input Terakhir</h2>
+              <Link
+                className='text-mtmh-sm-semibold text-mtmh-tamarind-base'
+                href={`/ustadz/aktivitas?student_id=${student.data.id}`}
+              >
+                Lihat semua
+              </Link>
+            </div>
+          )}
 
           <ul className='flex overflow-x-scroll gap-3 px-6 items-start'>
             {lastActivities?.data?.map((item) => {

@@ -60,6 +60,7 @@ export function ActivityPopup({ activities }: Props) {
               <ActivityBadge
                 type={_activity.type as ActivityTypeKey}
                 isStudentPresent={_activity.student_attendance === 'present'}
+                isDraft={_activity.status === ActivityStatus.draft}
                 icon={
                   _activity.status === ActivityStatus.draft && (
                     <Clock size={12} />
