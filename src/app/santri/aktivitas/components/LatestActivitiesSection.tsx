@@ -19,6 +19,7 @@ import {
 } from '@/models/activities'
 import { Activities } from '@/utils/supabase/models/activities'
 import { getUser } from '@/utils/supabase/get-user'
+import { ErrorBoundary } from '@/components/ErrorBoundary/ErrorBoundary'
 
 export function LatestActivitiesSection() {
   return (
@@ -56,9 +57,20 @@ export function LatestActivitiesSection() {
               </AlertDescription>
             </div>
           </Alert>
-          <Suspense fallback={<ListSkeleton />}>
-            <LatestActivitiesByType type={ActivityType.Sabaq} />
-          </Suspense>
+          <ErrorBoundary
+            fallback={
+              <StateMessage
+                className='py-8'
+                description='Tidak dapat menampilkan data aktivitas Sabaq'
+                title='Terjadi Kesalahan'
+                type='error'
+              />
+            }
+          >
+            <Suspense fallback={<ListSkeleton />}>
+              <LatestActivitiesByType type={ActivityType.Sabaq} />
+            </Suspense>
+          </ErrorBoundary>
         </TabsContent>
         <TabsContent value='sabqi' className='space-y-3'>
           <Alert className='items-start' variant='info'>
@@ -73,10 +85,20 @@ export function LatestActivitiesSection() {
               </AlertDescription>
             </div>
           </Alert>
-
-          <Suspense fallback={<ListSkeleton />}>
-            <LatestActivitiesByType type={ActivityType.Sabqi} />
-          </Suspense>
+          <ErrorBoundary
+            fallback={
+              <StateMessage
+                className='py-8'
+                description='Tidak dapat menampilkan data aktivitas Sabqi'
+                title='Terjadi Kesalahan'
+                type='error'
+              />
+            }
+          >
+            <Suspense fallback={<ListSkeleton />}>
+              <LatestActivitiesByType type={ActivityType.Sabqi} />
+            </Suspense>
+          </ErrorBoundary>
         </TabsContent>
         <TabsContent value='manzil' className='space-y-3'>
           <Alert className='items-start' variant='info'>
@@ -91,10 +113,20 @@ export function LatestActivitiesSection() {
               </AlertDescription>
             </div>
           </Alert>
-
-          <Suspense fallback={<ListSkeleton />}>
-            <LatestActivitiesByType type={ActivityType.Manzil} />
-          </Suspense>
+          <ErrorBoundary
+            fallback={
+              <StateMessage
+                className='py-8'
+                description='Tidak dapat menampilkan data aktivitas Manzil'
+                title='Terjadi Kesalahan'
+                type='error'
+              />
+            }
+          >
+            <Suspense fallback={<ListSkeleton />}>
+              <LatestActivitiesByType type={ActivityType.Manzil} />
+            </Suspense>
+          </ErrorBoundary>
         </TabsContent>
       </Tabs>
     </section>

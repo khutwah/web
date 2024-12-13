@@ -139,6 +139,7 @@ export class Activities extends Base {
     const result = await query.range(offset, offset + limit - 1)
 
     const userId = await this._getUserId()
+
     const data = result.data
       ? result.data.map((item) => ({
           id: item.id,
@@ -163,6 +164,14 @@ export class Activities extends Base {
           has_edit_access: item.created_by === userId
         }))
       : result.data
+
+    if (result.error) {
+      throw new ApiError({
+        message: result.error.message,
+        code: result.error.code,
+        status: result.status
+      })
+    }
 
     return {
       ...result,
