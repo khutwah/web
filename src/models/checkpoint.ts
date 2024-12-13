@@ -82,4 +82,4 @@ export type FormState =
       success: boolean
     }
 
-export const TAG_DURING_LAJNAH = 'sedang-lajnah'
+export const TAG_DURING_LAJNAH = 'Sedang Lajnah'

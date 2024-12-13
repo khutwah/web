@@ -334,7 +334,7 @@ async function runSeeder() {
         student_id: 1,
         start_date: new Date().toISOString(),
         end_date: null,
-        page_count_accumulation: 0,
+        page_count_accumulation: 20,
         last_activity_id: lastActivity.id!,
         status: 'inactive',
         notes: 'sedang sakit'

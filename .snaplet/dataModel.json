@@ -203,7 +203,7 @@
           "id": "public.activities.tags",
           "name": "tags",
           "columnName": "tags",
-          "type": "json",
+          "type": "jsonb",
           "isRequired": false,
           "kind": "scalar",
           "isList": false,
