@@ -15,6 +15,7 @@ import {
   ProgressGridStatus,
   ProgressGridStatusProps
 } from './ProgressGridStatus'
+import { Skeleton } from '@/components/Skeleton/Skeleton'
 
 interface Props {
   activities: Array<Omit<ActivityEntry, 'target_page_count'>> | null
@@ -22,6 +23,7 @@ interface Props {
   onChangeDate: Dispatch<SetStateAction<Date>>
   className?: string
   statusProps?: ProgressGridStatusProps
+  isLoading?: boolean
 }
 
 interface GridEntry {
@@ -41,7 +43,8 @@ export function ProgressGrid({
   date,
   onChangeDate,
   className,
-  statusProps
+  statusProps,
+  isLoading
 }: Props) {
   const activities = activitiesProp ?? DEFAULT_EMPTY_ARRAY
 
@@ -113,12 +116,16 @@ export function ProgressGrid({
 
                   return (
                     <td key={header}>
-                      <ActivityBadge
-                        type={activityName}
-                        isStudentPresent={isStudentPresent}
-                        isDraft={status === ActivityStatus.draft}
-                        text={isStudentPresent ? `${pageCount}` : '-'}
-                      />
+                      {isLoading ? (
+                        <Skeleton className='h-6 mx-auto max-w-10' />
+                      ) : (
+                        <ActivityBadge
+                          type={activityName}
+                          isStudentPresent={isStudentPresent}
+                          isDraft={status === ActivityStatus.draft}
+                          text={isStudentPresent ? `${pageCount}` : '-'}
+                        />
+                      )}
                     </td>
                   )
                 })}
@@ -130,6 +137,7 @@ export function ProgressGrid({
         <div className='flex w-full justify-between text-mtmh-sm-semibold text-mtmh-red-light'>
           <button
             className='flex gap-x-2'
+            disabled={isLoading}
             onClick={() =>
               onChangeDate((prevDate) =>
                 dayjs(prevDate).add(-5, 'day').toDate()
@@ -143,6 +151,7 @@ export function ProgressGrid({
 
           <button
             className='flex gap-x-2'
+            disabled={isLoading}
             onClick={() =>
               onChangeDate((prevDate) => dayjs(prevDate).add(5, 'day').toDate())
             }
@@ -154,7 +163,11 @@ export function ProgressGrid({
         </div>
       </div>
 
-      <ProgressGridStatus {...statusProps} />
+      {isLoading ? (
+        <Skeleton className='w-full h-16 rounded-t-none'></Skeleton>
+      ) : (
+        <ProgressGridStatus {...statusProps} />
+      )}
     </div>
   )
 }
@@ -169,6 +182,17 @@ export function ProgressGridWithState(
   const [date, setDate] = useState(new Date())
 
   return <ProgressGrid {...props} date={date} onChangeDate={setDate} />
+}
+
+export function ProgressGridSkeleton() {
+  return (
+    <ProgressGrid
+      activities={[]}
+      date={new Date()}
+      onChangeDate={() => {}}
+      isLoading
+    />
+  )
 }
 
 function TableHeaderDate({ dateString }: { dateString: string }) {

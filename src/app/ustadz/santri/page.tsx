@@ -2,7 +2,6 @@ import { Layout } from '@/components/Layouts/Ustadz'
 import { Navbar } from '@/components/Navbar/Navbar'
 import { SearchSection } from '../components/Search/SearchSection'
 import { ErrorBoundary } from '@/components/ErrorBoundary/ErrorBoundary'
-import { ErrorState } from '@/components/ErrorState/ErrorState'
 import { Suspense } from 'react'
 import {
   SantriList,
@@ -13,6 +12,7 @@ import { getUser } from '@/utils/supabase/get-user'
 import { Activities } from '@/utils/supabase/models/activities'
 import { dayjs } from '@/utils/dayjs'
 import SearchProvider from '../components/Search/SearchProvider'
+import { StateMessage } from '@/components/StateMessage/StateMessage'
 
 export default async function Santri() {
   const user = await getUser()
@@ -45,10 +45,11 @@ export default async function Santri() {
 
         <ErrorBoundary
           fallback={
-            <ErrorState
+            <StateMessage
               className='my-14'
               description='Tidak dapat menampilkan data santri'
               title='Terjadi Kesalahan'
+              type='error'
             />
           }
         >

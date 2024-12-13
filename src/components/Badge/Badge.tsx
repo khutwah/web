@@ -17,7 +17,7 @@ interface BadgeProps {
 
 const COLOR_TO_CLASSNAME_RECORD: Record<BadgeProps['color'], string> = {
   blue: 'bg-mtmh-blue-base',
-  green: 'bg-mtmh-green-base',
+  green: 'bg-mtmh-green-dark',
   tamarind: 'bg-mtmh-warning-70', // FIXME: We should have a color-naming pattern for this.
 
   'blue-dashed':
@@ -36,7 +36,7 @@ export function Badge({ color, text, icon, dashed }: BadgeProps) {
   return (
     <div
       className={cn(
-        'text-xs text-mtmh-neutral-white py-0.5 px-2 rounded-md flex items-center gap-1',
+        'text-xs text-mtmh-neutral-white py-0.5 px-2 rounded-md flex justify-center items-center gap-1',
         'bg-mtmh-snow-base',
         COLOR_TO_CLASSNAME_RECORD[colorKey as BadgeProps['color']],
         {

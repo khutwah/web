@@ -1,10 +1,10 @@
 import { ActivityTypeKey } from '@/models/activities'
-import { ProgressGrid } from './ProgressGrid'
+import { ProgressGrid, ProgressGridSkeleton } from './ProgressGrid'
 import { ProgressGridStatus } from './ProgressGridStatus'
 import { ComponentProps, useState } from 'react'
 import dayjs from 'dayjs'
 
-export function ProgressGridStory() {
+export function Default() {
   const [date, setDate] = useState(new Date())
   const data: ComponentProps<typeof ProgressGrid>['activities'] = [
     ...generateData('Sabaq', date),
@@ -45,6 +45,10 @@ export function ProgressGridStory() {
       </div>
     </div>
   )
+}
+
+export function Skeleton() {
+  return <ProgressGridSkeleton />
 }
 
 function generateData(

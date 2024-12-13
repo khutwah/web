@@ -11,7 +11,8 @@ const alertVariants = cva(
         success:
           'bg-mtmh-lightgreen-lightest text-mtmh-green-darkest [&>svg]:text-mtmh-green-darkest',
         warning:
-          'bg-mtmh-tamarind-lighter text-mtmh-tamarind-darkest [&>svg]:text-mtmh-tamarind-darkest'
+          'bg-mtmh-tamarind-lighter text-mtmh-tamarind-darkest [&>svg]:text-mtmh-tamarind-darkest',
+        info: 'bg-mtmh-blue-lightest text-mtmh-blue-darkest [&>svg]:text-mtmh-blue-darkest'
       }
     },
     defaultVariants: {
@@ -33,6 +34,18 @@ const Alert = React.forwardRef<
 ))
 Alert.displayName = 'Alert'
 
+const AlertTitle = React.forwardRef<
+  HTMLParagraphElement,
+  React.HTMLAttributes<HTMLHeadingElement>
+>(({ className, ...props }, ref) => (
+  <h5
+    ref={ref}
+    className={cn('mb-1 text-mtmh-sm-semibold', className)}
+    {...props}
+  />
+))
+AlertTitle.displayName = 'AlertTitle'
+
 const AlertDescription = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
@@ -41,4 +54,4 @@ const AlertDescription = React.forwardRef<
 ))
 AlertDescription.displayName = 'AlertDescription'
 
-export { Alert, AlertDescription }
+export { Alert, AlertTitle, AlertDescription }

@@ -32,9 +32,11 @@ export const mtmhColors = {
     lightest: '#F4DAD9'
   },
   blue: {
+    lightest: '#E6F0FF',
     base: '#0065FF',
     dark: '#0052CF',
-    darker: '#003FA0'
+    darker: '#003FA0',
+    darkest: '#002C70'
   },
   snow: {
     base: '#CCCCCC',
