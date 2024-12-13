@@ -37,6 +37,7 @@ export default async function DetailSantri({
       student_id: student.data.id,
       start_date: dayjs().startOf('week').toISOString(),
       end_date: dayjs().endOf('week').toISOString(),
+      status: ActivityStatus.completed,
       limit: 21
     })
 
