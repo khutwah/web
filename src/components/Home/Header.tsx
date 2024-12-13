@@ -1,7 +1,8 @@
 'use client'
 
 import Logo from '@/assets/minhajul-haq-logo-white.png'
-import StubAvatarImage from '@/assets/sample-ustadz-photo.png'
+import UstadzImage from '@/assets/sample-ustadz-photo.png'
+import SantriImage from '@/assets/sample-santri-photo.png'
 import { GreetingsCard } from '@/components/GreetingsCard/GreetingsCard'
 import { DateHeader } from '@/components/Header/Date'
 import { useAlAdhanInfo } from '@/hooks/useAlAdhanInfo'
@@ -10,9 +11,10 @@ import Image from 'next/image'
 
 interface Props {
   displayName: string
+  ustadz?: boolean
 }
 
-export function HomeHeader({ displayName }: Props) {
+export function HomeHeader({ displayName, ustadz }: Props) {
   const { alAdhanInfo, errorMessage } = useAlAdhanInfo()
 
   return (
@@ -25,7 +27,7 @@ export function HomeHeader({ displayName }: Props) {
 
       <GreetingsCard
         className='z-10'
-        avatarUrl={StubAvatarImage}
+        avatarUrl={ustadz ? UstadzImage : SantriImage}
         name={displayName}
         salahPrayerTimes={alAdhanInfo?.timings}
       >

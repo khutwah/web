@@ -31,7 +31,7 @@ export default async function Home() {
 
       <div className='flex flex-col gap-y-6 mt-4 py-6'>
         <section className='px-6 gap-y-6 flex flex-col'>
-          <HomeHeader displayName={user.data?.name ?? ''} />
+          <HomeHeader displayName={user.data?.name ?? ''} ustadz />
         </section>
 
         <section className='flex flex-col gap-y-3 px-6'>
