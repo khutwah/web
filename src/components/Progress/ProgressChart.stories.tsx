@@ -1,6 +1,6 @@
 import { ProgressChart, ProgressChartPeriod } from './ProgressChart'
 import { ComponentProps, useState } from 'react'
-import dayjsGmt7 from '@/utils/dayjs-gmt7'
+import dayjsLocal from '@/utils/dayjs-gmt7'
 import { GLOBAL_TARGET_PAGE } from '@/models/activities'
 
 export function ProgressChartStory() {
@@ -37,7 +37,7 @@ function generateData(
   date: Date,
   numberOfActivities: number
 ): ComponentProps<typeof ProgressChart>['activities'] {
-  const startDatetime = dayjsGmt7(date.toISOString()).startOf('month')
+  const startDatetime = dayjsLocal(date.toISOString()).startOf('month')
 
   const endDate = startDatetime.day(numberOfActivities - 1)
   const pageCount = endDate.date() % (numberOfActivities - 1)

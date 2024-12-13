@@ -12,7 +12,7 @@ import { useSearchParams } from 'next/navigation'
 import { Activities } from '@/utils/supabase/models/activities'
 import { ActivityBadge } from '../Badge/ActivityBadge'
 import { ActivityTypeKey } from '@/models/activities'
-import dayjsGmt7 from '@/utils/dayjs-gmt7'
+import dayjsLocal from '@/utils/dayjs-gmt7'
 import { MoveRight, Clock } from 'lucide-react'
 import { Labels } from '../ActivityCard/ActivityCard'
 import { Button } from '../Button/Button'
@@ -53,7 +53,7 @@ export function ActivityPopup({ activities }: Props) {
             <div className='flex flex-row items-start justify-between'>
               <div className='text-xs text-mtmh-neutral-50'>
                 {/* WARNING: _activity.created_at is in UTC */}
-                {dayjsGmt7(_activity.created_at ?? '').format(
+                {dayjsLocal(_activity.created_at ?? '').format(
                   'dddd, DD MMM YYYY. HH:mm'
                 )}
               </div>

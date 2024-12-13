@@ -1,7 +1,8 @@
 import dayjs from './dayjs'
 
-export default function dayjsGmt7(
+export default function dayjsLocal(
   stringDate: string = new Date().toISOString()
 ) {
-  return dayjs.utc(stringDate).tz('Asia/Jakarta')
+  // See: https://day.js.org/docs/en/manipulate/local.
+  return dayjs.utc(stringDate).local()
 }

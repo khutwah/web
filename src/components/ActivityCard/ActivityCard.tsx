@@ -10,7 +10,7 @@ import Link from 'next/link'
 import { ActivityStatus, ActivityTypeKey } from '@/models/activities'
 import { ActivityBadge } from '../Badge/ActivityBadge'
 import { Alert, AlertDescription } from '../Alert/Alert'
-import dayjsGmt7 from '@/utils/dayjs-gmt7'
+import dayjsLocal from '@/utils/dayjs-gmt7'
 import { StickyNote } from '../icons'
 import { cn } from '@/utils/classnames'
 import dayjs from '@/utils/dayjs'
@@ -56,7 +56,7 @@ export function ActivityCard({
           <CardTitle className='flex justify-between items-start'>
             <div className='flex flex-col gap-y-1'>
               <div className='text-xs text-mtmh-neutral-50'>
-                {dayjsGmt7(date.toISOString()).format(
+                {dayjsLocal(date.toISOString()).format(
                   'dddd, DD MMM YYYY. HH:mm'
                 )}
               </div>
