@@ -12,6 +12,7 @@ import { ErrorBoundary } from '@/components/ErrorBoundary/ErrorBoundary'
 
 import { Activities } from '@/utils/supabase/models/activities'
 import { getUser } from '@/utils/supabase/get-user'
+import getTimezoneInfo from '@/utils/get-timezone-info'
 export async function ActivityGridSection() {
   return (
     <section className='flex flex-col gap-y-4'>
@@ -43,12 +44,15 @@ export async function ActivityGridSection() {
 
 async function ActivityGrid() {
   const user = await getUser()
+  // This gets the current day in the client's timezone.
+  const tz = await getTimezoneInfo()
+  const day = dayjs().tz(tz)
 
   const activitiesInstance = new Activities()
   const activities = await activitiesInstance.list({
     parent_id: user.data?.id,
-    start_date: dayjs().startOf('week').toISOString(),
-    end_date: dayjs().endOf('week').toISOString()
+    start_date: day.startOf('week').toISOString(),
+    end_date: day.endOf('week').toISOString()
   })
 
   return (
