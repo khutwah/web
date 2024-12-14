@@ -7,7 +7,10 @@ import {
   DetailedHTMLProps,
   InputHTMLAttributes,
   useMemo,
-  useState
+  useState,
+  useRef,
+  useEffect,
+  forwardRef
 } from 'react'
 import {
   Drawer,
@@ -44,6 +47,56 @@ interface ComboboxButtonProps {
   >
 }
 
+export const ComboboxButton = forwardRef<
+  HTMLButtonElement,
+  ComboboxButtonProps
+>(({ onClick, disabled, label, checked, inputProps }, ref) => {
+  const handleKeyDown: ComponentProps<typeof Button>['onKeyDown'] = (event) => {
+    if (disabled) return
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault()
+      onClick?.(
+        event as unknown as Parameters<
+          NonNullable<ComponentProps<typeof Button>['onClick']>
+        >[0]
+      )
+    }
+  }
+
+  return (
+    <Button
+      ref={ref}
+      asChild
+      variant='outline'
+      onClick={(e) => {
+        if (disabled) return
+        return onClick?.(e)
+      }}
+      disabled={disabled}
+      tabIndex={0}
+      aria-checked={checked}
+      role='radio'
+      onKeyDown={handleKeyDown}
+    >
+      <label>
+        <input
+          type='radio'
+          className='hidden'
+          defaultChecked={checked}
+          {...inputProps}
+          aria-hidden='true'
+          tabIndex={-1}
+        />
+        {label}
+        <Check
+          aria-hidden
+          className={cn('ml-auto', checked ? 'opacity-100' : 'opacity-0')}
+        />
+      </label>
+    </Button>
+  )
+})
+
 function ComboboxSearch({
   searchPlaceholder,
   onChange
@@ -71,6 +124,18 @@ export function Combobox({
 }: ComboboxProps) {
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState('')
+  const selectedRef = useRef<HTMLButtonElement>(null)
+
+  useEffect(() => {
+    if (open && value) {
+      requestAnimationFrame(() => {
+        selectedRef.current?.scrollIntoView({
+          behavior: 'instant',
+          block: 'center'
+        })
+      })
+    }
+  }, [open, value])
 
   const _items = useMemo(() => {
     if (!search || !withSearch) return items
@@ -120,6 +185,7 @@ export function Combobox({
               startFrom && Number(item.value)
                 ? Number(item.value) < startFrom
                 : false
+            const isSelected = value === item.value
             return (
               <ComboboxButton
                 key={item.value}
@@ -131,64 +197,13 @@ export function Combobox({
                   setSearch('')
                 }}
                 label={item.label}
-                checked={value === item.value}
+                checked={isSelected}
+                ref={isSelected ? selectedRef : undefined}
               />
             )
           })}
         </div>
       </DrawerContent>
     </Drawer>
-  )
-}
-
-export function ComboboxButton({
-  onClick,
-  disabled,
-  label,
-  checked,
-  inputProps
-}: ComboboxButtonProps) {
-  const handleKeyDown: ComponentProps<typeof Button>['onKeyDown'] = (event) => {
-    if (disabled) return
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault()
-      onClick?.(
-        event as unknown as Parameters<
-          NonNullable<ComponentProps<typeof Button>['onClick']>
-        >[0]
-      )
-    }
-  }
-
-  return (
-    <Button
-      asChild
-      variant='outline'
-      onClick={(e) => {
-        if (disabled) return
-        return onClick?.(e)
-      }}
-      disabled={disabled}
-      tabIndex={0}
-      aria-checked={checked}
-      role='radio'
-      onKeyDown={handleKeyDown}
-    >
-      <label>
-        <input
-          type='radio'
-          className='hidden'
-          defaultChecked={checked}
-          {...inputProps}
-          aria-hidden='true'
-          tabIndex={-1}
-        />
-        {label}
-        <Check
-          aria-hidden
-          className={cn('ml-auto', checked ? 'opacity-100' : 'opacity-0')}
-        />
-      </label>
-    </Button>
   )
 }
