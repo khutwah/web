@@ -5,14 +5,15 @@ import {
   CardContent,
   CardFooter
 } from '../Card/Card'
-import { BookOpen, CircleAlert, Clock, MoveRight } from 'lucide-react'
+import { BookOpen, CircleAlert, MoveRight } from 'lucide-react'
 import Link from 'next/link'
 import { ActivityStatus, ActivityTypeKey } from '@/models/activities'
 import { ActivityBadge } from '../Badge/ActivityBadge'
 import { Alert, AlertDescription } from '../Alert/Alert'
-import dayjsGmt7 from '@/utils/dayjs-gmt7'
 import { StickyNote } from '../icons'
 import { cn } from '@/utils/classnames'
+import dayjs from '@/utils/dayjs'
+import { FormattedLocalDate } from '@/components/Local'
 
 interface SurahSubmissionInfo {
   name: string
@@ -37,7 +38,7 @@ export function ActivityCard({
   id,
   surahEnd,
   surahStart,
-  timestamp,
+  timestamp, // WARNING: timestamp is in UTC.
   notes,
   type,
   isStudentPresent,
@@ -46,7 +47,7 @@ export function ActivityCard({
   labels,
   status
 }: Props) {
-  const date = new Date(timestamp)
+  const date = dayjs.utc(timestamp).toDate()
 
   return (
     <Link href={`?activity=${id}`}>
@@ -55,7 +56,10 @@ export function ActivityCard({
           <CardTitle className='flex justify-between items-start'>
             <div className='flex flex-col gap-y-1'>
               <div className='text-xs text-mtmh-neutral-50'>
-                {dayjsGmt7(date).format('dddd, DD MMM YYYY. HH:mm')}
+                <FormattedLocalDate
+                  date={date.toISOString()}
+                  format='dddd, DD MMM YYYY. HH:mm'
+                />
               </div>
 
               {studentName && (
@@ -66,13 +70,13 @@ export function ActivityCard({
             <ActivityBadge
               type={type}
               isStudentPresent={isStudentPresent}
-              icon={status === 'draft' && <Clock size={12} />}
+              isDraft={status === ActivityStatus.draft}
             />
           </CardTitle>
         </CardHeader>
         <CardContent
           className={cn('flex flex-col gap-y-4', {
-            'pb-8': status === 'draft'
+            'pb-8': status === ActivityStatus.draft
           })}
         >
           {halaqahName && (
@@ -113,10 +117,10 @@ export function ActivityCard({
 
           {labels && <Labels labels={labels} />}
         </CardContent>
-        {status === 'draft' && (
+        {status === ActivityStatus.draft && (
           <CardFooter>
             <Alert variant='warning'>
-              <CircleAlert size={16} />
+              <CircleAlert aria-hidden size={16} />
               <AlertDescription>
                 Aktivitas {type} ini perlu dilengkapi.
               </AlertDescription>

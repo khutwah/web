@@ -1,30 +1,35 @@
 'use client'
 
-import { ActivityEntry, ActivityTypeKey } from '@/models/activities'
+import {
+  ActivityEntry,
+  ActivityTypeKey,
+  ActivityStatus
+} from '@/models/activities'
 import { ActivityBadge } from '../Badge/ActivityBadge'
 import { Dispatch, SetStateAction, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import dayjsGmt7 from '@/utils/dayjs-gmt7'
+import dayjsClientSideLocal from '@/utils/dayjs-client-side-local'
 import dayjs, { Dayjs } from '@/utils/dayjs'
 import { cn } from '@/utils/classnames'
 import {
   ProgressGridStatus,
   ProgressGridStatusProps
 } from './ProgressGridStatus'
+import { Skeleton } from '@/components/Skeleton/Skeleton'
 
 interface Props {
   activities: Array<Omit<ActivityEntry, 'target_page_count'>> | null
   date: Date
   onChangeDate: Dispatch<SetStateAction<Date>>
-  status?: ProgressGridStatusProps['status']
-  editable?: ProgressGridStatusProps['editable']
-  statusParameter?: ProgressGridStatusProps['parameter']
   className?: string
+  statusProps?: ProgressGridStatusProps
+  isLoading?: boolean
 }
 
 interface GridEntry {
   pageCount: number
   isStudentPresent: boolean
+  status: ActivityStatus
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -37,10 +42,9 @@ export function ProgressGrid({
   activities: activitiesProp,
   date,
   onChangeDate,
-  status,
-  editable,
-  statusParameter,
-  className
+  className,
+  statusProps,
+  isLoading
 }: Props) {
   const activities = activitiesProp ?? DEFAULT_EMPTY_ARRAY
 
@@ -59,19 +63,22 @@ export function ProgressGrid({
   for (const activity of activities) {
     const {
       type: rawType,
-      created_at,
+      created_at, // WARNING: created_at is in UTC.
       page_count,
-      student_attendance
+      student_attendance,
+      status
     } = activity
     const type = rawType as ActivityTypeKey
 
     // Assumption: if page_count is null, then the student was absent.
     if (!grids[type] || !created_at || page_count === null) continue
 
-    const gridId = getGridIdentifier(new Date(created_at))
+    // Keep created_at in UTC, since this is a "use client" component.
+    const gridId = getGridIdentifier(dayjs.utc(created_at).toDate())
     grids[type][gridId] = {
       pageCount: page_count,
-      isStudentPresent: student_attendance === 'present'
+      isStudentPresent: student_attendance === 'present',
+      status
     }
   }
 
@@ -87,7 +94,7 @@ export function ProgressGrid({
           <thead>
             <tr className='text-mtmh-xs-regular h-[28px]'>
               <td className='text-mtmh-xs-semibold text-mtmh-red-light w-[51px]'>
-                {dayjsGmt7(date).format('MMM YY')}
+                {dayjsClientSideLocal(date.toISOString()).format('MMM YY')}
               </td>
               {headers.map((header) => {
                 return (
@@ -104,16 +111,22 @@ export function ProgressGrid({
                 <td className='text-mtmh-sm-semibold'>{activityName}</td>
                 {headers.map((header) => {
                   const headerKey = getGridIdentifier(new Date(header))
-                  const { pageCount, isStudentPresent } =
+                  const { pageCount, isStudentPresent, status } =
                     grids[activityName][headerKey]
 
                   return (
                     <td key={header}>
-                      <ActivityBadge
-                        type={activityName}
-                        isStudentPresent={isStudentPresent}
-                        text={isStudentPresent ? `${pageCount}` : '-'}
-                      />
+                      {isLoading ? (
+                        <Skeleton className='h-6 mx-auto max-w-10' />
+                      ) : (
+                        <ActivityBadge
+                          hideIcon
+                          type={activityName}
+                          isStudentPresent={isStudentPresent}
+                          isDraft={status === ActivityStatus.draft}
+                          text={isStudentPresent ? `${pageCount}` : '-'}
+                        />
+                      )}
                     </td>
                   )
                 })}
@@ -125,6 +138,7 @@ export function ProgressGrid({
         <div className='flex w-full justify-between text-mtmh-sm-semibold text-mtmh-red-light'>
           <button
             className='flex gap-x-2'
+            disabled={isLoading}
             onClick={() =>
               onChangeDate((prevDate) =>
                 dayjs(prevDate).add(-5, 'day').toDate()
@@ -138,6 +152,7 @@ export function ProgressGrid({
 
           <button
             className='flex gap-x-2'
+            disabled={isLoading}
             onClick={() =>
               onChangeDate((prevDate) => dayjs(prevDate).add(5, 'day').toDate())
             }
@@ -149,11 +164,11 @@ export function ProgressGrid({
         </div>
       </div>
 
-      <ProgressGridStatus
-        status={status}
-        parameter={statusParameter}
-        editable={editable}
-      />
+      {isLoading ? (
+        <Skeleton className='w-full h-16 rounded-t-none'></Skeleton>
+      ) : (
+        <ProgressGridStatus {...statusProps} />
+      )}
     </div>
   )
 }
@@ -170,6 +185,17 @@ export function ProgressGridWithState(
   return <ProgressGrid {...props} date={date} onChangeDate={setDate} />
 }
 
+export function ProgressGridSkeleton() {
+  return (
+    <ProgressGrid
+      activities={[]}
+      date={new Date()}
+      onChangeDate={() => {}}
+      isLoading
+    />
+  )
+}
+
 function TableHeaderDate({ dateString }: { dateString: string }) {
   const dayjsObject = dayjs(dateString)
   const isActive = dayjsObject.isSame(new Date(), 'day')
@@ -183,7 +209,7 @@ function TableHeaderDate({ dateString }: { dateString: string }) {
           : undefined
       }
     >
-      {dayjsGmt7(new Date(dateString)).format('DD')}
+      {dayjsClientSideLocal(dateString).format('DD')}
     </time>
   )
 }
@@ -196,7 +222,8 @@ function getInitialVariables(startDate: Dayjs, endDate: Dayjs) {
   while (!iterator.isAfter(endDate)) {
     grid[getGridIdentifier(iterator.toDate())] = {
       pageCount: 0,
-      isStudentPresent: false
+      isStudentPresent: false,
+      status: ActivityStatus.completed
     }
     headers.push(iterator.toISOString())
 
@@ -207,5 +234,5 @@ function getInitialVariables(startDate: Dayjs, endDate: Dayjs) {
 }
 
 function getGridIdentifier(date: Date) {
-  return dayjsGmt7(date).format('DD MMM')
+  return dayjsClientSideLocal(date.toISOString()).format('DD MMM')
 }

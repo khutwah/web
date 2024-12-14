@@ -234,6 +234,11 @@ async function runSeeder() {
     }
   })
 
+  if (process.env.EMPTY_SEED) {
+    console.log('Database seeded successfully!')
+    return
+  }
+
   // Add 1 entry for each activity, for a month.
   const numberOfActivities = 31 * 3
 
@@ -307,6 +312,7 @@ async function runSeeder() {
     })
   )
 
+  // completed checkpoint
   await seed.checkpoint((x) =>
     x(1, () => {
       const lastActivity =
@@ -317,8 +323,26 @@ async function runSeeder() {
         end_date: dayjs(lastActivity.created_at).add(14, 'hour').toISOString(),
         page_count_accumulation: 20,
         last_activity_id: lastActivity.id!,
-        status: 'completed',
+        status: 'lajnah-completed',
         part_count: 1
+      }
+    })
+  )
+
+  // inprogress checkpoint
+  await seed.checkpoint((x) =>
+    x(1, () => {
+      const lastActivity = seed.$store.activities
+        .filter((item) => item.student_id === 1)
+        .reverse()[0]
+      return {
+        student_id: 1,
+        start_date: new Date().toISOString(),
+        end_date: null,
+        page_count_accumulation: 20,
+        last_activity_id: lastActivity.id!,
+        status: 'inactive',
+        notes: 'sedang sakit'
       }
     })
   )

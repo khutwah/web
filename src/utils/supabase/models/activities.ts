@@ -5,6 +5,7 @@ import surah from '@/data/surah.json'
 import { getUserId } from '../get-user-id'
 import { ApiError } from '@/utils/api-error'
 import dayjs from '@/utils/dayjs'
+import { TAG_DURING_LAJNAH } from '@/models/checkpoint'
 
 export type StudentAttendance = 'present' | 'absent'
 
@@ -129,7 +130,7 @@ export class Activities extends Base {
     }
 
     if (order_by) {
-      query = query.order('created_at', { ascending: order_by === 'asc' })
+      query = query.order('id', { ascending: order_by === 'asc' })
     }
 
     if (limit) {
@@ -139,6 +140,7 @@ export class Activities extends Base {
     const result = await query.range(offset, offset + limit - 1)
 
     const userId = await this._getUserId()
+
     const data = result.data
       ? result.data.map((item) => ({
           id: item.id,
@@ -163,6 +165,14 @@ export class Activities extends Base {
           has_edit_access: item.created_by === userId
         }))
       : result.data
+
+    if (result.error) {
+      throw new ApiError({
+        message: result.error.message,
+        code: result.error.code,
+        status: result.status
+      })
+    }
 
     return {
       ...result,
@@ -242,6 +252,59 @@ export class Activities extends Base {
     return response
   }
 
+  async checkpoint({ student_id }: { student_id: number }) {
+    const supabase = await this.supabase
+    const checkpoint = await supabase
+      .from('checkpoint')
+      .select(
+        'last_activity_id, page_count_accumulation, end_date, part_count, notes, status'
+      )
+      .order('id', { ascending: false })
+      .eq('student_id', student_id)
+      .limit(1)
+      .maybeSingle()
+
+    if (checkpoint.data?.end_date === null) {
+      return {
+        last_activity_id: checkpoint.data.last_activity_id,
+        page_count_accumulation: checkpoint.data.page_count_accumulation,
+        part_count: checkpoint.data.part_count,
+        notes: checkpoint.data.notes,
+        status: checkpoint.data.status
+      }
+    }
+
+    const lastActivityId = checkpoint.data?.last_activity_id
+    const pageCountAccumulation = checkpoint.data?.page_count_accumulation ?? 0
+
+    let activities = supabase
+      .from('activities')
+      .select('id, page_count')
+      .eq('student_id', student_id)
+      .eq('type', ActivityType.Sabaq)
+      .eq('status', ActivityStatus.completed)
+      .not('tags', 'cs', JSON.stringify([TAG_DURING_LAJNAH]))
+
+    if (lastActivityId) {
+      activities = activities.gt('id', lastActivityId)
+    }
+
+    const result = await activities.order('id', { ascending: false })
+
+    const pageCounts =
+      result.data?.reduce((acc, item) => {
+        return acc + (item.page_count ?? 0)
+      }, 0) ?? 0
+
+    return {
+      last_activity_id: result.data?.[0]?.id ?? lastActivityId,
+      page_count_accumulation: pageCounts + pageCountAccumulation,
+      part_count: undefined,
+      notes: undefined,
+      status: undefined
+    }
+  }
+
   async chart({ student_id, start_date, end_date }: ActivitiesForChart) {
     const supabase = await this.supabase
 
@@ -264,6 +327,7 @@ export class Activities extends Base {
       .eq('type', ActivityType.Sabaq)
       .gte('created_at', start_date)
       .lte('created_at', end_date)
+      .not('tags', 'cs', JSON.stringify([TAG_DURING_LAJNAH]))
       .order('id', { ascending: true })
 
     let pageCountStart = checkpoint.data?.page_count_accumulation ?? 0
@@ -274,7 +338,7 @@ export class Activities extends Base {
       // because page_count_accumulation already include
       // those page_count numbers
       activities.data?.forEach((item) => {
-        if (item.id <= checkpoint.data!.last_activity_id) {
+        if (item.id <= (checkpoint?.data?.last_activity_id ?? 0)) {
           pageCountStart -= item.page_count || 0
         }
       })

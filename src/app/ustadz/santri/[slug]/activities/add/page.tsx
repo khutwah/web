@@ -21,6 +21,8 @@ import {
 import { FormPresent } from '../components/Forms/Present'
 import { MENU_PATH_RECORD } from '@/utils/menus/ustadz'
 import { FormAbsent } from '../components/Forms/Absent'
+import { Checkpoint } from '@/utils/supabase/models/checkpoint'
+import { TAG_DURING_LAJNAH } from '@/models/checkpoint'
 
 interface AddActivityProps {
   params: Promise<{
@@ -63,10 +65,22 @@ export default async function AddActivity(props: AddActivityProps) {
 
   const lastActivity = activities?.data?.[0]
 
+  const checkpointInstance = new Checkpoint()
+  const activeCheckpoint = await checkpointInstance.list({
+    status: ['lajnah-approaching', 'lajnah-exam', 'lajnah-ready']
+  })
+  const isCheckpointExist = Boolean(activeCheckpoint?.data?.length)
+
   const optionalProps = {
     ...(lastActivity && {
       lastSurah: lastActivity.end_surah_id!,
       lastVerse: lastActivity.end_verse!
+    })
+  }
+
+  const defaultValues = {
+    ...(isCheckpointExist && {
+      tags: [TAG_DURING_LAJNAH]
     })
   }
 
@@ -103,6 +117,7 @@ export default async function AddActivity(props: AddActivityProps) {
               studentId={params.slug}
               activityType={activityKey}
               santriPageUri={santriPage}
+              defaultValues={defaultValues}
               {...optionalProps}
             />
           </TabsContent>
@@ -112,6 +127,7 @@ export default async function AddActivity(props: AddActivityProps) {
               studentId={params.slug}
               activityType={activityKey}
               santriPageUri={santriPage}
+              defaultValues={defaultValues}
             />
           </TabsContent>
         </Tabs>

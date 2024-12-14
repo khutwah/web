@@ -7,13 +7,20 @@ import { Students } from '@/utils/supabase/models/students'
 import { Activities } from '@/utils/supabase/models/activities'
 import dayjs from '@/utils/dayjs'
 import Image from 'next/image'
-import SampleSantriAvatar from '@/assets/sample-ustadz-photo.png'
+import SampleSantriAvatar from '@/assets/sample-santri-photo.png'
 import { ProgressGridWithState } from '@/components/Progress/ProgressGrid'
 import { SantriActivityHeader } from '@/components/SantriActivity/Header'
 import { ActivityPopup } from '@/components/ActivityPopup'
 import { ActivityCard } from '@/components/ActivityCard/ActivityCard'
 import Link from 'next/link'
 import { ActivityStatus, ActivityTypeKey } from '@/models/activities'
+import { Checkpoint } from '@/utils/supabase/models/checkpoint'
+import { CheckpointStatus } from '@/models/checkpoint'
+import { parseParameter } from '@/utils/parse-parameter'
+import getTimezoneInfo from '@/utils/get-timezone-info'
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const DEFAULT_EMPTY_ARRAY: any[] = []
 
 export default async function DetailSantri({
   params: paramsPromise
@@ -32,27 +39,67 @@ export default async function DetailSantri({
   if (!student.data) {
     pageContent = <div>Unexpected error: {student.error?.message}</div>
   } else {
+    // This gets the current day in the client's timezone.
+    const tz = await getTimezoneInfo()
+    const day = dayjs().tz(tz)
     const activitiesInstance = new Activities()
-    const activities = await activitiesInstance.list({
-      student_id: student.data.id,
-      start_date: dayjs().startOf('week').toISOString(),
-      end_date: dayjs().endOf('week').toISOString(),
-      limit: 21
-    })
+    const [
+      activitiesPromise,
+      lastActivitiesPromise,
+      latestCheckpointPromise,
+      isUserManageStudentPromise,
+      checkpointPromise
+    ] = await Promise.allSettled([
+      activitiesInstance.list({
+        student_id: student.data.id,
+        start_date: day.startOf('week').toISOString(),
+        end_date: day.endOf('week').toISOString(),
+        limit: 21
+      }),
+      activitiesInstance.list({
+        student_id: student.data.id,
+        order_by: 'desc',
+        limit: 10
+      }),
+      activitiesInstance.checkpoint({
+        student_id: student.data.id
+      }),
+      studentsInstance.isUserManagesStudent(Number(studentId)),
+      new Checkpoint().list({
+        student_id: Number(studentId)
+      })
+    ])
 
-    const lastActivities = await activitiesInstance.list({
-      student_id: student.data.id,
-      order_by: 'desc',
-      limit: 10
-    })
+    const activities =
+      activitiesPromise.status === 'fulfilled'
+        ? activitiesPromise.value
+        : undefined
 
-    const isUserManageStudent = await studentsInstance.isUserManagesStudent(
-      Number(studentId)
-    )
+    const checkpointData =
+      checkpointPromise.status === 'fulfilled'
+        ? checkpointPromise.value.data?.[0]
+        : undefined
+
+    const lastActivities =
+      lastActivitiesPromise.status === 'fulfilled'
+        ? lastActivitiesPromise.value
+        : undefined
+
+    const isUserManageStudent =
+      isUserManageStudentPromise.status === 'fulfilled'
+        ? isUserManageStudentPromise.value
+        : undefined
+
+    const latestCheckpoint =
+      latestCheckpointPromise.status === 'fulfilled'
+        ? latestCheckpointPromise.value
+        : undefined
 
     pageContent = (
       <>
-        <ActivityPopup activities={lastActivities.data} />
+        <ActivityPopup
+          activities={lastActivities?.data ?? DEFAULT_EMPTY_ARRAY}
+        />
         <Navbar
           text='Detil Santri'
           // FIXME(imballinst): this doesn't go back to the previous path.
@@ -90,14 +137,26 @@ export default async function DetailSantri({
             </CardHeader>
             <CardContent className='flex flex-col p-0 gap-y-3'>
               <ProgressGridWithState
-                activities={activities.data}
+                activities={activities?.data ?? DEFAULT_EMPTY_ARRAY}
                 className='border-none rounded-none'
+                statusProps={{
+                  editable: isUserManageStudent,
+                  status: checkpointData?.status as CheckpointStatus,
+                  parameter: parseParameter(checkpointData),
+                  checkpointId: checkpointData?.id,
+                  lastActivityId: latestCheckpoint?.last_activity_id,
+                  pageCountAccumulation:
+                    latestCheckpoint?.page_count_accumulation,
+                  studentId: Number(studentId),
+                  notes: latestCheckpoint?.notes,
+                  partCount: latestCheckpoint?.part_count
+                }}
               />
             </CardContent>
           </Card>
         </div>
 
-        {isUserManageStudent ? (
+        {isUserManageStudent && latestCheckpoint?.status !== 'inactive' ? (
           <section className='mx-6 mb-6'>
             <h2 className='text-mtmh-grey-base mb-3 font-semibold text-sm'>
               Tambah Input
@@ -129,18 +188,21 @@ export default async function DetailSantri({
         ) : null}
 
         <section className='flex flex-col gap-3 mb-8'>
-          <div className='flex flex-row items-center justify-between px-6'>
-            <h2 className='text-mtmh-m-semibold'>Input Terakhir</h2>
-            <Link
-              className='text-mtmh-sm-semibold text-mtmh-tamarind-base'
-              href={`/ustadz/aktivitas?student_id=${student.data.id}`}
-            >
-              Lihat inputan
-            </Link>
-          </div>
+          {/* FIXME(dio): Add empty state component for last activities. */}
+          {lastActivities?.data && lastActivities?.data.length > 0 && (
+            <div className='flex flex-row items-center justify-between px-6'>
+              <h2 className='text-mtmh-m-semibold'>Input Terakhir</h2>
+              <Link
+                className='text-mtmh-sm-semibold text-mtmh-tamarind-base'
+                href={`/ustadz/aktivitas?student_id=${student.data.id}`}
+              >
+                Lihat semua
+              </Link>
+            </div>
+          )}
 
           <ul className='flex overflow-x-scroll gap-3 px-6 items-start'>
-            {lastActivities.data?.map((item) => {
+            {lastActivities?.data?.map((item) => {
               const tags = item.tags as string[]
               return (
                 <li key={item.id} className='w-[300px] flex-shrink-0 h-full'>

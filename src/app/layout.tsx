@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import { Toaster } from '@/components/Toast/Toaster'
+import { TimezoneSetter } from '@/components/Timezone/Setter'
 
 export const metadata: Metadata = {
   title: 'MTMH',
@@ -15,8 +16,8 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body>
+        <TimezoneSetter />
         {children}
-
         <Toaster />
       </body>
     </html>

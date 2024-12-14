@@ -1,44 +1,20 @@
-import { Layout } from '@/components/Layouts/Santri'
-import { SantriActivityHeader } from '@/components/SantriActivity/Header'
 import { HeaderBackground } from '@/components/Header/Background'
-import { ProgressGridWithState } from '@/components/Progress/ProgressGrid'
-import { Activities } from '@/utils/supabase/models/activities'
-import { getUser } from '@/utils/supabase/get-user'
-import dayjs from '@/utils/dayjs'
-import { Card, CardContent } from '@/components/Card/Card'
+import { Layout } from '@/components/Layouts/Santri'
+import { Navbar } from '@/components/Navbar/Navbar'
+import { ActivityGridSection } from '@/app/santri/aktivitas/components/ActivityGridSection'
+import { LatestActivitiesSection } from '@/app/santri/aktivitas/components/LatestActivitiesSection'
 
 export default async function Aktivitas() {
-  const parentUser = await getUser()
-
-  const activitiesInstance = new Activities()
-  const activities = await activitiesInstance.list({
-    parent_id: parentUser.data?.id,
-    start_date: dayjs().startOf('week').toISOString(),
-    end_date: dayjs().endOf('week').toISOString()
-  })
-
   return (
     <Layout>
       <HeaderBackground />
 
-      <div className='p-4 text-mtmh-l-semibold text-mtmh-neutral-white'>
-        Aktivitas
-      </div>
+      <Navbar text='Aktivitas' />
 
-      <div className='flex flex-col p-6 gap-y-4'>
-        <div className='flex justify-center gap-x-[6.5px] text-mtmh-neutral-white text-mtmh-m-regular'>
-          <SantriActivityHeader />
-        </div>
+      <div className='px-6 space-y-8'>
+        <ActivityGridSection />
 
-        <Card className='bg-mtmh-neutral-white text-mtmh-grey-base shadow-md border border-mtmh-snow-lighter rounded-md'>
-          <CardContent className='flex flex-col p-0 gap-y-3'>
-            <ProgressGridWithState
-              activities={activities.data}
-              className='border-none rounded-none'
-              editable={false}
-            />
-          </CardContent>
-        </Card>
+        <LatestActivitiesSection />
       </div>
     </Layout>
   )

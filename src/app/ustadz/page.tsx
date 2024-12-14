@@ -31,11 +31,14 @@ export default async function Home() {
 
       <div className='flex flex-col gap-y-6 mt-4 py-6'>
         <section className='px-6 gap-y-6 flex flex-col'>
-          <HomeHeader displayName={user.data?.name ?? ''} />
+          <HomeHeader displayName={user.data?.name ?? ''} ustadz />
         </section>
 
         <section className='flex flex-col gap-y-3 px-6'>
-          <h2 className='text-mtmh-m-semibold'>Halaqah Hari Ini</h2>
+          {/* FIXME(dio): Add empty state component for halaqah list. */}
+          {halaqahList.data.length > 0 && (
+            <h2 className='text-mtmh-m-semibold'>Halaqah Hari Ini</h2>
+          )}
 
           {halaqahList?.kind === 'ustadz' && (
             <ul className='flex flex-col gap-y-3'>
@@ -75,15 +78,18 @@ export default async function Home() {
         </section>
 
         <section className='flex flex-col gap-3'>
-          <div className='flex flex-row items-center justify-between px-6'>
-            <h2 className='text-mtmh-m-semibold'>Input Terakhir</h2>
-            <Link
-              className='text-mtmh-sm-semibold text-mtmh-tamarind-base'
-              href='/ustadz/aktivitas'
-            >
-              Lihat semua
-            </Link>
-          </div>
+          {/* FIXME(dio): Add empty state component for activity list. */}
+          {activityList.data && activityList.data.length > 0 && (
+            <div className='flex flex-row items-center justify-between px-6'>
+              <h2 className='text-mtmh-m-semibold'>Input Terakhir</h2>
+              <Link
+                className='text-mtmh-sm-semibold text-mtmh-tamarind-base'
+                href='/ustadz/aktivitas'
+              >
+                Lihat semua
+              </Link>
+            </div>
+          )}
 
           <ul className='flex overflow-x-scroll gap-3 px-6 items-start'>
             {activityList.data?.map((item) => {

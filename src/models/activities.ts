@@ -41,3 +41,5 @@ export type ActivityEntry = NonNullable<
 export type ActivityChartEntry = Awaited<
   ReturnType<Activities['chart']>
 >[number]
+
+export type MappedActivityStatus = { [key in ActivityTypeKey]?: ActivityStatus }

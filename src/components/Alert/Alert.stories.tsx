@@ -12,7 +12,7 @@ export function BottomNavbarStory() {
       </Alert>
 
       <Alert variant='warning'>
-        <CircleAlert size={16} />
+        <CircleAlert aria-hidden size={16} />
         <AlertDescription>Mohon data dilengkapi.</AlertDescription>
       </Alert>
 

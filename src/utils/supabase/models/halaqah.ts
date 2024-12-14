@@ -1,7 +1,8 @@
 import { Base } from './base'
 import { RoleFilter } from '@/models/supabase/models/filter'
 import { ApiError } from '@/utils/api-error'
-import dayjsGmt7 from '@/utils/dayjs-gmt7'
+import dayjs from '@/utils/dayjs'
+import getTimezoneInfo from '@/utils/get-timezone-info'
 interface GetFilter extends RoleFilter {
   start_date?: string
   end_date?: string
@@ -9,9 +10,11 @@ interface GetFilter extends RoleFilter {
 
 export class Halaqah extends Base {
   async list(filter: GetFilter = {}) {
+    const tz = await getTimezoneInfo()
+    const day = dayjs().tz(tz)
     const {
-      start_date = dayjsGmt7().startOf('day').toISOString(),
-      end_date = dayjsGmt7().endOf('day').toISOString(),
+      start_date = day.startOf('day').utc().toISOString(),
+      end_date = day.endOf('day').utc().toISOString(),
       student_id,
       ustadz_id
     } = filter ?? {}
@@ -26,7 +29,7 @@ export class Halaqah extends Base {
             id,
             name,
             class,
-            students!inner(parent_id)  
+            students!inner(parent_id)
           `
         )
         .eq('students.parent_id', student_id)
@@ -142,9 +145,12 @@ export class Halaqah extends Base {
   }
 
   async get(id: number, filter?: GetFilter) {
+    const tz = await getTimezoneInfo()
+    const day = dayjs().tz(tz)
+
     const {
-      start_date = dayjsGmt7().startOf('day').toISOString(),
-      end_date = dayjsGmt7().endOf('day').toISOString()
+      start_date = day.startOf('day').utc().toISOString(),
+      end_date = day.endOf('day').utc().toISOString()
     } = filter ?? {}
 
     let query = (await this.supabase)

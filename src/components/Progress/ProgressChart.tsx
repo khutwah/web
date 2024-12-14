@@ -19,7 +19,7 @@ import {
 } from '@/components/Chart/Chart'
 import { ActivityChartEntry, GLOBAL_TARGET_PAGE } from '@/models/activities'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../Tabs/Tabs'
-import dayjsGmt7 from '@/utils/dayjs-gmt7'
+import dayjsClientSideLocal from '@/utils/dayjs-client-side-local'
 import { useState } from 'react'
 import dayjs, { Dayjs } from '@/utils/dayjs'
 import { useRouter } from 'next/navigation'
@@ -104,7 +104,10 @@ function Subchart({
   datePeriod
 }: Pick<Props, 'activities' | 'datePeriod'>) {
   const [currentDatetime] = useState(() =>
-    dayjsGmt7().startOf(datePeriod === 'bulan' ? 'month' : 'week')
+    // This is on client-side. Hence, new Date() here gets the data from the client, not the server.
+    dayjsClientSideLocal(new Date().toISOString()).startOf(
+      datePeriod === 'bulan' ? 'month' : 'week'
+    )
   )
 
   return (
@@ -133,7 +136,7 @@ function Subchart({
               // fill-mtmh-grey-lightest
               fill: '#A2A2A2'
             }}
-            tickFormatter={(value) => dayjsGmt7(value).format('D/M')}
+            tickFormatter={(value) => dayjsClientSideLocal(value).format('D/M')}
           >
             <Label value='Tanggal' position='insideBottom' offset={-10} />
           </XAxis>
@@ -226,7 +229,8 @@ function formatChartTimerange(
 }
 
 function formatChartXAxis(dateString?: string) {
-  return dayjsGmt7(dateString ? new Date(dateString) : undefined)
+  // This is on client-side. Hence, new Date() here gets the data from the client, not the server.
+  return dayjsClientSideLocal(dateString || new Date().toISOString())
     .startOf('day')
     .toISOString()
 }

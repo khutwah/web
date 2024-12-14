@@ -3,12 +3,12 @@
 import { Students } from '@/utils/supabase/models/students'
 import { Activities } from '@/utils/supabase/models/activities'
 import { useContext, useMemo } from 'react'
-import { ActivityTypeKey } from '@/models/activities'
+import { MappedActivityStatus } from '@/models/activities'
 import {
   SantriCard,
   SantriCardSkeleton
 } from '../../../../components/SantriCard/SantriCard'
-import SampleSantriAvatar from '@/assets/sample-ustadz-photo.png'
+import SampleSantriAvatar from '@/assets/sample-santri-photo.png'
 import { MENU_PATH_RECORD } from '@/utils/menus/ustadz'
 import { SearchContext } from '../Search/SearchProvider'
 
@@ -21,7 +21,7 @@ interface Props {
 }
 
 type StudentRecordValue = NonNullable<Props['students']>[number] & {
-  activities: ActivityTypeKey[]
+  activities: MappedActivityStatus[]
 }
 
 export function SantriList({
@@ -41,9 +41,9 @@ export function SantriList({
     for (const activity of activities) {
       if (!activity.student_id || !studentRecord[activity.student_id]) continue
 
-      studentRecord[activity.student_id].activities.push(
-        activity.type as ActivityTypeKey
-      )
+      studentRecord[activity.student_id].activities.push({
+        [activity.type]: activity.status
+      })
     }
 
     return Object.values(studentRecord)

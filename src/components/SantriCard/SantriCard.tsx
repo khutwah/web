@@ -2,12 +2,12 @@ import Link from 'next/link'
 import Image, { ImageProps } from 'next/image'
 import { useId } from 'react'
 
-import { ActivityTypeKey } from '@/models/activities'
+import { ActivityTypeKey, MappedActivityStatus } from '@/models/activities'
 import { ActivityBadge } from '@/components/Badge/ActivityBadge'
 import { Skeleton } from '../Skeleton/Skeleton'
 
 interface SantriCardProps {
-  activities: Array<ActivityTypeKey>
+  activities: Array<MappedActivityStatus>
   avatarUrl: ImageProps['src']
   halaqahName?: string
   href: string
@@ -68,13 +68,18 @@ export function SantriCard({
             </div>
             <div className='flex flex-wrap gap-1'>
               {ACTIVITY_TYPES.map((activityKey) => {
-                const isStudentPresent = activities.includes(activityKey)
+                const selectedActivity = activities.find(
+                  (activity) => activity[activityKey]
+                )
+                const isStudentPresent = selectedActivity !== undefined
+                const isDraft = selectedActivity?.[activityKey] === 'draft'
 
                 return (
                   <ActivityBadge
                     key={activityKey}
                     type={activityKey}
                     isStudentPresent={isStudentPresent}
+                    isDraft={isDraft}
                   />
                 )
               })}
