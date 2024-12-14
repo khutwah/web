@@ -96,6 +96,7 @@ export const ComboboxButton = forwardRef<
     </Button>
   )
 })
+ComboboxButton.displayName = 'ComboboxButton'
 
 function ComboboxSearch({
   searchPlaceholder,
