@@ -120,7 +120,7 @@ export function ActivityCard({
         {status === ActivityStatus.draft && (
           <CardFooter>
             <Alert variant='warning'>
-              <CircleAlert size={16} />
+              <CircleAlert aria-hidden size={16} />
               <AlertDescription>
                 Aktivitas {type} ini perlu dilengkapi.
               </AlertDescription>

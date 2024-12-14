@@ -17,6 +17,7 @@ import { ActivityStatus, ActivityTypeKey } from '@/models/activities'
 import { Checkpoint } from '@/utils/supabase/models/checkpoint'
 import { CheckpointStatus } from '@/models/checkpoint'
 import { parseParameter } from '@/utils/parse-parameter'
+import getTimezoneInfo from '@/utils/get-timezone-info'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const DEFAULT_EMPTY_ARRAY: any[] = []
@@ -38,6 +39,9 @@ export default async function DetailSantri({
   if (!student.data) {
     pageContent = <div>Unexpected error: {student.error?.message}</div>
   } else {
+    // This gets the current day in the client's timezone.
+    const tz = await getTimezoneInfo()
+    const day = dayjs().tz(tz)
     const activitiesInstance = new Activities()
     const [
       activitiesPromise,
@@ -48,8 +52,8 @@ export default async function DetailSantri({
     ] = await Promise.allSettled([
       activitiesInstance.list({
         student_id: student.data.id,
-        start_date: dayjs().startOf('week').toISOString(),
-        end_date: dayjs().endOf('week').toISOString(),
+        start_date: day.startOf('week').toISOString(),
+        end_date: day.endOf('week').toISOString(),
         limit: 21
       }),
       activitiesInstance.list({
