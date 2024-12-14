@@ -102,8 +102,8 @@ export function FormPresent(props: FormProps) {
               onChange={(value) =>
                 setValue('start_surah', Number(value), { shouldValidate: true })
               }
-              placeholder='Pilih Surah'
-              searchPlaceholder='Cari Surah'
+              placeholder='Pilih Surat'
+              searchPlaceholder='Cari Surat'
             />
           </div>
           <div className='basis-1/4'>
