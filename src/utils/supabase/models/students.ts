@@ -44,6 +44,18 @@ export class Students extends Base {
     return result
   }
 
+  async isPinSubmitted(virtual_account: string) {
+    const query = (await this.supabase)
+      .from('students')
+      .select('id')
+      .eq('virtual_account', virtual_account)
+      .not('pin', 'is', null)
+      .limit(1)
+
+    const response = await query.single()
+    return Boolean(response.data)
+  }
+
   async getHalaqahByUstad({
     ustadz_id,
     halaqahIds

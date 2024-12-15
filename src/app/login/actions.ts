@@ -51,7 +51,7 @@ export async function login(_prevState: unknown, formData: FormData) {
       }
     } else {
       /**
-       * Ustad / Admin sign in
+       * Ustadz / Admin sign in
        */
       await loginSupabase({
         email: data.username,
