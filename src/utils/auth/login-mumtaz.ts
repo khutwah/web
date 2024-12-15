@@ -1,4 +1,8 @@
-import { MUMTAZ_AUTH_API, TEMPORARY_PIN_PAGE_ID_COOKIE } from '@/models/auth'
+import {
+  MUMTAZ_AUTH_API,
+  TEMPORARY_PIN_PAGE_ID_COOKIE,
+  PIN_IS_SUBMMITTED
+} from '@/models/auth'
 import { LoginMumtazArgs } from '@/models/login-mumtaz'
 import { registerStudent } from './register-user'
 import { Students } from '../supabase/models/students'
@@ -48,6 +52,7 @@ export async function successLoginStudentCallback(
     virtual_account: mumtazResponse.virtual_account
   })
   const user = studentResult.data?.[0]
+  const cookie = await cookies()
 
   if (!user) {
     // sign up
@@ -56,6 +61,10 @@ export async function successLoginStudentCallback(
       name: mumtazResponse.name,
       password: process.env.DEFAULT_STUDENT_PASSWORD!,
       virtual_account: mumtazResponse.virtual_account
+    })
+    cookie.set(PIN_IS_SUBMMITTED, 'false', {
+      httpOnly: true,
+      secure: true
     })
     return '/get-started'
   }
@@ -66,6 +75,20 @@ export async function successLoginStudentCallback(
     email: emailStudent,
     password: process.env.DEFAULT_STUDENT_PASSWORD!
   })
+
+  const isPinSubmitted = await student.isPinSubmitted(
+    mumtazResponse.virtual_account
+  )
+
+  if (isPinSubmitted) {
+    cookie.delete(PIN_IS_SUBMMITTED)
+  } else {
+    cookie.set(PIN_IS_SUBMMITTED, 'false', {
+      httpOnly: true,
+      secure: true
+    })
+    return '/get-started'
+  }
 
   return '/'
 }

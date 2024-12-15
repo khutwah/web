@@ -2,10 +2,11 @@
 
 import { useEffect, useCallback } from 'react'
 import { useForm } from 'react-hook-form'
-import { Loader2 } from 'lucide-react'
+import { CircleAlert, Loader2 } from 'lucide-react'
 import { useActionState, startTransition } from 'react'
 import { Button } from '@/components/Button/Button'
 import { PinInput } from '@/components/Pin/Input'
+import { useToast } from '@/hooks/useToast'
 
 interface Payload {
   pin: string
@@ -19,14 +20,54 @@ interface PinForm {
 }
 
 export function PinForm({ buttonText, action, isConfirmationStep }: PinForm) {
-  const [state, formAction] = useActionState(
-    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+  const { toast } = useToast()
+
+  const [, formAction] = useActionState(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async (previousState: any, formData: FormData) => {
-      return action(previousState, formData)
+      try {
+        const result = await action(previousState, formData)
+        if (result?.message && !result.success) {
+          toast({
+            description: (
+              <div className='flex gap-x-4'>
+                <CircleAlert />
+
+                <div>success {result?.message}</div>
+              </div>
+            ),
+            duration: 5000,
+            className: 'p-4 bg-mtmh-error-error text-mtmh-neutral-white'
+          })
+        }
+        return result
+      } catch (error) {
+        const errorMessage =
+          error instanceof Error ? error.message : String(error)
+
+        // FIXME: This is a temporary fix to handle the NEXT_REDIRECT error.
+        // We should not catch here. But, this is a precaution to prevent the app from crashing.
+        // Ref: https://nextjs.org/docs/app/building-your-application/routing/redirecting#redirect-function.
+        if (errorMessage === 'NEXT_REDIRECT') {
+          return { message: '', success: true }
+        }
+        toast({
+          description: (
+            <div className='flex gap-x-4'>
+              <CircleAlert />
+
+              <div>catch {errorMessage}</div>
+            </div>
+          ),
+          duration: 5000,
+          className: 'p-4 bg-mtmh-error-error text-mtmh-neutral-white'
+        })
+        return { message: 'An unexpected error occurred', success: false }
+      }
     },
     {
       message: '',
-      timestamp: 0
+      success: false
     }
   )
 
@@ -39,12 +80,6 @@ export function PinForm({ buttonText, action, isConfirmationStep }: PinForm) {
   const clearPin = useCallback(() => {
     reset({ pin: '' })
   }, [reset])
-
-  useEffect(() => {
-    if (state.message === 'mismatch') {
-      clearPin()
-    }
-  }, [state.message, state.timestamp, clearPin])
 
   useEffect(() => {
     if (isConfirmationStep) {
