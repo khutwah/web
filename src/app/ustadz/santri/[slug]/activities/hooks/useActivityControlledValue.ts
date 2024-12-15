@@ -40,13 +40,6 @@ export function useActivityControlledValue({
   }, [autofillSurah, startVerse])
 
   useSecondEffect(() => {
-    if (startSurah) setValue('start_verse', 0)
-  }, [startSurah])
-  useSecondEffect(() => {
-    if (endSurah) setValue('end_verse', 0)
-  }, [endSurah])
-
-  useSecondEffect(() => {
     if (startSurah && startVerse && endSurah && endVerse) {
       ;(async function () {
         const [start, end] = await Promise.all([
