@@ -23,7 +23,7 @@ export default function AgendaCard({
     // FIXME(dio): We need to have a proper URL for the following Link.
     <Link href={`?agenda=${id}`}>
       <Card className='max-w-2xl overflow-hidden relative group'>
-        <div className='absolute inset-0 z-0 transition-transform duration-500 group-active:brightness-75'>
+        <div className='absolute inset-0 transition-transform duration-500 group-active:brightness-75'>
           <Image
             src='https://images.unsplash.com/photo-1641069419212-2ba5f8de1dcd?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ix'
             alt='Background image'
@@ -32,7 +32,7 @@ export default function AgendaCard({
             priority
           />
         </div>
-        <div className='relative z-10 flex flex-col h-full'>
+        <div className='relative flex flex-col h-full'>
           <CardContent className='flex-grow p-6 bg-gradient-to-b from-black/70 via-black/50 to-transparent text-white'>
             <div className='flex justify-between items-start'>
               <div className='space-y-3'>
