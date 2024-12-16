@@ -206,6 +206,84 @@ export type Database = {
         }
         Relationships: []
       }
+      lajnah: {
+        Row: {
+          created_at: string | null
+          end_surah_number: number | null
+          end_verse_number: number | null
+          final_mark: string | null
+          high_mistake_count: number | null
+          id: number
+          low_mistake_count: number | null
+          medium_mistake_count: number | null
+          notes: string | null
+          parent_lajnah_id: number | null
+          session_end: string | null
+          session_name: string | null
+          session_start: string
+          session_type: string
+          start_surah_number: number | null
+          start_verse_number: number | null
+          student_id: number
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          end_surah_number?: number | null
+          end_verse_number?: number | null
+          final_mark?: string | null
+          high_mistake_count?: number | null
+          id?: never
+          low_mistake_count?: number | null
+          medium_mistake_count?: number | null
+          notes?: string | null
+          parent_lajnah_id?: number | null
+          session_end?: string | null
+          session_name?: string | null
+          session_start: string
+          session_type: string
+          start_surah_number?: number | null
+          start_verse_number?: number | null
+          student_id: number
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          end_surah_number?: number | null
+          end_verse_number?: number | null
+          final_mark?: string | null
+          high_mistake_count?: number | null
+          id?: never
+          low_mistake_count?: number | null
+          medium_mistake_count?: number | null
+          notes?: string | null
+          parent_lajnah_id?: number | null
+          session_end?: string | null
+          session_name?: string | null
+          session_start?: string
+          session_type?: string
+          start_surah_number?: number | null
+          start_verse_number?: number | null
+          student_id?: number
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'lajnah_parent_lajnah_id_fkey'
+            columns: ['parent_lajnah_id']
+            isOneToOne: false
+            referencedRelation: 'lajnah'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'lajnah_student_id_fkey'
+            columns: ['student_id']
+            isOneToOne: false
+            referencedRelation: 'students'
+            referencedColumns: ['id']
+          }
+        ]
+      }
       shifts: {
         Row: {
           created_at: string | null
