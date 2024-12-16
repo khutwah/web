@@ -19,7 +19,7 @@ import {
   TabsTrigger
 } from '@/components/Tabs/Tabs'
 import { FormPresent } from '../components/Forms/Present'
-import { MENU_PATH_RECORD } from '@/utils/menus/ustadz'
+import { MENU_USTADZ_PATH_RECORDS } from '@/utils/menus/ustadz'
 import { FormAbsent } from '../components/Forms/Absent'
 import { Checkpoint } from '@/utils/supabase/models/checkpoint'
 import { TAG_DURING_LAJNAH } from '@/models/checkpoint'
@@ -38,7 +38,7 @@ export default async function AddActivity(props: AddActivityProps) {
   const params = await props.params
   const searchParams = await props.searchParams
 
-  const santriPage = `${MENU_PATH_RECORD.santri}/${params.slug}`
+  const santriPage = `${MENU_USTADZ_PATH_RECORDS.santri}/${params.slug}`
 
   if (!searchParams.activity_type || !searchParams.halaqah_id) {
     return redirect(santriPage)

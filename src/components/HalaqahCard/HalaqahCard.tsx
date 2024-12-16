@@ -3,7 +3,7 @@ import { Card, CardContent } from '../Card/Card'
 import { StickyNote } from '../icons'
 import { CircleDashed as HalaqahIcon } from 'lucide-react'
 import { cn } from '@/utils/classnames'
-import { MENU_PATH_RECORD } from '@/utils/menus/ustadz'
+import { MENU_USTADZ_PATH_RECORDS } from '@/utils/menus/ustadz'
 
 interface Props {
   id: number
@@ -24,7 +24,7 @@ export function HalaqahCard({
 }: Props) {
   return (
     // At the moment, the halaqah information is only available for Ustadz role, so we just hardcode the ustadz role here.
-    <Link href={`${MENU_PATH_RECORD.halaqah}/${id}`}>
+    <Link href={`${MENU_USTADZ_PATH_RECORDS.halaqah}/${id}`}>
       <Card
         className={cn(
           'w-full bg-mtmh-neutral-10 text-mtmh-grey-base rounded-lg ',
