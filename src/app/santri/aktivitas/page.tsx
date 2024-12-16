@@ -11,7 +11,7 @@ export default async function Aktivitas() {
 
       <Navbar text='Aktivitas' />
 
-      <div className='px-6 space-y-8'>
+      <div className='px-6 space-y-8 pb-8'>
         <ActivityGridSection />
 
         <LatestActivitiesSection />
