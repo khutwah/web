@@ -1,49 +1,49 @@
 import {
-  HomeIcon as HomeIconSolid,
-  BookOpenIcon as BookOpenIconSolud,
-  PresentationChartLineIcon as PresentationChartLineIconSolid,
-  Cog6ToothIcon as Cog6ToothIconSolid
-} from '@heroicons/react/24/solid'
+  Sofa as BerandaActive,
+  BookOpenText as AktivitasActive,
+  ChartNoAxesCombined as PencapaianActive,
+  ToggleRight as PengaturanActive
+} from 'lucide-react'
 import {
-  HomeIcon,
-  BookOpenIcon,
-  PresentationChartLineIcon,
-  Cog6ToothIcon
-} from '@heroicons/react/24/outline'
+  Armchair as Beranda,
+  BookOpen as Aktivitas,
+  ChartNoAxesColumnIncreasing as Pencapaian,
+  ToggleLeft as Pengaturan
+} from 'lucide-react'
 import { BottomNavbarLink } from '@/models/bottom-navbar'
 import { Menu } from '@/models/menus'
 
 export const ACTIVE_ICONS: Record<string, BottomNavbarLink['icon']> = {
-  '/santri': HomeIconSolid,
-  '/santri/aktivitas': BookOpenIconSolud,
-  '/santri/pencapaian': PresentationChartLineIconSolid,
-  '/santri/pengaturan': Cog6ToothIconSolid
+  '/santri': BerandaActive,
+  '/santri/aktivitas': AktivitasActive,
+  '/santri/pencapaian': PencapaianActive,
+  '/santri/pengaturan': PengaturanActive
 }
 
 export const MENUS: Menu[] = [
   {
-    icon: HomeIcon,
+    icon: Beranda,
     text: 'Beranda',
     href: '/santri',
     pattern: /^\/santri$/,
     active: false
   },
   {
-    icon: BookOpenIcon,
+    icon: Aktivitas,
     text: 'Aktivitas',
     href: '/santri/aktivitas',
     pattern: /^\/santri\/aktivitas$/,
     active: false
   },
   {
-    icon: PresentationChartLineIcon,
+    icon: Pencapaian,
     text: 'Pencapaian',
     href: '/santri/pencapaian',
     pattern: /^\/santri\/pencapaian$/,
     active: false
   },
   {
-    icon: Cog6ToothIcon,
+    icon: Pengaturan,
     text: 'Pengaturan',
     href: '/santri/pengaturan',
     pattern: /^\/santri\/pengaturan$/,

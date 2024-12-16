@@ -1,5 +1,5 @@
 import { NavbarProps } from '@/models/navbar'
-import { ChevronLeftIcon } from '@heroicons/react/24/solid'
+import { ChevronLeft } from 'lucide-react'
 
 export function Navbar(props: NavbarProps) {
   const { text, onClickBackButton, rightComponent } = props
@@ -10,7 +10,7 @@ export function Navbar(props: NavbarProps) {
     >
       {onClickBackButton ? (
         <button onClick={onClickBackButton}>
-          <ChevronLeftIcon className='size-6 text-mtmh-neutral-white' />
+          <ChevronLeft className='size-6 text-mtmh-neutral-white' />
         </button>
       ) : null}
       <h1 className='text-mtmh-title-medium truncate'>{text}</h1>
