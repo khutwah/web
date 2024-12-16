@@ -1,15 +1,15 @@
 import {
-  HomeIcon as HomeIconSolid,
+  Armchair as HomeIconSolid,
   BookOpenIcon as BookOpenIconSolud,
-  PresentationChartLineIcon as PresentationChartLineIconSolid,
-  Cog6ToothIcon as Cog6ToothIconSolid
-} from '@heroicons/react/24/solid'
+  ChartArea as PresentationChartLineIconSolid,
+  Settings2 as Cog6ToothIconSolid
+} from 'lucide-react'
 import {
-  HomeIcon,
+  Armchair as HomeIcon,
   BookOpenIcon,
-  PresentationChartLineIcon,
-  Cog6ToothIcon
-} from '@heroicons/react/24/outline'
+  ChartArea as PresentationChartLineIcon,
+  Settings2 as Cog6ToothIcon
+} from 'lucide-react'
 import { BottomNavbarLink } from '@/models/bottom-navbar'
 import { Menu } from '@/models/menus'
 

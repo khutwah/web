@@ -1,11 +1,7 @@
 import { BottomNavbar } from './BottomNavbar'
 
-import { HomeIcon, UserIcon as UserSolid } from '@heroicons/react/24/solid'
-import {
-  UserIcon,
-  CalendarIcon,
-  Cog6ToothIcon
-} from '@heroicons/react/24/outline'
+import { HomeIcon, UsersIcon as UserSolid } from 'lucide-react'
+import { UserIcon, CalendarIcon, Settings2Icon } from 'lucide-react'
 
 export function BottomNavbarStory() {
   return (
@@ -31,7 +27,7 @@ export function BottomNavbarStory() {
             active: false
           },
           {
-            icon: Cog6ToothIcon,
+            icon: Settings2Icon,
             text: 'Pengaturan',
             href: '/settings',
             active: false
@@ -60,7 +56,7 @@ export function BottomNavbarStory() {
             active: false
           },
           {
-            icon: Cog6ToothIcon,
+            icon: Settings2Icon,
             text: 'Pengaturan',
             href: '/settings',
             active: false

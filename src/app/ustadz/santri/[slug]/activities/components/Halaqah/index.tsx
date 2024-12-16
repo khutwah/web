@@ -7,7 +7,7 @@ import {
 } from '@/components/Card/Card'
 import { ActivityTypeKey } from '@/models/activities'
 import { FormattedLocalDate } from '@/components/Local'
-import { BookmarkIcon, BookOpenIcon } from '@heroicons/react/24/outline'
+import { BookmarkIcon, BookOpenIcon } from 'lucide-react'
 
 interface HalaqahCardProps {
   date: string

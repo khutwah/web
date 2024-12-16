@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { Card, CardContent } from '../Card/Card'
 import { StickyNote } from '../icons'
-import { HalaqahIcon } from '@/components/HalaqahIcon/HalaqahIcon'
+import { CircleDashed as HalaqahIcon } from 'lucide-react'
 import { cn } from '@/utils/classnames'
 import { MENU_PATH_RECORD } from '@/utils/menus/ustadz'
 
@@ -37,7 +37,7 @@ export function HalaqahCard({
         <CardContent className='flex flex-col p-4 gap-y-3'>
           <div className='flex gap-x-3'>
             <div>
-              <HalaqahIcon className='fill-mtmh-grey-lighter' />
+              <HalaqahIcon />
             </div>
 
             <div className='flex flex-col gap-y-1'>
