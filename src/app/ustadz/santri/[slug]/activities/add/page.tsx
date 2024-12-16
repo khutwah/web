@@ -23,6 +23,7 @@ import { MENU_PATH_RECORD } from '@/utils/menus/ustadz'
 import { FormAbsent } from '../components/Forms/Absent'
 import { Checkpoint } from '@/utils/supabase/models/checkpoint'
 import { TAG_DURING_LAJNAH } from '@/models/checkpoint'
+import { addQueryParams } from '@/utils/url'
 
 interface AddActivityProps {
   params: Promise<{
@@ -31,6 +32,8 @@ interface AddActivityProps {
   searchParams: Promise<{
     activity_type: ActivityTypeKey
     halaqah_id: number
+    from: string
+    id: string
   }>
 }
 
@@ -38,7 +41,10 @@ export default async function AddActivity(props: AddActivityProps) {
   const params = await props.params
   const searchParams = await props.searchParams
 
-  const santriPage = `${MENU_PATH_RECORD.santri}/${params.slug}`
+  const santriPage = addQueryParams(
+    `${MENU_PATH_RECORD.santri}/${params.slug}`,
+    { from: searchParams.from, id: searchParams.id }
+  )
 
   if (!searchParams.activity_type || !searchParams.halaqah_id) {
     return redirect(santriPage)

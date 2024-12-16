@@ -11,6 +11,7 @@ import {
 import SampleSantriAvatar from '@/assets/sample-santri-photo.png'
 import { MENU_PATH_RECORD } from '@/utils/menus/ustadz'
 import { SearchContext } from '../Search/SearchProvider'
+import { addFromQueryString, FromQueryParams } from '@/utils/url'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const DEFAULT_EMPTY_ARRAY: any[] = []
@@ -18,6 +19,7 @@ const DEFAULT_EMPTY_ARRAY: any[] = []
 interface Props {
   students: Awaited<ReturnType<Students['list']>>['data']
   activities: Awaited<ReturnType<Activities['list']>>['data']
+  returnTo?: FromQueryParams
 }
 
 type StudentRecordValue = NonNullable<Props['students']>[number] & {
@@ -26,7 +28,8 @@ type StudentRecordValue = NonNullable<Props['students']>[number] & {
 
 export function SantriList({
   students: studentsProp,
-  activities: activitiesProp
+  activities: activitiesProp,
+  returnTo
 }: Props) {
   const defaultStudentsWithActivities = useMemo(() => {
     const students = studentsProp ?? DEFAULT_EMPTY_ARRAY
@@ -65,7 +68,7 @@ export function SantriList({
           <SantriCard
             activities={student.activities}
             avatarUrl={SampleSantriAvatar}
-            href={`${MENU_PATH_RECORD.santri}/${student.id}`}
+            href={`${MENU_PATH_RECORD.santri}/${student.id}${addFromQueryString(returnTo)}`}
             name={student.name!}
           />
         </li>
