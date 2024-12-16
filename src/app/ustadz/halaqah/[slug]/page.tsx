@@ -2,7 +2,6 @@ import { Card, CardContent } from '@/components/Card/Card'
 import { Layout } from '@/components/Layouts/Ustadz'
 import { Navbar } from '@/components/Navbar/Navbar'
 import { Halaqah } from '@/utils/supabase/models/halaqah'
-import { navigateToHalaqahList } from './actions'
 import { SantriList } from '@/app/ustadz/components/SantriList/SantriList'
 import { Students } from '@/utils/supabase/models/students'
 import { Activities } from '@/utils/supabase/models/activities'
@@ -12,13 +11,18 @@ import getTimezoneInfo from '@/utils/get-timezone-info'
 import dayjs from '@/utils/dayjs'
 import { Alert, AlertDescription } from '@/components/Alert/Alert'
 import { CircleAlert } from 'lucide-react'
+import { MENU_USTADZ_PATH_RECORDS } from '@/utils/menus/ustadz'
+import { convertSearchParamsToPath } from '@/utils/url'
 
 export default async function DetailHalaqah({
-  params: paramsPromise
+  params: paramsPromise,
+  searchParams: searchParamsPromise
 }: {
   params: Promise<{ slug: string }>
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
   const params = await paramsPromise
+  const searchParams = await searchParamsPromise
 
   const halaqah = new Halaqah()
   const halaqahInfo = await halaqah.get(Number(params.slug))
@@ -47,9 +51,14 @@ export default async function DetailHalaqah({
         end_date: day.endOf('day').utc().toISOString()
       })
     ])
+
+    const returnTo = convertSearchParamsToPath(searchParams)
     pageContent = (
       <>
-        <Navbar text={halaqahInfo.data.name ?? ''} />
+        <Navbar
+          text={halaqahInfo.data.name ?? ''}
+          returnTo={`${MENU_USTADZ_PATH_RECORDS.home}${returnTo}`}
+        />
 
         <div className='bg-mtmh-red-base w-full p-4'>
           <Card className='bg-mtmh-neutral-white text-mtmh-grey-base shadow-md'>
@@ -79,7 +88,11 @@ export default async function DetailHalaqah({
                 Menampilkan data untuk hari {day.format('dddd, D MMMM YYYY')}.
               </AlertDescription>
             </Alert>
-            <SantriList students={students.data} activities={activities.data} />
+            <SantriList
+              students={students.data}
+              activities={activities.data}
+              from={{ from: 'halaqah', id: halaqahInfo.data.id }}
+            />
           </SearchProvider>
         </div>
       </>

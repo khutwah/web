@@ -4,6 +4,7 @@ import { StickyNote } from '../icons'
 import { CircleDashed as HalaqahIcon } from 'lucide-react'
 import { cn } from '@/utils/classnames'
 import { MENU_USTADZ_PATH_RECORDS } from '@/utils/menus/ustadz'
+import { addQueryParams } from '@/utils/url'
 
 interface Props {
   id: number
@@ -12,6 +13,7 @@ interface Props {
   substituteeName?: string
   hasGutter?: boolean
   isOwner?: boolean
+  searchParams?: { [key: string]: string | string[] | undefined }
 }
 
 export function HalaqahCard({
@@ -20,11 +22,17 @@ export function HalaqahCard({
   venue,
   substituteeName,
   isOwner,
-  hasGutter
+  hasGutter,
+  searchParams
 }: Props) {
   return (
     // At the moment, the halaqah information is only available for Ustadz role, so we just hardcode the ustadz role here.
-    <Link href={`${MENU_USTADZ_PATH_RECORDS.halaqah}/${id}`}>
+    <Link
+      href={addQueryParams(
+        `${MENU_USTADZ_PATH_RECORDS.halaqah}/${id}`,
+        searchParams!
+      )}
+    >
       <Card
         className={cn(
           'w-full bg-mtmh-neutral-10 text-mtmh-grey-base rounded-lg ',
