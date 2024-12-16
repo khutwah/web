@@ -9,7 +9,7 @@ import {
   SantriCardSkeleton
 } from '../../../../components/SantriCard/SantriCard'
 import SampleSantriAvatar from '@/assets/sample-santri-photo.png'
-import { MENU_PATH_RECORD } from '@/utils/menus/ustadz'
+import { MENU_USTADZ_PATH_RECORDS } from '@/utils/menus/ustadz'
 import { SearchContext } from '../Search/SearchProvider'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -65,7 +65,7 @@ export function SantriList({
           <SantriCard
             activities={student.activities}
             avatarUrl={SampleSantriAvatar}
-            href={`${MENU_PATH_RECORD.santri}/${student.id}`}
+            href={`${MENU_USTADZ_PATH_RECORDS.santri}/${student.id}`}
             name={student.name!}
           />
         </li>
