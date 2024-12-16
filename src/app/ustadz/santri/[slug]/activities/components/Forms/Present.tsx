@@ -99,9 +99,11 @@ export function FormPresent(props: FormProps) {
             <Combobox
               items={SURAH_ITEMS}
               value={String(startSurah || '')}
-              onChange={(value) =>
+              onChange={(value) => {
                 setValue('start_surah', Number(value), { shouldValidate: true })
-              }
+                // @ts-expect-error - reset field state
+                setValue('start_verse', undefined)
+              }}
               placeholder='Pilih Surat'
               searchPlaceholder='Cari Surat'
             />
@@ -130,9 +132,11 @@ export function FormPresent(props: FormProps) {
             <Combobox
               items={SURAH_ITEMS}
               value={String(endSurah || '')}
-              onChange={(value) =>
+              onChange={(value) => {
                 setValue('end_surah', Number(value), { shouldValidate: true })
-              }
+                // @ts-expect-error - reset field state
+                setValue('end_verse', undefined)
+              }}
               placeholder='Pilih Surah'
               searchPlaceholder='Cari Surah'
             />
