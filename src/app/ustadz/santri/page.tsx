@@ -69,6 +69,7 @@ export default async function Santri() {
               <SantriList
                 students={students.data}
                 activities={activities.data}
+                from={{ from: 'santri' }}
               />
             </Suspense>
           </div>
