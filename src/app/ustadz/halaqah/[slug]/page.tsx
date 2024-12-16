@@ -49,13 +49,7 @@ export default async function DetailHalaqah({
     ])
     pageContent = (
       <>
-        <Navbar
-          text={halaqahInfo.data.name ?? ''}
-          // FIXME(imballinst): this doesn't go back to the previous path.
-          // Kinda wanted to use something like router.back() but it requires to have 'use client',
-          // and since this is server client, it's not possible. So, let's just go to halaqah list for now.
-          onClickBackButton={navigateToHalaqahList}
-        />
+        <Navbar text={halaqahInfo.data.name ?? ''} />
 
         <div className='bg-mtmh-red-base w-full p-4'>
           <Card className='bg-mtmh-neutral-white text-mtmh-grey-base shadow-md'>

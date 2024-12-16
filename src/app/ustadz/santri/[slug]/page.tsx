@@ -102,10 +102,6 @@ export default async function DetailSantri({
         />
         <Navbar
           text='Detil Santri'
-          // FIXME(imballinst): this doesn't go back to the previous path.
-          // Kinda wanted to use something like router.back() but it requires to have 'use client',
-          // and since this is server client, it's not possible. So, let's just go to halaqah list for now.
-          onClickBackButton={navigateToSantriList}
           rightComponent={<NotesIcon className='fill-mtmh-neutral-white' />}
         />
 
