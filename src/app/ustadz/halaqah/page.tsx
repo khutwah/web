@@ -12,7 +12,6 @@ import { Alert, AlertDescription } from '@/components/Alert/Alert'
 import { CircleAlert } from 'lucide-react'
 import getTimezoneInfo from '@/utils/get-timezone-info'
 import dayjs from '@/utils/dayjs'
-import { MENU_PATH_RECORD } from '@/utils/menus/ustadz'
 
 export default async function HalaqahListPage() {
   const tz = await getTimezoneInfo()
@@ -21,7 +20,7 @@ export default async function HalaqahListPage() {
     <Layout>
       <SearchProvider>
         <header className='sticky top-0 bg-mtmh-red-base'>
-          <Navbar text='Halaqah' backPath={`${MENU_PATH_RECORD.home}`} />
+          <Navbar text='Halaqah' />
           <SearchSection
             id='search-halaqah'
             name='search-halaqah'

@@ -20,27 +20,18 @@ import { FormPresent } from '../../components/Forms/Present'
 import { MENU_PATH_RECORD } from '@/utils/menus/ustadz'
 import { FormAbsent } from '../../components/Forms/Absent'
 import { DEFAULT_START } from '@/models/activity-form'
-import { addQueryParams } from '@/utils/url'
 
-interface EditActivityProps {
+interface AddActivityProps {
   params: Promise<{
     slug: number
     id: number
   }>
-  searchParams: Promise<{
-    from: string
-    id: string
-  }>
 }
 
-export default async function EditActivity(props: EditActivityProps) {
+export default async function EditActivity(props: AddActivityProps) {
   const params = await props.params
-  const searchParams = await props.searchParams
 
-  const santriPage = addQueryParams(
-    `${MENU_PATH_RECORD.santri}/${params.slug}`,
-    { from: searchParams.from, id: searchParams.id }
-  )
+  const santriPage = `${MENU_PATH_RECORD.santri}/${params.slug}`
 
   if (!params.id) {
     return redirect(santriPage)

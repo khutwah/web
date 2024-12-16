@@ -9,7 +9,6 @@ interface AddActivityCtaProps extends ButtonProps {
   activityType: ActivityTypeKey
   halaqahId: string
   studentId: string
-  searchParams?: Record<string, string>
 }
 
 const ACTIVITY_TYPE_TO_BUTTON_PROPS: Record<
@@ -37,7 +36,6 @@ export function AddActivityCta({
   activityType,
   halaqahId,
   studentId,
-  searchParams,
   ...buttonProps
 }: AddActivityCtaProps) {
   const { label, className } = ACTIVITY_TYPE_TO_BUTTON_PROPS[activityType]
@@ -51,11 +49,7 @@ export function AddActivityCta({
       <Link
         href={{
           pathname: `/ustadz/santri/${studentId}/activities/add`,
-          query: {
-            activity_type: activityType,
-            halaqah_id: halaqahId,
-            ...searchParams
-          }
+          query: { activity_type: activityType, halaqah_id: halaqahId }
         }}
       >
         <Plus aria-hidden='true' />
