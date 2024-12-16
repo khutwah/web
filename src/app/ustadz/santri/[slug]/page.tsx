@@ -2,7 +2,6 @@ import { Card, CardContent, CardHeader } from '@/components/Card/Card'
 import { AddActivityCta } from '@/components/AddActivityCta/AddActivityCta'
 import { Layout } from '@/components/Layouts/Ustadz'
 import { Navbar } from '@/components/Navbar/Navbar'
-import { navigateToSantriList } from './actions'
 import { Students } from '@/utils/supabase/models/students'
 import { Activities } from '@/utils/supabase/models/activities'
 import dayjs from '@/utils/dayjs'
@@ -18,16 +17,25 @@ import { Checkpoint } from '@/utils/supabase/models/checkpoint'
 import { CheckpointStatus } from '@/models/checkpoint'
 import { parseParameter } from '@/utils/parse-parameter'
 import getTimezoneInfo from '@/utils/get-timezone-info'
+import { MENU_PATH_RECORD } from '@/utils/menus/ustadz'
+import {
+  convertSearchParamsToPath,
+  convertSearchParamsToStringRecords
+} from '@/utils/url'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const DEFAULT_EMPTY_ARRAY: any[] = []
 
 export default async function DetailSantri({
-  params: paramsPromise
+  params: paramsPromise,
+  searchParams: searchParamsPromise
 }: {
   params: Promise<{ slug: string }>
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
   const params = await paramsPromise
+  const searchParams = await searchParamsPromise
+  const searchStringRecords = convertSearchParamsToStringRecords(searchParams)
 
   const studentId = params.slug
   const studentsInstance = new Students()
@@ -52,8 +60,8 @@ export default async function DetailSantri({
     ] = await Promise.allSettled([
       activitiesInstance.list({
         student_id: student.data.id,
-        start_date: day.startOf('week').toISOString(),
-        end_date: day.endOf('week').toISOString(),
+        start_date: day.startOf('week').utc().toISOString(),
+        end_date: day.endOf('week').utc().toISOString(),
         limit: 21
       }),
       activitiesInstance.list({
@@ -95,17 +103,16 @@ export default async function DetailSantri({
         ? latestCheckpointPromise.value
         : undefined
 
+    const backPath = convertSearchParamsToPath(searchParams)
+
     pageContent = (
       <>
         <ActivityPopup
           activities={lastActivities?.data ?? DEFAULT_EMPTY_ARRAY}
         />
         <Navbar
-          text='Detil Santri'
-          // FIXME(imballinst): this doesn't go back to the previous path.
-          // Kinda wanted to use something like router.back() but it requires to have 'use client',
-          // and since this is server client, it's not possible. So, let's just go to halaqah list for now.
-          onClickBackButton={navigateToSantriList}
+          text='Detail Santri'
+          backPath={`${MENU_PATH_RECORD.home}${backPath}`}
           rightComponent={<NotesIcon className='fill-mtmh-neutral-white' />}
         />
 
@@ -168,6 +175,7 @@ export default async function DetailSantri({
                 halaqahId={halaqahId}
                 size='sm'
                 studentId={studentId}
+                searchParams={searchStringRecords}
               />
               <AddActivityCta
                 activityType='Sabqi'
@@ -175,6 +183,7 @@ export default async function DetailSantri({
                 halaqahId={halaqahId}
                 size='sm'
                 studentId={studentId}
+                searchParams={searchStringRecords}
               />
               <AddActivityCta
                 activityType='Manzil'
@@ -182,6 +191,7 @@ export default async function DetailSantri({
                 halaqahId={halaqahId}
                 size='sm'
                 studentId={studentId}
+                searchParams={searchStringRecords}
               />
             </div>
           </section>
