@@ -4,12 +4,13 @@ import { ActivityCard } from '@/components/ActivityCard/ActivityCard'
 import { Skeleton } from '@/components/Skeleton/Skeleton'
 import { StateMessage } from '@/components/StateMessage/StateMessage'
 import { ErrorBoundary } from '@/components/ErrorBoundary/ErrorBoundary'
+import { ActivityPopup } from '@/components/ActivityPopup'
 
 import { ActivityStatus, ActivityTypeKey } from '@/models/activities'
 import { Activities } from '@/utils/supabase/models/activities'
 import { getUser } from '@/utils/supabase/get-user'
 import { dayjs } from '@/utils/dayjs'
-import { ActivityPopup } from '@/components/ActivityPopup'
+import getTimezoneInfo from '@/utils/get-timezone-info'
 
 export function NoteListSection({ period }: { period: 'week' | 'month' }) {
   return (
@@ -40,11 +41,16 @@ type NoteListProps = {
 async function NoteList({ period }: NoteListProps) {
   const user = await getUser()
 
+  // This gets the current day in the client's timezone.
+  const tz = await getTimezoneInfo()
+  const day = dayjs().tz(tz)
+
   const activitiesInstance = new Activities()
   const activities = await activitiesInstance.list({
     parent_id: user.data!.id,
-    start_date: dayjs().startOf(period).toISOString(),
-    end_date: dayjs().endOf(period).toISOString()
+    start_date: day.startOf(period).toISOString(),
+    end_date: day.endOf(period).toISOString(),
+    status: ActivityStatus.completed
   })
 
   if (activities?.data?.length === 0) {
