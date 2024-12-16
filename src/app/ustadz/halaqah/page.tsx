@@ -47,7 +47,7 @@ export default async function HalaqahListPage() {
               </AlertDescription>
             </Alert>
             <section>
-              <h2 className='mb-3 text-mtmh-m-semibold'>Halaqah Anda</h2>
+              <h2 className='mb-3 text-mtmh-m-semibold'>Halaqah Antum</h2>
               <Suspense fallback={<HalaqahListSkeleton />}>
                 <YourHalaqahList />
               </Suspense>

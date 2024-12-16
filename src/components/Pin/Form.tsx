@@ -14,6 +14,7 @@ interface Payload {
 
 interface PinForm {
   buttonText?: string
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   action: (prevState: unknown, formData: FormData) => Promise<any>
   isConfirmationStep?: boolean
 }
@@ -23,43 +24,23 @@ export function PinForm({ buttonText, action, isConfirmationStep }: PinForm) {
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const [, formAction] = useActionState(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async (previousState: any, formData: FormData) => {
-      try {
-        const result = await action(previousState, formData)
-        if (result?.message && !result.success) {
-          toast({
-            description: (
-              <div className='flex gap-x-4'>
-                <CircleAlert />
-                <div>{result?.message}</div>
-              </div>
-            ),
-            duration: 5000,
-            className: 'p-4 bg-mtmh-error-error text-mtmh-neutral-white'
-          })
-        }
-        return result
-      } catch (error) {
-        const errorMessage =
-          error instanceof Error ? error.message : String(error)
-
-        if (errorMessage === 'NEXT_REDIRECT') {
-          return { message: '', success: true }
-        }
+      setIsSubmitting(false)
+      const result = await action(previousState, formData)
+      if (result?.message && !result.success) {
         toast({
           description: (
             <div className='flex gap-x-4'>
               <CircleAlert />
-              <div>{errorMessage}</div>
+              <div>{result?.message}</div>
             </div>
           ),
           duration: 5000,
           className: 'p-4 bg-mtmh-error-error text-mtmh-neutral-white'
         })
-        return { message: 'An unexpected error occurred', success: false }
-      } finally {
-        setIsSubmitting(false)
       }
+      return result
     },
     {
       message: '',
