@@ -1,5 +1,6 @@
-import React, { useRef, KeyboardEvent, useCallback } from 'react'
+import React, { useRef, KeyboardEvent, useCallback, useState } from 'react'
 import { Input } from '@/components/Form/Input'
+import { Checkbox } from '@/components/Form/Checkbox'
 
 interface PinInputProps {
   onChange: (value: string) => void
@@ -8,6 +9,7 @@ interface PinInputProps {
 
 export function PinInput({ onChange, value }: PinInputProps) {
   const inputRefs = useRef<(HTMLInputElement | null)[]>([])
+  const [showPin, setShowPin] = useState(false)
 
   const handleChange = (index: number, inputValue: string) => {
     const newValue = value.split('')
@@ -44,21 +46,36 @@ export function PinInput({ onChange, value }: PinInputProps) {
   )
 
   return (
-    <div className='flex space-x-4' onPaste={handlePaste}>
-      {[...Array(6)].map((_, index) => (
-        <Input
-          key={index}
-          type='password'
-          inputMode='numeric'
-          pattern='\d*'
-          maxLength={1}
-          value={value[index] || ''}
-          onChange={(e) => handleChange(index, e.target.value)}
-          onKeyDown={(e) => handleKeyDown(index, e)}
-          ref={inputRefCallback(index)}
-          className='w-12 h-12 text-center text-2xl'
+    <div className='space-y-4'>
+      <div className='flex space-x-4' onPaste={handlePaste}>
+        {[...Array(6)].map((_, index) => (
+          <Input
+            key={index}
+            type={showPin ? 'text' : 'password'}
+            inputMode='numeric'
+            pattern='\d*'
+            maxLength={1}
+            value={value[index] || ''}
+            onChange={(e) => handleChange(index, e.target.value)}
+            onKeyDown={(e) => handleKeyDown(index, e)}
+            ref={inputRefCallback(index)}
+            className='w-12 h-12 text-center text-2xl'
+          />
+        ))}
+      </div>
+      <div className='flex items-center space-x-2'>
+        <Checkbox
+          id='showPin'
+          checked={showPin}
+          onCheckedChange={(checked) => setShowPin(checked as boolean)}
         />
-      ))}
+        <label
+          htmlFor='showPin'
+          className='text-mtmh-label peer-disabled:cursor-not-allowed peer-disabled:opacity-70 hover:cursor-pointer'
+        >
+          Tampilkan PIN
+        </label>
+      </div>
     </div>
   )
 }

@@ -1,3 +1,4 @@
+import { PIN_IS_SUBMMITTED } from '@/models/auth'
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
@@ -50,10 +51,24 @@ export async function updateSession(request: NextRequest) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
     return NextResponse.redirect(url)
-  } else if (user && request.nextUrl.pathname.startsWith('/login')) {
-    const url = request.nextUrl.clone()
-    url.pathname = '/'
-    return NextResponse.redirect(url)
+  } else if (user) {
+    // When PIN is not submitted, redirect to get-started page.
+    const cookies = request.cookies.getAll()
+    const pin = cookies.find(({ name }) => name === PIN_IS_SUBMMITTED)
+    if (
+      !request.nextUrl.pathname.startsWith('/get-started') &&
+      pin?.value === 'false'
+    ) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/get-started'
+      return NextResponse.redirect(url)
+    }
+
+    if (request.nextUrl.pathname.startsWith('/login')) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/'
+      return NextResponse.redirect(url)
+    }
   }
 
   // IMPORTANT: You *must* return the supabaseResponse object as it is. If you're

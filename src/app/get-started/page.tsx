@@ -3,12 +3,10 @@
 import { useState, useCallback } from 'react'
 import { PinForm } from '@/components/Pin/Form'
 import { action } from './actions'
-import { useToast } from '@/hooks/useToast'
 
 export default function PinPage() {
   const [step, setStep] = useState<'initial' | 'confirmation'>('initial')
   const [initialPin, setInitialPin] = useState('')
-  const { toast } = useToast()
 
   const handleInitialSubmit = useCallback(
     // eslint-disable-next-line  @typescript-eslint/no-explicit-any
@@ -27,15 +25,13 @@ export default function PinPage() {
       if (confirmedPin === initialPin) {
         return action(_prev, formData)
       } else {
-        toast({
-          description: 'PIN tidak cocok. Silakan coba lagi.',
-          duration: 5000,
-          className: 'p-4 bg-mtmh-error-error text-mtmh-neutral-white'
-        })
-        return { message: 'mismatch', timestamp: Date.now() }
+        return {
+          message: 'PIN tidak cocok. Silakan coba lagi.',
+          success: false
+        }
       }
     },
-    [initialPin, toast]
+    [initialPin]
   )
 
   return (

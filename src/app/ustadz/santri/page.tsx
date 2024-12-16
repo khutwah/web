@@ -31,8 +31,8 @@ export default async function Santri() {
     }),
     activitiesInstance.list({
       ustadz_id: user.data?.id,
-      start_date: day.startOf('day').toISOString(),
-      end_date: day.endOf('day').toISOString()
+      start_date: day.startOf('day').utc().toISOString(),
+      end_date: day.endOf('day').utc().toISOString()
     })
   ])
 
@@ -69,6 +69,7 @@ export default async function Santri() {
               <SantriList
                 students={students.data}
                 activities={activities.data}
+                from={{ from: 'santri' }}
               />
             </Suspense>
           </div>

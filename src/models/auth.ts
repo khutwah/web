@@ -18,3 +18,4 @@ export const PAGE_BY_ROLE = {
 export const DEFAULT_EMAIL_DOMAIN = 'app.minhajulhaq.sch.id'
 
 export const TEMPORARY_PIN_PAGE_ID_COOKIE = '_sbex2'
+export const PIN_IS_SUBMMITTED = '_pin'

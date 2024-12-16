@@ -43,6 +43,7 @@ export function HalaqahList({ items }: HalaqahListProps) {
             venue={venue}
             substituteeName={substituteeName}
             isOwner={isOwner}
+            searchParams={{ from: 'halaqah' }}
           />
         </li>
       ))}

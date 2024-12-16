@@ -52,8 +52,11 @@ export function LatestActivitiesSection() {
             <div>
               <AlertTitle>Apa itu sabaq?</AlertTitle>
               <AlertDescription>
-                Sabaq adalah proses menambahkan hafalan baru yang harus
-                disetorkan setiap hari oleh siswa Tahfizhul Qur’an
+                Sabaq merujuk pada hafalan baru yang belum pernah dihafal
+                sebelumnya. Ini adalah bagian dari Al-Qur&apos;an yang
+                dipelajari dan dihafalkan untuk pertama kalinya. Pada kegiatan
+                ini, santri berusaha menghafal ayat-ayat baru dengan benar
+                sesuai dengan target yang sudah ditentukan.
               </AlertDescription>
             </div>
           </Alert>
@@ -78,10 +81,11 @@ export function LatestActivitiesSection() {
             <div>
               <AlertTitle>Apa itu sabqi?</AlertTitle>
               <AlertDescription>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Tempore, aut dolor hic sapiente doloremque libero, aperiam rem
-                delectus dignissimos quo quod unde adipisci consectetur, ipsum
-                perferendis incidunt eveniet voluptatibus asperiores.
+                Sabqi adalah muraja&apos;ah (pengulangan) dari hafalan yang
+                telah dihafal sebelumnya dalam kegiatan Sabaq. Biasanya, ini
+                mencakup hafalan yang masih relatif baru sehingga perlu
+                diperkuat. Fokus santri adalah penguatan hafalan baru agar lebih
+                mantap dan tidak mudah lupa.
               </AlertDescription>
             </div>
           </Alert>
@@ -106,10 +110,11 @@ export function LatestActivitiesSection() {
             <div>
               <AlertTitle>Apa itu manzil?</AlertTitle>
               <AlertDescription>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Tempore, aut dolor hic sapiente doloremque libero, aperiam rem
-                delectus dignissimos quo quod unde adipisci consectetur, ipsum
-                perferendis incidunt eveniet voluptatibus asperiores.
+                Manzil adalah muraja&apos;ah hafalan yang sudah jauh dari masa
+                pertama kali dihafal. Biasanya mencakup hafalan yang lebih
+                besar, seperti satu juz atau beberapa juz. Fokus santri adalah
+                menjaga hafalan jangka panjang agar tidak hilang dan tetap
+                lancar.
               </AlertDescription>
             </div>
           </Alert>
@@ -156,7 +161,7 @@ async function LatestActivitiesByType({ type }: { type: ActivityType }) {
     return (
       <StateMessage
         type='empty'
-        title={`Tidak ada data aktivitas ${TYPE_TO_LABEL_MAP[type]}`}
+        title={`Belum ada data aktivitas ${TYPE_TO_LABEL_MAP[type]}`}
         className='py-8'
       />
     )

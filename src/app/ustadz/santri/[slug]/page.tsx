@@ -2,7 +2,6 @@ import { Card, CardContent, CardHeader } from '@/components/Card/Card'
 import { AddActivityCta } from '@/components/AddActivityCta/AddActivityCta'
 import { Layout } from '@/components/Layouts/Ustadz'
 import { Navbar } from '@/components/Navbar/Navbar'
-import { navigateToSantriList } from './actions'
 import { Students } from '@/utils/supabase/models/students'
 import { Activities } from '@/utils/supabase/models/activities'
 import dayjs from '@/utils/dayjs'
@@ -18,16 +17,26 @@ import { Checkpoint } from '@/utils/supabase/models/checkpoint'
 import { CheckpointStatus } from '@/models/checkpoint'
 import { parseParameter } from '@/utils/parse-parameter'
 import getTimezoneInfo from '@/utils/get-timezone-info'
+import { MENU_USTADZ_PATH_RECORDS } from '@/utils/menus/ustadz'
+import { MessageSquareText } from 'lucide-react'
+import {
+  convertSearchParamsToPath,
+  convertSearchParamsToStringRecords
+} from '@/utils/url'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const DEFAULT_EMPTY_ARRAY: any[] = []
 
 export default async function DetailSantri({
-  params: paramsPromise
+  params: paramsPromise,
+  searchParams: searchParamsPromise
 }: {
   params: Promise<{ slug: string }>
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
   const params = await paramsPromise
+  const searchParams = await searchParamsPromise
+  const searchStringRecords = convertSearchParamsToStringRecords(searchParams)
 
   const studentId = params.slug
   const studentsInstance = new Students()
@@ -52,8 +61,8 @@ export default async function DetailSantri({
     ] = await Promise.allSettled([
       activitiesInstance.list({
         student_id: student.data.id,
-        start_date: day.startOf('week').toISOString(),
-        end_date: day.endOf('week').toISOString(),
+        start_date: day.startOf('week').utc().toISOString(),
+        end_date: day.endOf('week').utc().toISOString(),
         limit: 21
       }),
       activitiesInstance.list({
@@ -95,18 +104,16 @@ export default async function DetailSantri({
         ? latestCheckpointPromise.value
         : undefined
 
+    const returnTo = convertSearchParamsToPath(searchParams)
     pageContent = (
       <>
         <ActivityPopup
           activities={lastActivities?.data ?? DEFAULT_EMPTY_ARRAY}
         />
         <Navbar
-          text='Detil Santri'
-          // FIXME(imballinst): this doesn't go back to the previous path.
-          // Kinda wanted to use something like router.back() but it requires to have 'use client',
-          // and since this is server client, it's not possible. So, let's just go to halaqah list for now.
-          onClickBackButton={navigateToSantriList}
-          rightComponent={<NotesIcon className='fill-mtmh-neutral-white' />}
+          text='Detail Santri'
+          rightComponent={<MessageSquareText />}
+          returnTo={`${MENU_USTADZ_PATH_RECORDS.home}${returnTo}`}
         />
 
         <div className='bg-mtmh-red-base w-full p-4 h-[225px] absolute -z-10' />
@@ -168,6 +175,7 @@ export default async function DetailSantri({
                 halaqahId={halaqahId}
                 size='sm'
                 studentId={studentId}
+                searchParams={searchStringRecords}
               />
               <AddActivityCta
                 activityType='Sabqi'
@@ -175,6 +183,7 @@ export default async function DetailSantri({
                 halaqahId={halaqahId}
                 size='sm'
                 studentId={studentId}
+                searchParams={searchStringRecords}
               />
               <AddActivityCta
                 activityType='Manzil'
@@ -182,6 +191,7 @@ export default async function DetailSantri({
                 halaqahId={halaqahId}
                 size='sm'
                 studentId={studentId}
+                searchParams={searchStringRecords}
               />
             </div>
           </section>
@@ -243,19 +253,4 @@ export default async function DetailSantri({
   }
 
   return <Layout>{pageContent}</Layout>
-}
-
-function NotesIcon(props: { className: string }) {
-  return (
-    <svg
-      width='20'
-      height='19'
-      viewBox='0 0 20 19'
-      xmlns='http://www.w3.org/2000/svg'
-      {...props}
-    >
-      <path d='M3 16V17.9998C3 18.7771 3.84848 19.2569 4.515 18.857L9.277 16H14C15.103 16 16 15.103 16 14V6C16 4.897 15.103 4 14 4H2C0.897 4 0 4.897 0 6V14C0 15.103 0.897 16 2 16H3ZM2 6H14V14H8.723L5 16.234V14H2V6Z' />
-      <path d='M18 0H6C4.897 0 4 0.897 4 2H16C17.103 2 18 2.897 18 4V12C19.103 12 20 11.103 20 10V2C20 0.897 19.103 0 18 0Z' />
-    </svg>
-  )
 }
