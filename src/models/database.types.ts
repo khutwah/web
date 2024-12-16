@@ -209,8 +209,8 @@ export type Database = {
       lajnah: {
         Row: {
           created_at: string | null
-          end_surah_number: number | null
-          end_verse_number: number | null
+          end_surah: number | null
+          end_verse: number | null
           final_mark: string | null
           high_mistake_count: number | null
           id: number
@@ -222,15 +222,15 @@ export type Database = {
           session_name: string | null
           session_start: string
           session_type: string
-          start_surah_number: number | null
-          start_verse_number: number | null
+          start_surah: number | null
+          start_verse: number | null
           student_id: number
           updated_at: string | null
         }
         Insert: {
           created_at?: string | null
-          end_surah_number?: number | null
-          end_verse_number?: number | null
+          end_surah?: number | null
+          end_verse?: number | null
           final_mark?: string | null
           high_mistake_count?: number | null
           id?: never
@@ -242,15 +242,15 @@ export type Database = {
           session_name?: string | null
           session_start: string
           session_type: string
-          start_surah_number?: number | null
-          start_verse_number?: number | null
+          start_surah?: number | null
+          start_verse?: number | null
           student_id: number
           updated_at?: string | null
         }
         Update: {
           created_at?: string | null
-          end_surah_number?: number | null
-          end_verse_number?: number | null
+          end_surah?: number | null
+          end_verse?: number | null
           final_mark?: string | null
           high_mistake_count?: number | null
           id?: never
@@ -262,8 +262,8 @@ export type Database = {
           session_name?: string | null
           session_start?: string
           session_type?: string
-          start_surah_number?: number | null
-          start_verse_number?: number | null
+          start_surah?: number | null
+          start_verse?: number | null
           student_id?: number
           updated_at?: string | null
         }

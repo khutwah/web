@@ -2170,9 +2170,9 @@
           "maxLength": 255
         },
         {
-          "id": "public.lajnah.start_surah_number",
-          "name": "start_surah_number",
-          "columnName": "start_surah_number",
+          "id": "public.lajnah.start_surah",
+          "name": "start_surah",
+          "columnName": "start_surah",
           "type": "int2",
           "isRequired": false,
           "kind": "scalar",
@@ -2184,9 +2184,9 @@
           "maxLength": null
         },
         {
-          "id": "public.lajnah.start_verse_number",
-          "name": "start_verse_number",
-          "columnName": "start_verse_number",
+          "id": "public.lajnah.start_verse",
+          "name": "start_verse",
+          "columnName": "start_verse",
           "type": "int2",
           "isRequired": false,
           "kind": "scalar",
@@ -2198,9 +2198,9 @@
           "maxLength": null
         },
         {
-          "id": "public.lajnah.end_surah_number",
-          "name": "end_surah_number",
-          "columnName": "end_surah_number",
+          "id": "public.lajnah.end_surah",
+          "name": "end_surah",
+          "columnName": "end_surah",
           "type": "int2",
           "isRequired": false,
           "kind": "scalar",
@@ -2212,9 +2212,9 @@
           "maxLength": null
         },
         {
-          "id": "public.lajnah.end_verse_number",
-          "name": "end_verse_number",
-          "columnName": "end_verse_number",
+          "id": "public.lajnah.end_verse",
+          "name": "end_verse",
+          "columnName": "end_verse",
           "type": "int2",
           "isRequired": false,
           "kind": "scalar",
