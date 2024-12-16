@@ -51,8 +51,8 @@ async function ActivityGrid() {
   const activitiesInstance = new Activities()
   const activities = await activitiesInstance.list({
     parent_id: user.data?.id,
-    start_date: day.startOf('week').utc().toISOString(),
-    end_date: day.endOf('week').utc().toISOString()
+    start_date: day.startOf('week').toISOString(),
+    end_date: day.endOf('week').toISOString()
   })
 
   return (

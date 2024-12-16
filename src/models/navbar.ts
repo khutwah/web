@@ -1,10 +1,7 @@
 import { ReactNode } from 'react'
 
 export interface NavbarProps {
-  onClickBackButton?: (searchParams: {
-    [key: string]: string | string[] | undefined
-  }) => void
-  searchParams?: { [key: string]: string | string[] | undefined }
+  onClickBackButton?: () => void
   text: string
   rightComponent?: ReactNode
 }
