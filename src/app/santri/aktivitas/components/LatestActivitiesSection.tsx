@@ -84,8 +84,8 @@ export function LatestActivitiesSection() {
                 Sabqi adalah muraja'ah (pengulangan) dari hafalan yang telah
                 dihafal sebelumnya dalam kegiatan Sabaq. Biasanya, ini mencakup
                 hafalan yang masih relatif baru sehingga perlu diperkuat. Fokus
-                santri adanalah penguatan hafalan baru agar lebih mantap dan
-                tidak mudah lupa.
+                santri adalah penguatan hafalan baru agar lebih mantap dan tidak
+                mudah lupa.
               </AlertDescription>
             </div>
           </Alert>
