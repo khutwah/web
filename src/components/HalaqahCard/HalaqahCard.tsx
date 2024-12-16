@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { Card, CardContent } from '../Card/Card'
 import { StickyNote } from '../icons'
-import { HalaqahIcon } from '@/components/HalaqahIcon/HalaqahIcon'
+import { CircleDashed as HalaqahIcon } from 'lucide-react'
 import { cn } from '@/utils/classnames'
 import { MENU_PATH_RECORD } from '@/utils/menus/ustadz'
 

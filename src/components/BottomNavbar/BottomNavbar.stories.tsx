@@ -1,11 +1,12 @@
 import { BottomNavbar } from './BottomNavbar'
 
-import { HomeIcon, UserIcon as UserSolid } from '@heroicons/react/24/solid'
+import { Sofa as BerandaActive, Users as SantriActive } from 'lucide-react'
 import {
-  UserIcon,
-  CalendarIcon,
-  Cog6ToothIcon
-} from '@heroicons/react/24/outline'
+  Armchair as Beranda,
+  User as Santri,
+  Circle as Halaqah,
+  ToggleLeft as Pengaturan
+} from 'lucide-react'
 
 export function BottomNavbarStory() {
   return (
@@ -13,25 +14,25 @@ export function BottomNavbarStory() {
       <BottomNavbar
         links={[
           {
-            icon: HomeIcon,
+            icon: BerandaActive,
             text: 'Beranda',
             href: '/',
             active: true
           },
           {
-            icon: UserIcon,
+            icon: Santri,
             text: 'Santri',
             href: '/students',
             active: false
           },
           {
-            icon: CalendarIcon,
-            text: 'Kalender',
-            href: '/calendar',
+            icon: Halaqah,
+            text: 'Halaqah',
+            href: '/halaqah',
             active: false
           },
           {
-            icon: Cog6ToothIcon,
+            icon: Pengaturan,
             text: 'Pengaturan',
             href: '/settings',
             active: false
@@ -42,25 +43,25 @@ export function BottomNavbarStory() {
       <BottomNavbar
         links={[
           {
-            icon: HomeIcon,
+            icon: Beranda,
             text: 'Beranda',
             href: '/',
             active: false
           },
           {
-            icon: UserSolid,
+            icon: SantriActive,
             text: 'Santri',
             href: '/students',
             active: true
           },
           {
-            icon: CalendarIcon,
-            text: 'Kalender',
-            href: '/calendar',
+            icon: Halaqah,
+            text: 'Halaqah',
+            href: '/halaqah',
             active: false
           },
           {
-            icon: Cog6ToothIcon,
+            icon: Pengaturan,
             text: 'Pengaturan',
             href: '/settings',
             active: false

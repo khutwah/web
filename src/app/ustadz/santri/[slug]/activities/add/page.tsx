@@ -1,5 +1,5 @@
 import { Navbar } from '@/components/Navbar/Navbar'
-import { XMarkIcon } from '@heroicons/react/24/solid'
+import { X } from 'lucide-react'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { Halaqah as HalaqahComponent } from '../components/Halaqah'
@@ -90,7 +90,7 @@ export default async function AddActivity(props: AddActivityProps) {
         text='Tambah Input'
         rightComponent={
           <Link replace href={santriPage}>
-            <XMarkIcon />
+            <X />
           </Link>
         }
       />

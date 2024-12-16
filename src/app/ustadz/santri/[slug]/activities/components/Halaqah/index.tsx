@@ -7,7 +7,7 @@ import {
 } from '@/components/Card/Card'
 import { ActivityTypeKey } from '@/models/activities'
 import { FormattedLocalDate } from '@/components/Local'
-import { BookmarkIcon, BookOpenIcon } from '@heroicons/react/24/outline'
+import { Bookmark, BookOpen } from 'lucide-react'
 
 interface HalaqahCardProps {
   date: string
@@ -39,7 +39,7 @@ function HalaqahCard(props: HalaqahCardProps) {
       <CardContent className='flex flex-col p-5 pt-0 gap-y-2'>
         <div className='flex items-center gap-x-2 text-sm'>
           <div className='pt-1'>
-            <BookOpenIcon className='size-4 text-mtmh-grey-lightest' />
+            <BookOpen className='size-4 text-mtmh-grey-lightest' />
           </div>
 
           <div className='flex items-center gap-x-2'>
@@ -50,7 +50,7 @@ function HalaqahCard(props: HalaqahCardProps) {
         {lastSurah ? (
           <div className='flex items-start gap-x-2 text-sm'>
             <div className='pt-1'>
-              <BookmarkIcon className='size-4 text-mtmh-grey-lightest' />
+              <Bookmark className='size-4 text-mtmh-grey-lightest' />
             </div>
 
             <div className='w-full text-ellipsis line-clamp-2'>
