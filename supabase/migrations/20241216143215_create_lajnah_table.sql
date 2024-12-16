@@ -1,6 +1,7 @@
 CREATE TABLE lajnah (
     id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     student_id BIGINT NOT NULL,
+    ustadz_id BIGINT NOT NULL,
     session_start TIMESTAMP NOT NULL,
     session_end TIMESTAMP DEFAULT NULL,
     session_type VARCHAR(255) NOT NULL,
@@ -18,7 +19,8 @@ CREATE TABLE lajnah (
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP DEFAULT NOW(),
     FOREIGN KEY (student_id) REFERENCES students(id),
-    FOREIGN KEY (parent_lajnah_id) REFERENCES lajnah(id)
+    FOREIGN KEY (parent_lajnah_id) REFERENCES lajnah(id),
+    FOREIGN KEY (ustadz_id) REFERENCES users(id)
 );
 
 

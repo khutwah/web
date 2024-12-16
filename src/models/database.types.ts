@@ -226,6 +226,7 @@ export type Database = {
           start_verse: number | null
           student_id: number
           updated_at: string | null
+          ustadz_id: number
         }
         Insert: {
           created_at?: string | null
@@ -246,6 +247,7 @@ export type Database = {
           start_verse?: number | null
           student_id: number
           updated_at?: string | null
+          ustadz_id: number
         }
         Update: {
           created_at?: string | null
@@ -266,6 +268,7 @@ export type Database = {
           start_verse?: number | null
           student_id?: number
           updated_at?: string | null
+          ustadz_id?: number
         }
         Relationships: [
           {
@@ -280,6 +283,13 @@ export type Database = {
             columns: ['student_id']
             isOneToOne: false
             referencedRelation: 'students'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'lajnah_ustadz_id_fkey'
+            columns: ['ustadz_id']
+            isOneToOne: false
+            referencedRelation: 'users'
             referencedColumns: ['id']
           }
         ]
