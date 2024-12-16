@@ -53,10 +53,10 @@ export function LatestActivitiesSection() {
               <AlertTitle>Apa itu sabaq?</AlertTitle>
               <AlertDescription>
                 Sabaq merujuk pada hafalan baru yang belum pernah dihafal
-                sebelumnya. Ini adalah bagian dari Al-Qur'an yang dipelajari dan
-                dihafalkan untuk pertama kalinya. Pada kegiatan ini, santri
-                berusaha menghafal ayat-ayat baru dengan benar sesuai dengan
-                target yang sudah ditentukan.
+                sebelumnya. Ini adalah bagian dari Al-Qur&apos;an yang
+                dipelajari dan dihafalkan untuk pertama kalinya. Pada kegiatan
+                ini, santri berusaha menghafal ayat-ayat baru dengan benar
+                sesuai dengan target yang sudah ditentukan.
               </AlertDescription>
             </div>
           </Alert>
@@ -81,11 +81,11 @@ export function LatestActivitiesSection() {
             <div>
               <AlertTitle>Apa itu sabqi?</AlertTitle>
               <AlertDescription>
-                Sabqi adalah muraja'ah (pengulangan) dari hafalan yang telah
-                dihafal sebelumnya dalam kegiatan Sabaq. Biasanya, ini mencakup
-                hafalan yang masih relatif baru sehingga perlu diperkuat. Fokus
-                santri adalah penguatan hafalan baru agar lebih mantap dan tidak
-                mudah lupa.
+                Sabqi adalah muraja&apos;ah (pengulangan) dari hafalan yang
+                telah dihafal sebelumnya dalam kegiatan Sabaq. Biasanya, ini
+                mencakup hafalan yang masih relatif baru sehingga perlu
+                diperkuat. Fokus santri adalah penguatan hafalan baru agar lebih
+                mantap dan tidak mudah lupa.
               </AlertDescription>
             </div>
           </Alert>
@@ -110,7 +110,7 @@ export function LatestActivitiesSection() {
             <div>
               <AlertTitle>Apa itu manzil?</AlertTitle>
               <AlertDescription>
-                Manzil adalah muraja'ah hafalan yang sudah jauh dari masa
+                Manzil adalah muraja&apos;ah hafalan yang sudah jauh dari masa
                 pertama kali dihafal. Biasanya mencakup hafalan yang lebih
                 besar, seperti satu juz atau beberapa juz. Fokus santri adalah
                 menjaga hafalan jangka panjang agar tidak hilang dan tetap
