@@ -52,8 +52,8 @@ export default async function DetailSantri({
     ] = await Promise.allSettled([
       activitiesInstance.list({
         student_id: student.data.id,
-        start_date: day.startOf('week').toISOString(),
-        end_date: day.endOf('week').toISOString(),
+        start_date: day.startOf('week').utc().toISOString(),
+        end_date: day.endOf('week').utc().toISOString(),
         limit: 21
       }),
       activitiesInstance.list({
