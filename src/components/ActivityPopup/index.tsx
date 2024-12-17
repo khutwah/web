@@ -109,7 +109,7 @@ export function ActivityPopup({ activities }: Props) {
                   </Link>
                 ) : (
                   <button type='button' disabled={!_activity.has_edit_access}>
-                    Maaf, anda tidak punya akses edit
+                    Afwan. Antum tidak punya hak edit.
                   </button>
                 )}
               </Button>
