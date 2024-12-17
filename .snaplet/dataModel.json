@@ -2128,9 +2128,9 @@
           "maxLength": null
         },
         {
-          "id": "public.lajnah.session_start",
-          "name": "session_start",
-          "columnName": "session_start",
+          "id": "public.lajnah.start_date",
+          "name": "start_date",
+          "columnName": "start_date",
           "type": "timestamp",
           "isRequired": true,
           "kind": "scalar",
@@ -2142,9 +2142,9 @@
           "maxLength": null
         },
         {
-          "id": "public.lajnah.session_end",
-          "name": "session_end",
-          "columnName": "session_end",
+          "id": "public.lajnah.end_date",
+          "name": "end_date",
+          "columnName": "end_date",
           "type": "timestamp",
           "isRequired": false,
           "kind": "scalar",

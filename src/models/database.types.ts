@@ -209,6 +209,7 @@ export type Database = {
       lajnah: {
         Row: {
           created_at: string | null
+          end_date: string | null
           end_surah: number | null
           end_verse: number | null
           final_mark: string | null
@@ -218,10 +219,9 @@ export type Database = {
           medium_mistake_count: number | null
           notes: string | null
           parent_lajnah_id: number | null
-          session_end: string | null
           session_name: string | null
-          session_start: string
           session_type: string
+          start_date: string
           start_surah: number | null
           start_verse: number | null
           student_id: number
@@ -230,6 +230,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string | null
+          end_date?: string | null
           end_surah?: number | null
           end_verse?: number | null
           final_mark?: string | null
@@ -239,10 +240,9 @@ export type Database = {
           medium_mistake_count?: number | null
           notes?: string | null
           parent_lajnah_id?: number | null
-          session_end?: string | null
           session_name?: string | null
-          session_start: string
           session_type: string
+          start_date: string
           start_surah?: number | null
           start_verse?: number | null
           student_id: number
@@ -251,6 +251,7 @@ export type Database = {
         }
         Update: {
           created_at?: string | null
+          end_date?: string | null
           end_surah?: number | null
           end_verse?: number | null
           final_mark?: string | null
@@ -260,10 +261,9 @@ export type Database = {
           medium_mistake_count?: number | null
           notes?: string | null
           parent_lajnah_id?: number | null
-          session_end?: string | null
           session_name?: string | null
-          session_start?: string
           session_type?: string
+          start_date?: string
           start_surah?: number | null
           start_verse?: number | null
           student_id?: number
