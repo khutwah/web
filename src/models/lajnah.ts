@@ -31,3 +31,12 @@ export enum LajnahType {
   'surah_kamil_jannah' = 'surah_kamil_jannah',
   'custom' = 'custom'
 }
+
+export interface FilterPayload {
+  parent_lajnah_id?: number | null
+}
+
+export interface ResetPayload {
+  parent_lajnah_id: number
+  offset_parent_lajnah_id?: number
+}

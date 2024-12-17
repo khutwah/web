@@ -12,11 +12,22 @@ const requiredWhenParentFilled: [string, any] = [
   }
 ]
 
+const requiredWhenParentEmpty: [string, any] = [
+  'parent_lajnah_id',
+  {
+    is: (parent_lajnah_id: number) => !parent_lajnah_id,
+    then: (schema: any) => schema.required(),
+    otherwise: (schema: any) => schema.notRequired()
+  }
+]
+
 export const createLajnahSchema = object({
   student_id: number().integer().min(1).required(),
   ustadz_id: number().integer().min(1).required(),
-  session_type: string().oneOf(Object.values(LajnahType)),
-  session_name: string(),
+  session_type: string()
+    .oneOf(Object.values(LajnahType))
+    .when(...requiredWhenParentEmpty),
+  session_name: string().when(...requiredWhenParentEmpty),
   start_surah: number().integer().required(),
   start_verse: number()
     .integer()
