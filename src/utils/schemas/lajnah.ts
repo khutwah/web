@@ -31,7 +31,8 @@ export const createLajnahSchema = object({
   start_surah: number().integer().required(),
   start_verse: number()
     .integer()
-    .when(...requiredWhenParentFilled),
+    .when(...requiredWhenParentFilled)
+    .when(...requiredWhenParentEmpty),
   end_surah: number()
     .integer()
     .when(...requiredWhenParentFilled),
