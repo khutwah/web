@@ -40,6 +40,7 @@ export type ProgressChartPeriod = 'pekan' | 'bulan'
 interface Props {
   activities: Array<ActivityChartEntry>
   datePeriod: ProgressChartPeriod
+  withTitle?: boolean
   onDatePeriodChange: (value: ProgressChartPeriod) => void
 }
 
@@ -101,8 +102,9 @@ export function ProgressChartWithNavigation(
 // Helper function and components.
 function Subchart({
   activities,
-  datePeriod
-}: Pick<Props, 'activities' | 'datePeriod'>) {
+  datePeriod,
+  withTitle = true
+}: Pick<Props, 'activities' | 'datePeriod' | 'withTitle'>) {
   const [currentDatetime] = useState(() =>
     // This is on client-side. Hence, new Date() here gets the data from the client, not the server.
     dayjsClientSideLocal(new Date().toISOString()).startOf(
@@ -112,10 +114,12 @@ function Subchart({
 
   return (
     <div className='flex flex-col gap-y-3'>
-      <div className='text-mtmh-sm-regular'>
-        Menampilkan pencapaian dari{' '}
-        {formatChartTimerange(currentDatetime, datePeriod)}
-      </div>
+      {withTitle && (
+        <div className='text-mtmh-sm-regular mx-auto'>
+          Menampilkan pencapaian dari{' '}
+          {formatChartTimerange(currentDatetime, datePeriod)}
+        </div>
+      )}
 
       <ChartContainer config={CHART_CONFIG}>
         <AreaChart
