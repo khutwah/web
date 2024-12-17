@@ -29,10 +29,7 @@ export const createLajnahSchema = object({
     .when(...requiredWhenParentEmpty),
   session_name: string().when(...requiredWhenParentEmpty),
   start_surah: number().integer().required(),
-  start_verse: number()
-    .integer()
-    .when(...requiredWhenParentFilled)
-    .when(...requiredWhenParentEmpty),
+  start_verse: number().integer().required(),
   end_surah: number()
     .integer()
     .when(...requiredWhenParentFilled),
