@@ -8,7 +8,8 @@ export function CacheBuster() {
   const router = useRouter()
 
   useEffect(() => {
-    const buster = new Date().getTime().toString()
+    const buster =
+      process.env.NEXT_PUBLIC_CACHE_BUSTER || new Date().getTime().toString()
     const currentPath = window.location.pathname
     if (
       ['/ustadz', '/santri', '/login', '/'].find((path) => {
@@ -16,8 +17,8 @@ export function CacheBuster() {
       })
     ) {
       const currentSearchParams = new URLSearchParams(window.location.search)
-      if (!currentSearchParams.has('b')) {
-        router.replace(addQueryParams(window.location.href, { b: buster }))
+      if (!currentSearchParams.has('v')) {
+        router.replace(addQueryParams(window.location.href, { v: buster }))
       }
     }
   }, [router])
