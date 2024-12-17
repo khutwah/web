@@ -17,13 +17,7 @@ export function ProgressToggle() {
     <button
       onClick={() => {
         const viewType = progressViewType === 'grid' ? 'chart' : 'grid'
-        router.replace(
-          addQueryParams(
-            window.location.href,
-            { view: viewType },
-            { unique: true }
-          )
-        )
+        router.replace(addQueryParams(window.location.href, { view: viewType }))
         setProgressViewType(viewType)
       }}
       aria-label='View type'

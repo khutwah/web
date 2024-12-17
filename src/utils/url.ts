@@ -68,8 +68,10 @@ export function convertSearchParamsToPath(
 export function addQueryParams(
   url: string,
   searchParams: { [key: string]: string | string[] | undefined },
-  options?: {
+  options: {
     unique?: boolean
+  } = {
+    unique: true
   }
 ): string {
   const [baseUrl, existingQuery] = url.split('?')
