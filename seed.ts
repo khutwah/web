@@ -360,7 +360,7 @@ async function runSeeder() {
 
       if (ctx.index > 0) {
         end_surah = 2
-        start_verse = 1
+        start_verse = (ctx.index - 1) * 7 + 1
         end_verse = ctx.index * 7
 
         low_mistake_count += 2

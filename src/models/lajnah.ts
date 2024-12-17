@@ -34,6 +34,8 @@ export enum LajnahType {
 
 export interface FilterPayload {
   parent_lajnah_id?: number | null
+  ustadz_id?: number
+  student_id?: number
 }
 
 export interface ResetPayload {

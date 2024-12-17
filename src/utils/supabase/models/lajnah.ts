@@ -3,7 +3,7 @@ import { Base } from './base'
 
 export class Lajnah extends Base {
   async list(filter: FilterPayload) {
-    const { parent_lajnah_id } = filter
+    const { parent_lajnah_id, ustadz_id, student_id } = filter
     const supabase = await this.supabase
     let query = supabase.from('lajnah').select(`
             students(id, name),
@@ -22,6 +22,14 @@ export class Lajnah extends Base {
             session_type,
             session_name
         `)
+
+    if (ustadz_id) {
+      query = query.eq('ustadz_id', ustadz_id)
+    }
+
+    if (student_id) {
+      query = query.eq('student_id', student_id)
+    }
 
     if (parent_lajnah_id === null) {
       query = query.is('parent_lajnah_id', null)
