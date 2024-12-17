@@ -166,7 +166,7 @@ export default function LoginPage() {
           </DialogContent>
         </Dialog>
         <label className='text-mtmh-grey-lighter text-mtmh-body-small mt-4'>
-          {process.env.NEXT_PUBLIC_APP_VERSION} © {new Date().getFullYear()}
+          {process.env.NEXT_PUBLIC_APP_VERSION || 'dev'}
         </label>
       </div>
     </>

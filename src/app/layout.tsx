@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body>
-        {process.env.NEXT_PUBLIC_APP_VERSION && <CacheBuster />}
+        <CacheBuster />
         <TimezoneSetter />
         {children}
         <Toaster />
