@@ -131,7 +131,7 @@ export default function LoginPage() {
         </Button>
       </form>
 
-      <div className='text-center'>
+      <div className='flex flex-col items-center mx-auto'>
         <Dialog
           onOpenChange={setIsForgotPasswordDialogOpen}
           open={isForgotPasswordDialogOpen}
@@ -165,6 +165,9 @@ export default function LoginPage() {
             </DialogFooter>
           </DialogContent>
         </Dialog>
+        <label className='text-mtmh-grey-lighter text-mtmh-body-small mt-4'>
+          {process.env.NEXT_PUBLIC_APP_VERSION} © {new Date().getFullYear()}
+        </label>
       </div>
     </>
   )

@@ -2,24 +2,28 @@
 
 import { TEMPORARY_PIN_PAGE_ID_COOKIE } from '@/models/auth'
 import { INVALID_PIN, MIN_MAX_PIN } from '@/models/copywriting/auth'
+import { cookies } from 'next/headers'
 import { loginSupabase } from '@/utils/auth/login-supabase'
 import { Students } from '@/utils/supabase/models/students'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { cookies } from 'next/headers'
 
 export async function login(_prevState: unknown, formData: FormData) {
-  let isRedirect = false
+  let redirectUri = ''
+
+  const data = {
+    pin: formData.get('pin') as string
+  }
+
   try {
-    const pin = formData.get('pin') as string
-    if (pin.length !== 6) throw new Error(MIN_MAX_PIN)
+    if (data.pin.length !== 6) throw new Error(MIN_MAX_PIN)
 
     const _cookies = await cookies()
     const email = _cookies.get(TEMPORARY_PIN_PAGE_ID_COOKIE)
-    if (!email) throw new Error('You are not supposed to be here')
+    if (!email) throw new Error('Antum semestinya tidak berada di halaman ini')
 
     const student = new Students()
-    const result = await student.list({ pin, email: email.value })
+    const result = await student.list({ pin: data.pin, email: email.value })
     if (!result.data?.length) {
       throw new Error(INVALID_PIN)
     }
@@ -30,20 +34,16 @@ export async function login(_prevState: unknown, formData: FormData) {
     })
 
     _cookies.delete(TEMPORARY_PIN_PAGE_ID_COOKIE)
-    revalidatePath('/', 'layout')
-    isRedirect = true
-    return {
-      success: true
-    }
+    redirectUri = '/'
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : String(error)
+    const e = (error as Error).message
     return {
-      message: errorMessage,
-      success: false
+      message: e
     }
   } finally {
-    if (isRedirect) {
-      redirect('/')
+    if (redirectUri) {
+      revalidatePath(redirectUri, 'layout')
+      redirect(redirectUri)
     }
   }
 }
