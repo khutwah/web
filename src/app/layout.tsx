@@ -6,7 +6,13 @@ import { CacheBuster } from '@/components/Cache/Buster'
 
 export const metadata: Metadata = {
   title: 'MTMH',
-  description: 'Markaz Tahfizh Minhajul Haq'
+  description: 'Markaz Tahfizh Minhajul Haq',
+  verification: {
+    other: {
+      khutwah: process.env.NEXT_PUBLIC_CACHE_BUSTER || new Date().valueOf(),
+      timestamp: new Date().valueOf()
+    }
+  }
 }
 
 export default function RootLayout({
