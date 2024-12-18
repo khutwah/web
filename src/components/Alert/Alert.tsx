@@ -4,7 +4,8 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/utils/classnames'
 
 const alertVariants = cva(
-  'relative w-full rounded-lg px-4 py-3 text-sm flex flex-row items-center gap-2',
+  // FIXME(dio): Do we need to add "relative" here?
+  'w-full rounded-lg px-4 py-3 text-sm flex flex-row items-center gap-2',
   {
     variants: {
       variant: {

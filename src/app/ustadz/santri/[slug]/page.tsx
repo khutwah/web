@@ -25,7 +25,10 @@ import {
   convertSearchParamsToStringRecords
 } from '@/utils/url'
 import { ProgressChartWithNavigation } from '@/components/Progress/ProgressChart'
-import { ProgressToggle } from './components/ProgressToggle/ProgressToggle'
+import {
+  ProgressToggle,
+  ProgressToggleProps
+} from './components/ProgressToggle/ProgressToggle'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const DEFAULT_EMPTY_ARRAY: any[] = []
@@ -128,7 +131,13 @@ export default async function DetailSantri({
         />
         <Navbar
           text='Detail Santri'
-          rightComponent={<ProgressToggle />}
+          rightComponent={
+            <ProgressToggle
+              initialView={
+                searchParams['view'] as ProgressToggleProps['initialView']
+              }
+            />
+          }
           returnTo={`${MENU_USTADZ_PATH_RECORDS.home}${returnTo}`}
         />
 
