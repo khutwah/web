@@ -33,9 +33,9 @@ jobs:
         if: steps.smoke-test.outcome == 'failure'
         run: |
           flyctl deploy \
-            --build-arg NEXT_PUBLIC_APP_VERSION=stag-$(git rev-parse --short ${{ github.sha }}) \
+            --build-arg NEXT_PUBLIC_APP_VERSION=${{ github.ref_name }}-$(git rev-parse --short ${{ github.sha }}) \
             --build-arg NEXT_PUBLIC_CACHE_BUSTER=$(git rev-parse --short ${{ github.sha }}) \
-            --config deployments/staging/fly.toml \
+            --config deployments/production/fly.toml \
             --no-cache \
             --remote-only
           for i in {1..10}; do curl -sSL https://mtmh.khutwah.id | \
