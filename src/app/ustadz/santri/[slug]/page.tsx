@@ -199,7 +199,7 @@ export default async function DetailSantri({
                 <ProgressChartWithNavigation
                   activities={activitiesChart}
                   datePeriod={
-                    searchParams['periode'] === 'bulan' ? 'bulan' : 'pekan'
+                    periodQueryParameter === 'bulan' ? 'bulan' : 'pekan'
                   }
                 />
               ) : (
