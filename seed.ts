@@ -347,6 +347,58 @@ async function runSeeder() {
     })
   )
 
+  let low_mistake_count = 0
+  let medium_mistake_count = 0
+  let high_mistake_count = 0
+
+  await seed.lajnah((x) =>
+    x(4, (ctx) => {
+      let end_surah = null
+      let start_verse = null
+      let end_verse = null
+      let parent_lajnah_id = null
+
+      if (ctx.index > 0) {
+        end_surah = 2
+        start_verse = (ctx.index - 1) * 7 + 1
+        end_verse = ctx.index * 7
+
+        low_mistake_count += 2
+        medium_mistake_count += 2
+        high_mistake_count += 2
+
+        parent_lajnah_id = 1
+      }
+
+      let end_date = null
+
+      // last entry
+      let final_mark = null
+      if (ctx.index === 3) {
+        end_date = new Date().toISOString()
+        final_mark = 'Mumtaz'
+      }
+
+      return {
+        student_id: 1,
+        ustadz_id: 1,
+        session_name: 'Lajnah 5 Juz',
+        session_type: 'per_5_juz_lajnah',
+        start_surah: 2,
+        start_verse,
+        end_surah,
+        end_verse,
+        low_mistake_count,
+        medium_mistake_count,
+        high_mistake_count,
+        start_date: new Date().toISOString(),
+        end_date,
+        final_mark,
+        parent_lajnah_id
+      }
+    })
+  )
+
   // Type completion not working? You might want to reload your TypeScript Server to pick up the changes
 
   console.log('Database seeded successfully!')

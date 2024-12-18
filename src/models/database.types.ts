@@ -220,7 +220,7 @@ export type Database = {
           notes: string | null
           parent_lajnah_id: number | null
           session_name: string | null
-          session_type: string
+          session_type: string | null
           start_date: string
           start_surah: number | null
           start_verse: number | null
@@ -241,7 +241,7 @@ export type Database = {
           notes?: string | null
           parent_lajnah_id?: number | null
           session_name?: string | null
-          session_type: string
+          session_type?: string | null
           start_date: string
           start_surah?: number | null
           start_verse?: number | null
@@ -262,7 +262,7 @@ export type Database = {
           notes?: string | null
           parent_lajnah_id?: number | null
           session_name?: string | null
-          session_type?: string
+          session_type?: string | null
           start_date?: string
           start_surah?: number | null
           start_verse?: number | null
