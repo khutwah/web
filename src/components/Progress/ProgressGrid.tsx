@@ -3,10 +3,11 @@
 import {
   ActivityEntry,
   ActivityTypeKey,
-  ActivityStatus
+  ActivityStatus,
+  ACTIVITY_CURRENT_DATE_QUERY_PARAMETER,
+  ACTIVITY_CURRENT_DATE_QUERY_PARAMETER_DATE_FORMAT
 } from '@/models/activities'
 import { ActivityBadge } from '../Badge/ActivityBadge'
-import { Dispatch, SetStateAction, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import dayjsClientSideLocal from '@/utils/dayjs-client-side-local'
 import dayjs, { Dayjs } from '@/utils/dayjs'
@@ -16,11 +17,13 @@ import {
   ProgressGridStatusProps
 } from './ProgressGridStatus'
 import { Skeleton } from '@/components/Skeleton/Skeleton'
+import { useRouter } from 'next/navigation'
+import { extractPathnameAndQueryFromURL } from '@/utils/url'
 
 interface Props {
   activities: Array<Omit<ActivityEntry, 'target_page_count'>> | null
   date: Date
-  onChangeDate: Dispatch<SetStateAction<Date>>
+  onChangeDate: (date: Date) => unknown
   className?: string
   statusProps?: ProgressGridStatusProps
   isLoading?: boolean
@@ -47,9 +50,10 @@ export function ProgressGrid({
   isLoading
 }: Props) {
   const activities = activitiesProp ?? DEFAULT_EMPTY_ARRAY
+  const dateString = date.toISOString()
 
-  const startDate = dayjs(date).day(0)
-  const endDate = dayjs(date).day(6)
+  const startDate = dayjsClientSideLocal(dateString).startOf('week')
+  const endDate = dayjsClientSideLocal(dateString).endOf('week')
 
   const { grid, headers } = getInitialVariables(startDate, endDate)
 
@@ -139,11 +143,7 @@ export function ProgressGrid({
           <button
             className='flex gap-x-2'
             disabled={isLoading}
-            onClick={() =>
-              onChangeDate((prevDate) =>
-                dayjs(prevDate).add(-5, 'day').toDate()
-              )
-            }
+            onClick={() => onChangeDate(dayjs(date).add(-5, 'day').toDate())}
           >
             <ChevronLeft size={16} />
 
@@ -153,9 +153,7 @@ export function ProgressGrid({
           <button
             className='flex gap-x-2'
             disabled={isLoading}
-            onClick={() =>
-              onChangeDate((prevDate) => dayjs(prevDate).add(5, 'day').toDate())
-            }
+            onClick={() => onChangeDate(dayjs(date).add(5, 'day').toDate())}
           >
             <div>Maju</div>
 
@@ -174,15 +172,25 @@ export function ProgressGrid({
 }
 
 /**
- * `<ProgressGrid>` component wrapped with `useState` for the dates. This is used only in real app, so we don't have to
- * define the states manually.
+ * `<ProgressGrid>` component wrapped with event handlers to update the query parameters whenever the date changes.
  */
-export function ProgressGridWithState(
-  props: Omit<Props, 'date' | 'onChangeDate'>
-) {
-  const [date, setDate] = useState(new Date())
+export function ProgressGridWithNav(props: Omit<Props, 'onChangeDate'>) {
+  const router = useRouter()
 
-  return <ProgressGrid {...props} date={date} onChangeDate={setDate} />
+  return (
+    <ProgressGrid
+      {...props}
+      onChangeDate={(date) => {
+        const currentUrl = new URL(window.location.href)
+        currentUrl.searchParams.set(
+          ACTIVITY_CURRENT_DATE_QUERY_PARAMETER,
+          dayjs(date).format(ACTIVITY_CURRENT_DATE_QUERY_PARAMETER_DATE_FORMAT)
+        )
+
+        router.replace(extractPathnameAndQueryFromURL(currentUrl))
+      }}
+    />
+  )
 }
 
 export function ProgressGridSkeleton() {

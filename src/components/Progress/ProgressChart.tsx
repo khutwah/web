@@ -17,7 +17,11 @@ import {
   ChartTooltip,
   ChartTooltipContent
 } from '@/components/Chart/Chart'
-import { ActivityChartEntry, GLOBAL_TARGET_PAGE } from '@/models/activities'
+import {
+  ACTIVITY_PERIOD_QUERY_PARAMETER,
+  ActivityChartEntry,
+  GLOBAL_TARGET_PAGE
+} from '@/models/activities'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../Tabs/Tabs'
 import dayjsClientSideLocal from '@/utils/dayjs-client-side-local'
 import { useState } from 'react'
@@ -87,9 +91,9 @@ export function ProgressChartWithNavigation(
       onDatePeriodChange={(value) => {
         const url = new URL(window.location.href)
         if (value === 'pekan') {
-          url.searchParams.delete('periode')
+          url.searchParams.delete(ACTIVITY_PERIOD_QUERY_PARAMETER)
         } else {
-          url.searchParams.set('periode', value)
+          url.searchParams.set(ACTIVITY_PERIOD_QUERY_PARAMETER, value)
         }
 
         router.replace(extractPathnameAndQueryFromURL(url))
