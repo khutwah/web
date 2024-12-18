@@ -22,7 +22,7 @@ export default async function Home() {
   const activities = new Activities()
   const activityList = await activities.list({
     ustadz_id: userId,
-    order_by: 'desc',
+    order_by: [['id', 'desc']],
     limit: 10
   })
 

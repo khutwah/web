@@ -66,7 +66,7 @@ export default async function AddActivity(props: AddActivityProps) {
     student_id: Number(params.slug),
     student_attendance: 'present',
     type: activityKey,
-    order_by: 'desc',
+    order_by: [['id', 'desc']],
     status: ActivityStatus.completed,
     limit: 1
   })

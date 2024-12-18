@@ -96,7 +96,7 @@ export default async function DetailSantri({
       }),
       activitiesInstance.list({
         student_id: student.data.id,
-        order_by: 'desc',
+        order_by: [['id', 'desc']],
         limit: 10
       }),
       activitiesInstance.checkpoint({
