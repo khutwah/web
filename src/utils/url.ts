@@ -67,7 +67,12 @@ export function convertSearchParamsToPath(
 
 export function addQueryParams(
   url: string,
-  searchParams: { [key: string]: string | string[] | undefined }
+  searchParams: { [key: string]: string | string[] | undefined },
+  options: {
+    unique?: boolean
+  } = {
+    unique: true
+  }
 ): string {
   const [baseUrl, existingQuery] = url.split('?')
   const urlSearchParams = new URLSearchParams(existingQuery)
@@ -79,7 +84,11 @@ export function addQueryParams(
     if (Array.isArray(value)) {
       value.forEach((v) => urlSearchParams.append(key, v))
     } else {
-      urlSearchParams.append(key, value)
+      if (options?.unique) {
+        urlSearchParams.set(key, value)
+      } else {
+        urlSearchParams.append(key, value)
+      }
     }
   }
 

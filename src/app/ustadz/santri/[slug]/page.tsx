@@ -24,11 +24,17 @@ import { CheckpointStatus } from '@/models/checkpoint'
 import { parseParameter } from '@/utils/parse-parameter'
 import getTimezoneInfo from '@/utils/get-timezone-info'
 import { MENU_USTADZ_PATH_RECORDS } from '@/utils/menus/ustadz'
-import { MessageSquareText } from 'lucide-react'
+import { cn } from '@/utils/classnames'
+
 import {
   convertSearchParamsToPath,
   convertSearchParamsToStringRecords
 } from '@/utils/url'
+import { ProgressChartWithNavigation } from '@/components/Progress/ProgressChart'
+import {
+  ProgressToggle,
+  ProgressToggleProps
+} from './components/ProgressToggle/ProgressToggle'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const DEFAULT_EMPTY_ARRAY: any[] = []
@@ -55,6 +61,8 @@ export default async function DetailSantri({
   const studentsInstance = new Students()
   const student = await studentsInstance.get(Number(studentId))
   const halaqahId = String(student.data?.halaqah?.id)
+  const chartPeriod = searchParams['periode'] === 'bulan' ? 'month' : 'week'
+  const isChartView = searchParams['view'] === 'chart'
 
   let pageContent: JSX.Element
 
@@ -77,7 +85,8 @@ export default async function DetailSantri({
       lastActivitiesPromise,
       latestCheckpointPromise,
       isUserManageStudentPromise,
-      checkpointPromise
+      checkpointPromise,
+      activitiesChartPromise
     ] = await Promise.allSettled([
       activitiesInstance.list({
         student_id: student.data.id,
@@ -96,6 +105,11 @@ export default async function DetailSantri({
       studentsInstance.isUserManagesStudent(Number(studentId)),
       new Checkpoint().list({
         student_id: Number(studentId)
+      }),
+      activitiesInstance.chart({
+        student_id: student.data!.id,
+        start_date: day.startOf(chartPeriod).toISOString(),
+        end_date: day.endOf(chartPeriod).toISOString()
       })
     ])
 
@@ -124,6 +138,11 @@ export default async function DetailSantri({
         ? latestCheckpointPromise.value
         : undefined
 
+    const activitiesChart =
+      activitiesChartPromise.status === 'fulfilled'
+        ? activitiesChartPromise.value
+        : DEFAULT_EMPTY_ARRAY
+
     const returnTo = convertSearchParamsToPath(searchParams)
     pageContent = (
       <>
@@ -132,7 +151,13 @@ export default async function DetailSantri({
         />
         <Navbar
           text='Detail Santri'
-          rightComponent={<MessageSquareText />}
+          rightComponent={
+            <ProgressToggle
+              initialView={
+                searchParams['view'] as ProgressToggleProps['initialView']
+              }
+            />
+          }
           returnTo={`${MENU_USTADZ_PATH_RECORDS.home}${returnTo}`}
         />
 
@@ -162,24 +187,40 @@ export default async function DetailSantri({
                 className='rounded-full'
               />
             </CardHeader>
-            <CardContent className='flex flex-col p-0 gap-y-3'>
-              <ProgressGridWithNav
-                activities={activities?.data ?? DEFAULT_EMPTY_ARRAY}
-                date={day.toDate()}
-                className='border-none rounded-none'
-                statusProps={{
-                  editable: isUserManageStudent,
-                  status: checkpointData?.status as CheckpointStatus,
-                  parameter: parseParameter(checkpointData),
-                  checkpointId: checkpointData?.id,
-                  lastActivityId: latestCheckpoint?.last_activity_id,
-                  pageCountAccumulation:
-                    latestCheckpoint?.page_count_accumulation,
-                  studentId: Number(studentId),
-                  notes: latestCheckpoint?.notes,
-                  partCount: latestCheckpoint?.part_count
-                }}
-              />
+            <CardContent
+              className={cn(
+                'flex flex-col p-0 gap-y-3 transition-all duration-200 ease-in-out',
+                {
+                  'p-4 pb-0': isChartView
+                }
+              )}
+            >
+              {isChartView ? (
+                <ProgressChartWithNavigation
+                  activities={activitiesChart}
+                  datePeriod={
+                    searchParams['periode'] === 'bulan' ? 'bulan' : 'pekan'
+                  }
+                />
+              ) : (
+                <ProgressGridWithNav
+                  activities={activities?.data ?? DEFAULT_EMPTY_ARRAY}
+                  date={day.toDate()}
+                  className='border-none rounded-none'
+                  statusProps={{
+                    editable: isUserManageStudent,
+                    status: checkpointData?.status as CheckpointStatus,
+                    parameter: parseParameter(checkpointData),
+                    checkpointId: checkpointData?.id,
+                    lastActivityId: latestCheckpoint?.last_activity_id,
+                    pageCountAccumulation:
+                      latestCheckpoint?.page_count_accumulation,
+                    studentId: Number(studentId),
+                    notes: latestCheckpoint?.notes,
+                    partCount: latestCheckpoint?.part_count
+                  }}
+                />
+              )}
             </CardContent>
           </Card>
         </div>
