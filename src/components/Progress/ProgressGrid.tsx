@@ -121,7 +121,7 @@ export function ProgressGrid({
             {gridKeys.map((activityName) => (
               <tr key={activityName}>
                 <td className='text-mtmh-sm-semibold'>{activityName}</td>
-                {headers.map((header, idx) => {
+                {headers.map((header) => {
                   const headerKey = getGridIdentifier(new Date(header))
                   const { pageCount, isStudentPresent, status } =
                     grids[activityName][headerKey]
