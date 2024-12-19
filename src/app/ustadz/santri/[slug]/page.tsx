@@ -16,6 +16,7 @@ import {
   ACTIVITY_PERIOD_QUERY_PARAMETER,
   ACTIVITY_CURRENT_DATE_QUERY_PARAMETER,
   ACTIVITY_CURRENT_DATE_QUERY_PARAMETER_DATE_FORMAT,
+  ACTIVITY_VIEW_QUERY_PARAMETER,
   ActivityStatus,
   ActivityTypeKey
 } from '@/models/activities'
@@ -62,7 +63,7 @@ export default async function DetailSantri({
   const student = await studentsInstance.get(Number(studentId))
   const halaqahId = String(student.data?.halaqah?.id)
   const chartPeriod = searchParams['periode'] === 'bulan' ? 'month' : 'week'
-  const isChartView = searchParams['view'] === 'chart'
+  const isChartView = searchParams[ACTIVITY_VIEW_QUERY_PARAMETER] === 'chart'
 
   let pageContent: JSX.Element
 
@@ -72,7 +73,6 @@ export default async function DetailSantri({
     // This gets the current day in the client's timezone.
     const tz = await getTimezoneInfo()
     const period = periodQueryParameter === 'bulan' ? 'month' : 'week'
-    const today = dayjs().tz(tz).format('YYYY-MM-DD')
 
     const day = dayjs
       .utc(
@@ -156,7 +156,9 @@ export default async function DetailSantri({
           rightComponent={
             <ProgressToggle
               initialView={
-                searchParams['view'] as ProgressToggleProps['initialView']
+                searchParams[
+                  ACTIVITY_VIEW_QUERY_PARAMETER
+                ] as ProgressToggleProps['initialView']
               }
             />
           }
@@ -167,13 +169,7 @@ export default async function DetailSantri({
 
         <div className='flex flex-col p-6 gap-y-4'>
           <div className='flex justify-center gap-x-[6.5px] text-mtmh-neutral-white text-mtmh-m-regular'>
-            <SantriActivityHeader
-              today={today}
-              activated={
-                searchParams['view'] !== 'chart' &&
-                searchParams['tanggal'] !== today
-              }
-            />
+            <SantriActivityHeader hasJumpToTodayLink={!isChartView} />
           </div>
 
           <Card className='bg-mtmh-neutral-white text-mtmh-grey-base shadow-md border border-mtmh-snow-lighter rounded-md'>

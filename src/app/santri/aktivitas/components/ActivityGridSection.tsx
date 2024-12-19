@@ -15,7 +15,8 @@ import { getUser } from '@/utils/supabase/get-user'
 import getTimezoneInfo from '@/utils/get-timezone-info'
 import {
   ACTIVITY_CURRENT_DATE_QUERY_PARAMETER,
-  ACTIVITY_CURRENT_DATE_QUERY_PARAMETER_DATE_FORMAT
+  ACTIVITY_CURRENT_DATE_QUERY_PARAMETER_DATE_FORMAT,
+  ACTIVITY_VIEW_QUERY_PARAMETER
 } from '@/models/activities'
 import { convertSearchParamsToStringRecords } from '@/utils/url'
 
@@ -27,17 +28,13 @@ export async function ActivityGridSection({
   searchParams: searchParamsPromise
 }: Props) {
   const searchParams = await searchParamsPromise
-  const tz = await getTimezoneInfo()
-  const today = dayjs.tz(tz).format('YYYY-MM-DD')
 
   return (
     <section className='flex flex-col gap-y-4'>
       <div className='flex justify-center gap-x-[6.5px] text-mtmh-neutral-white text-mtmh-m-regular'>
         <SantriActivityHeader
-          today={today}
-          activated={
-            searchParams['view'] !== 'chart' &&
-            searchParams['tanggal'] !== today
+          hasJumpToTodayLink={
+            searchParams[ACTIVITY_VIEW_QUERY_PARAMETER] !== 'chart'
           }
         />
       </div>

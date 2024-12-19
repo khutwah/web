@@ -44,6 +44,7 @@ export type ActivityChartEntry = Awaited<
 
 export type MappedActivityStatus = { [key in ActivityTypeKey]?: ActivityStatus }
 
-export const ACTIVITY_CURRENT_DATE_QUERY_PARAMETER = 'tanggal'
-export const ACTIVITY_PERIOD_QUERY_PARAMETER = 'periode'
+export const ACTIVITY_CURRENT_DATE_QUERY_PARAMETER = 'date'
+export const ACTIVITY_PERIOD_QUERY_PARAMETER = 'period'
+export const ACTIVITY_VIEW_QUERY_PARAMETER = 'view'
 export const ACTIVITY_CURRENT_DATE_QUERY_PARAMETER_DATE_FORMAT = 'YYYY-MM-DD'

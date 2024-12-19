@@ -4,23 +4,34 @@ import { DateHeader } from '@/components/Header/Date'
 import { useAlAdhanInfo } from '@/hooks/useAlAdhanInfo'
 import { addQueryParams } from '@/utils/url'
 import Link from 'next/link'
+import dayjsClientSideLocal from '@/utils/dayjs-client-side-local'
+import { ACTIVITY_CURRENT_DATE_QUERY_PARAMETER } from '@/models/activities'
+import { useEffect, useState } from 'react'
 
 interface SantriActivityHeaderProps {
-  today?: string
-  activated?: boolean
+  hasJumpToTodayLink?: boolean
 }
 
 export function SantriActivityHeader({
-  today,
-  activated
+  hasJumpToTodayLink
 }: SantriActivityHeaderProps) {
+  const [href, setHref] = useState<string>('')
   const { alAdhanInfo } = useAlAdhanInfo()
-  const isActivated = activated && today
+  const currentDate = dayjsClientSideLocal().format('YYYY-MM-DD')
+
+  // To make sure we opt-out of the SSR.
+  useEffect(() => {
+    setHref(
+      addQueryParams(window.location.href, {
+        [ACTIVITY_CURRENT_DATE_QUERY_PARAMETER]: currentDate
+      })
+    )
+  }, [])
 
   return (
     <>
-      {isActivated ? (
-        <Link href={addQueryParams(window.location.href, { tanggal: today })}>
+      {hasJumpToTodayLink && href ? (
+        <Link href={href}>
           <DateHeader hijriDate={alAdhanInfo?.date.hijri} />
         </Link>
       ) : (
