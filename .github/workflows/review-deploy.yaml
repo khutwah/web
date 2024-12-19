@@ -66,6 +66,7 @@ jobs:
           secrets: NEXT_PUBLIC_SUPABASE_URL=${{ secrets.REVIEW_SUPABASE_URL }} NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ secrets.REVIEW_SUPABASE_ANON_KEY }} DEFAULT_STUDENT_PASSWORD=${{ secrets.DEFAULT_STUDENT_PASSWORD }} DATABASE_URL=${{ secrets.REVIEW_DATABASE_URL }}
           build_args: |
             NEXT_PUBLIC_APP_VERSION=pr-${{ github.event.number }}
+            NEXT_PUBLIC_CACHE_BUSTER=${{ github.sha }}
         env:
           DOCKER_BUILD: true
           NEXT_PUBLIC_APP_VERSION: pr-${{ github.event.number }}

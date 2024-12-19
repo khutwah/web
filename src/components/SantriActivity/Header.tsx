@@ -17,13 +17,13 @@ export function SantriActivityHeader({
 }: SantriActivityHeaderProps) {
   const [href, setHref] = useState<string>('')
   const { alAdhanInfo } = useAlAdhanInfo()
-  const currentDate = dayjsClientSideLocal().format('YYYY-MM-DD')
 
   // To make sure we opt-out of the SSR.
   useEffect(() => {
     setHref(
       addQueryParams(window.location.href, {
-        [ACTIVITY_CURRENT_DATE_QUERY_PARAMETER]: currentDate
+        [ACTIVITY_CURRENT_DATE_QUERY_PARAMETER]:
+          dayjsClientSideLocal().format('YYYY-MM-DD')
       })
     )
   }, [])
