@@ -37,8 +37,7 @@ interface GridEntry {
   status: ActivityStatus
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const DEFAULT_EMPTY_ARRAY: any[] = []
+const DEFAULT_EMPTY_ARRAY: NonNullable<Props['activities']> = []
 
 /**
  * Vanilla `<ProgressGrid>`. Offers activities in the form of grid. Directly used only in Ladle stories.
@@ -49,11 +48,14 @@ export function ProgressGrid({
   onChangeDate,
   className,
   statusProps,
-  isLoading
+  isLoading: isLoadingProp
 }: Props) {
   const [isTransitioning, startTransition] = useTransition()
+  const isLoadingOrTransitioning = isTransitioning || isLoadingProp
 
-  const activities = activitiesProp ?? DEFAULT_EMPTY_ARRAY
+  const activities = isTransitioning
+    ? DEFAULT_EMPTY_ARRAY
+    : (activitiesProp ?? DEFAULT_EMPTY_ARRAY)
   const dateString = currentDate.toISOString()
 
   const startDate = dayjsClientSideLocal(dateString).startOf('week')
@@ -86,7 +88,7 @@ export function ProgressGrid({
     grids[type][gridId] = {
       pageCount: page_count,
       isStudentPresent: student_attendance === 'present',
-      status
+      status: status as ActivityStatus
     }
   }
 
@@ -98,7 +100,7 @@ export function ProgressGrid({
       )}
     >
       <div className='w-full flex flex-col gap-y-3 p-3'>
-        <table className='[&>*>*>td]:p-1 [&>*>*>td]:text-center w-full'>
+        <table className='[&>*>*>td]:p-1 [&>*>*>td]:text-center w-full table-fixed'>
           <thead>
             <tr className='text-mtmh-xs-regular h-[28px]'>
               <td className='text-mtmh-xs-semibold text-mtmh-red-light w-[51px]'>
@@ -119,15 +121,15 @@ export function ProgressGrid({
             {gridKeys.map((activityName) => (
               <tr key={activityName}>
                 <td className='text-mtmh-sm-semibold'>{activityName}</td>
-                {headers.map((header) => {
+                {headers.map((header, idx) => {
                   const headerKey = getGridIdentifier(new Date(header))
                   const { pageCount, isStudentPresent, status } =
                     grids[activityName][headerKey]
 
                   return (
                     <td key={header}>
-                      {isLoading ? (
-                        <Skeleton className='h-6 mx-auto max-w-10' />
+                      {isLoadingOrTransitioning ? (
+                        <Skeleton className='h-5 mx-auto max-w-10 py-0.5 px-2' />
                       ) : (
                         <ActivityBadge
                           hideIcon
@@ -149,8 +151,8 @@ export function ProgressGrid({
           <Button
             variant='text'
             size='xs'
-            className='flex gap-x-2'
-            disabled={isLoading || isTransitioning}
+            className='flex gap-x-2 pr-3'
+            disabled={isLoadingOrTransitioning}
             onClick={() => {
               startTransition(() => {
                 onChangeDate(
@@ -169,8 +171,8 @@ export function ProgressGrid({
           <Button
             variant='text'
             size='xs'
-            className='flex gap-x-2'
-            disabled={isLoading || isTransitioning}
+            className='flex gap-x-2 pl-3'
+            disabled={isLoadingOrTransitioning}
             onClick={() => {
               startTransition(() => {
                 onChangeDate(
@@ -188,7 +190,8 @@ export function ProgressGrid({
         </div>
       </div>
 
-      {isLoading ? (
+      {/* Dev's note: assuming the status applies always for "today", it doesn't make sense to change this on transition.  */}
+      {isLoadingProp ? (
         <Skeleton className='w-full h-16 rounded-t-none'></Skeleton>
       ) : (
         <ProgressGridStatus {...statusProps} />
