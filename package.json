@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "test": "tsx --test ./src/**/*.test.ts",
     "dev": "next dev --turbopack",
     "ladle": "ladle serve --viteConfig ladle-vite.config.ts",
     "ladle:build": "ladle build --viteConfig ladle-vite.config.ts",
@@ -45,7 +46,7 @@
     "@ladle/react": "^4.0.3",
     "@snaplet/copycat": "^5.1.0",
     "@snaplet/seed": "^0.98.0",
-    "@types/node": "^20",
+    "@types/node": "^20.17.10",
     "@types/pg": "^8.11.10",
     "@types/react": "^18",
     "@types/react-dom": "^18",
