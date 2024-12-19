@@ -12,6 +12,7 @@ export function ActivityCardStory() {
         surahStart={{ name: 'At-Taubah', verse: '1' }}
         surahEnd={{ name: 'At-Taubah', verse: '26' }}
         timestamp={new Date().toISOString()}
+        tz='Asia/Jakarta'
         notes='Santri kesulitan menghafal ayat yang memiliki beberapa titik stop dan kemiripan di antara titik-titik tersebut.'
         type='Sabaq'
         labels={['Terbata-bata', 'Makhrajul salah: ra']}
@@ -25,6 +26,7 @@ export function ActivityCardStory() {
         surahStart={{ name: 'At-Taubah', verse: '1' }}
         surahEnd={{ name: 'At-Taubah', verse: '1' }}
         timestamp={new Date(2024, 1, 1, 7).toISOString()}
+        tz='Asia/Jakarta'
         notes='Santri kesulitan menghafal ayat yang memiliki beberapa titik stop dan kemiripan di antara titik-titik tersebut.'
         type='Sabqi'
         labels={['Terbata-bata']}
@@ -38,6 +40,7 @@ export function ActivityCardStory() {
         surahStart={{ name: 'Al-Baqarah', verse: '1' }}
         surahEnd={{ name: 'Al-Baqarah', verse: '286' }}
         timestamp={new Date(2024, 1, 1, 7).toISOString()}
+        tz='Asia/Jakarta'
         notes=''
         type='Manzil'
         labels={['Makhrajul salah: ra']}
@@ -49,6 +52,7 @@ export function ActivityCardStory() {
         surahStart={{ name: 'Al-Mumtahanah', verse: '1' }}
         surahEnd={{ name: 'Al-Mumtahanah', verse: '13' }}
         timestamp={new Date(2024, 1, 1, 7).toISOString()}
+        tz='Asia/Jakarta'
         notes='Santri kesulitan menghafal ayat yang memiliki beberapa titik stop dan kemiripan di antara titik-titik tersebut.'
         type='Sabaq'
         status={ActivityStatus.completed}
@@ -59,6 +63,7 @@ export function ActivityCardStory() {
         surahStart={{ name: "Al-Mu'minun", verse: '1' }}
         surahEnd={{ name: "Al-Mu'minun", verse: '118' }}
         timestamp={new Date(2024, 10, 10, 27).toISOString()}
+        tz='Asia/Jakarta'
         notes='Santri kesulitan menghafal ayat yang memiliki beberapa titik stop dan kemiripan di antara titik-titik tersebut.'
         type='Sabqi'
         status={ActivityStatus.completed}
@@ -69,6 +74,7 @@ export function ActivityCardStory() {
         surahStart={{ name: "Al-Mu'minun", verse: '1' }}
         surahEnd={{ name: "Al-Mu'minun", verse: '118' }}
         timestamp={new Date(2024, 10, 10, 27).toISOString()}
+        tz='Asia/Jakarta'
         notes=''
         type='Manzil'
         status={ActivityStatus.draft}
@@ -79,6 +85,7 @@ export function ActivityCardStory() {
         surahStart={{ name: 'Al-Mumtahanah', verse: '1' }}
         surahEnd={{ name: 'Al-Mumtahanah', verse: '13' }}
         timestamp={new Date(2024, 1, 1, 7).toISOString()}
+        tz='America/New_York'
         notes=''
         type='Sabaq'
         status={ActivityStatus.completed}
@@ -89,6 +96,7 @@ export function ActivityCardStory() {
         surahStart={{ name: "Al-Mu'minun", verse: '1' }}
         surahEnd={{ name: "Al-Mu'minun", verse: '118' }}
         timestamp={new Date(2024, 10, 10, 27).toISOString()}
+        tz='America/New_York'
         notes=''
         type='Sabqi'
         status={ActivityStatus.completed}
@@ -99,6 +107,7 @@ export function ActivityCardStory() {
         surahStart={{ name: "Al-Mu'minun", verse: '1' }}
         surahEnd={{ name: "Al-Mu'minun", verse: '118' }}
         timestamp={new Date(2024, 10, 10, 27).toISOString()}
+        tz='America/New_York'
         notes=''
         type='Manzil'
         status={ActivityStatus.draft}

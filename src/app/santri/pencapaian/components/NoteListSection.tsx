@@ -89,6 +89,7 @@ async function NoteList({ period }: NoteListProps) {
                   : null
               }
               timestamp={activity.created_at!}
+              tz={tz}
               notes={activity.notes ?? ''}
               type={activity.type as ActivityTypeKey}
               isStudentPresent={activity.student_attendance === 'present'}
