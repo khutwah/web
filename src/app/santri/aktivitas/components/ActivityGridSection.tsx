@@ -61,7 +61,6 @@ async function ActivityGrid({
 }: {
   searchParams: Awaited<Props['searchParams']>
 }) {
-  console.info(searchParams)
   const user = await getUser()
   const { [ACTIVITY_CURRENT_DATE_QUERY_PARAMETER]: currentDateQueryParameter } =
     convertSearchParamsToStringRecords(searchParams)

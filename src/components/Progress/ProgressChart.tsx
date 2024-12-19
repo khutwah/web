@@ -24,7 +24,7 @@ import {
 } from '@/models/activities'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../Tabs/Tabs'
 import dayjsClientSideLocal from '@/utils/dayjs-client-side-local'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import dayjs, { Dayjs } from '@/utils/dayjs'
 import { useRouter } from 'next/navigation'
 import { extractPathnameAndQueryFromURL } from '@/utils/url'
@@ -115,6 +115,14 @@ function Subchart({
       datePeriod === 'bulan' ? 'month' : 'week'
     )
   )
+  const activitiesWithLocalTime = useMemo(
+    () =>
+      activities.map((activity) => ({
+        ...activity,
+        created_at: dayjsClientSideLocal(activity.created_at).toISOString()
+      })),
+    [activities]
+  )
 
   return (
     <div className='flex flex-col gap-y-3'>
@@ -128,7 +136,7 @@ function Subchart({
       <ChartContainer config={CHART_CONFIG}>
         <AreaChart
           accessibilityLayer
-          data={activities}
+          data={activitiesWithLocalTime}
           margin={{
             top: 18,
             left: 12,

@@ -19,6 +19,8 @@ import {
 import { Skeleton } from '@/components/Skeleton/Skeleton'
 import { useRouter } from 'next/navigation'
 import { extractPathnameAndQueryFromURL } from '@/utils/url'
+import { Button } from '../Button/Button'
+import { useTransition } from 'react'
 
 interface Props {
   activities: Array<Omit<ActivityEntry, 'target_page_count'>> | null
@@ -49,6 +51,8 @@ export function ProgressGrid({
   statusProps,
   isLoading
 }: Props) {
+  const [isTransitioning, startTransition] = useTransition()
+
   const activities = activitiesProp ?? DEFAULT_EMPTY_ARRAY
   const dateString = date.toISOString()
 
@@ -139,26 +143,38 @@ export function ProgressGrid({
           </tbody>
         </table>
 
-        <div className='flex w-full justify-between text-mtmh-sm-semibold text-mtmh-red-light'>
-          <button
+        <div className='flex w-full justify-between'>
+          <Button
+            variant='text'
+            size='xs'
             className='flex gap-x-2'
-            disabled={isLoading}
-            onClick={() => onChangeDate(dayjs(date).add(-5, 'day').toDate())}
+            disabled={isLoading || isTransitioning}
+            onClick={() => {
+              startTransition(() => {
+                onChangeDate(dayjs(date).add(-7, 'day').toDate())
+              })
+            }}
           >
             <ChevronLeft size={16} />
 
             <div>Mundur</div>
-          </button>
+          </Button>
 
-          <button
+          <Button
+            variant='text'
+            size='xs'
             className='flex gap-x-2'
-            disabled={isLoading}
-            onClick={() => onChangeDate(dayjs(date).add(5, 'day').toDate())}
+            disabled={isLoading || isTransitioning}
+            onClick={() => {
+              startTransition(() => {
+                onChangeDate(dayjs(date).add(7, 'day').toDate())
+              })
+            }}
           >
             <div>Maju</div>
 
             <ChevronRight size={16} />
-          </button>
+          </Button>
         </div>
       </div>
 

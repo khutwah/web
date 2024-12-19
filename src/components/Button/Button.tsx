@@ -12,9 +12,11 @@ const buttonVariants = cva(
         primary:
           'bg-mtmh-red-base text-white hover:bg-mtmh-red-dark active:bg-mtmh-red-darker disabled:bg-mtmh-snow-base disabled:text-mtmh-grey-lightest',
         outline:
-          'bg-white text-mtmh-grey-base border border-mtmh-snow-lighter hover:bg-mtmh-snow-lighter active:bg-mtmh-snow-base disabled:text-mtmh-grey-lightest'
+          'bg-white text-mtmh-grey-base border border-mtmh-snow-lighter hover:bg-mtmh-snow-lighter active:bg-mtmh-snow-base disabled:text-mtmh-grey-lightest',
+        text: 'text-mtmh-sm-semibold text-mtmh-red-light hover:bg-mtmh-snow-lighter active:bg-mtmh-snow-base disabled:text-mtmh-grey-lightest'
       },
       size: {
+        xs: 'h-8 rounded-md px-1',
         md: 'h-10 px-4 py-2',
         sm: 'h-9 rounded-md px-3',
         lg: 'h-11 rounded-md px-8',
