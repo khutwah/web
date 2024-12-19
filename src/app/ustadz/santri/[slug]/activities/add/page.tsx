@@ -24,6 +24,7 @@ import { FormAbsent } from '../components/Forms/Absent'
 import { Checkpoint } from '@/utils/supabase/models/checkpoint'
 import { TAG_DURING_LAJNAH } from '@/models/checkpoint'
 import { addQueryParams } from '@/utils/url'
+import getTimezoneInfo from '@/utils/get-timezone-info'
 
 interface AddActivityProps {
   params: Promise<{
@@ -40,6 +41,7 @@ interface AddActivityProps {
 export default async function AddActivity(props: AddActivityProps) {
   const params = await props.params
   const searchParams = await props.searchParams
+  const tz = await getTimezoneInfo()
 
   const santriPage = addQueryParams(
     `${MENU_USTADZ_PATH_RECORDS.santri}/${params.slug}`,
@@ -102,6 +104,7 @@ export default async function AddActivity(props: AddActivityProps) {
       />
       <HalaqahComponent
         date={new Date().toISOString()}
+        tz={tz}
         studentName={student.data?.name ?? ''}
         activityType={activityType}
         ustadName={halaqah?.data?.ustadz?.name ?? ''}

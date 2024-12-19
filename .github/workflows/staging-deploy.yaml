@@ -19,25 +19,6 @@ jobs:
             --build-arg NEXT_PUBLIC_APP_VERSION=stag-$(git rev-parse --short ${{ github.sha }}) \
             --build-arg NEXT_PUBLIC_CACHE_BUSTER=$(git rev-parse --short ${{ github.sha }}) \
             --config deployments/staging/fly.toml \
-            --no-cache \
             --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN_STAGING }}
-      - name: Run smoke test
-        id: smoke-test
-        run: |
-          for i in {1..10}; do curl -sSL https://mtmh-staging.khutwah.id | \
-            grep -q "$(git rev-parse --short ${{ github.sha }})" && exit 0 || \
-            { echo "Attempt $i failed. Retrying..." >&2; sleep 5; }; done; echo "Failed after 10 attempts." >&2; exit 1;
-      - name: Re-deploy on failure
-        if: steps.smoke-test.outcome == 'failure'
-        run: |
-          flyctl deploy \
-            --build-arg NEXT_PUBLIC_APP_VERSION=stag-$(git rev-parse --short ${{ github.sha }}) \
-            --build-arg NEXT_PUBLIC_CACHE_BUSTER=$(git rev-parse --short ${{ github.sha }}) \
-            --config deployments/staging/fly.toml \
-            --no-cache \
-            --remote-only
-          for i in {1..10}; do curl -sSL https://mtmh-staging.khutwah.id | \
-            grep -q "$(git rev-parse --short ${{ github.sha }})" && exit 0 || \
-            { echo "Attempt $i failed. Retrying..." >&2; sleep 5; }; done; echo "Failed after 3 attempts." >&2; exit 1;

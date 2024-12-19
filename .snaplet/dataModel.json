@@ -2160,7 +2160,7 @@
           "name": "session_type",
           "columnName": "session_type",
           "type": "varchar",
-          "isRequired": true,
+          "isRequired": false,
           "kind": "scalar",
           "isList": false,
           "isGenerated": false,

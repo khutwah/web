@@ -11,6 +11,16 @@ primary_region = 'sin'
   min_machines_running = 0
   processes = ['app']
 
+[http_service.http_options.response.headers]
+  X-Nextjs-Cache = false
+  X-Nextjs-Prerender = false
+  X-Nextjs-Stale-Time = false
+  X-Powered-By = false
+
+[[statics]]
+  guest_path = '/app/.next/static'
+  url_prefix = '/_next/static'
+
 [[vm]]
   memory = '1gb'
   cpu_kind = 'shared'

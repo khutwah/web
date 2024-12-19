@@ -109,7 +109,8 @@ export default async function DetailSantri({
       activitiesInstance.chart({
         student_id: student.data!.id,
         start_date: day.startOf(chartPeriod).toISOString(),
-        end_date: day.endOf(chartPeriod).toISOString()
+        end_date: day.endOf(chartPeriod).toISOString(),
+        tz
       })
     ])
 
@@ -297,6 +298,7 @@ export default async function DetailSantri({
                         : null
                     }
                     timestamp={item.created_at!}
+                    tz={tz}
                     notes={item.notes ?? ''}
                     type={item.type as ActivityTypeKey}
                     isStudentPresent={item.student_attendance === 'present'}

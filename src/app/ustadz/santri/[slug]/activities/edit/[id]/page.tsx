@@ -21,6 +21,7 @@ import { MENU_USTADZ_PATH_RECORDS } from '@/utils/menus/ustadz'
 import { FormAbsent } from '../../components/Forms/Absent'
 import { DEFAULT_START } from '@/models/activity-form'
 import { addQueryParams } from '@/utils/url'
+import getTimezoneInfo from '@/utils/get-timezone-info'
 
 interface EditActivityProps {
   params: Promise<{
@@ -36,6 +37,7 @@ interface EditActivityProps {
 export default async function EditActivity(props: EditActivityProps) {
   const params = await props.params
   const searchParams = await props.searchParams
+  const tz = await getTimezoneInfo()
 
   const santriPage = addQueryParams(
     `${MENU_USTADZ_PATH_RECORDS.santri}/${params.slug}`,
@@ -82,6 +84,7 @@ export default async function EditActivity(props: EditActivityProps) {
       />
       <HalaqahComponent
         date={activity.data.created_at!}
+        tz={tz}
         studentName={activity.data.students?.name ?? ''}
         activityType={activityType}
         ustadName={activity.data.shifts?.users?.name ?? ''}

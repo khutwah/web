@@ -10,6 +10,16 @@ primary_region = 'sin'
   min_machines_running = 0
   processes = ['app']
 
+[[statics]]
+  guest_path = '/app/.next/static'
+  url_prefix = '/_next/static'
+
+[http_service.http_options.response.headers]
+  X-Nextjs-Cache = false
+  X-Nextjs-Prerender = false
+  X-Nextjs-Stale-Time = false
+  X-Powered-By = false
+
 [env]
   NEXT_PUBLIC_SKIP_MUMTAZ_LOGIN = 'true'
 

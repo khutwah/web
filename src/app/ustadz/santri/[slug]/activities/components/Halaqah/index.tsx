@@ -6,11 +6,12 @@ import {
   CardTitle
 } from '@/components/Card/Card'
 import { ActivityTypeKey } from '@/models/activities'
-import { FormattedLocalDate } from '@/components/Local'
 import { Bookmark, BookOpen } from 'lucide-react'
+import dayjs from '@/utils/dayjs'
 
 interface HalaqahCardProps {
   date: string
+  tz: string
   studentName: string
   activityType: ActivityTypeKey
   ustadName: string
@@ -18,17 +19,14 @@ interface HalaqahCardProps {
 }
 
 function HalaqahCard(props: HalaqahCardProps) {
-  const { date, activityType, studentName, ustadName, lastSurah } = props
+  const { date, tz, activityType, studentName, ustadName, lastSurah } = props
   return (
     <Card className='w-full bg-mtmh-neutral-10 text-mtmh-grey-base'>
       <CardHeader className='rounded-t-xl p-5 pb-3'>
         <CardTitle className='flex justify-between items-start'>
           <div className='flex flex-col gap-y-1'>
             <div className='text-xs text-mtmh-neutral-50'>
-              <FormattedLocalDate
-                date={date}
-                format='dddd, DD MMM YYYY. HH:mm'
-              />
+              {dayjs.utc(date).tz(tz).format('DD MMM YYYY HH:mm')}
             </div>
             <div className='font-semibold'>{studentName}</div>
           </div>
