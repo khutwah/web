@@ -7,6 +7,7 @@ import { ActivityListClientProps, LIMIT } from '@/models/activity-list'
 import { ActivityCard } from '@/components/ActivityCard/ActivityCard'
 import { ActivityStatus, ActivityTypeKey } from '@/models/activities'
 import { useSearchParams } from 'next/navigation'
+import { ActivityPopup } from '@/components/ActivityPopup'
 
 export function ActivityListClient({
   initialActivities,
@@ -39,6 +40,7 @@ export function ActivityListClient({
 
   return (
     <div className='p-4 pb-6'>
+      <ActivityPopup activities={activities} />
       <div className='flex flex-col gap-4 pt-2'>
         {activities.map((item) => {
           const tags = item.tags as string[]
