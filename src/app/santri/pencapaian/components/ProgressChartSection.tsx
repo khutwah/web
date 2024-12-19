@@ -29,7 +29,8 @@ export default async function ProgressChartSection({
   const activities = await activitiesInstance.chart({
     student_id: student.data!.id,
     start_date: day.startOf(periodPayload).toISOString(),
-    end_date: day.endOf(periodPayload).toISOString()
+    end_date: day.endOf(periodPayload).toISOString(),
+    tz
   })
 
   return (

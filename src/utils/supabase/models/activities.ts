@@ -43,6 +43,7 @@ interface ActivitiesForChart {
   student_id: number
   start_date: string
   end_date: string
+  tz: string
 }
 
 const selectQuery = `
@@ -305,7 +306,7 @@ export class Activities extends Base {
     }
   }
 
-  async chart({ student_id, start_date, end_date }: ActivitiesForChart) {
+  async chart({ student_id, start_date, end_date, tz }: ActivitiesForChart) {
     const supabase = await this.supabase
 
     const checkpoint = await supabase
@@ -347,7 +348,6 @@ export class Activities extends Base {
     const data =
       activities.data?.map((item, index) => {
         pageCountStart += item.page_count || 0
-
         return {
           id: item.id,
           target_page_count: item.target_page_count * (index + 1),
@@ -357,7 +357,14 @@ export class Activities extends Base {
               ? null
               : pageCountStart,
           // Note: this is intended so that every tick in X axis is always at the start of day.
-          created_at: dayjs(item.created_at).startOf('day').toISOString(),
+          // Also this should consider the timezone of the user.
+          // FIXME(dio): Probably this should be handled at the caller site,
+          // so we don't need to trickle down the timezone to model layer.
+          created_at: dayjs
+            .utc(item.created_at)
+            .tz(tz) // item.created_at is in UTC, but we want to get the start of day in user's timezone.
+            .startOf('day')
+            .toISOString(),
           student_attendance: item.student_attendance
         }
       }) ?? []

@@ -43,6 +43,7 @@ export default async function DetailSantri({
   const params = await paramsPromise
   const searchParams = await searchParamsPromise
   const searchStringRecords = convertSearchParamsToStringRecords(searchParams)
+  const tz = await getTimezoneInfo()
 
   const studentId = params.slug
   const studentsInstance = new Students()
@@ -57,7 +58,6 @@ export default async function DetailSantri({
     pageContent = <div>Unexpected error: {student.error?.message}</div>
   } else {
     // This gets the current day in the client's timezone.
-    const tz = await getTimezoneInfo()
     const day = dayjs().tz(tz)
     const activitiesInstance = new Activities()
     const [
@@ -89,7 +89,8 @@ export default async function DetailSantri({
       activitiesInstance.chart({
         student_id: student.data!.id,
         start_date: day.startOf(chartPeriod).toISOString(),
-        end_date: day.endOf(chartPeriod).toISOString()
+        end_date: day.endOf(chartPeriod).toISOString(),
+        tz
       })
     ])
 
@@ -276,6 +277,7 @@ export default async function DetailSantri({
                         : null
                     }
                     timestamp={item.created_at!}
+                    tz={tz}
                     notes={item.notes ?? ''}
                     type={item.type as ActivityTypeKey}
                     isStudentPresent={item.student_attendance === 'present'}

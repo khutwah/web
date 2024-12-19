@@ -13,7 +13,6 @@ import { Alert, AlertDescription } from '../Alert/Alert'
 import { StickyNote } from '../icons'
 import { cn } from '@/utils/classnames'
 import dayjs from '@/utils/dayjs'
-import { FormattedLocalDate } from '@/components/Local'
 
 interface SurahSubmissionInfo {
   name: string
@@ -26,6 +25,7 @@ interface Props {
   isStudentPresent: boolean
   notes: string
   timestamp: string
+  tz: string
   status: ActivityStatus
   surahStart?: SurahSubmissionInfo | null
   surahEnd?: SurahSubmissionInfo | null
@@ -39,6 +39,7 @@ export function ActivityCard({
   surahEnd,
   surahStart,
   timestamp, // WARNING: timestamp is in UTC.
+  tz,
   notes,
   type,
   isStudentPresent,
@@ -47,8 +48,6 @@ export function ActivityCard({
   labels,
   status
 }: Props) {
-  const date = dayjs.utc(timestamp).toDate()
-
   return (
     <Link href={`?activity=${id}`}>
       <Card className='w-full bg-mtmh-neutral-10 text-mtmh-grey-base relative h-full flex flex-col'>
@@ -56,12 +55,8 @@ export function ActivityCard({
           <CardTitle className='flex justify-between items-start'>
             <div className='flex flex-col gap-y-1'>
               <div className='text-xs text-mtmh-neutral-50'>
-                <FormattedLocalDate
-                  date={date.toISOString()}
-                  format='dddd, DD MMM YYYY. HH:mm'
-                />
+                {dayjs.utc(timestamp).tz(tz).format('DD MMM YYYY HH:mm')}
               </div>
-
               {studentName && (
                 <div className='font-semibold'>{studentName}</div>
               )}

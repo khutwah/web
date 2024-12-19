@@ -20,6 +20,7 @@ import {
 } from '@/models/activities'
 import { Activities } from '@/utils/supabase/models/activities'
 import { getUser } from '@/utils/supabase/get-user'
+import getTimezoneInfo from '@/utils/get-timezone-info'
 
 export function LatestActivitiesSection() {
   return (
@@ -146,6 +147,7 @@ const TYPE_TO_LABEL_MAP = {
 
 async function LatestActivitiesByType({ type }: { type: ActivityType }) {
   const user = await getUser()
+  const tz = await getTimezoneInfo()
 
   const activitiesInstance = new Activities()
 
@@ -190,6 +192,7 @@ async function LatestActivitiesByType({ type }: { type: ActivityType }) {
                 : null
             }
             timestamp={activity.created_at!}
+            tz={tz}
             notes={activity.notes ?? ''}
             type={activity.type as ActivityTypeKey}
             isStudentPresent={activity.student_attendance === 'present'}
