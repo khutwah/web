@@ -50,7 +50,8 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: 'Cache-Control',
-            value: 's-maxage=31536000'
+            // Make sure to set max-age=0 to prevent caching.
+            value: 'public, max-age=0, must-revalidate'
           }
         ]
       }
