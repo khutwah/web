@@ -241,6 +241,7 @@ async function runSeeder() {
 
   // Add 1 entry for each activity, for a month.
   const numberOfActivities = 31 * 3
+  const startOfMonth = dayjs().startOf('month')
 
   await seed.activities(
     (x) =>
@@ -248,21 +249,21 @@ async function runSeeder() {
         const type = Math.floor(ctx.index / 31) + 1
 
         const numberOfDaysAdded = ctx.index % 31
+        const currentDate = startOfMonth
+          .add(numberOfDaysAdded, 'days')
+          .add(7, 'hour')
+
         // The idea is so that on Saturday, there are 0 page_count.
-        const indexWithMaxNumber6 = ctx.index % 7
-        const pageCount = 7 - indexWithMaxNumber6 - 1
+        const isWeekend = currentDate.day() === 0 || currentDate.day() === 6
+        const pageCount = isWeekend ? 0 : ctx.index % 5
 
         return {
           student_id: 1,
           type,
-          created_at: dayjs()
-            .startOf('month')
-            .add(numberOfDaysAdded, 'days')
-            .add(7, 'hour')
-            .toISOString(),
+          created_at: currentDate.toISOString(),
           // On day 26th, the status is always draft.
           status:
-            ctx.index === numberOfActivities - 5
+            currentDate.date() === 26
               ? ActivityStatus.draft
               : ActivityStatus.completed,
           page_count: pageCount,

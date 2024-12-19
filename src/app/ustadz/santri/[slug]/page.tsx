@@ -7,12 +7,18 @@ import { Activities } from '@/utils/supabase/models/activities'
 import dayjs from '@/utils/dayjs'
 import Image from 'next/image'
 import SampleSantriAvatar from '@/assets/sample-santri-photo.png'
-import { ProgressGridWithState } from '@/components/Progress/ProgressGrid'
+import { ProgressGridWithNav } from '@/components/Progress/ProgressGrid'
 import { SantriActivityHeader } from '@/components/SantriActivity/Header'
 import { ActivityPopup } from '@/components/ActivityPopup'
 import { ActivityCard } from '@/components/ActivityCard/ActivityCard'
 import Link from 'next/link'
-import { ActivityStatus, ActivityTypeKey } from '@/models/activities'
+import {
+  ACTIVITY_PERIOD_QUERY_PARAMETER,
+  ACTIVITY_CURRENT_DATE_QUERY_PARAMETER,
+  ACTIVITY_CURRENT_DATE_QUERY_PARAMETER_DATE_FORMAT,
+  ActivityStatus,
+  ActivityTypeKey
+} from '@/models/activities'
 import { Checkpoint } from '@/utils/supabase/models/checkpoint'
 import { CheckpointStatus } from '@/models/checkpoint'
 import { parseParameter } from '@/utils/parse-parameter'
@@ -42,8 +48,14 @@ export default async function DetailSantri({
 }) {
   const params = await paramsPromise
   const searchParams = await searchParamsPromise
-  const searchStringRecords = convertSearchParamsToStringRecords(searchParams)
-  const tz = await getTimezoneInfo()
+
+  // Exclude <ActivityCard> related props, because they are irrelevant inside the Add/Edit Activity view.
+  // `periodQueryParameter` is of type `ProgressChartPeriod`.
+  const {
+    [ACTIVITY_CURRENT_DATE_QUERY_PARAMETER]: currentDateQueryParameter,
+    [ACTIVITY_PERIOD_QUERY_PARAMETER]: periodQueryParameter,
+    ...searchStringRecords
+  } = convertSearchParamsToStringRecords(searchParams)
 
   const studentId = params.slug
   const studentsInstance = new Students()
@@ -58,7 +70,15 @@ export default async function DetailSantri({
     pageContent = <div>Unexpected error: {student.error?.message}</div>
   } else {
     // This gets the current day in the client's timezone.
-    const day = dayjs().tz(tz)
+    const tz = await getTimezoneInfo()
+    const period = periodQueryParameter === 'bulan' ? 'month' : 'week'
+
+    const day = dayjs
+      .utc(
+        currentDateQueryParameter,
+        ACTIVITY_CURRENT_DATE_QUERY_PARAMETER_DATE_FORMAT
+      )
+      .tz(tz)
     const activitiesInstance = new Activities()
     const [
       activitiesPromise,
@@ -70,8 +90,8 @@ export default async function DetailSantri({
     ] = await Promise.allSettled([
       activitiesInstance.list({
         student_id: student.data.id,
-        start_date: day.startOf('week').utc().toISOString(),
-        end_date: day.endOf('week').utc().toISOString(),
+        start_date: day.startOf(period).toISOString(),
+        end_date: day.endOf(period).toISOString(),
         limit: 21
       }),
       activitiesInstance.list({
@@ -180,12 +200,13 @@ export default async function DetailSantri({
                 <ProgressChartWithNavigation
                   activities={activitiesChart}
                   datePeriod={
-                    searchParams['periode'] === 'bulan' ? 'bulan' : 'pekan'
+                    periodQueryParameter === 'bulan' ? 'bulan' : 'pekan'
                   }
                 />
               ) : (
-                <ProgressGridWithState
+                <ProgressGridWithNav
                   activities={activities?.data ?? DEFAULT_EMPTY_ARRAY}
+                  date={day.toDate()}
                   className='border-none rounded-none'
                   statusProps={{
                     editable: isUserManageStudent,

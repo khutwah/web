@@ -17,10 +17,14 @@ import {
   ChartTooltip,
   ChartTooltipContent
 } from '@/components/Chart/Chart'
-import { ActivityChartEntry, GLOBAL_TARGET_PAGE } from '@/models/activities'
+import {
+  ACTIVITY_PERIOD_QUERY_PARAMETER,
+  ActivityChartEntry,
+  GLOBAL_TARGET_PAGE
+} from '@/models/activities'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../Tabs/Tabs'
 import dayjsClientSideLocal from '@/utils/dayjs-client-side-local'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import dayjs, { Dayjs } from '@/utils/dayjs'
 import { useRouter } from 'next/navigation'
 import { extractPathnameAndQueryFromURL } from '@/utils/url'
@@ -88,9 +92,9 @@ export function ProgressChartWithNavigation(
       onDatePeriodChange={(value) => {
         const url = new URL(window.location.href)
         if (value === 'pekan') {
-          url.searchParams.delete('periode')
+          url.searchParams.delete(ACTIVITY_PERIOD_QUERY_PARAMETER)
         } else {
-          url.searchParams.set('periode', value)
+          url.searchParams.set(ACTIVITY_PERIOD_QUERY_PARAMETER, value)
         }
 
         router.replace(extractPathnameAndQueryFromURL(url))
@@ -111,6 +115,14 @@ function Subchart({
       datePeriod === 'bulan' ? 'month' : 'week'
     )
   )
+  const activitiesWithLocalTime = useMemo(
+    () =>
+      activities.map((activity) => ({
+        ...activity,
+        created_at: dayjsClientSideLocal(activity.created_at).toISOString()
+      })),
+    [activities]
+  )
 
   return (
     <div className='flex flex-col gap-y-3'>
@@ -124,7 +136,7 @@ function Subchart({
       <ChartContainer config={CHART_CONFIG}>
         <AreaChart
           accessibilityLayer
-          data={activities}
+          data={activitiesWithLocalTime}
           margin={{
             top: 18,
             left: 12,

@@ -39,7 +39,9 @@ export function Badge({ color, text, icon, dashed }: BadgeProps) {
         'text-xs text-mtmh-neutral-white py-0.5 px-2 rounded-md flex justify-center items-center gap-1',
         {
           border: color === 'outline',
-          'bg-mtmh-snow-base': color !== 'outline'
+          'bg-mtmh-snow-base': color !== 'outline',
+          // When there is a border, we "subtract" the padding by the border size to ensure that all badges have the same size.
+          'py-[1px]': dashed
         },
         COLOR_TO_CLASSNAME_RECORD[colorKey as BadgeProps['color']]
       )}

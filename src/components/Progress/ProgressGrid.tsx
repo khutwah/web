@@ -3,24 +3,29 @@
 import {
   ActivityEntry,
   ActivityTypeKey,
-  ActivityStatus
+  ActivityStatus,
+  ACTIVITY_CURRENT_DATE_QUERY_PARAMETER,
+  ACTIVITY_CURRENT_DATE_QUERY_PARAMETER_DATE_FORMAT
 } from '@/models/activities'
 import { ActivityBadge } from '../Badge/ActivityBadge'
-import { Dispatch, SetStateAction, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import dayjsClientSideLocal from '@/utils/dayjs-client-side-local'
-import dayjs, { Dayjs } from '@/utils/dayjs'
+import { Dayjs } from '@/utils/dayjs'
 import { cn } from '@/utils/classnames'
 import {
   ProgressGridStatus,
   ProgressGridStatusProps
 } from './ProgressGridStatus'
 import { Skeleton } from '@/components/Skeleton/Skeleton'
+import { useRouter } from 'next/navigation'
+import { extractPathnameAndQueryFromURL } from '@/utils/url'
+import { Button } from '../Button/Button'
+import { useTransition } from 'react'
 
 interface Props {
   activities: Array<Omit<ActivityEntry, 'target_page_count'>> | null
   date: Date
-  onChangeDate: Dispatch<SetStateAction<Date>>
+  onChangeDate: (date: Date) => unknown
   className?: string
   statusProps?: ProgressGridStatusProps
   isLoading?: boolean
@@ -32,24 +37,29 @@ interface GridEntry {
   status: ActivityStatus
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const DEFAULT_EMPTY_ARRAY: any[] = []
+const DEFAULT_EMPTY_ARRAY: NonNullable<Props['activities']> = []
 
 /**
  * Vanilla `<ProgressGrid>`. Offers activities in the form of grid. Directly used only in Ladle stories.
  */
 export function ProgressGrid({
   activities: activitiesProp,
-  date,
+  date: currentDate,
   onChangeDate,
   className,
   statusProps,
-  isLoading
+  isLoading: isLoadingProp
 }: Props) {
-  const activities = activitiesProp ?? DEFAULT_EMPTY_ARRAY
+  const [isTransitioning, startTransition] = useTransition()
+  const isLoadingOrTransitioning = isTransitioning || isLoadingProp
 
-  const startDate = dayjs(date).day(0)
-  const endDate = dayjs(date).day(6)
+  const activities = isTransitioning
+    ? DEFAULT_EMPTY_ARRAY
+    : (activitiesProp ?? DEFAULT_EMPTY_ARRAY)
+  const dateString = currentDate.toISOString()
+
+  const startDate = dayjsClientSideLocal(dateString).startOf('week')
+  const endDate = dayjsClientSideLocal(dateString).endOf('week')
 
   const { grid, headers } = getInitialVariables(startDate, endDate)
 
@@ -74,11 +84,11 @@ export function ProgressGrid({
     if (!grids[type] || !created_at || page_count === null) continue
 
     // Keep created_at in UTC, since this is a "use client" component.
-    const gridId = getGridIdentifier(dayjs.utc(created_at).toDate())
+    const gridId = getGridIdentifier(dayjsClientSideLocal(created_at).toDate())
     grids[type][gridId] = {
       pageCount: page_count,
       isStudentPresent: student_attendance === 'present',
-      status
+      status: status as ActivityStatus
     }
   }
 
@@ -90,11 +100,13 @@ export function ProgressGrid({
       )}
     >
       <div className='w-full flex flex-col gap-y-3 p-3'>
-        <table className='[&>*>*>td]:p-1 [&>*>*>td]:text-center w-full'>
+        <table className='[&>*>*>td]:p-1 [&>*>*>td]:text-center w-full table-fixed'>
           <thead>
             <tr className='text-mtmh-xs-regular h-[28px]'>
               <td className='text-mtmh-xs-semibold text-mtmh-red-light w-[51px]'>
-                {dayjsClientSideLocal(date.toISOString()).format('MMM YY')}
+                {dayjsClientSideLocal(currentDate.toISOString()).format(
+                  'MMM YY'
+                )}
               </td>
               {headers.map((header) => {
                 return (
@@ -116,8 +128,8 @@ export function ProgressGrid({
 
                   return (
                     <td key={header}>
-                      {isLoading ? (
-                        <Skeleton className='h-6 mx-auto max-w-10' />
+                      {isLoadingOrTransitioning ? (
+                        <Skeleton className='h-5 mx-auto max-w-10 py-0.5 px-2' />
                       ) : (
                         <ActivityBadge
                           hideIcon
@@ -135,36 +147,51 @@ export function ProgressGrid({
           </tbody>
         </table>
 
-        <div className='flex w-full justify-between text-mtmh-sm-semibold text-mtmh-red-light'>
-          <button
-            className='flex gap-x-2'
-            disabled={isLoading}
-            onClick={() =>
-              onChangeDate((prevDate) =>
-                dayjs(prevDate).add(-5, 'day').toDate()
-              )
-            }
+        <div className='flex w-full justify-between'>
+          <Button
+            variant='text'
+            size='xs'
+            className='flex gap-x-2 pr-3'
+            disabled={isLoadingOrTransitioning}
+            onClick={() => {
+              startTransition(() => {
+                onChangeDate(
+                  dayjsClientSideLocal(currentDate.toISOString())
+                    .add(-7, 'day')
+                    .toDate()
+                )
+              })
+            }}
           >
             <ChevronLeft size={16} />
 
             <div>Mundur</div>
-          </button>
+          </Button>
 
-          <button
-            className='flex gap-x-2'
-            disabled={isLoading}
-            onClick={() =>
-              onChangeDate((prevDate) => dayjs(prevDate).add(5, 'day').toDate())
-            }
+          <Button
+            variant='text'
+            size='xs'
+            className='flex gap-x-2 pl-3'
+            disabled={isLoadingOrTransitioning}
+            onClick={() => {
+              startTransition(() => {
+                onChangeDate(
+                  dayjsClientSideLocal(currentDate.toISOString())
+                    .add(7, 'day')
+                    .toDate()
+                )
+              })
+            }}
           >
             <div>Maju</div>
 
             <ChevronRight size={16} />
-          </button>
+          </Button>
         </div>
       </div>
 
-      {isLoading ? (
+      {/* Dev's note: assuming the status applies always for "today", it doesn't make sense to change this on transition.  */}
+      {isLoadingProp ? (
         <Skeleton className='w-full h-16 rounded-t-none'></Skeleton>
       ) : (
         <ProgressGridStatus {...statusProps} />
@@ -174,15 +201,27 @@ export function ProgressGrid({
 }
 
 /**
- * `<ProgressGrid>` component wrapped with `useState` for the dates. This is used only in real app, so we don't have to
- * define the states manually.
+ * `<ProgressGrid>` component wrapped with event handlers to update the query parameters whenever the date changes.
  */
-export function ProgressGridWithState(
-  props: Omit<Props, 'date' | 'onChangeDate'>
-) {
-  const [date, setDate] = useState(new Date())
+export function ProgressGridWithNav(props: Omit<Props, 'onChangeDate'>) {
+  const router = useRouter()
 
-  return <ProgressGrid {...props} date={date} onChangeDate={setDate} />
+  return (
+    <ProgressGrid
+      {...props}
+      onChangeDate={(newDate) => {
+        const currentUrl = new URL(window.location.href)
+        currentUrl.searchParams.set(
+          ACTIVITY_CURRENT_DATE_QUERY_PARAMETER,
+          dayjsClientSideLocal(newDate.toISOString()).format(
+            ACTIVITY_CURRENT_DATE_QUERY_PARAMETER_DATE_FORMAT
+          )
+        )
+
+        router.replace(extractPathnameAndQueryFromURL(currentUrl))
+      }}
+    />
+  )
 }
 
 export function ProgressGridSkeleton() {
@@ -197,7 +236,7 @@ export function ProgressGridSkeleton() {
 }
 
 function TableHeaderDate({ dateString }: { dateString: string }) {
-  const dayjsObject = dayjs(dateString)
+  const dayjsObject = dayjsClientSideLocal(dateString)
   const isActive = dayjsObject.isSame(new Date(), 'day')
 
   return (
