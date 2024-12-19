@@ -4,6 +4,8 @@ import { useState, useTransition } from 'react'
 import { getActivities } from '../../actions'
 import { Button } from '@/components/Button/Button'
 import { ActivityListClientProps, LIMIT } from '@/models/activity-list'
+import { ActivityCard } from '@/components/ActivityCard/ActivityCard'
+import { ActivityStatus, ActivityTypeKey } from '@/models/activities'
 
 export function ActivityListClient({
   initialActivities,
@@ -33,22 +35,53 @@ export function ActivityListClient({
   }
 
   return (
-    <div>
-      {activities.map((item) => (
-        <div key={item.id}>
-          {item.status} + {item.created_at}
-        </div>
-      ))}
-      {finish ? (
-        <div>data sudah habis</div>
-      ) : (
+    <div className='p-4 pb-6'>
+      <div className='flex flex-col gap-4 pt-2'>
+        {activities.map((item) => {
+          const tags = item.tags as string[]
+          return (
+            <ActivityCard
+              key={item.id}
+              id={String(item.id)}
+              surahEnd={
+                item.student_attendance === 'present'
+                  ? {
+                      name: String(item.end_surah),
+                      verse: String(item.end_verse)
+                    }
+                  : null
+              }
+              surahStart={
+                item.student_attendance === 'present'
+                  ? {
+                      name: String(item.start_surah),
+                      verse: String(item.start_verse)
+                    }
+                  : null
+              }
+              timestamp={item.created_at!}
+              notes={item.notes ?? ''}
+              type={item.type as ActivityTypeKey}
+              isStudentPresent={item.student_attendance === 'present'}
+              studentName={item.student_name!}
+              halaqahName={item.halaqah_name!}
+              labels={tags}
+              status={item.status as ActivityStatus}
+            />
+          )
+        })}
+      </div>
+      {finish ? null : (
         <Button
-          className='w-full mt-4'
+          className='w-full mt-6'
           variant='primary'
-          onClick={loadMore}
+          onClick={() => {
+            if (isPending) return
+            loadMore()
+          }}
           disabled={isPending}
         >
-          {isPending ? 'Loading...' : 'Load More'}
+          {isPending ? 'Memuat...' : 'Muat lebih banyak'}
         </Button>
       )}
     </div>

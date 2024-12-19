@@ -1,6 +1,8 @@
 import { ActivityListProps, LIMIT } from '@/models/activity-list'
 import { getActivities } from '../../actions'
 import { ActivityListClient } from './Client'
+import { Button } from '@/components/Button/Button'
+import { Rabbit, SearchX } from 'lucide-react'
 
 export async function ActivityList(props: Readonly<ActivityListProps>) {
   const result = await getActivities({
@@ -10,11 +12,32 @@ export async function ActivityList(props: Readonly<ActivityListProps>) {
   })
 
   if (!result.success) {
-    return <div>failed to get data</div>
+    return (
+      <div className='flex flex-col items-center p-4 gap-4 mt-10'>
+        <div className='text-mtmh-red-base'>
+          <Rabbit size={128} />
+        </div>
+        <p className='text-mtmh-neutral-70 text-center w-9/12 mt-2'>
+          Maaf, terdapat kesalahan dalam memuat data.
+        </p>
+        <Button variant='primary' size='lg'>
+          Muat Ulang
+        </Button>
+      </div>
+    )
   }
 
   if (result.data && !result.data.length) {
-    return <div>activity not found</div>
+    return (
+      <div className='flex flex-col items-center p-4 gap-6 mt-10'>
+        <div className='text-mtmh-red-base'>
+          <SearchX size={128} />
+        </div>
+        <p className='text-mtmh-neutral-70 text-center w-9/12'>
+          Aktivitas tidak ditemukan
+        </p>
+      </div>
+    )
   }
 
   return (
