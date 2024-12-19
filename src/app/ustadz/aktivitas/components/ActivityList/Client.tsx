@@ -6,6 +6,7 @@ import { Button } from '@/components/Button/Button'
 import { ActivityListClientProps, LIMIT } from '@/models/activity-list'
 import { ActivityCard } from '@/components/ActivityCard/ActivityCard'
 import { ActivityStatus, ActivityTypeKey } from '@/models/activities'
+import { useSearchParams } from 'next/navigation'
 
 export function ActivityListClient({
   initialActivities,
@@ -15,6 +16,8 @@ export function ActivityListClient({
   const [offset, setOffset] = useState(initialActivities.length)
   const [isPending, startTransition] = useTransition()
   const [finish, setFinish] = useState(false)
+
+  const params = useSearchParams()
 
   const loadMore = async () => {
     startTransition(async () => {
@@ -67,6 +70,7 @@ export function ActivityListClient({
               halaqahName={item.halaqah_name!}
               labels={tags}
               status={item.status as ActivityStatus}
+              queryParams={params}
             />
           )
         })}

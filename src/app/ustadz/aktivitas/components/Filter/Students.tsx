@@ -10,11 +10,16 @@ export function Students({ items }: StudentsProps) {
   const router = useRouter()
   const params = useSearchParams()
   const studentId = params.get('student_id')
+
   return (
     <Combobox
       items={items}
       value={studentId ?? ''}
-      onChange={(value) => router.replace(`?student_id=${value}`)}
+      onChange={(value) => {
+        const newParams = new URLSearchParams(params)
+        newParams.set('student_id', value)
+        router.replace(`?${newParams.toString()}`)
+      }}
       placeholder='Cari Siswa'
       searchPlaceholder='Cari Siswa'
     />

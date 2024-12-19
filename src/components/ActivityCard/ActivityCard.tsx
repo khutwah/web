@@ -13,6 +13,7 @@ import { Alert, AlertDescription } from '../Alert/Alert'
 import { StickyNote } from '../icons'
 import { cn } from '@/utils/classnames'
 import dayjs from '@/utils/dayjs'
+import { ReadonlyURLSearchParams } from 'next/navigation'
 
 interface SurahSubmissionInfo {
   name: string
@@ -32,6 +33,7 @@ interface Props {
   studentName?: string
   halaqahName?: string
   labels?: string[]
+  queryParams?: ReadonlyURLSearchParams
 }
 
 export function ActivityCard({
@@ -46,10 +48,22 @@ export function ActivityCard({
   studentName,
   halaqahName,
   labels,
-  status
+  status,
+  queryParams
 }: Props) {
+  let params = null
+  if (queryParams) {
+    params = new URLSearchParams(queryParams)
+    params.set('activity', id)
+  }
+
   return (
-    <Link href={`?activity=${id}`}>
+    <Link
+      href={{
+        pathname: '',
+        query: params ? params.toString() : { activity: id }
+      }}
+    >
       <Card className='w-full bg-mtmh-neutral-10 text-mtmh-grey-base relative h-full flex flex-col'>
         <CardHeader className='rounded-t-xl p-5 pb-3'>
           <CardTitle className='flex justify-between items-start'>
