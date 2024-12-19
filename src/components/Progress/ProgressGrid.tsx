@@ -60,6 +60,7 @@ export function ProgressGrid({
 
   const startDate = dayjsClientSideLocal(dateString).startOf('week')
   const endDate = dayjsClientSideLocal(dateString).endOf('week')
+  const isCurrentWeek = startDate.isSame(new Date(), 'week')
 
   const { grid, headers } = getInitialVariables(startDate, endDate)
 
@@ -149,7 +150,7 @@ export function ProgressGrid({
 
         <div className='flex w-full justify-between'>
           <Button
-            variant='text'
+            variant='text2'
             size='xs'
             className='flex gap-x-2 pr-3'
             disabled={isLoadingOrTransitioning}
@@ -168,25 +169,27 @@ export function ProgressGrid({
             <div>Mundur</div>
           </Button>
 
-          <Button
-            variant='text'
-            size='xs'
-            className='flex gap-x-2 pl-3'
-            disabled={isLoadingOrTransitioning}
-            onClick={() => {
-              startTransition(() => {
-                onChangeDate(
-                  dayjsClientSideLocal(currentDate.toISOString())
-                    .add(7, 'day')
-                    .toDate()
-                )
-              })
-            }}
-          >
-            <div>Maju</div>
+          {!isCurrentWeek && (
+            <Button
+              variant='text2'
+              size='xs'
+              className='flex gap-x-2 pl-3'
+              disabled={isLoadingOrTransitioning}
+              onClick={() => {
+                startTransition(() => {
+                  onChangeDate(
+                    dayjsClientSideLocal(currentDate.toISOString())
+                      .add(7, 'day')
+                      .toDate()
+                  )
+                })
+              }}
+            >
+              <div>Maju</div>
 
-            <ChevronRight size={16} />
-          </Button>
+              <ChevronRight size={16} />
+            </Button>
+          )}
         </div>
       </div>
 

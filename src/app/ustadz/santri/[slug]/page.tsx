@@ -72,6 +72,7 @@ export default async function DetailSantri({
     // This gets the current day in the client's timezone.
     const tz = await getTimezoneInfo()
     const period = periodQueryParameter === 'bulan' ? 'month' : 'week'
+    const today = dayjs().tz(tz).format('YYYY-MM-DD')
 
     const day = dayjs
       .utc(
@@ -166,7 +167,13 @@ export default async function DetailSantri({
 
         <div className='flex flex-col p-6 gap-y-4'>
           <div className='flex justify-center gap-x-[6.5px] text-mtmh-neutral-white text-mtmh-m-regular'>
-            <SantriActivityHeader />
+            <SantriActivityHeader
+              today={today}
+              activated={
+                searchParams['view'] !== 'chart' &&
+                searchParams['tanggal'] !== today
+              }
+            />
           </div>
 
           <Card className='bg-mtmh-neutral-white text-mtmh-grey-base shadow-md border border-mtmh-snow-lighter rounded-md'>

@@ -27,11 +27,19 @@ export async function ActivityGridSection({
   searchParams: searchParamsPromise
 }: Props) {
   const searchParams = await searchParamsPromise
+  const tz = await getTimezoneInfo()
+  const today = dayjs.tz(tz).format('YYYY-MM-DD')
 
   return (
     <section className='flex flex-col gap-y-4'>
       <div className='flex justify-center gap-x-[6.5px] text-mtmh-neutral-white text-mtmh-m-regular'>
-        <SantriActivityHeader />
+        <SantriActivityHeader
+          today={today}
+          activated={
+            searchParams['view'] !== 'chart' &&
+            searchParams['tanggal'] !== today
+          }
+        />
       </div>
 
       <Card className='bg-mtmh-neutral-white text-mtmh-grey-base shadow-md border border-mtmh-snow-lighter rounded-md'>
