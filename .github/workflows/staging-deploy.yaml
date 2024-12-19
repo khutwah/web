@@ -19,7 +19,6 @@ jobs:
             --build-arg NEXT_PUBLIC_APP_VERSION=stag-$(git rev-parse --short ${{ github.sha }}) \
             --build-arg NEXT_PUBLIC_CACHE_BUSTER=$(git rev-parse --short ${{ github.sha }}) \
             --config deployments/staging/fly.toml \
-            --no-cache \
             --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN_STAGING }}

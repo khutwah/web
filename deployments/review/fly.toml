@@ -10,6 +10,10 @@ primary_region = 'sin'
   min_machines_running = 0
   processes = ['app']
 
+[[statics]]
+  guest_path = '/app/.next/static'
+  url_prefix = '/_next/static'
+
 [env]
   NEXT_PUBLIC_SKIP_MUMTAZ_LOGIN = 'true'
 

@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
   generateBuildId() {
     return process.env.NEXT_PUBLIC_APP_VERSION || 'development'
   },
-  generateEtags: false,
+  generateEtags: true,
   images: {
     remotePatterns: [
       {
