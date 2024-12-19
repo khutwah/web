@@ -3,6 +3,7 @@ import { getActivities } from '../../actions'
 import { ActivityListClient } from './Client'
 import { Button } from '@/components/Button/Button'
 import { Rabbit, SearchX } from 'lucide-react'
+import getTimezoneInfo from '@/utils/get-timezone-info'
 
 export async function ActivityList(props: Readonly<ActivityListProps>) {
   const result = await getActivities({
@@ -10,6 +11,8 @@ export async function ActivityList(props: Readonly<ActivityListProps>) {
     limit: LIMIT,
     filter: props
   })
+
+  const tz = await getTimezoneInfo()
 
   if (!result.success) {
     return (
@@ -42,7 +45,7 @@ export async function ActivityList(props: Readonly<ActivityListProps>) {
 
   return (
     <div>
-      <ActivityListClient initialActivities={result.data!} {...props} />
+      <ActivityListClient tz={tz} initialActivities={result.data!} {...props} />
     </div>
   )
 }

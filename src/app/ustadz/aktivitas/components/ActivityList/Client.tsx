@@ -11,6 +11,7 @@ import { ActivityPopup } from '@/components/ActivityPopup'
 
 export function ActivityListClient({
   initialActivities,
+  tz,
   ...filter
 }: Readonly<ActivityListClientProps>) {
   const [activities, setActivities] = useState(initialActivities)
@@ -47,6 +48,7 @@ export function ActivityListClient({
           return (
             <ActivityCard
               key={item.id}
+              tz={tz}
               id={String(item.id)}
               surahEnd={
                 item.student_attendance === 'present'

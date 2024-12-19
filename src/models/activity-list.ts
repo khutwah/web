@@ -3,6 +3,7 @@ import { ActivityEntry } from './activities'
 export interface ActivityListProps extends FilterProps {}
 export interface ActivityListClientProps extends FilterProps {
   initialActivities: Array<ActivityEntry>
+  tz: string
 }
 
 export const LIMIT = 10
