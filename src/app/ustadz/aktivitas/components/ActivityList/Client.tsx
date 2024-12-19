@@ -1,13 +1,14 @@
 'use client'
 
 import { useState, useTransition } from 'react'
-import { getActivities } from '../actions'
+import { getActivities } from '../../actions'
 import { Button } from '@/components/Button/Button'
-import { ActivityListProps, LIMIT } from '@/models/activity-list'
+import { ActivityListClientProps, LIMIT } from '@/models/activity-list'
 
-export function ActivityList({
-  initialActivities
-}: Readonly<ActivityListProps>) {
+export function ActivityListClient({
+  initialActivities,
+  ...filter
+}: Readonly<ActivityListClientProps>) {
   const [activities, setActivities] = useState(initialActivities)
   const [offset, setOffset] = useState(initialActivities.length)
   const [isPending, startTransition] = useTransition()
@@ -15,7 +16,11 @@ export function ActivityList({
 
   const loadMore = async () => {
     startTransition(async () => {
-      const response = await getActivities(offset, LIMIT)
+      const response = await getActivities({
+        offset,
+        limit: LIMIT,
+        filter: filter
+      })
       if (response.success) {
         if (!response.data!.length) {
           setFinish(true)

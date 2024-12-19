@@ -1,21 +1,23 @@
-import { LIMIT } from '@/models/activity-list'
-import { getActivities } from './actions'
-import { ActivityList } from './components/ActivityList'
+import { Suspense } from 'react'
+import { ActivityList } from './components/ActivityList/Server'
+import { Filter } from './components/Filter'
 
-export default async function Aktivitas() {
-  const result = await getActivities(0, LIMIT)
+interface AktivitasProps {
+  searchParams: Promise<{
+    student_id?: number
+  }>
+}
 
-  if (!result.success) {
-    return <div>failed to get data</div>
-  }
-
-  if (result.data && !result.data.length) {
-    return <div>activity not found for ustadz</div>
-  }
-
+export default async function Aktivitas(props: Readonly<AktivitasProps>) {
+  const params = await props.searchParams
   return (
     <div>
-      <ActivityList initialActivities={result.data!} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Filter studentId={params.student_id} />
+      </Suspense>
+      <Suspense fallback={<div>Loading...</div>}>
+        <ActivityList studentId={params.student_id} />
+      </Suspense>
     </div>
   )
 }
