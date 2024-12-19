@@ -1,6 +1,6 @@
 'use server'
 
-import { FilterProps } from '@/models/activity-list'
+import { GetActivitiesArgs } from '@/models/activity-list'
 import {
   createErrorResponse,
   createSuccessResponse
@@ -9,12 +9,6 @@ import { getUser } from '@/utils/supabase/get-user'
 import { Activities } from '@/utils/supabase/models/activities'
 import { Students } from '@/utils/supabase/models/students'
 import { PostgrestError } from '@supabase/supabase-js'
-
-interface GetActivitiesArgs {
-  offset: number
-  limit: number
-  filter?: FilterProps
-}
 
 export async function getActivities({
   offset,

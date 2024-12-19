@@ -1,14 +1,9 @@
 import { Suspense } from 'react'
 import { ActivityList } from './components/ActivityList/Server'
 import { Filter } from './components/Filter'
+import { AktivitasPageProps } from '@/models/activity-list'
 
-interface AktivitasProps {
-  searchParams: Promise<{
-    student_id?: number
-  }>
-}
-
-export default async function Aktivitas(props: Readonly<AktivitasProps>) {
+export default async function Aktivitas(props: Readonly<AktivitasPageProps>) {
   const params = await props.searchParams
   return (
     <div>
