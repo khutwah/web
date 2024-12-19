@@ -3,7 +3,7 @@ import assert from 'node:assert'
 import per5JuzLajnah from './per-5-juz-lajnah.json'
 import surahs from './surah.json'
 
-test('per-5-juz-lajnah consistency test', async (t) => {
+test('per-5-juz-lajnah consistency test', () => {
   ;[
     { id: 5, expect: 'An-Naba: 1 -> Qaf: 45' },
     { id: 10, expect: 'Asy-Syura: 1 -> As-Sajdah: 30' },
