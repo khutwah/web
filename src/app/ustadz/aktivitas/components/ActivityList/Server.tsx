@@ -36,8 +36,6 @@ export async function ActivityList(props: Readonly<ActivityListProps>) {
   }
 
   return (
-    <div>
-      <ActivityListClient tz={tz} initialActivities={result.data!} {...props} />
-    </div>
+    <ActivityListClient tz={tz} initialActivities={result.data!} {...props} />
   )
 }

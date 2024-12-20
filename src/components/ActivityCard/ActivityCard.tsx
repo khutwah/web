@@ -51,17 +51,14 @@ export function ActivityCard({
   status,
   queryParams
 }: Props) {
-  let params = null
-  if (queryParams) {
-    params = new URLSearchParams(queryParams)
-    params.set('activity', id)
-  }
+  const params = new URLSearchParams(queryParams)
+  params.set('activity', id)
 
   return (
     <Link
       href={{
         pathname: '',
-        query: params ? params.toString() : { activity: id }
+        query: params.toString()
       }}
     >
       <Card className='w-full bg-mtmh-neutral-10 text-mtmh-grey-base relative h-full flex flex-col'>
