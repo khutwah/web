@@ -1,9 +1,8 @@
 import { ActivityListProps, LIMIT } from '@/models/activity-list'
 import { getActivities } from '../../actions'
 import { ActivityListClient } from './Client'
-import { Button } from '@/components/Button/Button'
-import { Rabbit, SearchX } from 'lucide-react'
 import getTimezoneInfo from '@/utils/get-timezone-info'
+import { StateMessage } from '@/components/StateMessage/StateMessage'
 
 export async function ActivityList(props: Readonly<ActivityListProps>) {
   const result = await getActivities({
@@ -16,30 +15,23 @@ export async function ActivityList(props: Readonly<ActivityListProps>) {
 
   if (!result.success) {
     return (
-      <div className='flex flex-col items-center p-4 gap-4 mt-10'>
-        <div className='text-mtmh-red-base'>
-          <Rabbit size={128} />
-        </div>
-        <p className='text-mtmh-neutral-70 text-center w-9/12 mt-2'>
-          Maaf, terdapat kesalahan dalam memuat data.
-        </p>
-        <Button variant='primary' size='lg'>
-          Muat Ulang
-        </Button>
-      </div>
+      <StateMessage
+        className='my-14'
+        description='Tidak dapat menampilkan data aktivitas'
+        title='Terjadi Kesalahan'
+        type='error'
+      />
     )
   }
 
   if (result.data && !result.data.length) {
     return (
-      <div className='flex flex-col items-center p-4 gap-6 mt-10'>
-        <div className='text-mtmh-red-base'>
-          <SearchX size={128} />
-        </div>
-        <p className='text-mtmh-neutral-70 text-center w-9/12'>
-          Aktivitas tidak ditemukan
-        </p>
-      </div>
+      <StateMessage
+        className='my-14'
+        description='Kami tidak dapat menemukan aktivitas santri yang Anda cari. Silakan periksa kembali pencarian Anda atau coba lagi nanti.'
+        title='Aktivitas Santri Tidak Ditemukan'
+        type='empty'
+      />
     )
   }
 
