@@ -170,6 +170,7 @@ async function runSeeder() {
       }),
     { connect: true }
   )
+
   // Seed for the "replacement" case.
   await seed.shifts(
     (x) =>
@@ -184,6 +185,7 @@ async function runSeeder() {
       }),
     { connect: true }
   )
+
   await seed.students(
     (x) =>
       x(2, (ctx) => {
