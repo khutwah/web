@@ -147,12 +147,6 @@ export default async function DetailSantri({
         : DEFAULT_EMPTY_ARRAY
 
     const returnTo = convertSearchParamsToPath(searchParams)
-    const lihatSemuaSearchParam = {
-      ...searchParams,
-      student_id: studentId,
-      from: 'ustadz/santri',
-      id: studentId
-    }
     pageContent = (
       <>
         <ActivityPopup
@@ -279,7 +273,12 @@ export default async function DetailSantri({
                 className='text-mtmh-sm-semibold text-mtmh-tamarind-base'
                 href={addQueryParams(
                   `${MENU_USTADZ_PATH_RECORDS.home}/aktivitas`,
-                  lihatSemuaSearchParam
+                  {
+                    ...searchParams,
+                    id: addQueryParams(studentId, searchParams),
+                    student_id: studentId
+                  },
+                  { unique: false }
                 )}
               >
                 Lihat semua
