@@ -86,7 +86,7 @@ export default async function Home() {
               <h2 className='text-mtmh-m-semibold'>Input Terakhir</h2>
               <Link
                 className='text-mtmh-sm-semibold text-mtmh-tamarind-base'
-                href={`/ustadz/aktivitas?from=ustadz`}
+                href='/ustadz/aktivitas'
               >
                 Lihat semua
               </Link>

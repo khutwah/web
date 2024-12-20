@@ -68,6 +68,7 @@ export const ComboboxButton = forwardRef<
     <Button
       ref={ref}
       asChild
+      className='cursor-pointer'
       variant='outline'
       onClick={(e) => {
         if (disabled) return

@@ -10,7 +10,7 @@ import { convertSearchParamsToPath } from '@/utils/url'
 export default async function Aktivitas(props: Readonly<AktivitasPageProps>) {
   const params = await props.searchParams
   const returnTo = convertSearchParamsToPath({
-    from: `ustadz/${params.from}`,
+    from: `ustadz${params.from ? `/${params.from}` : ''}`,
     id: params.id
   })
   return (

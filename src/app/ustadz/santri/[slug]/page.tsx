@@ -274,7 +274,7 @@ export default async function DetailSantri({
                 href={addQueryParams(
                   `${MENU_USTADZ_PATH_RECORDS.home}/aktivitas`,
                   {
-                    ...searchParams,
+                    from: 'santri',
                     id: addQueryParams(studentId, searchParams),
                     student_id: studentId
                   },
