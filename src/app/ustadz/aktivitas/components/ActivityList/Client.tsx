@@ -17,7 +17,7 @@ export function ActivityListClient({
   const [activities, setActivities] = useState(initialActivities)
   const [offset, setOffset] = useState(initialActivities.length)
   const [isPending, startTransition] = useTransition()
-  const [finish, setFinish] = useState(false)
+  const [finish, setFinish] = useState(initialActivities.length < LIMIT)
 
   const params = useSearchParams()
 
@@ -32,6 +32,13 @@ export function ActivityListClient({
         if (!response.data!.length) {
           setFinish(true)
           return
+        }
+
+        const data = response.data!
+        const length = data.length
+
+        if (length < LIMIT) {
+          setFinish(true)
         }
         setActivities((p) => [...p, ...response.data!])
         setOffset((_offset) => _offset + LIMIT)
