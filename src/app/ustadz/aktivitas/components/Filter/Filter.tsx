@@ -6,17 +6,15 @@ export async function Filter() {
 
   if ('data' in students) {
     return (
-      <div className='p-4 pt-0 bg-mtmh-red-base'>
-        <Students
-          items={students.data.map((student) => ({
-            value: String(student.id),
-            label: student.name!,
-            searchable: student.name!
-          }))}
-        />
-      </div>
+      <Students
+        items={students.data.map((student) => ({
+          value: String(student.id),
+          label: student.name!,
+          searchable: student.name!
+        }))}
+      />
     )
   }
 
-  return <div>{students.message}</div>
+  return null
 }

@@ -3,16 +3,20 @@ import { ActivityList } from './components/ActivityList/Server'
 import { Filter } from './components/Filter/Filter'
 import { AktivitasPageProps } from '@/models/activity-list'
 import { Navbar } from '@/components/Navbar/Navbar'
+import { ListSkeleton } from './components/Skeleton/ListSkeleton'
+import { Skeleton } from '@/components/Skeleton/Skeleton'
 
 export default async function Aktivitas(props: Readonly<AktivitasPageProps>) {
   const params = await props.searchParams
   return (
     <div>
       <Navbar text='Aktivitas' />
-      <Suspense fallback={<div>Loading...</div>}>
-        <Filter />
-      </Suspense>
-      <Suspense fallback={<div>Loading...</div>}>
+      <div className='p-4 pt-0 bg-mtmh-red-base'>
+        <Suspense fallback={<Skeleton className='h-10 w-full' />}>
+          <Filter />
+        </Suspense>
+      </div>
+      <Suspense fallback={<ListSkeleton />}>
         <ActivityList studentId={params.student_id} />
       </Suspense>
     </div>
