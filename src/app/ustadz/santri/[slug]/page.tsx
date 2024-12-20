@@ -277,8 +277,7 @@ export default async function DetailSantri({
                     from: 'santri',
                     id: addQueryParams(studentId, searchParams),
                     student_id: studentId
-                  },
-                  { unique: false }
+                  }
                 )}
               >
                 Lihat semua
