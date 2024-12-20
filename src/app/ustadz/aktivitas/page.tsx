@@ -9,7 +9,7 @@ import { Skeleton } from '@/components/Skeleton/Skeleton'
 export default async function Aktivitas(props: Readonly<AktivitasPageProps>) {
   const params = await props.searchParams
   return (
-    <div className='relative overflow-auto'>
+    <div className='relative'>
       <header className='sticky top-0 bg-mtmh-red-base z-10'>
         <Navbar text='Aktivitas' />
         <div className='p-4 pt-0 bg-mtmh-red-base'>
