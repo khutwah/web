@@ -17,7 +17,7 @@ export function ActivityListClient({
   const [activities, setActivities] = useState(initialActivities)
   const [offset, setOffset] = useState(initialActivities.length)
   const [isPending, startTransition] = useTransition()
-  const [finish, setFinish] = useState(false)
+  const [finish, setFinish] = useState(initialActivities.length < LIMIT)
 
   const params = useSearchParams()
 
