@@ -33,6 +33,13 @@ export function ActivityListClient({
           setFinish(true)
           return
         }
+
+        const data = response.data!
+        const length = data.length
+
+        if (length < LIMIT) {
+          setFinish(true)
+        }
         setActivities((p) => [...p, ...response.data!])
         setOffset((_offset) => _offset + LIMIT)
       }
