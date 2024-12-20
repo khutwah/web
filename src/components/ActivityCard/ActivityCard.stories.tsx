@@ -5,7 +5,7 @@ import { ActivityBriefCard } from './ActivityBriefCard'
 export function ActivityCardStory() {
   return (
     <>
-      <div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-2'>
+      <div className='grid grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-2'>
         <ActivityBriefCard
           id='1'
           isStudentPresent
