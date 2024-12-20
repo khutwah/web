@@ -50,7 +50,7 @@ export function ActivityListClient({
   const isStudentIdSet = params.get('student_id')
   return (
     <div className='p-4 pb-6'>
-      <ActivityPopup activities={activities} />
+      <ActivityPopup activities={activities} from='aktivitas' />
       <div className='flex flex-col gap-2'>
         {activities.map((item) => {
           const tags = item.tags as string[]

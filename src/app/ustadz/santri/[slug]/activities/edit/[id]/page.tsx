@@ -20,7 +20,7 @@ import { FormPresent } from '../../components/Forms/Present'
 import { MENU_USTADZ_PATH_RECORDS } from '@/utils/menus/ustadz'
 import { FormAbsent } from '../../components/Forms/Absent'
 import { DEFAULT_START } from '@/models/activity-form'
-import { addQueryParams } from '@/utils/url'
+import { addQueryParams, convertSearchParamsToPath } from '@/utils/url'
 import getTimezoneInfo from '@/utils/get-timezone-info'
 
 interface EditActivityProps {
@@ -43,6 +43,8 @@ export default async function EditActivity(props: EditActivityProps) {
     `${MENU_USTADZ_PATH_RECORDS.santri}/${params.slug}`,
     { from: searchParams.from, id: searchParams.id }
   )
+
+  const returnTo = `${MENU_USTADZ_PATH_RECORDS.home}${convertSearchParamsToPath(searchParams)}`
 
   if (!params.id) {
     return redirect(santriPage)
@@ -76,6 +78,7 @@ export default async function EditActivity(props: EditActivityProps) {
     <div>
       <Navbar
         text='Edit Input'
+        returnTo={returnTo}
         rightComponent={
           <Link replace href={santriPage}>
             <X />
