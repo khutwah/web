@@ -20,8 +20,8 @@ export function Students({ items }: StudentsProps) {
         newParams.set('student_id', value)
         router.replace(`?${newParams.toString()}`)
       }}
-      placeholder='Cari Siswa'
-      searchPlaceholder='Cari Siswa'
+      placeholder='Cari Santri'
+      searchPlaceholder='Cari Santri'
     />
   )
 }
