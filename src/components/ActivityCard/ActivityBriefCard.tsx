@@ -5,16 +5,11 @@ import {
   MoveRight
 } from 'lucide-react'
 import Link from 'next/link'
-import { ActivityStatus, ActivityTypeKey } from '@/models/activities'
+import { ActivityStatus } from '@/models/activities'
 import { ActivityBadge } from '../Badge/ActivityBadge'
 import dayjs from '@/utils/dayjs'
 import { cn } from '@/utils/classnames'
 import { ActivityCardProps } from './ActivityCard'
-
-interface SurahSubmissionInfo {
-  name: string
-  verse: string
-}
 
 export function ActivityBriefCard({
   id,

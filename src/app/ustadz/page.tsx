@@ -10,7 +10,6 @@ import Link from 'next/link'
 import { ActivityPopup } from '@/components/ActivityPopup'
 import { HomeHeader } from '@/components/Home/Header'
 import getTimezoneInfo from '@/utils/get-timezone-info'
-import { MENU_USTADZ_PATH_RECORDS } from '@/utils/menus/ustadz'
 
 export default async function Home() {
   const user = await getUser()
