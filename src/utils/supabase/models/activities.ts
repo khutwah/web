@@ -17,7 +17,7 @@ export interface GetFilter extends RoleFilter, PaginationFilter {
   status?: ActivityStatus
   halaqah_ids?: number[]
   student_attendance?: StudentAttendance
-  order_by?: 'asc' | 'desc'
+  order_by?: Array<[string, 'asc' | 'desc']>
   limit?: number
 }
 
@@ -131,7 +131,9 @@ export class Activities extends Base {
     }
 
     if (order_by) {
-      query = query.order('id', { ascending: order_by === 'asc' })
+      order_by.forEach((o) => {
+        query = query.order(o[0], { ascending: o[1] === 'asc' })
+      })
     }
 
     if (limit) {

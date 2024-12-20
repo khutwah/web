@@ -65,7 +65,7 @@ export default async function EditActivity(props: EditActivityProps) {
     student_id: activity.data.student_id!,
     student_attendance: 'present',
     type: activityKey,
-    order_by: 'desc',
+    order_by: [['id', 'desc']],
     status: ActivityStatus.completed,
     limit: 1
   })

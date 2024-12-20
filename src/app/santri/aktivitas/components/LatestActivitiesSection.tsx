@@ -155,7 +155,7 @@ async function LatestActivitiesByType({ type }: { type: ActivityType }) {
     parent_id: user.data?.id,
     type,
     limit: 10,
-    order_by: 'desc',
+    order_by: [['id', 'desc']],
     status: ActivityStatus.completed
   })
 

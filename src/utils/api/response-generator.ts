@@ -5,10 +5,10 @@ import {
   SuccessResponse
 } from '@/models/response-generator'
 
-export function createSuccessResponse({
+export function createSuccessResponse<T>({
   data,
   message = ''
-}: CreateSuccessResponseArgs): SuccessResponse {
+}: CreateSuccessResponseArgs<T>): SuccessResponse<T> {
   return {
     status: 'success',
     message,
