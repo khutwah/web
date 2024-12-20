@@ -1,22 +1,14 @@
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-  CardFooter
-} from '../Card/Card'
+import { Card, CardHeader, CardTitle, CardContent } from '../Card/Card'
 import {
   BookOpen as ActivityRecord,
   File as Notes,
-  MoveRight,
-  CircleAlert
+  MoveRight
 } from 'lucide-react'
 import Link from 'next/link'
 import { ActivityStatus, ActivityTypeKey } from '@/models/activities'
 import { ActivityBadge } from '../Badge/ActivityBadge'
-import { Alert, AlertDescription } from '../Alert/Alert'
-import { cn } from '@/utils/classnames'
 import dayjs from '@/utils/dayjs'
+import { cn } from '@/utils/classnames'
 
 interface SurahSubmissionInfo {
   name: string
@@ -38,7 +30,7 @@ interface Props {
   labels?: string[]
 }
 
-export function ActivityCard({
+export function ActivityBriefCard({
   id,
   surahEnd,
   surahStart,
@@ -54,15 +46,20 @@ export function ActivityCard({
 }: Props) {
   return (
     <Link href={`?activity=${id}`}>
-      <Card className='w-full bg-mtmh-neutral-10 text-mtmh-grey-base relative h-full flex flex-col'>
-        <CardHeader className='rounded-t-xl p-5 pb-3'>
+      <Card className='w-full bg-mtmh-neutral-10 text-mtmh-grey-base relative flex flex-col'>
+        <CardHeader
+          className={cn('rounded-t-xl p-5 pb-2', {
+            'pb-1': !studentName
+          })}
+        >
           <CardTitle className='flex justify-between items-start'>
             <div className='flex flex-col gap-y-1'>
-              <div className='text-xs text-mtmh-neutral-50'>
+              <div className='text-mtmh-sm-regular text-mtmh-neutral-50'>
                 {dayjs.utc(timestamp).tz(tz).format('DD MMM YYYY HH:mm')}
+                {halaqahName && <span> • {halaqahName}</span>}
               </div>
               {studentName && (
-                <div className='font-semibold'>{studentName}</div>
+                <div className='text-mtmh-m-semibold'>{studentName}</div>
               )}
             </div>
 
@@ -73,19 +70,18 @@ export function ActivityCard({
             />
           </CardTitle>
         </CardHeader>
-        <CardContent
-          className={cn('flex flex-col gap-y-4', {
-            'pb-8': status === ActivityStatus.draft
-          })}
-        >
-          {halaqahName && (
-            <div className='text-xs text-mtmh-grey-light'>{halaqahName}</div>
-          )}
-
+        <CardContent className='flex flex-col gap-y-2'>
           {surahStart && surahEnd ? (
-            <div className='flex items-center gap-x-2 text-sm'>
-              <div className='pt-1'>
-                <ActivityRecord className='text-mtmh-grey-lightest' size={16} />
+            <div
+              className={cn('flex items-center gap-x-2 text-mtmh-sm-regular', {
+                'text-mtmh-m-regular': !studentName
+              })}
+            >
+              <div>
+                <ActivityRecord
+                  className='text-mtmh-grey-lightest'
+                  size={studentName ? 14 : 16}
+                />
               </div>
 
               <div className='flex items-center gap-x-2'>
@@ -94,7 +90,7 @@ export function ActivityCard({
                 </div>
 
                 <div>
-                  <MoveRight size={16} />
+                  <MoveRight size={14} />
                 </div>
 
                 <div>
@@ -104,28 +100,25 @@ export function ActivityCard({
             </div>
           ) : null}
 
-          <div className='flex items-start gap-x-2 text-sm'>
-            <div className='pt-1'>
-              <Notes className='text-mtmh-grey-lightest' size={16} />
-            </div>
+          {notes && (
+            <div
+              className={cn('flex items-center gap-x-2 text-mtmh-sm-regular', {
+                'text-mtmh-m-regular': !studentName
+              })}
+            >
+              <div>
+                <Notes
+                  className='text-mtmh-grey-lightest'
+                  size={studentName ? 14 : 16}
+                />
+              </div>
 
-            <div className='w-full text-ellipsis line-clamp-2'>
-              {notes || '-'}
+              <div className='w-full text-ellipsis line-clamp-1'>{notes}</div>
             </div>
-          </div>
+          )}
 
           {labels && <Labels labels={labels} />}
         </CardContent>
-        {status === ActivityStatus.draft && (
-          <CardFooter>
-            <Alert variant='warning'>
-              <CircleAlert aria-hidden size={16} />
-              <AlertDescription>
-                Aktivitas {type} ini perlu dilengkapi.
-              </AlertDescription>
-            </Alert>
-          </CardFooter>
-        )}
       </Card>
     </Link>
   )
@@ -133,11 +126,11 @@ export function ActivityCard({
 
 export function Labels({ labels }: { labels: string[] }) {
   return (
-    <ul className='flex gap-1 text-xs flex-wrap'>
+    <ul className='flex gap-1 text-mtmh-xs-regular flex-wrap'>
       {labels.map((tag, index) => (
         <li
           key={`${tag}-${index}`}
-          className='py-0.5 px-2 rounded-lg border border-mtmh-snow-lighter'
+          className='py-0.5 px-2 rounded-lg border border-mtmh-snow-base'
         >
           {tag}
         </li>
