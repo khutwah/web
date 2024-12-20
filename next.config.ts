@@ -6,56 +6,19 @@ const nextConfig: NextConfig = {
   generateBuildId() {
     return process.env.NEXT_PUBLIC_APP_VERSION || 'development'
   },
-  generateEtags: true,
+  generateEtags: false,
   async headers() {
-    return [
-      {
-        source: '/login',
+    return ['/login', '/ustadz', '/santri', '/get-started', '/'].map(
+      (source) => ({
+        source,
         headers: [
           {
             key: 'Cache-Control',
-            value: 's-maxage=31536000, maxage=86400, stale-while-revalidate=59'
-          }
-        ]
-      },
-      {
-        source: '/get-started',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'maxage=86400, stale-while-revalidate=59'
-          }
-        ]
-      },
-      {
-        source: '/ustadz',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'maxage=86400, stale-while-revalidate=59'
-          }
-        ]
-      },
-      {
-        source: '/santri',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'maxage=86400, stale-while-revalidate=59'
-          }
-        ]
-      },
-      {
-        source: '/',
-        headers: [
-          {
-            key: 'Cache-Control',
-            // Make sure to set max-age=0 to prevent caching.
             value: 'public, max-age=0, must-revalidate'
           }
         ]
-      }
-    ]
+      })
+    )
   },
   images: {
     remotePatterns: [
