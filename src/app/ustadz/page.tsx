@@ -10,6 +10,7 @@ import Link from 'next/link'
 import { ActivityPopup } from '@/components/ActivityPopup'
 import { HomeHeader } from '@/components/Home/Header'
 import getTimezoneInfo from '@/utils/get-timezone-info'
+import { MENU_USTADZ_PATH_RECORDS } from '@/utils/menus/ustadz'
 
 export default async function Home() {
   const user = await getUser()
@@ -86,7 +87,7 @@ export default async function Home() {
               <h2 className='text-mtmh-m-semibold'>Input Terakhir</h2>
               <Link
                 className='text-mtmh-sm-semibold text-mtmh-tamarind-base'
-                href='/ustadz/aktivitas'
+                href={`/ustadz/aktivitas?from=ustadz`}
               >
                 Lihat semua
               </Link>

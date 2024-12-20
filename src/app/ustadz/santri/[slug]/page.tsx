@@ -28,6 +28,7 @@ import { MENU_USTADZ_PATH_RECORDS } from '@/utils/menus/ustadz'
 import { cn } from '@/utils/classnames'
 
 import {
+  addQueryParams,
   convertSearchParamsToPath,
   convertSearchParamsToStringRecords
 } from '@/utils/url'
@@ -146,6 +147,12 @@ export default async function DetailSantri({
         : DEFAULT_EMPTY_ARRAY
 
     const returnTo = convertSearchParamsToPath(searchParams)
+    const lihatSemuaSearchParam = {
+      ...searchParams,
+      student_id: studentId,
+      from: 'ustadz/santri',
+      id: studentId
+    }
     pageContent = (
       <>
         <ActivityPopup
@@ -270,7 +277,10 @@ export default async function DetailSantri({
               <h2 className='text-mtmh-m-semibold'>Input Terakhir</h2>
               <Link
                 className='text-mtmh-sm-semibold text-mtmh-tamarind-base'
-                href={`/ustadz/aktivitas?student_id=${student.data.id}`}
+                href={addQueryParams(
+                  `${MENU_USTADZ_PATH_RECORDS.home}/aktivitas`,
+                  lihatSemuaSearchParam
+                )}
               >
                 Lihat semua
               </Link>

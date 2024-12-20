@@ -26,10 +26,12 @@ export function convertSearchParamsToPath(
     removeKeys?: boolean
     leadingSlash?: boolean
     includeKeys?: string[]
+    skipEncoding?: boolean
   } = {
     removeKeys: true,
     leadingSlash: true,
-    includeKeys: ['from', 'id']
+    includeKeys: ['from', 'id'],
+    skipEncoding: true
   }
 ): string {
   const pathParts: string[] = []
@@ -45,18 +47,20 @@ export function convertSearchParamsToPath(
     const value = searchParams[key]
     if (value === undefined) continue
 
+    const encode = options.skipEncoding ? (v: string) => v : encodeURIComponent
+
     if (Array.isArray(value)) {
-      const joinedValues = value.map(encodeURIComponent).join(',')
+      const joinedValues = value.map(encode).join(',')
       pathParts.push(
         options.removeKeys
           ? `${joinedValues}`
-          : `${encodeURIComponent(key)}/${joinedValues}`
+          : `${encode(key)}/${joinedValues}`
       )
     } else {
       pathParts.push(
         options.removeKeys
-          ? `${encodeURIComponent(value)}`
-          : `${encodeURIComponent(key)}/${encodeURIComponent(value)}`
+          ? `${encode(value)}`
+          : `${encode(key)}/${encode(value)}`
       )
     }
   }

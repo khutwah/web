@@ -24,7 +24,7 @@ interface SurahSubmissionInfo {
   verse: string
 }
 
-interface Props {
+export interface ActivityCardProps {
   id: string
   type: ActivityTypeKey
   isStudentPresent: boolean
@@ -37,7 +37,7 @@ interface Props {
   studentName?: string
   halaqahName?: string
   labels?: string[]
-  queryParams?: ReadonlyURLSearchParams
+  searchParams?: ReadonlyURLSearchParams
 }
 
 export function ActivityCard({
@@ -53,9 +53,9 @@ export function ActivityCard({
   halaqahName,
   labels,
   status,
-  queryParams
-}: Props) {
-  const params = new URLSearchParams(queryParams)
+  searchParams
+}: ActivityCardProps) {
+  const params = new URLSearchParams(searchParams)
   params.set('activity', id)
 
   return (

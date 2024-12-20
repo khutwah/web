@@ -17,7 +17,11 @@ export function Students({ items }: StudentsProps) {
       value={studentId ?? ''}
       onChange={(value) => {
         const newParams = new URLSearchParams(params)
-        newParams.set('student_id', value)
+        if (!value) {
+          newParams.delete('student_id')
+        } else {
+          newParams.set('student_id', value)
+        }
         router.replace(`?${newParams.toString()}`)
       }}
       placeholder='Cari Santri'

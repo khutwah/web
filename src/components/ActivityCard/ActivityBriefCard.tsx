@@ -9,25 +9,11 @@ import { ActivityStatus, ActivityTypeKey } from '@/models/activities'
 import { ActivityBadge } from '../Badge/ActivityBadge'
 import dayjs from '@/utils/dayjs'
 import { cn } from '@/utils/classnames'
+import { ActivityCardProps } from './ActivityCard'
 
 interface SurahSubmissionInfo {
   name: string
   verse: string
-}
-
-interface Props {
-  id: string
-  type: ActivityTypeKey
-  isStudentPresent: boolean
-  notes: string
-  timestamp: string
-  tz: string
-  status: ActivityStatus
-  surahStart?: SurahSubmissionInfo | null
-  surahEnd?: SurahSubmissionInfo | null
-  studentName?: string
-  halaqahName?: string
-  labels?: string[]
 }
 
 export function ActivityBriefCard({
@@ -42,10 +28,19 @@ export function ActivityBriefCard({
   studentName,
   halaqahName,
   labels,
-  status
-}: Props) {
+  status,
+  searchParams
+}: ActivityCardProps) {
+  const params = new URLSearchParams(searchParams)
+  params.set('activity', id)
+
   return (
-    <Link href={`?activity=${id}`}>
+    <Link
+      href={{
+        pathname: '',
+        query: params.toString()
+      }}
+    >
       <Card className='w-full bg-mtmh-neutral-10 text-mtmh-grey-base relative flex flex-col'>
         <CardHeader
           className={cn('rounded-t-xl p-5 pb-2', {

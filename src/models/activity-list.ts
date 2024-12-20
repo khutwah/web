@@ -21,5 +21,7 @@ export interface GetActivitiesArgs {
 export interface AktivitasPageProps {
   searchParams: Promise<{
     student_id?: number
+    from?: string
+    id?: string
   }>
 }
