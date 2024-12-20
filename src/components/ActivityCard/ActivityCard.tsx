@@ -144,11 +144,11 @@ export function ActivityCard({
 
 export function Labels({ labels }: { labels: string[] }) {
   return (
-    <ul className='flex gap-1 text-xs flex-wrap'>
+    <ul className='flex gap-1 text-mtmh-xs-regular flex-wrap'>
       {labels.map((tag, index) => (
         <li
           key={`${tag}-${index}`}
-          className='py-0.5 px-2 rounded-lg border border-mtmh-snow-lighter'
+          className='py-0.5 px-2 rounded-lg border border-mtmh-snow-base'
         >
           {tag}
         </li>

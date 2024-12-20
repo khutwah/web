@@ -9,7 +9,7 @@ import { ActivityStatus } from '@/models/activities'
 import { ActivityBadge } from '../Badge/ActivityBadge'
 import dayjs from '@/utils/dayjs'
 import { cn } from '@/utils/classnames'
-import { ActivityCardProps } from './ActivityCard'
+import { ActivityCardProps, Labels } from './ActivityCard'
 
 export function ActivityBriefCard({
   id,
@@ -111,20 +111,5 @@ export function ActivityBriefCard({
         </CardContent>
       </Card>
     </Link>
-  )
-}
-
-export function Labels({ labels }: { labels: string[] }) {
-  return (
-    <ul className='flex gap-1 text-mtmh-xs-regular flex-wrap'>
-      {labels.map((tag, index) => (
-        <li
-          key={`${tag}-${index}`}
-          className='py-0.5 px-2 rounded-lg border border-mtmh-snow-base'
-        >
-          {tag}
-        </li>
-      ))}
-    </ul>
   )
 }
