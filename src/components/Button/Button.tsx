@@ -13,7 +13,9 @@ const buttonVariants = cva(
           'bg-mtmh-red-base text-white hover:bg-mtmh-red-dark active:bg-mtmh-red-darker disabled:bg-mtmh-snow-base disabled:text-mtmh-grey-lightest',
         outline:
           'bg-white text-mtmh-grey-base border border-mtmh-snow-lighter hover:bg-mtmh-snow-lighter active:bg-mtmh-snow-base disabled:text-mtmh-grey-lightest',
-        text: 'text-mtmh-sm-semibold text-mtmh-red-light hover:bg-mtmh-snow-lighter active:bg-mtmh-snow-base disabled:text-mtmh-grey-lightest'
+        text: 'text-mtmh-sm-semibold text-mtmh-red-light hover:bg-mtmh-snow-lighter active:bg-mtmh-snow-base disabled:text-mtmh-grey-lightest',
+        text2:
+          'text-mtmh-red-light hover:bg-mtmh-neutral-white active:bg-mtmh-snow-base disabled:text-mtmh-grey-lightest'
       },
       size: {
         xs: 'h-8 rounded-md px-1',
