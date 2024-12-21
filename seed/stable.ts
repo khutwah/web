@@ -4,6 +4,7 @@ import { registerHalaqah } from './utils/halaqah'
 import { registerStudents } from './utils/students'
 import { registerShifts } from './utils/shifts'
 import { registerTags } from './utils/tags'
+import { registerActivities } from './utils/activities'
 
 async function runSeeder() {
   const seed = await createSeedClient()
@@ -18,6 +19,8 @@ async function runSeeder() {
   ])
 
   await Promise.all([registerShifts(seed), registerStudents(seed)])
+
+  await registerActivities(seed)
 
   console.log('Database seeded!')
 }

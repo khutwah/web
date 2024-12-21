@@ -1,17 +1,27 @@
 import { copycat } from '@snaplet/copycat'
 import { SeedClient } from '@snaplet/seed'
+import { SANTRI_TO_REGISTER } from './users'
 
+/**
+ *
+ * This to make this logic, student id, ..n = halaqahId
+ * 1, 2 = 1 (halaqah 7.1)
+ * 3, 4 = 2 (halaqah 8.1)
+ * 5, 6 = 3 (halaqah 9.1)
+ */
 function mapValue(input: number) {
   return Math.ceil(input / 2)
 }
 
 export async function registerStudents(seed: SeedClient) {
+  const students = seed.$store.public_users
+    .filter((i) => i.role === 1)
+    .toReversed()
+
   await seed.students(
     (x) =>
-      x(6, (ctx) => {
-        const user = seed.$store.public_users
-          .toReversed()
-          .filter((i) => i.role === 1)[ctx.index]
+      x(SANTRI_TO_REGISTER.length, (ctx) => {
+        const user = students[ctx.index]
 
         return {
           parent_id: user.id,

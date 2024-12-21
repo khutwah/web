@@ -1,5 +1,6 @@
 import { SeedClient } from '@snaplet/seed'
 import dayjs from 'dayjs'
+import { USTADZ_TO_REGISTER } from './users'
 
 export async function registerShifts(seed: SeedClient) {
   /**
@@ -8,7 +9,7 @@ export async function registerShifts(seed: SeedClient) {
    */
   await seed.shifts(
     (x) =>
-      x(3, (ctx) => {
+      x(USTADZ_TO_REGISTER.length, (ctx) => {
         return {
           halaqah_id: ctx.index + 1,
           ustadz_id: ctx.index + 1,

@@ -7,7 +7,7 @@ interface User {
   id: string
 }
 
-const USTADZ_TO_REGISTER = [
+export const USTADZ_TO_REGISTER = [
   {
     email: 'iram@ustadz.mtmh.com',
     name: 'Muhammad Iram'
@@ -22,7 +22,7 @@ const USTADZ_TO_REGISTER = [
   }
 ]
 
-const SANTRI_TO_REGISTER = [
+export const SANTRI_TO_REGISTER = [
   // Halaqah 9.1 (grade: 9)
   {
     email: 'abdul@santri.mtmh.com',
