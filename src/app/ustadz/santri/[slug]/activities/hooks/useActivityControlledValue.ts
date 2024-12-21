@@ -1,7 +1,7 @@
 import { ActivityFormValues, GLOBAL_TARGET_PAGE } from '@/models/activities'
 import { Control, UseFormSetValue, useWatch } from 'react-hook-form'
 import { useSecondEffect } from '@/hooks/useSecondEffect'
-import { getPage } from '@/utils/mushaf'
+import { getPageCount } from '@/utils/mushaf'
 
 interface UseActivityControlledValueArgs {
   control: Control<ActivityFormValues>
@@ -42,21 +42,19 @@ export function useActivityControlledValue({
   useSecondEffect(() => {
     if (startSurah && startVerse && endSurah && endVerse) {
       ;(function () {
-        const start = getPage(startSurah, startVerse)
-        const end = getPage(startSurah, startVerse)
-        if (start && end) {
-          const pageCount = end.page - start.page + 1
-
-          if (pageCount >= GLOBAL_TARGET_PAGE) {
-            setValue('achieve_target', true)
-          } else {
-            setValue('achieve_target', false)
-          }
-
-          setValue('page_count', pageCount, { shouldValidate: true })
+        const pageCount = getPageCount(
+          startSurah,
+          startVerse,
+          endSurah,
+          endVerse
+        )
+        if (pageCount >= GLOBAL_TARGET_PAGE) {
+          setValue('achieve_target', true)
         } else {
-          // TODO(dio): Handle failure when start or end page is not found.
+          setValue('achieve_target', false)
         }
+
+        setValue('page_count', pageCount, { shouldValidate: true })
       })()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
