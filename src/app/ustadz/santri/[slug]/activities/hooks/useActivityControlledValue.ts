@@ -42,12 +42,10 @@ export function useActivityControlledValue({
   useSecondEffect(() => {
     if (startSurah && startVerse && endSurah && endVerse) {
       ;(function () {
-        const start = getPage(`${startSurah}:${startVerse}`)
-        const end = getPage(`${endSurah}:${endVerse}`)
+        const start = getPage(startSurah, startVerse)
+        const end = getPage(startSurah, startVerse)
         if (start && end) {
-          const startPage = start.page
-          const endPage = end.page
-          const pageCount = endPage - startPage + 1
+          const pageCount = end.page - start.page + 1
 
           if (pageCount >= GLOBAL_TARGET_PAGE) {
             setValue('achieve_target', true)

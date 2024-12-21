@@ -6,9 +6,8 @@ import { getPage } from './mushaf'
 test('getPage', () => {
   surahs.forEach((surah) => {
     ;[...Array(surah.verses_count).keys()].forEach((i) => {
-      const surahAyah = `${surah.id}:${i + 1}`
-      const page = getPage(surahAyah)
-      assert.ok(page, `Page not found for ${surahAyah}`)
+      const page = getPage(surah.id, i + 1)
+      assert.ok(page, `Page not found for ${surah.name}:${i + 1}`)
     })
   })
 })
