@@ -36,3 +36,35 @@ export function getPageCount(
   // Simple calculation to get the number of pages between the start and end page.
   return endPage.page - startPage.page + 1
 }
+
+/**
+ * Get the end surah and ayah given the start surah, start ayah, page count, and boundary preference.
+ * @param startSurah - The start surah number.
+ * @param startAyah - The start ayah number.
+ * @param pageCount - The number of pages.
+ * @param useLastBoundary - Whether to use the last boundary (default) or the first boundary on the end page.
+ * @returns An object containing endSurah and endAyah.
+ */
+export function getEndSurahAndAyah(
+  startSurah: number,
+  startAyah: number,
+  pageCount: number,
+  useLastBoundary: boolean = true
+): { endSurah: number; endAyah: number } | undefined {
+  const startPage = getPage(startSurah, startAyah)
+  if (!startPage) return undefined
+
+  const endPageNumber = startPage.page + pageCount - 1
+  const endPage = pages.find((page) => page.page === endPageNumber)
+  if (!endPage) return undefined
+
+  // Choose the boundary based on the preference.
+  const boundary = useLastBoundary
+    ? endPage.boundaries[endPage.boundaries.length - 1] // Last boundary.
+    : endPage.boundaries[0] // First boundary.
+
+  return {
+    endSurah: boundary.surah,
+    endAyah: boundary.ayah
+  }
+}
