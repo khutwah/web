@@ -18,6 +18,12 @@ function getDatesExcludingSunday() {
   return dates.reverse()
 }
 
+/**
+ *
+ * This will seed activities data
+ * for each student for 1 week backward excluding sunday including today
+ * for today activity will be in `draft` status, the rest will be `completed`
+ */
 export async function registerActivities(seed: SeedClient) {
   const students = seed.$store.students
   const shifts = seed.$store.shifts
