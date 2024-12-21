@@ -1,7 +1,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert'
 import per5JuzLajnah from './per-5-juz-lajnah.json'
-import surahs from './surah.json'
+import surahs from '../mushaf/surahs.json'
 
 test('per-5-juz-lajnah consistency test', () => {
   ;[

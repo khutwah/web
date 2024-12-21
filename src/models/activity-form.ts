@@ -1,5 +1,5 @@
 import { ActivityFormValues, ActivityType } from './activities'
-import surah from '@/data/surah.json'
+import surahs from '@/data/mushaf/surahs.json'
 
 export interface FormProps {
   activityId?: number // indicate editing activity
@@ -17,7 +17,7 @@ export interface FormProps {
   > // default value for editing activity
 }
 
-export const SURAH_ITEMS = surah.map((s) => ({
+export const SURAH_ITEMS = surahs.map((s) => ({
   value: String(s.id),
   label: s.name,
   searchable: s.name_simple
