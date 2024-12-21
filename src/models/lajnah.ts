@@ -42,3 +42,8 @@ export interface ResetPayload {
   parent_lajnah_id: number
   offset_parent_lajnah_id?: number
 }
+
+export interface LajnahStatus {
+  id: number
+  pageDistance: number
+}
