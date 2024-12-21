@@ -1,6 +1,5 @@
 import { ActivityFormValues, GLOBAL_TARGET_PAGE } from '@/models/activities'
 import { Control, UseFormSetValue, useWatch } from 'react-hook-form'
-import { getVersesByKey } from '../utils/getVersesByKey'
 import { useSecondEffect } from '@/hooks/useSecondEffect'
 import { getPage } from '@/utils/mushaf'
 
