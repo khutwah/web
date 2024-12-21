@@ -2,6 +2,7 @@ import { ActivityFormValues, GLOBAL_TARGET_PAGE } from '@/models/activities'
 import { Control, UseFormSetValue, useWatch } from 'react-hook-form'
 import { getVersesByKey } from '../utils/getVersesByKey'
 import { useSecondEffect } from '@/hooks/useSecondEffect'
+import { getPage } from '@/utils/mushaf'
 
 interface UseActivityControlledValueArgs {
   control: Control<ActivityFormValues>
@@ -41,15 +42,12 @@ export function useActivityControlledValue({
 
   useSecondEffect(() => {
     if (startSurah && startVerse && endSurah && endVerse) {
-      ;(async function () {
-        const [start, end] = await Promise.all([
-          getVersesByKey(`${startSurah}:${startVerse}`),
-          getVersesByKey(`${endSurah}:${endVerse}`)
-        ])
-
+      ;(function () {
+        const start = getPage(`${startSurah}:${startVerse}`)
+        const end = getPage(`${endSurah}:${endVerse}`)
         if (start && end) {
-          const startPage = start.verse.page_number
-          const endPage = end.verse.page_number
+          const startPage = start.page
+          const endPage = end.page
           const pageCount = endPage - startPage + 1
 
           if (pageCount >= GLOBAL_TARGET_PAGE) {
@@ -60,8 +58,7 @@ export function useActivityControlledValue({
 
           setValue('page_count', pageCount, { shouldValidate: true })
         } else {
-          // TODO: Do something when important calculation cannot
-          // be done due to technical issue
+          // TODO(dio): Handle failure when start or end page is not found.
         }
       })()
     }
