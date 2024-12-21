@@ -26,6 +26,8 @@ export default async function Home() {
     limit: 10
   })
 
+  console.log(activityList)
+
   return (
     <Layout>
       <HeaderBackground />
