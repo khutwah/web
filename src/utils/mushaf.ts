@@ -21,7 +21,7 @@ export function getPage(surah: number, ayah: number): Page | undefined {
  * @param startAyah - The start ayah number.
  * @param endSurah - The end surah number.
  * @param endAyah - The end ayah number.
- * @returns
+ * @returns The number of pages between the start and end surah and ayah.
  */
 export function getPageCount(
   startSurah: number,
