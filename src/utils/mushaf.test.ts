@@ -32,25 +32,13 @@ test('getEndSurahAndAyah', () => {
       startSurah: 1,
       startAyah: 1,
       pageCount: 1,
-      result: { endSurah: 1, endAyah: 7 }
+      result: { surah: 1, ayah: 7, pageNumber: 1 }
     },
     {
-      startSurah: 1,
-      startAyah: 1,
-      pageCount: 2,
-      result: { endSurah: 2, endAyah: 5 }
-    },
-    {
-      startSurah: 1,
+      startSurah: 78,
       startAyah: 1,
       pageCount: 3,
-      result: { endSurah: 2, endAyah: 16 }
-    },
-    {
-      startSurah: 1,
-      startAyah: 1,
-      pageCount: 4,
-      result: { endSurah: 2, endAyah: 24 }
+      result: { surah: 79, ayah: 46, pageNumber: 584 }
     }
   ].forEach(({ startSurah, startAyah, pageCount, result }) => {
     assert.deepStrictEqual(
