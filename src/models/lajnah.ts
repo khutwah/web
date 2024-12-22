@@ -47,3 +47,19 @@ export interface LajnahState {
   id: number
   pageDistance: number
 }
+
+export interface MistakeCounterType {
+  small: number
+  medium: number
+  large: number
+}
+
+export interface CheckpointType {
+  id: string
+  timestamp: string
+  startSurah: string
+  endSurah?: string
+  startVerse: number
+  endVerse?: number
+  mistakes?: MistakeCounterType
+}
