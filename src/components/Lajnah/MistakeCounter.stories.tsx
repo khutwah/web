@@ -25,21 +25,24 @@ export function MistakeCounterStory() {
           <div className='flex justify-between'>
             <MistakeCounter
               label='Kecil'
+              type='small'
               count={mistakes.small}
-              onIncrement={() => handleIncrement('small')}
-              onUndo={() => handleUndo('small')}
+              onIncrement={handleIncrement}
+              onUndo={handleUndo}
             />
             <MistakeCounter
               label='Sedang'
+              type='medium'
               count={mistakes.medium}
-              onIncrement={() => handleIncrement('medium')}
-              onUndo={() => handleUndo('medium')}
+              onIncrement={handleIncrement}
+              onUndo={handleUndo}
             />
             <MistakeCounter
               label='Besar'
+              type='large'
               count={mistakes.large}
-              onIncrement={() => handleIncrement('large')}
-              onUndo={() => handleUndo('large')}
+              onIncrement={handleIncrement}
+              onUndo={handleUndo}
             />
           </div>
         </CardContent>

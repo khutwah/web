@@ -1,18 +1,22 @@
 'use client'
 
 import { Button } from '@/components/Button/Button'
+import { MistakeCounterType } from '@/models/lajnah'
+import { on } from 'events'
 import { Undo2 as Undo } from 'lucide-react'
 
 interface MistakeCounterProps {
   label: string
   count: number
-  onIncrement: () => void
-  onUndo: () => void
+  type: keyof MistakeCounterType
+  onIncrement: (type: keyof MistakeCounterType) => void
+  onUndo: (type: keyof MistakeCounterType) => void
 }
 
 export function MistakeCounter({
   label,
   count,
+  type,
   onIncrement,
   onUndo
 }: MistakeCounterProps) {
@@ -34,14 +38,18 @@ export function MistakeCounter({
         {label}
       </label>
       <Button
-        onClick={onIncrement}
+        onClick={() => {
+          onIncrement(type)
+        }}
         className={`h-20 w-20 rounded-full text-mtmh-xl-semibold border-2 border-mtmh-neutral-white shadow-md ${getButtonColor()}`}
         variant='outline'
       >
         {count}
       </Button>
       <Button
-        onClick={onUndo}
+        onClick={() => {
+          onUndo(type)
+        }}
         variant='outline'
         className='h-8 w-8 rounded-full p-0 bg-gray-50 border-2 border-mtmh-neutral-white shadow-md'
         disabled={count === 0}
