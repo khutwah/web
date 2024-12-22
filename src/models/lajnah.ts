@@ -47,3 +47,9 @@ export interface LajnahState {
   id: number
   pageDistance: number
 }
+
+export interface MistakeCounterType {
+  small: number
+  medium: number
+  large: number
+}

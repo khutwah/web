@@ -139,6 +139,14 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       'text-decoration-skip-ink': 'none'
     },
     // TODO(imballinst): these are also manually added.
+    '.text-mtmh-xl-semibold': {
+      'font-size': '24px',
+      'font-weight': '600',
+      'line-height': '32px',
+      'text-align': 'left',
+      'text-underline-position': 'from-font',
+      'text-decoration-skip-ink': 'none'
+    },
     '.text-mtmh-l-semibold': {
       'font-size': '16px',
       'font-weight': '600',
