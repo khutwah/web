@@ -20,7 +20,7 @@ export default function AgendaCard({
   description
 }: Props) {
   return (
-    // FIXME(dio): We need to have a proper URL for the following Link.
+    // FIXME(dio-khutwah): We need to have a proper URL for the following Link.
     <Link href={`?agenda=${id}`}>
       <Card className='max-w-2xl overflow-hidden relative group'>
         <div className='absolute inset-0 transition-transform duration-500 group-active:brightness-75'>

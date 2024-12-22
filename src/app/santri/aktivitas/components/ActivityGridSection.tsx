@@ -39,7 +39,7 @@ export async function ActivityGridSection({
     )
     .tz(tz)
 
-  // FIXME(dio): When we refactor this, we should probably move this somewhere else.
+  // FIXME(dio-khutwah): When we refactor this, we should probably move this somewhere else.
   const isChartView = searchParams[ACTIVITY_VIEW_QUERY_PARAMETER] === 'chart'
   const startDateWeek = day.startOf('week')
   const isCurrentWeek = startDateWeek.isSame(dayjs().tz(tz), 'week')

@@ -5,7 +5,7 @@ import { JSONSerializable } from 'fictional'
 export async function registerTags(seed: SeedClient) {
   const tagStore = new Set()
   const fn = (seed: JSONSerializable): string =>
-    // TODO(dio): Move this to fixtures.
+    // TODO(dio-khutwah): Move this to fixtures.
     copycat.oneOf(seed, [
       'Baik Sekali',
       'Cukup Baik',

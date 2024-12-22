@@ -74,7 +74,7 @@ export default async function DetailSantri({
   const halaqahId = String(student.data?.halaqah?.id)
   const chartPeriod = searchParams['period'] === 'month' ? 'month' : 'week'
 
-  // FIXME(dio): When we refactor this, we should probably move this somewhere else.
+  // FIXME(dio-khutwah): When we refactor this, we should probably move this somewhere else.
   const isChartView = searchParams[ACTIVITY_VIEW_QUERY_PARAMETER] === 'chart'
   const startDateWeek = day.startOf('week')
   const isCurrentWeek = startDateWeek.isSame(dayjs().tz(tz), 'week')
@@ -272,7 +272,7 @@ export default async function DetailSantri({
         ) : null}
 
         <section className='flex flex-col gap-3 mb-8'>
-          {/* FIXME(dio): Add empty state component for last activities. */}
+          {/* FIXME(dio-khutwah): Add empty state component for last activities. */}
           {lastActivities?.data && lastActivities?.data.length > 0 && (
             <div className='flex flex-row items-center justify-between px-6'>
               <h2 className='text-mtmh-m-semibold'>Input Terakhir</h2>
