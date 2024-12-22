@@ -39,7 +39,7 @@ const CHART_CONFIG = {
 } satisfies ChartConfig
 const LONGER_DATE_FORMAT = 'D MMMM YYYY'
 
-export type ProgressChartPeriod = 'pekan' | 'bulan'
+export type ProgressChartPeriod = 'week' | 'month'
 
 interface Props {
   activities: Array<ActivityChartEntry>
@@ -62,16 +62,16 @@ export function ProgressChart({
         }
       >
         <TabsList className='grid w-full grid-cols-2'>
-          <TabsTrigger value='pekan'>Pekan ini</TabsTrigger>
-          <TabsTrigger value='bulan'>Bulan ini</TabsTrigger>
+          <TabsTrigger value='week'>Pekan Ini</TabsTrigger>
+          <TabsTrigger value='month'>Bulan Ini</TabsTrigger>
         </TabsList>
 
-        <TabsContent value='pekan' className='py-6'>
-          <Subchart activities={activities} datePeriod='pekan' />
+        <TabsContent value='week' className='py-6'>
+          <Subchart activities={activities} datePeriod='week' />
         </TabsContent>
 
-        <TabsContent value='bulan' className='py-6'>
-          <Subchart activities={activities} datePeriod='bulan' />
+        <TabsContent value='month' className='py-6'>
+          <Subchart activities={activities} datePeriod='month' />
         </TabsContent>
       </Tabs>
     </>
@@ -91,7 +91,7 @@ export function ProgressChartWithNavigation(
       {...props}
       onDatePeriodChange={(value) => {
         const url = new URL(window.location.href)
-        if (value === 'pekan') {
+        if (value === 'week') {
           url.searchParams.delete(ACTIVITY_PERIOD_QUERY_PARAMETER)
         } else {
           url.searchParams.set(ACTIVITY_PERIOD_QUERY_PARAMETER, value)
@@ -112,7 +112,7 @@ function Subchart({
   const [currentDatetime] = useState(() =>
     // This is on client-side. Hence, new Date() here gets the data from the client, not the server.
     dayjsClientSideLocal(new Date().toISOString()).startOf(
-      datePeriod === 'bulan' ? 'month' : 'week'
+      datePeriod === 'month' ? 'month' : 'week'
     )
   )
   const activitiesWithLocalTime = useMemo(
@@ -129,7 +129,9 @@ function Subchart({
       {withTitle && (
         <div className='text-mtmh-sm-regular mx-auto'>
           Menampilkan pencapaian dari{' '}
-          {formatChartTimerange(currentDatetime, datePeriod)}
+          <label className='underline decoration-dashed'>
+            {formatChartTimerange(currentDatetime, datePeriod)}
+          </label>
         </div>
       )}
 
@@ -161,7 +163,7 @@ function Subchart({
             // Reference: https://github.com/recharts/recharts/issues/2027#issuecomment-2111387338.
             width={30}
             label={{
-              value: 'Lembar total',
+              value: 'Jumlah halaman',
               angle: -90,
               position: 'left',
               style: { textAnchor: 'middle' }
@@ -182,12 +184,12 @@ function Subchart({
           <ReferenceDot
             stroke='transparent'
             x={
-              datePeriod === 'pekan'
+              datePeriod === 'week'
                 ? currentDatetime.endOf('week').startOf('day').toISOString()
                 : currentDatetime.endOf('month').startOf('day').toISOString()
             }
             y={
-              datePeriod === 'pekan'
+              datePeriod === 'week'
                 ? GLOBAL_TARGET_PAGE * 7
                 : GLOBAL_TARGET_PAGE * currentDatetime.daysInMonth()
             }
@@ -209,6 +211,7 @@ function Subchart({
           />
           <Area
             dataKey='page_count'
+            name='Jumlah halaman'
             // stroke-mtmh-primary-base
             stroke='#0065FF'
             strokeWidth={2}
@@ -217,6 +220,7 @@ function Subchart({
           />
           <Area
             dataKey='target_page_count'
+            name='Target halaman'
             // stroke-mtmh-grey-lightest
             stroke='#A2A2A2'
             strokeWidth={2}
@@ -237,7 +241,7 @@ function formatChartTimerange(
   datePeriod: Props['datePeriod']
 ) {
   // Dev's note: the en-dash is intended to indicate range rather than hyphen (-).
-  if (datePeriod === 'pekan') {
+  if (datePeriod === 'week') {
     return `${datetime.startOf('week').format('D')}–${datetime.endOf('week').format(LONGER_DATE_FORMAT)}`
   }
 

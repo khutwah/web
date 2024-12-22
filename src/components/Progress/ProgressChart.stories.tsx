@@ -15,7 +15,7 @@ export function ProgressChartStory() {
 
 function Segment({ numberOfActivities }: { numberOfActivities: number }) {
   const [date] = useState(() => new Date())
-  const [datePeriod, setDatePeriod] = useState<ProgressChartPeriod>('pekan')
+  const [datePeriod, setDatePeriod] = useState<ProgressChartPeriod>('week')
 
   const data: ComponentProps<typeof ProgressChart>['activities'] = generateData(
     date,

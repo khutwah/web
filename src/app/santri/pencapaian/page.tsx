@@ -7,13 +7,12 @@ import ProgressChartSection from '@/app/santri/pencapaian/components/ProgressCha
 
 interface PencapaianProps {
   searchParams: Promise<{
-    periode?: ProgressChartPeriod
+    period?: ProgressChartPeriod
   }>
 }
 
 export default async function Pencapaian({ searchParams }: PencapaianProps) {
-  const { periode: periodParam } = await searchParams
-  const period = periodParam === 'bulan' ? 'month' : 'week'
+  const { period } = await searchParams
 
   return (
     <Layout>
@@ -22,10 +21,10 @@ export default async function Pencapaian({ searchParams }: PencapaianProps) {
       <HeaderBackground height={112} />
 
       <div className='px-6 space-y-8 pb-8'>
-        {/* TODO: restructure the page to seperate tabs from the chart and make it as a main navigation */}
-        <ProgressChartSection period={periodParam ?? 'pekan'} />
+        {/* TODO: restructure the page to separate tabs from the chart and make it as a main navigation */}
+        <ProgressChartSection period={period ?? 'week'} />
 
-        <NoteListSection period={period} />
+        <NoteListSection period={period ?? 'week'} />
       </div>
     </Layout>
   )

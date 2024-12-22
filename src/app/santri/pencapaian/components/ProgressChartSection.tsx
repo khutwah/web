@@ -20,16 +20,14 @@ export default async function ProgressChartSection({
   const tz = await getTimezoneInfo()
   const day = dayjs().tz(tz)
   const studentInstance = new Students()
-  const periodPayload = period === 'bulan' ? 'month' : 'week'
-
   const parent = await getUser()
   const student = await studentInstance.getByParentId(parent.data!.id)
 
   const activitiesInstance = new Activities()
   const activities = await activitiesInstance.chart({
     student_id: student.data!.id,
-    start_date: day.startOf(periodPayload).toISOString(),
-    end_date: day.endOf(periodPayload).toISOString(),
+    start_date: day.startOf(period).toISOString(),
+    end_date: day.endOf(period).toISOString(),
     tz
   })
 
