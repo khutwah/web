@@ -24,9 +24,9 @@ export default (async function () {
         generateActivities(seed, {
           studentEmail: email,
           activityType,
-          numberOfDays: 7,
+          numberOfDays: 2 * 7,
           startPoint: {
-            surah: 78,
+            surah: 10,
             verse: 1
           }
         })

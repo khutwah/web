@@ -18,6 +18,7 @@ interface GenerateActivitiesOptions {
   numberOfDays: number
   startPoint: Checkpoint
   targetPageCount?: number
+  includeWeekend?: boolean
 }
 
 /**
@@ -31,18 +32,17 @@ export async function generateActivities(
     studentEmail,
     activityType,
     numberOfDays,
+    startPoint,
     targetPageCount = 2,
-    startPoint
+    includeWeekend = false
   }: GenerateActivitiesOptions
 ) {
   const student = getStudent(seed, studentEmail)
   const shift = getShift(seed, studentEmail)
 
   let start = startPoint
-  // TODO(dio): Check if between Today and Today-numberOfDays there is weekend or not.
-  let startDate = dayjs().tz(TZ).subtract(numberOfDays, 'day').toISOString()
-
-  for (const _ of [...Array(numberOfDays).keys()]) {
+  let startDate = dayjs().tz(TZ).subtract(numberOfDays, 'day')
+  for (const day of getDays(startDate, numberOfDays, TZ, includeWeekend)) {
     const pageCount = copycat.int(new Date().valueOf(), {
       min: 1,
       max: 2
@@ -73,7 +73,7 @@ export async function generateActivities(
 
           // Creation info.
           created_by: shift?.ustadz_id,
-          created_at: startDate
+          created_at: day.toISOString()
         }
       })
     )
@@ -87,7 +87,27 @@ export async function generateActivities(
       surah: nextPage.boundaries[0].surah,
       verse: nextPage.boundaries[0].ayah
     }
-    // FIXME(dio): Skip if startDate is weekend.
-    startDate = dayjs(startDate).tz(TZ).add(1, 'day').toISOString()
   }
+}
+
+function getDays(
+  startDate: dayjs.Dayjs,
+  numberOfDays: number,
+  tz: string,
+  includeWeekend: boolean
+): dayjs.Dayjs[] {
+  const weekDays: dayjs.Dayjs[] = []
+  for (const i of Array(numberOfDays).keys()) {
+    const date = startDate.add(i, 'day')
+    if (isWeekend(date, tz) && !includeWeekend) {
+      continue
+    }
+    weekDays.push(date)
+  }
+  return weekDays
+}
+
+// Helper function to check if a date is weekend.
+function isWeekend(date: dayjs.Dayjs, tz: string): boolean {
+  return date.tz(tz).day() === 0 || date.tz(tz).day() === 6
 }
