@@ -17,12 +17,15 @@ import { MoveRight } from 'lucide-react'
 import { Labels } from '../ActivityCard/ActivityCard'
 import { Button } from '../Button/Button'
 import Link from 'next/link'
+import { addQueryParams } from '@/utils/url'
 
 interface Props {
   activities: Awaited<ReturnType<Activities['list']>>['data']
+  from?: string
+  id?: string
 }
 
-export function ActivityPopup({ activities }: Props) {
+export function ActivityPopup({ activities, from, id }: Props) {
   const query = useSearchParams()
   const router = useRouter()
 
@@ -103,7 +106,15 @@ export function ActivityPopup({ activities }: Props) {
               >
                 {_activity.has_edit_access ? (
                   <Link
-                    href={`/ustadz/santri/${_activity.student_id}/activities/edit/${_activity.id}`}
+                    href={addQueryParams(
+                      `/ustadz/santri/${_activity.student_id}/activities/edit/${_activity.id}`,
+                      {
+                        from,
+                        id: addQueryParams(id || '', {
+                          activity: `${_activity.id}`
+                        })
+                      }
+                    )}
                   >
                     Lanjutkan Mengedit
                   </Link>

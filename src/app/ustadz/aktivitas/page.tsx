@@ -5,13 +5,18 @@ import { AktivitasPageProps } from '@/models/activity-list'
 import { Navbar } from '@/components/Navbar/Navbar'
 import { ListSkeleton } from './components/Skeleton/ListSkeleton'
 import { Skeleton } from '@/components/Skeleton/Skeleton'
+import { convertSearchParamsToPath } from '@/utils/url'
 
 export default async function Aktivitas(props: Readonly<AktivitasPageProps>) {
   const params = await props.searchParams
+  const returnTo = convertSearchParamsToPath({
+    from: `ustadz${params.from ? `/${params.from}` : ''}`,
+    id: params.id
+  })
   return (
     <div className='relative'>
       <header className='sticky top-0 bg-mtmh-red-base z-10'>
-        <Navbar text='Aktivitas' />
+        <Navbar text='Aktivitas' returnTo={returnTo} />
         <div className='p-4 pt-0 bg-mtmh-red-base'>
           <Suspense fallback={<Skeleton className='h-10 w-full' />}>
             <Filter />

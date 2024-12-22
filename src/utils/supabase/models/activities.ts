@@ -360,7 +360,7 @@ export class Activities extends Base {
               : pageCountStart,
           // Note: this is intended so that every tick in X axis is always at the start of day.
           // Also this should consider the timezone of the user.
-          // FIXME(dio): Probably this should be handled at the caller site,
+          // FIXME(dio-khutwah): Probably this should be handled at the caller site,
           // so we don't need to trickle down the timezone to model layer.
           created_at: dayjs
             .utc(item.created_at)

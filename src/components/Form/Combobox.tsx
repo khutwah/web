@@ -1,5 +1,5 @@
 import { Button } from '@/components/Button/Button'
-import { Check, ChevronsUpDown } from 'lucide-react'
+import { Check, ChevronsUpDown, CircleX, X } from 'lucide-react'
 import { useDebouncedCallback } from 'use-debounce'
 
 import {
@@ -10,7 +10,8 @@ import {
   useState,
   useRef,
   useEffect,
-  forwardRef
+  forwardRef,
+  useTransition
 } from 'react'
 import {
   Drawer,
@@ -67,6 +68,7 @@ export const ComboboxButton = forwardRef<
     <Button
       ref={ref}
       asChild
+      className='cursor-pointer'
       variant='outline'
       onClick={(e) => {
         if (disabled) return
@@ -126,6 +128,7 @@ export function Combobox({
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState('')
   const selectedRef = useRef<HTMLButtonElement>(null)
+  const [isTransitioning] = useTransition()
 
   useEffect(() => {
     if (open && value) {
@@ -145,6 +148,7 @@ export function Combobox({
       item.searchable.toLowerCase().includes(search.toLowerCase())
     )
   }, [search, items, withSearch])
+  const selectedValue = _items.find((item) => item.value === value)
 
   return (
     <Drawer
@@ -158,17 +162,54 @@ export function Combobox({
         <Button
           variant='outline'
           aria-expanded={open}
-          className='w-full justify-between'
+          className='w-full flex items-center justify-between'
         >
-          {value
-            ? items.find((item) => item.value === value)?.label
-            : placeholder}
-          <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
+          <span className='flex-grow text-left'>
+            {value
+              ? items.find((item) => item.value === value)?.label
+              : placeholder}
+          </span>
+
+          <div className='flex items-center space-x-2'>
+            {value && (
+              <span
+                onClick={(e) => {
+                  e.stopPropagation()
+                  onChange('')
+                }}
+                role='button'
+                aria-label='Clear selection'
+                className='p-1 cursor-pointer text-gray-500 hover:text-gray-700'
+              >
+                <X size={8} className='opacity-50' />
+              </span>
+            )}
+            <ChevronsUpDown className='h-4 w-4 shrink-0 opacity-50' />
+          </div>
         </Button>
       </DrawerTrigger>
       <DrawerContent>
-        <DrawerHeader className='text-left'>
-          <DrawerTitle>{placeholder}</DrawerTitle>
+        <DrawerHeader>
+          <DrawerTitle>
+            <div className='flex items-center justify-between'>
+              <div className='text-left'>{placeholder}</div>
+              {selectedValue && (
+                <Button
+                  className='max-w-xs'
+                  variant='outline'
+                  disabled={isTransitioning}
+                  onClick={() => onChange('')}
+                >
+                  <CircleX size={8} />{' '}
+                  {
+                    <label className='text-mtmh-sm-regular block w-full truncate'>
+                      {_items.find((item) => item.value === value)?.label}
+                    </label>
+                  }
+                </Button>
+              )}
+            </div>
+          </DrawerTitle>
         </DrawerHeader>
 
         {withSearch ? (

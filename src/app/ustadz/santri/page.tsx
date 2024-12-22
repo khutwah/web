@@ -16,6 +16,7 @@ import { StateMessage } from '@/components/StateMessage/StateMessage'
 import { Alert, AlertDescription } from '@/components/Alert/Alert'
 import { CircleAlert } from 'lucide-react'
 import getTimezoneInfo from '@/utils/get-timezone-info'
+import { MENU_USTADZ_PATH_RECORDS } from '@/utils/menus/ustadz'
 
 export default async function Santri() {
   const user = await getUser()
@@ -40,7 +41,7 @@ export default async function Santri() {
     <Layout>
       <SearchProvider>
         <header className='sticky top-0 bg-mtmh-red-base'>
-          <Navbar text='Santri' />
+          <Navbar text='Santri' returnTo={MENU_USTADZ_PATH_RECORDS.home} />
           <SearchSection
             id='search-santri'
             name='search-santri'

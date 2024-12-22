@@ -5,30 +5,11 @@ import {
   MoveRight
 } from 'lucide-react'
 import Link from 'next/link'
-import { ActivityStatus, ActivityTypeKey } from '@/models/activities'
+import { ActivityStatus } from '@/models/activities'
 import { ActivityBadge } from '../Badge/ActivityBadge'
 import dayjs from '@/utils/dayjs'
 import { cn } from '@/utils/classnames'
-
-interface SurahSubmissionInfo {
-  name: string
-  verse: string
-}
-
-interface Props {
-  id: string
-  type: ActivityTypeKey
-  isStudentPresent: boolean
-  notes: string
-  timestamp: string
-  tz: string
-  status: ActivityStatus
-  surahStart?: SurahSubmissionInfo | null
-  surahEnd?: SurahSubmissionInfo | null
-  studentName?: string
-  halaqahName?: string
-  labels?: string[]
-}
+import { ActivityCardProps, Labels } from './ActivityCard'
 
 export function ActivityBriefCard({
   id,
@@ -42,10 +23,19 @@ export function ActivityBriefCard({
   studentName,
   halaqahName,
   labels,
-  status
-}: Props) {
+  status,
+  searchParams
+}: ActivityCardProps) {
+  const params = new URLSearchParams(searchParams)
+  params.set('activity', id)
+
   return (
-    <Link href={`?activity=${id}`}>
+    <Link
+      href={{
+        pathname: '',
+        query: params.toString()
+      }}
+    >
       <Card className='w-full bg-mtmh-neutral-10 text-mtmh-grey-base relative flex flex-col'>
         <CardHeader
           className={cn('rounded-t-xl p-5 pb-2', {
@@ -121,20 +111,5 @@ export function ActivityBriefCard({
         </CardContent>
       </Card>
     </Link>
-  )
-}
-
-export function Labels({ labels }: { labels: string[] }) {
-  return (
-    <ul className='flex gap-1 text-mtmh-xs-regular flex-wrap'>
-      {labels.map((tag, index) => (
-        <li
-          key={`${tag}-${index}`}
-          className='py-0.5 px-2 rounded-lg border border-mtmh-snow-base'
-        >
-          {tag}
-        </li>
-      ))}
-    </ul>
   )
 }

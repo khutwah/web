@@ -1,6 +1,5 @@
 import { Suspense } from 'react'
 
-import { ActivityCard } from '@/components/ActivityCard/ActivityCard'
 import { Skeleton } from '@/components/Skeleton/Skeleton'
 import { StateMessage } from '@/components/StateMessage/StateMessage'
 import { ErrorBoundary } from '@/components/ErrorBoundary/ErrorBoundary'
@@ -11,6 +10,7 @@ import { Activities } from '@/utils/supabase/models/activities'
 import { getUser } from '@/utils/supabase/get-user'
 import { dayjs } from '@/utils/dayjs'
 import getTimezoneInfo from '@/utils/get-timezone-info'
+import { ActivityBriefCard } from '@/components/ActivityCard/ActivityBriefCard'
 
 export function NoteListSection({ period }: { period: 'week' | 'month' }) {
   return (
@@ -70,7 +70,7 @@ async function NoteList({ period }: NoteListProps) {
       <ul className='space-y-3'>
         {activities.data?.map((activity) => (
           <li key={activity.id}>
-            <ActivityCard
+            <ActivityBriefCard
               id={String(activity.id)}
               surahEnd={
                 activity.student_attendance === 'present'
@@ -93,7 +93,6 @@ async function NoteList({ period }: NoteListProps) {
               notes={activity.notes ?? ''}
               type={activity.type as ActivityTypeKey}
               isStudentPresent={activity.student_attendance === 'present'}
-              studentName={activity.student_name!}
               halaqahName={activity.halaqah_name!}
               labels={activity.tags as Array<string>}
               status={activity.status as ActivityStatus}
@@ -109,13 +108,13 @@ function ListSkeleton() {
   return (
     <ul className='space-y-3'>
       <li>
-        <Skeleton className='w-full h-56'></Skeleton>
+        <Skeleton className='w-full h-36'></Skeleton>
       </li>
       <li>
-        <Skeleton className='w-full h-56'></Skeleton>
+        <Skeleton className='w-full h-36'></Skeleton>
       </li>
       <li>
-        <Skeleton className='w-full h-56'></Skeleton>
+        <Skeleton className='w-full h-36'></Skeleton>
       </li>
     </ul>
   )

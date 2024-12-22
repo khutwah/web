@@ -4,10 +4,11 @@ import { useState, useTransition } from 'react'
 import { getActivities } from '../../actions'
 import { Button } from '@/components/Button/Button'
 import { ActivityListClientProps, LIMIT } from '@/models/activity-list'
-import { ActivityCard } from '@/components/ActivityCard/ActivityCard'
 import { ActivityStatus, ActivityTypeKey } from '@/models/activities'
 import { useSearchParams } from 'next/navigation'
 import { ActivityPopup } from '@/components/ActivityPopup'
+import { ActivityBriefCard } from '@/components/ActivityCard/ActivityBriefCard'
+import { Loader2 } from 'lucide-react'
 
 export function ActivityListClient({
   initialActivities,
@@ -46,14 +47,15 @@ export function ActivityListClient({
     })
   }
 
+  const isStudentIdSet = params.get('student_id')
   return (
     <div className='p-4 pb-6'>
-      <ActivityPopup activities={activities} />
-      <div className='flex flex-col gap-4 pt-2'>
+      <ActivityPopup activities={activities} from='aktivitas' />
+      <div className='flex flex-col gap-2'>
         {activities.map((item) => {
           const tags = item.tags as string[]
           return (
-            <ActivityCard
+            <ActivityBriefCard
               key={item.id}
               tz={tz}
               id={String(item.id)}
@@ -77,11 +79,11 @@ export function ActivityListClient({
               notes={item.notes ?? ''}
               type={item.type as ActivityTypeKey}
               isStudentPresent={item.student_attendance === 'present'}
-              studentName={item.student_name!}
+              studentName={isStudentIdSet ? '' : item.student_name!}
               halaqahName={item.halaqah_name!}
               labels={tags}
               status={item.status as ActivityStatus}
-              queryParams={params}
+              searchParams={params}
             />
           )
         })}
@@ -96,7 +98,14 @@ export function ActivityListClient({
           }}
           disabled={isPending}
         >
-          {isPending ? 'Memuat...' : 'Muat lebih banyak'}
+          {isPending ? (
+            <>
+              <Loader2 className='animate-spin mr-2' />
+              Memuat...
+            </>
+          ) : (
+            'Muat lebih banyak'
+          )}
         </Button>
       )}
     </div>

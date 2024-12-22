@@ -37,7 +37,7 @@ export default async function Home() {
         </section>
 
         <section className='flex flex-col gap-y-3 px-6'>
-          {/* FIXME(dio): Add empty state component for halaqah list. */}
+          {/* FIXME(dio-khutwah): Add empty state component for halaqah list. */}
           {halaqahList.data.length > 0 && (
             <h2 className='text-mtmh-m-semibold'>Halaqah Hari Ini</h2>
           )}
@@ -80,7 +80,7 @@ export default async function Home() {
         </section>
 
         <section className='flex flex-col gap-3'>
-          {/* FIXME(dio): Add empty state component for activity list. */}
+          {/* FIXME(dio-khutwah): Add empty state component for activity list. */}
           {activityList.data && activityList.data.length > 0 && (
             <div className='flex flex-row items-center justify-between px-6'>
               <h2 className='text-mtmh-m-semibold'>Input Terakhir</h2>

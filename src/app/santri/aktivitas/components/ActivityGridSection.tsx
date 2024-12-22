@@ -29,13 +29,26 @@ export async function ActivityGridSection({
 }: Props) {
   const searchParams = await searchParamsPromise
 
+  const { [ACTIVITY_CURRENT_DATE_QUERY_PARAMETER]: currentDateQueryParameter } =
+    convertSearchParamsToStringRecords(searchParams)
+  const tz = await getTimezoneInfo()
+  const day = dayjs
+    .utc(
+      currentDateQueryParameter,
+      ACTIVITY_CURRENT_DATE_QUERY_PARAMETER_DATE_FORMAT
+    )
+    .tz(tz)
+
+  // FIXME(dio-khutwah): When we refactor this, we should probably move this somewhere else.
+  const isChartView = searchParams[ACTIVITY_VIEW_QUERY_PARAMETER] === 'chart'
+  const startDateWeek = day.startOf('week')
+  const isCurrentWeek = startDateWeek.isSame(dayjs().tz(tz), 'week')
+
   return (
     <section className='flex flex-col gap-y-4'>
       <div className='flex justify-center gap-x-[6.5px] text-mtmh-neutral-white text-mtmh-m-regular'>
         <SantriActivityHeader
-          hasJumpToTodayLink={
-            searchParams[ACTIVITY_VIEW_QUERY_PARAMETER] !== 'chart'
-          }
+          hasJumpToTodayLink={!isChartView && !isCurrentWeek}
         />
       </div>
 
