@@ -49,10 +49,13 @@ export async function generateActivities(
   let startDate = dayjs().tz(TZ).subtract(numberOfDays, 'day')
   let activities: Activity[] = []
   for (const day of getDays(startDate, numberOfDays, TZ, includeWeekend)) {
-    const pageCount = copycat.int(copycat.scramble(studentEmail + day.day()), {
-      min: 1,
-      max: maxPageCount
-    })
+    const pageCount = copycat.int(
+      copycat.scramble(studentEmail + day.day() + activityType),
+      {
+        min: 1,
+        max: maxPageCount
+      }
+    )
     const end = getEndSurahAndAyah(start.surah, start.verse, pageCount)
     if (!end) {
       throw new Error('End surah and ayah not found')
