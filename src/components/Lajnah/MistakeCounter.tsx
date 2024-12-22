@@ -17,11 +17,15 @@ export function MistakeCounter({
   onUndo
 }: MistakeCounterProps) {
   const getButtonColor = () => {
-    if (count === 0) return 'bg-gray-50 hover:bg-yellow-50'
-    if (count <= 3) return 'bg-yellow-100 hover:bg-yellow-200'
-    if (count <= 6) return 'bg-orange-200 hover:bg-orange-300'
-    if (count <= 9) return 'bg-red-300 hover:bg-red-400'
-    return 'bg-red-400 hover:bg-red-500'
+    if (count === 0)
+      return 'bg-gradient-to-br from-gray-50 to-gray-100 hover:from-gray-100 hover:to-gray-200'
+    if (count <= 3)
+      return 'bg-gradient-to-br from-yellow-100 to-yellow-200 hover:from-yellow-200 hover:to-yellow-300'
+    if (count <= 6)
+      return 'bg-gradient-to-br from-orange-200 to-orange-300 hover:from-orange-300 hover:to-orange-400'
+    if (count <= 9)
+      return 'bg-gradient-to-br from-red-300 to-red-400 hover:from-red-400 hover:to-red-500'
+    return 'bg-gradient-to-br from-red-400 to-red-500 hover:from-red-600 hover:to-red-700'
   }
 
   return (
