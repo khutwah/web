@@ -2,7 +2,6 @@
 
 import { Button } from '@/components/Button/Button'
 import { MistakeCounterType } from '@/models/lajnah'
-import { on } from 'events'
 import { Undo2 as Undo } from 'lucide-react'
 
 interface MistakeCounterProps {
