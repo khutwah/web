@@ -85,7 +85,11 @@ export default async function DetailHalaqah({
             <Alert variant='warning'>
               <CircleAlert aria-hidden size={16} />
               <AlertDescription>
-                Menampilkan data untuk hari {day.format('dddd, D MMMM YYYY')}.
+                Menampilkan data untuk hari{' '}
+                <label className='underline decoration-dashed'>
+                  {day.format('dddd, D MMMM YYYY')}
+                </label>
+                .
               </AlertDescription>
             </Alert>
             <SantriList

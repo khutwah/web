@@ -32,7 +32,7 @@ export function SantriActivityHeader({
     <>
       {hasJumpToTodayLink && href ? (
         <Link href={href}>
-          <DateHeader hijriDate={alAdhanInfo?.date.hijri} />
+          <DateHeader hijriDate={alAdhanInfo?.date.hijri} isDateClickable />
         </Link>
       ) : (
         <DateHeader hijriDate={alAdhanInfo?.date.hijri} />
