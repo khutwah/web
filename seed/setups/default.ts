@@ -11,6 +11,7 @@ export default (async function () {
   const supabase = new Supabase()
   const seed = await createSeedClient()
   await seed.$resetDatabase()
+
   await Promise.all([
     registerTags(seed),
     registerHalaqah(supabase, seed, halaqahList, new Date().getFullYear())
@@ -24,9 +25,9 @@ export default (async function () {
         generateActivities(seed, {
           studentEmail: email,
           activityType,
-          numberOfDays: 2 * 7,
+          numberOfDays: 4 * 7,
           startPoint: {
-            surah: 10,
+            surah: 2,
             verse: 1
           }
         })

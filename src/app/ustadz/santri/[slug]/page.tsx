@@ -84,8 +84,6 @@ export default async function DetailSantri({
   if (!student.data) {
     pageContent = <div>Unexpected error: {student.error?.message}</div>
   } else {
-    const period = periodQueryParameter === 'month' ? 'month' : 'week'
-
     const activitiesInstance = new Activities()
     const [
       activitiesPromise,
@@ -97,8 +95,10 @@ export default async function DetailSantri({
     ] = await Promise.allSettled([
       activitiesInstance.list({
         student_id: student.data.id,
-        start_date: day.startOf(period).toISOString(),
-        end_date: day.endOf(period).toISOString(),
+        start_date: day
+          .startOf(isChartView ? chartPeriod : 'week')
+          .toISOString(),
+        end_date: day.endOf(isChartView ? chartPeriod : 'week').toISOString(),
         limit: 21
       }),
       activitiesInstance.list({

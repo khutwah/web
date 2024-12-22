@@ -32,7 +32,7 @@ jobs:
               - 'supabase/migrations/**'
             seeds:
               - '.snaplet/dataModel.json'
-              - 'seed.ts'
+              - 'seed/**'
       - uses: supabase/setup-cli@fe52e8551e5e65c2c6a20121b1c0998d6c5e3e1f # v1.4.0
         if: steps.changes.outputs.migrations == 'true' || steps.changes.outputs.seeds == 'true'
         with:

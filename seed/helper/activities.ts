@@ -4,6 +4,7 @@ import { getShift, getStudent } from './halaqah'
 import { ActivityStatus } from '@/models/activities'
 import { getEndSurahAndAyah, getNextPage } from '@/utils/mushaf'
 import { copycat } from '@snaplet/copycat'
+import { Database } from '@/models/database.types'
 
 const TZ = 'Asia/Jakarta'
 
@@ -18,8 +19,11 @@ interface GenerateActivitiesOptions {
   numberOfDays: number
   startPoint: Checkpoint
   targetPageCount?: number
+  maxPageCount?: number
   includeWeekend?: boolean
 }
+
+type Activity = Database['public']['Tables']['activities']['Insert']
 
 /**
  * Generate activities for a student.
@@ -33,6 +37,7 @@ export async function generateActivities(
     activityType,
     numberOfDays,
     startPoint,
+    maxPageCount = 5,
     targetPageCount = 2,
     includeWeekend = false
   }: GenerateActivitiesOptions
@@ -42,41 +47,38 @@ export async function generateActivities(
 
   let start = startPoint
   let startDate = dayjs().tz(TZ).subtract(numberOfDays, 'day')
+  let activities: Activity[] = []
   for (const day of getDays(startDate, numberOfDays, TZ, includeWeekend)) {
-    const pageCount = copycat.int(new Date().valueOf(), {
+    const pageCount = copycat.int(copycat.scramble(studentEmail + day.day()), {
       min: 1,
-      max: 2
+      max: maxPageCount
     })
     const end = getEndSurahAndAyah(start.surah, start.verse, pageCount)
     if (!end) {
       throw new Error('End surah and ayah not found')
     }
 
-    await seed.activities((x) =>
-      x(1, () => {
-        return {
-          student_id: student?.id,
-          shift_id: shift?.id,
-          type: activityType,
-          status: ActivityStatus.completed,
-          student_attendance: 'present',
-          achieve_target: pageCount >= targetPageCount,
+    activities.push({
+      student_id: student?.id,
+      shift_id: shift?.id,
+      type: activityType,
+      status: ActivityStatus.completed,
+      student_attendance: 'present',
+      achieve_target: pageCount >= targetPageCount,
 
-          start_surah: start?.surah,
-          start_verse: start?.verse,
-          end_surah: end.surah,
-          end_verse: end.ayah,
-          page_count: pageCount,
-          target_page_count: targetPageCount,
+      start_surah: start.surah,
+      start_verse: start.verse,
+      end_surah: end.surah,
+      end_verse: end.ayah,
+      page_count: pageCount,
+      target_page_count: targetPageCount,
 
-          tags: ['Terbata-bata', 'Cukup Baik'],
+      tags: ['Terbata-bata', 'Cukup Baik'],
 
-          // Creation info.
-          created_by: shift?.ustadz_id,
-          created_at: day.toISOString()
-        }
-      })
-    )
+      // Creation info.
+      created_by: shift?.ustadz_id,
+      created_at: day.toISOString()
+    })
 
     const nextPage = getNextPage(end.pageNumber)
     if (!nextPage) {
@@ -88,6 +90,14 @@ export async function generateActivities(
       verse: nextPage.boundaries[0].ayah
     }
   }
+
+  await seed.activities((x) =>
+    x(activities.length, (ctx) => {
+      return {
+        ...(activities[ctx.index] as any)
+      }
+    })
+  )
 }
 
 function getDays(
