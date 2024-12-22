@@ -16,6 +16,15 @@ export function getPage(surah: number, ayah: number): Page | undefined {
 }
 
 /**
+ * Get the next page object.
+ * @param currentPageNumber - The current page number.
+ * @returns Page object that contains the boundaries.
+ */
+export function getNextPage(currentPageNumber: number): Page | undefined {
+  return pages.find((page) => page.page === currentPageNumber + 1)
+}
+
+/**
  * Get the number of pages between the start and end surah and ayah.
  * @param startSurah - The start surah number.
  * @param startAyah - The start ayah number.
@@ -50,7 +59,7 @@ export function getEndSurahAndAyah(
   startAyah: number,
   pageCount: number,
   useLastBoundary: boolean = true
-): { endSurah: number; endAyah: number } | undefined {
+): { surah: number; ayah: number; pageNumber: number } | undefined {
   const startPage = getPage(startSurah, startAyah)
   if (!startPage) return undefined
 
@@ -64,7 +73,8 @@ export function getEndSurahAndAyah(
     : endPage.boundaries[0] // First boundary.
 
   return {
-    endSurah: boundary.surah,
-    endAyah: boundary.ayah
+    surah: boundary.surah,
+    ayah: boundary.ayah,
+    pageNumber: endPageNumber
   }
 }
