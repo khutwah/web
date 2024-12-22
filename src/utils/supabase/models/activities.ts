@@ -1,7 +1,7 @@
 import { PaginationFilter, RoleFilter } from '@/models/supabase/models/filter'
 import { Base } from './base'
 import { ActivityStatus, ActivityType } from '@/models/activities'
-import surah from '@/data/surah.json'
+import surahs from '@/data/mushaf/surahs.json'
 import { getUserId } from '../get-user-id'
 import { ApiError } from '@/utils/api-error'
 import dayjs from '@/utils/dayjs'
@@ -156,9 +156,9 @@ export class Activities extends Base {
           target_page_count: item.target_page_count,
           page_count: item.page_count,
           created_at: item.created_at,
-          start_surah: surah.find((s) => s.id === item.start_surah)?.name,
+          start_surah: surahs.find((s) => s.id === item.start_surah)?.name,
           start_surah_id: item.start_surah,
-          end_surah: surah.find((s) => s.id === item.end_surah)?.name,
+          end_surah: surahs.find((s) => s.id === item.end_surah)?.name,
           end_surah_id: item.end_surah,
           start_verse: item.start_verse,
           end_verse: item.end_verse,

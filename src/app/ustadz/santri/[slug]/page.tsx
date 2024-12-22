@@ -59,28 +59,33 @@ export default async function DetailSantri({
     ...searchStringRecords
   } = convertSearchParamsToStringRecords(searchParams)
 
+  // This gets the current day in the client's timezone.
+  const tz = await getTimezoneInfo()
+  const day = dayjs
+    .utc(
+      currentDateQueryParameter,
+      ACTIVITY_CURRENT_DATE_QUERY_PARAMETER_DATE_FORMAT
+    )
+    .tz(tz)
+
   const studentId = params.slug
   const studentsInstance = new Students()
   const student = await studentsInstance.get(Number(studentId))
   const halaqahId = String(student.data?.halaqah?.id)
-  const chartPeriod = searchParams['periode'] === 'bulan' ? 'month' : 'week'
+  const chartPeriod = searchParams['period'] === 'month' ? 'month' : 'week'
+
+  // FIXME(dio): When we refactor this, we should probably move this somewhere else.
   const isChartView = searchParams[ACTIVITY_VIEW_QUERY_PARAMETER] === 'chart'
+  const startDateWeek = day.startOf('week')
+  const isCurrentWeek = startDateWeek.isSame(dayjs().tz(tz), 'week')
 
   let pageContent: JSX.Element
 
   if (!student.data) {
     pageContent = <div>Unexpected error: {student.error?.message}</div>
   } else {
-    // This gets the current day in the client's timezone.
-    const tz = await getTimezoneInfo()
-    const period = periodQueryParameter === 'bulan' ? 'month' : 'week'
+    const period = periodQueryParameter === 'month' ? 'month' : 'week'
 
-    const day = dayjs
-      .utc(
-        currentDateQueryParameter,
-        ACTIVITY_CURRENT_DATE_QUERY_PARAMETER_DATE_FORMAT
-      )
-      .tz(tz)
     const activitiesInstance = new Activities()
     const [
       activitiesPromise,
@@ -170,7 +175,9 @@ export default async function DetailSantri({
 
         <div className='flex flex-col p-6 gap-y-4'>
           <div className='flex justify-center gap-x-[6.5px] text-mtmh-neutral-white text-mtmh-m-regular'>
-            <SantriActivityHeader hasJumpToTodayLink={!isChartView} />
+            <SantriActivityHeader
+              hasJumpToTodayLink={!isChartView && !isCurrentWeek}
+            />
           </div>
 
           <Card className='bg-mtmh-neutral-white text-mtmh-grey-base shadow-md border border-mtmh-snow-lighter rounded-md'>
@@ -204,7 +211,7 @@ export default async function DetailSantri({
                 <ProgressChartWithNavigation
                   activities={activitiesChart}
                   datePeriod={
-                    periodQueryParameter === 'bulan' ? 'bulan' : 'pekan'
+                    periodQueryParameter === 'month' ? 'month' : 'week'
                   }
                 />
               ) : (

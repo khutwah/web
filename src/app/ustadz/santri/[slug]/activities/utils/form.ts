@@ -1,5 +1,5 @@
 import { ComboboxProps } from '@/components/Form/Combobox'
-import surah from '@/data/surah.json'
+import surah from '@/data/mushaf/surahs.json'
 
 export function getVerseItems(surahValue: number): ComboboxProps['items'] {
   const _surah = surah.find((item) => item.id === surahValue)
