@@ -4,13 +4,13 @@ export function ListSkeleton() {
   return (
     <ul className='flex flex-col p-4 gap-4'>
       <li>
-        <Skeleton className='w-full h-30'></Skeleton>
+        <Skeleton className='w-full h-36'></Skeleton>
       </li>
       <li>
-        <Skeleton className='w-full h-30'></Skeleton>
+        <Skeleton className='w-full h-36'></Skeleton>
       </li>
       <li>
-        <Skeleton className='w-full h-30'></Skeleton>
+        <Skeleton className='w-full h-36'></Skeleton>
       </li>
     </ul>
   )
