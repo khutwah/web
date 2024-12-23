@@ -18,7 +18,6 @@ export function Checkpoint({
 }: CheckpointProps) {
   return (
     <div
-      key={checkpoint.id}
       className='relative mb-8 pl-12 w-full cursor-pointer'
       onClick={() => onCheckpointClick(checkpoint)}
     >
