@@ -65,7 +65,7 @@ export default async function AddActivity(props: AddActivityProps) {
   const activities = await _activities.list({
     student_id: Number(params.slug),
     student_attendance: 'present',
-    type: activityKey,
+    type: activityType === 'Sabqi' ? ActivityType.Sabaq : activityKey,
     order_by: [['id', 'desc']],
     status: ActivityStatus.completed,
     limit: 1
