@@ -137,8 +137,8 @@ export function FormPresent(props: FormProps) {
                 // @ts-expect-error - reset field state
                 setValue('end_verse', undefined)
               }}
-              placeholder='Pilih Surah'
-              searchPlaceholder='Cari Surah'
+              placeholder='Pilih Surat'
+              searchPlaceholder='Cari Surat'
             />
           </div>
           <div className='basis-1/4'>

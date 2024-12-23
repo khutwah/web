@@ -53,7 +53,7 @@ export const LajnahTypeOptionsType: LajnahTypeOptionsType[] = [
   },
   {
     value: LajnahType.surah_kamil_jannah,
-    label: 'Per Surah'
+    label: 'Per Surat'
   },
   {
     value: LajnahType.custom,
@@ -135,7 +135,7 @@ export const LAJNAH_TYPES: LajnahTypes = {
     data: Per5JuzLajnah
   },
   [LajnahType.surah_kamil_jannah]: {
-    title: 'Lajnah Per Surah',
+    title: 'Lajnah Per Surat',
     id: {
       type: 'surah',
       label: 'Surat'

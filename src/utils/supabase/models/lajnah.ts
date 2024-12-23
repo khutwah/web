@@ -73,7 +73,7 @@ export class Lajnah extends Base {
 
   async create(payload: UpsertPayload) {
     const supabase = await this.supabase
-    return supabase.from('lajnah').insert(payload)
+    return supabase.from('lajnah').insert(payload).select('id').maybeSingle()
   }
 
   async update(id: number, payload: UpsertPayload) {

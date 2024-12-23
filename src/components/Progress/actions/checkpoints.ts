@@ -6,6 +6,7 @@ import {
   updateCheckpointSchema
 } from '@/utils/schemas/checkpoint'
 import { Checkpoint } from '@/utils/supabase/models/checkpoint'
+import { validateOrFail } from '@/utils/validate-or-fail'
 import { InferType, Schema, ValidationError } from 'yup'
 
 type UpdateSchema = InferType<typeof updateCheckpointSchema>
@@ -42,28 +43,6 @@ async function upsertOrFail(
       success: true
     }
   } catch (error: unknown) {
-    return {
-      message: String(error)
-    }
-  }
-}
-
-async function validateOrFail<T>(
-  fn: () => ReturnType<Schema<T>['validate']>
-): Promise<T | { message: string }> {
-  let validatedFields = {} as T
-
-  try {
-    validatedFields = await fn()
-
-    return validatedFields
-  } catch (error: unknown) {
-    if (error instanceof ValidationError) {
-      return {
-        message: error.message
-      }
-    }
-
     return {
       message: String(error)
     }
