@@ -21,7 +21,7 @@ export function DateHeader({ hijriDate, isDateClickable = false }: Props) {
 
   return (
     <div className='flex gap-x-[6.5px] text-mtmh-m-regular text-mtmh-neutral-white'>
-      {hijriDate ? <HijriDate date={hijriDate} /> : null}
+      {hijriDate && <HijriDate date={hijriDate} />}
 
       <label
         className={cn({
