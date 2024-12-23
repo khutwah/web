@@ -53,3 +53,13 @@ export interface MistakeCounterType {
   medium: number
   large: number
 }
+
+export interface CheckpointType {
+  id: string
+  timestamp: string
+  startSurah: string
+  endSurah?: string
+  startVerse: number
+  endVerse?: number
+  mistakes: MistakeCounterType
+}
