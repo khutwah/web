@@ -25,10 +25,10 @@ export default (async function () {
         generateActivities(seed, {
           studentEmail: email,
           activityType,
-          numberOfDays: 4 * 7,
+          numberOfDays: Number(process.env.NUMBER_OF_DAYS) || 4 * 7,
           startPoint: {
-            surah: 2,
-            verse: 1
+            surah: Number(process.env.START_SURAH) || 2,
+            verse: Number(process.env.START_VERSE) || 1
           }
         })
       )

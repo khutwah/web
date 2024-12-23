@@ -104,7 +104,9 @@ export function CheckpointDrawer({
       ) : null}
 
       <div className='flex flex-col gap-2'>
-        {STATUS_LIST.map((item) => (
+        {STATUS_LIST.filter(
+          (status) => lastActivityId ?? status.value === 'inactive'
+        ).map((item) => (
           <ComboboxButton
             key={item.value}
             label={item.label}

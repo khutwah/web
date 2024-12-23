@@ -61,5 +61,5 @@ export interface CheckpointType {
   endSurah?: string
   startVerse: number
   endVerse?: number
-  mistakes?: MistakeCounterType
+  mistakes: MistakeCounterType
 }

@@ -20,6 +20,7 @@ interface GenerateActivitiesOptions {
   startPoint: Checkpoint
   targetPageCount?: number
   maxPageCount?: number
+  includeToday?: boolean
   includeWeekend?: boolean
 }
 
@@ -39,16 +40,26 @@ export async function generateActivities(
     startPoint,
     maxPageCount = 5,
     targetPageCount = 2,
+    includeToday = false,
     includeWeekend = false
   }: GenerateActivitiesOptions
 ) {
   const student = getStudent(seed, studentEmail)
   const shift = getShift(seed, studentEmail)
 
-  let start = startPoint
-  let startDate = dayjs().tz(TZ).subtract(numberOfDays, 'day')
   let activities: Activity[] = []
-  for (const day of getDays(startDate, numberOfDays, TZ, includeWeekend)) {
+
+  let start = startPoint
+  let endDate = dayjs().tz(TZ)
+
+  if (!includeToday) {
+    endDate = endDate.subtract(1, 'day')
+    if (isWeekend(endDate, TZ) && !includeWeekend) {
+      endDate = endDate.subtract(endDate.tz(TZ).day() === 0 ? 2 : 1, 'day')
+    }
+  }
+
+  for (const day of getDays(endDate, numberOfDays, TZ, includeWeekend)) {
     const pageCount = copycat.int(
       copycat.scramble(studentEmail + day.day() + activityType),
       {
@@ -109,15 +120,16 @@ function getDays(
   tz: string,
   includeWeekend: boolean
 ): dayjs.Dayjs[] {
-  const weekDays: dayjs.Dayjs[] = []
-  for (const i of Array(numberOfDays).keys()) {
-    const date = startDate.add(i, 'day')
+  const days: dayjs.Dayjs[] = []
+  let date = startDate
+  while (days.length < numberOfDays) {
     if (isWeekend(date, tz) && !includeWeekend) {
-      continue
+      date = date.subtract(date.tz(tz).day() === 0 ? 2 : 1, 'day')
     }
-    weekDays.push(date)
+    days.push(date)
+    date = date.subtract(1, 'day')
   }
-  return weekDays
+  return days
 }
 
 // Helper function to check if a date is weekend.

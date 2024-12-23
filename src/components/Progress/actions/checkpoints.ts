@@ -82,7 +82,9 @@ export async function upsert(
         status: formData.get('status'),
         notes: formData.get('notes'),
         end_date: formData.get('end_date'),
-        part_count: formData.get('part_count')
+        part_count: formData.get('part_count'),
+        page_count_accumulation: formData.get('page_count_accumulation'),
+        last_activity_id: formData.get('last_activity_id')
       })
     )
 
