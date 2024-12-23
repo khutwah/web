@@ -5,7 +5,7 @@ interface LajnahPageProps {
   params: Promise<{ slug: number }>
 }
 
-export async function LajnahPage({
+export default async function LajnahPage({
   params: paramsPromise
 }: Readonly<LajnahPageProps>) {
   const { slug } = await paramsPromise
