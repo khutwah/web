@@ -7,7 +7,7 @@ import {
 } from '@/utils/schemas/checkpoint'
 import { Checkpoint } from '@/utils/supabase/models/checkpoint'
 import { validateOrFail } from '@/utils/validate-or-fail'
-import { InferType, Schema, ValidationError } from 'yup'
+import { InferType } from 'yup'
 
 type UpdateSchema = InferType<typeof updateCheckpointSchema>
 type CreateSchema = InferType<typeof createCheckpointSchema>

@@ -125,10 +125,12 @@ export function AddLajnahForm() {
                   const surah = LAJNAH_TYPES[session_type].data.find(
                     (item) => item.id === id
                   )
-                  setValue('start_surah', surah?.checkpoints.start.surah!)
-                  setValue('start_verse', surah?.checkpoints.start.verse!)
-                  setValue('end_surah', surah?.checkpoints.end.surah!)
-                  setValue('end_verse', surah?.checkpoints.end.verse!)
+                  if (surah) {
+                    setValue('start_surah', surah.checkpoints.start.surah)
+                    setValue('start_verse', surah.checkpoints.start.verse)
+                    setValue('end_surah', surah.checkpoints.end.surah)
+                    setValue('end_verse', surah.checkpoints.end.verse)
+                  }
                 }}
                 placeholder='Pilih Surat'
                 searchPlaceholder='Cari Surat'
@@ -141,10 +143,12 @@ export function AddLajnahForm() {
                   const surah = LAJNAH_TYPES[session_type].data.find(
                     (item) => item.id === id
                   )
-                  setValue('start_surah', surah?.checkpoints.start.surah!)
-                  setValue('start_verse', surah?.checkpoints.start.verse!)
-                  setValue('end_surah', surah?.checkpoints.end.surah!)
-                  setValue('end_verse', surah?.checkpoints.end.verse!)
+                  if (surah) {
+                    setValue('start_surah', surah.checkpoints.start.surah)
+                    setValue('start_verse', surah.checkpoints.start.verse)
+                    setValue('end_surah', surah.checkpoints.end.surah)
+                    setValue('end_verse', surah.checkpoints.end.verse)
+                  }
                 }}
               >
                 {LAJNAH_TYPES[session_type].data.map((item) => (

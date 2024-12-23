@@ -32,7 +32,13 @@ export async function createLajnah(_prev: unknown, formData: FormData) {
 
   const user = await getUser()
 
-  const data = { ...payload, ustadz_id: user.data?.id! }
+  if (!user.data) {
+    return {
+      message: 'Maaf, anda tidak punya akses, silahkan login kembali'
+    }
+  }
+
+  const data = { ...payload, ustadz_id: user.data.id }
 
   const lajnahInstance = new Lajnah()
   try {
