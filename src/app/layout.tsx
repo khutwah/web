@@ -4,12 +4,14 @@ import { Toaster } from '@/components/Toast/Toaster'
 import { TimezoneSetter } from '@/components/Timezone/Setter'
 import { CacheBuster } from '@/components/Cache/Buster'
 
+const cacheBuster = process.env.NEXT_PUBLIC_CACHE_BUSTER || new Date().valueOf()
+
 export const metadata: Metadata = {
-  title: 'MTMH',
-  description: 'Markaz Tahfizh Minhajul Haq',
+  title: `MTMH (version: ${process.env.NEXT_PUBLIC_APP_VERSION || new Date().valueOf()})`,
+  description: `Markaz Tahfizh Minhajul Haq (sha: ${cacheBuster})`,
   verification: {
     other: {
-      khutwah: process.env.NEXT_PUBLIC_CACHE_BUSTER || new Date().valueOf(),
+      khutwah: cacheBuster,
       timestamp: new Date().valueOf()
     }
   }

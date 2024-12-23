@@ -2,6 +2,7 @@ import {
   AlAdhanPrayerTimingsResponse,
   HIJRI_MONTH_NUMBER_TO_TEXT_RECORD
 } from '@/models/api/al-adhan'
+import { useEffect, useState } from 'react'
 import dayjs from '@/utils/dayjs'
 import { cn } from '@/utils/classnames'
 
@@ -10,7 +11,14 @@ interface Props {
   isDateClickable?: boolean
 }
 
-export function DateHeader({ hijriDate, isDateClickable }: Props) {
+export function DateHeader({ hijriDate, isDateClickable = false }: Props) {
+  const [formattedDate, setFormattedDate] = useState<string>('')
+
+  useEffect(() => {
+    // Update the date in the client's timezone.
+    setFormattedDate(dayjs().format('D MMMM YYYY'))
+  }, [])
+
   return (
     <div className='flex gap-x-[6.5px] text-mtmh-m-regular text-mtmh-neutral-white'>
       {hijriDate && <HijriDate date={hijriDate} />}
@@ -20,7 +28,7 @@ export function DateHeader({ hijriDate, isDateClickable }: Props) {
           'underline decoration-dashed cursor-pointer': isDateClickable
         })}
       >
-        {dayjs().format('D MMMM YYYY')}
+        {formattedDate}
       </label>
     </div>
   )
