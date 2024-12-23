@@ -1,3 +1,5 @@
+'use client'
+
 import {
   AlAdhanPrayerTimingsResponse,
   HIJRI_MONTH_NUMBER_TO_TEXT_RECORD
