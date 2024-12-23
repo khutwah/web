@@ -49,15 +49,21 @@ export function CheckpointListStory() {
           checkpoints={[checkpoints[0]]}
           onCheckpointClick={() => {}}
         />
-        <div className='mt-6 space-y-4'></div>
       </div>
-      <h2>Submmitted...</h2>
+      <h2>Submitted...</h2>
       <div className='mx-auto max-w-md p-4'>
         <CheckpointList
           checkpoints={checkpoints}
           onCheckpointClick={() => {}}
         />
-        <div className='mt-6 space-y-4'></div>
+      </div>
+      <h2>Finished!</h2>
+      <div className='mx-auto max-w-md p-4'>
+        <CheckpointList
+          isFinished
+          checkpoints={checkpoints}
+          onCheckpointClick={() => {}}
+        />
       </div>
     </>
   )

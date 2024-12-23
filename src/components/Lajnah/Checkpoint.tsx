@@ -6,7 +6,7 @@ import { Badge } from '../Badge/Badge'
 interface CheckpointProps {
   checkpoint: CheckpointType
   upcomingIndex?: number
-  type: 'start' | 'submitted' | 'upcoming'
+  type: 'started' | 'submitted' | 'upcoming' | 'finished'
   onCheckpointClick: (checkpoint: CheckpointType) => void
 }
 
@@ -27,7 +27,7 @@ export function Checkpoint({
           `absolute left-4 top-2 h-${type === 'submitted' ? 4 : 6} w-${type === 'submitted' ? 4 : 6} -translate-x-1/2 -translate-y-1/2`,
           {
             'fill-mtmh-tamarind-base stroke-mtmh-tamarind-base':
-              type === 'start' || type === 'submitted',
+              type === 'started' || type === 'submitted' || type === 'finished',
             'fill-white stroke-mtmh-tamarind-base stroke': type === 'upcoming'
           }
         )}
@@ -37,9 +37,14 @@ export function Checkpoint({
           {checkpoint.timestamp}
         </div>
         <div className='mt-1 text-mtmh-l-regular flex items-center gap-1'>
-          {type === 'start' && (
+          {type === 'started' && (
             <>
               {checkpoint.startSurah}: {checkpoint.startVerse}
+            </>
+          )}
+          {type === 'finished' && (
+            <>
+              {checkpoint.endSurah}: {checkpoint.endVerse}
             </>
           )}
           {type === 'submitted' && (
@@ -57,9 +62,14 @@ export function Checkpoint({
             </>
           )}
         </div>
-        {type === 'start' && (
+        {type === 'started' && (
           <div className='mt-2 flex flex-wrap gap-2'>
             <Badge color='tamarind' text='Mulai' />
+          </div>
+        )}
+        {type === 'finished' && (
+          <div className='mt-2 flex flex-wrap gap-2'>
+            <Badge color='tamarind' text='Selesai' />
           </div>
         )}
         {type === 'upcoming' && (
