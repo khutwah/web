@@ -1,5 +1,5 @@
 import pages from '@/data/mushaf/pages.json'
-import { juz } from '@/data/mushaf/parts.json'
+import parts from '@/data/mushaf/parts.json'
 import surahs from '@/data/mushaf/surahs.json'
 import { Page, AyahLocationInfo } from '@/models/mushaf'
 
@@ -95,7 +95,7 @@ export function getAyahLocationInfo(
   if (!page) return undefined
 
   // Find the juz that contains the page. By comparing page with juz start and end pages.
-  const found = juz.find(
+  const found = parts.juz.find(
     (j) => j.start.page <= page.page && page.page <= j.end.page
   )
   if (!found) return undefined
