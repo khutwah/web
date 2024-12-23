@@ -50,7 +50,7 @@ export function AddActivityCta({
     >
       <Link
         href={{
-          pathname: `/ustadz/santri/${studentId}/activities/add`,
+          pathname: `/ustadz/santri/${studentId}/aktivitas/add`,
           query: {
             activity_type: activityType,
             halaqah_id: halaqahId,
