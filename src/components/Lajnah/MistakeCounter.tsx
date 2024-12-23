@@ -1,24 +1,15 @@
-'use client'
-
 import { Button } from '@/components/Button/Button'
 import { MistakeCounterType } from '@/models/lajnah'
 import { Undo2 as Undo } from 'lucide-react'
+import Link from 'next/link'
 
 interface MistakeCounterProps {
   label: string
   count: number
   type: keyof MistakeCounterType
-  onIncrement: (type: keyof MistakeCounterType) => void
-  onUndo: (type: keyof MistakeCounterType) => void
 }
 
-export function MistakeCounter({
-  label,
-  count,
-  type,
-  onIncrement,
-  onUndo
-}: MistakeCounterProps) {
+export function MistakeCounter({ label, count, type }: MistakeCounterProps) {
   const getButtonColor = () => {
     if (count === 0)
       return 'bg-gradient-to-br from-gray-50 to-gray-100 hover:from-gray-100 hover:to-gray-200'
@@ -37,23 +28,20 @@ export function MistakeCounter({
         {label}
       </label>
       <Button
-        onClick={() => {
-          onIncrement(type)
-        }}
         className={`h-20 w-20 rounded-full text-mtmh-xl-semibold border-2 border-mtmh-neutral-white shadow-md ${getButtonColor()}`}
         variant='outline'
       >
-        {count}
+        <Link href={type}>{count}</Link>
       </Button>
       <Button
-        onClick={() => {
-          onUndo(type)
-        }}
         variant='outline'
         className='h-8 w-8 rounded-full p-0 bg-gray-50 border-2 border-mtmh-neutral-white shadow-md'
         disabled={count === 0}
+        asChild
       >
-        <Undo className='h-4 w-4' />
+        <Link href={type}>
+          <Undo className='h-4 w-4' />
+        </Link>
       </Button>
     </div>
   )

@@ -45,25 +45,15 @@ export function CheckpointListStory() {
     <>
       <h2>Just started...</h2>
       <div className='mx-auto max-w-md p-4'>
-        <CheckpointList
-          checkpoints={[checkpoints[0]]}
-          onCheckpointClick={() => {}}
-        />
+        <CheckpointList checkpoints={[checkpoints[0]]} />
       </div>
       <h2>Submitted...</h2>
       <div className='mx-auto max-w-md p-4'>
-        <CheckpointList
-          checkpoints={checkpoints}
-          onCheckpointClick={() => {}}
-        />
+        <CheckpointList checkpoints={checkpoints} />
       </div>
       <h2>Finished!</h2>
       <div className='mx-auto max-w-md p-4'>
-        <CheckpointList
-          isFinished
-          checkpoints={checkpoints}
-          onCheckpointClick={() => {}}
-        />
+        <CheckpointList isFinished checkpoints={checkpoints} />
       </div>
     </>
   )
