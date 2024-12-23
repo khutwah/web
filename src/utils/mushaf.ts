@@ -137,11 +137,14 @@ export function getAyahCount(
   }
 
   const startSurahInfo = surahs.find((surah) => surah.id === startSurah)
-  const startAyahToStartSurahEnd = startSurahInfo?.verses_count! - startAyah
+  if (!startSurahInfo) return undefined
+
+  const startAyahToStartSurahEnd = startSurahInfo.verses_count - startAyah
   let ayahDistance = 0
   for (let next = startSurah + 1; next < endSurah; next++) {
     const surahInfo = surahs.find((surah) => surah.id === next)
-    ayahDistance += surahInfo?.verses_count!
+    if (!surahInfo) return undefined
+    ayahDistance += surahInfo.verses_count
   }
   return startAyahToStartSurahEnd + endAyah + ayahDistance
 }
