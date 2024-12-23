@@ -22,7 +22,7 @@ export function HomeHeader({ displayName, ustadz }: Props) {
       <div className='flex flex-col gap-y-4 items-center'>
         <Image alt='Minhajul Haq' src={Logo} width={121} />
 
-        <DateHeader hijriDate={alAdhanInfo?.date.hijri} />
+        {/* <DateHeader hijriDate={alAdhanInfo?.date.hijri} /> */}
       </div>
 
       <GreetingsCard
