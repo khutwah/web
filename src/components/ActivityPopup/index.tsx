@@ -107,7 +107,7 @@ export function ActivityPopup({ activities, from, id }: Props) {
                 {_activity.has_edit_access ? (
                   <Link
                     href={addQueryParams(
-                      `/ustadz/santri/${_activity.student_id}/activities/edit/${_activity.id}`,
+                      `/ustadz/santri/${_activity.student_id}/aktivitas/edit/${_activity.id}`,
                       {
                         from,
                         id: addQueryParams(id || '', {
