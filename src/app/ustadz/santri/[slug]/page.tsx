@@ -7,7 +7,7 @@ import { Activities } from '@/utils/supabase/models/activities'
 import dayjs from '@/utils/dayjs'
 import Image from 'next/image'
 import SampleSantriAvatar from '@/assets/sample-santri-photo.png'
-import { ProgressGridWithNav } from '@/components/Progress/ProgressGrid'
+import { ProgressGridWithNavigation } from '@/components/Progress/ProgressGrid'
 import { SantriActivityHeader } from '@/components/SantriActivity/Header'
 import { ActivityPopup } from '@/components/ActivityPopup'
 import { ActivityCard } from '@/components/ActivityCard/ActivityCard'
@@ -215,7 +215,7 @@ export default async function DetailSantri({
                   }
                 />
               ) : (
-                <ProgressGridWithNav
+                <ProgressGridWithNavigation
                   activities={activities?.data ?? DEFAULT_EMPTY_ARRAY}
                   date={day.toDate()}
                   className='border-none rounded-none'

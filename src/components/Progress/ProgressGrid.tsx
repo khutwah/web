@@ -206,7 +206,7 @@ export function ProgressGrid({
 /**
  * `<ProgressGrid>` component wrapped with event handlers to update the query parameters whenever the date changes.
  */
-export function ProgressGridWithNav(props: Omit<Props, 'onChangeDate'>) {
+export function ProgressGridWithNavigation(props: Omit<Props, 'onChangeDate'>) {
   const router = useRouter()
 
   return (
