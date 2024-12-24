@@ -1,18 +1,18 @@
 'use server'
 
-import { createLajnahSchema } from '@/utils/schemas/lajnah'
+import { lajnahSchema } from '@/utils/schemas/lajnah'
 import { getUser } from '@/utils/supabase/get-user'
 import { Lajnah } from '@/utils/supabase/models/lajnah'
 import { validateOrFail } from '@/utils/validate-or-fail'
 import { redirect } from 'next/navigation'
 import { InferType } from 'yup'
 
-type CreateSchema = InferType<typeof createLajnahSchema>
+type CreateSchema = InferType<typeof lajnahSchema>
 
 export async function createLajnah(_prev: unknown, formData: FormData) {
   let redirectUri = ''
   const payload = await validateOrFail<CreateSchema>(() =>
-    createLajnahSchema.validate({
+    lajnahSchema.validate({
       session_name: formData.get('session_name'),
       session_type: formData.get('session_type'),
       student_id: formData.get('student_id'),

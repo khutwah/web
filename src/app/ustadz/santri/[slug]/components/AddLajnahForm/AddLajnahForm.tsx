@@ -8,7 +8,7 @@ import {
   LajnahType,
   LajnahTypeOptionsType
 } from '@/models/lajnah'
-import { createLajnahSchema } from '@/utils/schemas/lajnah'
+import { lajnahSchema } from '@/utils/schemas/lajnah'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, useWatch } from 'react-hook-form'
 import { getVerseItems } from '../../aktivitas/utils/form'
@@ -23,7 +23,7 @@ export function AddLajnahForm() {
   const { slug: studentId } = useParams<{ slug: string }>()
 
   const form = useForm({
-    resolver: yupResolver(createLajnahSchema),
+    resolver: yupResolver(lajnahSchema),
     defaultValues: {
       session_type: LajnahType.default,
       start_date: new Date().toISOString(),
