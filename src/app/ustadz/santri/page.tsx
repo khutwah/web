@@ -18,13 +18,14 @@ import { parseSearchParams } from '@/utils/url'
 import { CheckpointStatus } from '@/models/checkpoint'
 
 export default async function Santri({
-  searchParams
+  searchParams: searchParamsPromise
 }: {
-  searchParams: { [key: string]: string | string[] | undefined }
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
   const tz = await getTimezoneInfo()
   const day = dayjs().tz(tz)
 
+  const searchParams = await searchParamsPromise
   const parsedSearchParams = parseSearchParams(searchParams, {
     ustadz_id: 'number',
     checkpoint_status: 'array'

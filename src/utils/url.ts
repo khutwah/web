@@ -1,3 +1,5 @@
+import { NextSearchParams } from '@/models/url'
+
 export function extractPathnameAndQueryFromURL(url: URL) {
   const query = url.searchParams.toString()
   if (!query) return url.pathname
@@ -127,7 +129,6 @@ type InferParsedParams<Options extends ParseOptions> = {
           ? string[]
           : string
 }
-type NextSearchParams = { [key: string]: string | string[] | undefined }
 
 /**
  * Parses search parameters based on provided options.
