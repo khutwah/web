@@ -5,7 +5,7 @@ import { SantriActivityHeader } from '@/components/SantriActivity/Header'
 import { Card, CardContent } from '@/components/Card/Card'
 import {
   ProgressGridSkeleton,
-  ProgressGridWithNav
+  ProgressGridWithNavigation
 } from '@/components/Progress/ProgressGrid'
 import { StateMessage } from '@/components/StateMessage/StateMessage'
 import { ErrorBoundary } from '@/components/ErrorBoundary/ErrorBoundary'
@@ -19,6 +19,10 @@ import {
   ACTIVITY_VIEW_QUERY_PARAMETER
 } from '@/models/activities'
 import { convertSearchParamsToStringRecords } from '@/utils/url'
+import { Students } from '@/utils/supabase/models/students'
+import { Checkpoint } from '@/utils/supabase/models/checkpoint'
+import { CheckpointStatus } from '@/models/checkpoint'
+import { parseParameter } from '@/utils/parse-parameter'
 
 interface Props {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
@@ -79,7 +83,10 @@ async function ActivityGrid({
 }: {
   searchParams: Awaited<Props['searchParams']>
 }) {
-  const user = await getUser()
+  const parent = await getUser()
+  const studentsInstance = new Students()
+  const student = await studentsInstance.getByParentId(parent.data!.id)
+
   const { [ACTIVITY_CURRENT_DATE_QUERY_PARAMETER]: currentDateQueryParameter } =
     convertSearchParamsToStringRecords(searchParams)
 
@@ -93,18 +100,40 @@ async function ActivityGrid({
     .tz(tz)
 
   const activitiesInstance = new Activities()
-  const activities = await activitiesInstance.list({
-    parent_id: user.data?.id,
-    start_date: day.startOf('week').toISOString(),
-    end_date: day.endOf('week').toISOString(),
-    limit: 21
-  })
+  const checkpointInstance = new Checkpoint()
+
+  const [activities, latestCheckpoint, checkpoints] = await Promise.all([
+    activitiesInstance.list({
+      parent_id: parent.data?.id,
+      start_date: day.startOf('week').toISOString(),
+      end_date: day.endOf('week').toISOString(),
+      limit: 21
+    }),
+    activitiesInstance.checkpoint({
+      student_id: student.data!.id
+    }),
+    checkpointInstance.list({
+      student_id: student.data?.id
+    })
+  ])
+  const checkpointData = checkpoints.data?.[0]
 
   return (
-    <ProgressGridWithNav
+    <ProgressGridWithNavigation
       date={day.toDate()}
       activities={activities.data}
       className='border-none rounded-none'
+      statusProps={{
+        editable: false,
+        status: checkpointData?.status as CheckpointStatus,
+        parameter: parseParameter(checkpointData),
+        checkpointId: checkpointData?.id,
+        lastActivityId: latestCheckpoint?.last_activity_id,
+        pageCountAccumulation: latestCheckpoint?.page_count_accumulation,
+        studentId: student.data?.id,
+        notes: latestCheckpoint?.notes,
+        partCount: latestCheckpoint?.part_count
+      }}
     />
   )
 }
