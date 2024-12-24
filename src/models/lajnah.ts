@@ -1,4 +1,4 @@
-export interface InsertPayload {
+export interface UpsertPayload {
   student_id: number
   ustadz_id: number
   start_date: string

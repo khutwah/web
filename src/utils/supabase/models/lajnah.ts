@@ -1,4 +1,4 @@
-import { FilterPayload, InsertPayload, ResetPayload } from '@/models/lajnah'
+import { FilterPayload, UpsertPayload, ResetPayload } from '@/models/lajnah'
 import { Base } from './base'
 
 export class Lajnah extends Base {
@@ -71,8 +71,13 @@ export class Lajnah extends Base {
     return query
   }
 
-  async create(payload: InsertPayload) {
+  async create(payload: UpsertPayload) {
     const supabase = await this.supabase
     return supabase.from('lajnah').insert(payload)
+  }
+
+  async update(id: number, payload: UpsertPayload) {
+    const supabase = await this.supabase
+    return supabase.from('lajnah').update(payload).eq('id', id)
   }
 }
