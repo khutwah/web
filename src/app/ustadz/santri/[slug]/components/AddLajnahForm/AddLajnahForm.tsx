@@ -111,7 +111,7 @@ export function AddLajnahForm() {
         {session_type && session_type !== LajnahType.custom ? (
           <div className='flex flex-col gap-4'>
             <Label>
-              {session_type === LajnahType.surah_kamil_jannah
+              {session_type === LajnahType.surah_kamil_lajnah
                 ? 'Pilih Surat'
                 : `Mulai dari ${LAJNAH_TYPES[session_type].id.label}`}
             </Label>

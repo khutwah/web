@@ -33,7 +33,7 @@ export enum LajnahFinalMark {
 export enum LajnahType {
   'default' = 'default',
   'per_5_juz_lajnah' = 'per_5_juz_lajnah',
-  'surah_kamil_jannah' = 'surah_kamil_jannah',
+  'surah_kamil_lajnah' = 'surah_kamil_lajnah',
   'custom' = 'custom'
 }
 
@@ -52,7 +52,7 @@ export const LajnahTypeOptionsType: LajnahTypeOptionsType[] = [
     label: 'Per 5 Juz Lajnah'
   },
   {
-    value: LajnahType.surah_kamil_jannah,
+    value: LajnahType.surah_kamil_lajnah,
     label: 'Per Surat'
   },
   {
@@ -134,7 +134,7 @@ export const LAJNAH_TYPES: LajnahTypes = {
     },
     data: Per5JuzLajnah
   },
-  [LajnahType.surah_kamil_jannah]: {
+  [LajnahType.surah_kamil_lajnah]: {
     title: 'Lajnah Per Surat',
     id: {
       type: 'surah',
