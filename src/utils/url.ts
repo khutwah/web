@@ -113,3 +113,55 @@ export function convertSearchParamsToStringRecords(searchParams: {
 
   return result
 }
+
+type ParamType = 'string' | 'number' | 'boolean' | 'array'
+type ParseOptions = Record<string, ParamType>
+type InferParsedParams<Options extends ParseOptions> = {
+  [Key in keyof Options]: Options[Key] extends 'string'
+    ? string
+    : Options[Key] extends 'number'
+      ? number
+      : Options[Key] extends 'boolean'
+        ? boolean
+        : Options[Key] extends 'array'
+          ? string[]
+          : string
+}
+type NextSearchParams = { [key: string]: string | string[] | undefined }
+
+/**
+ * Parses search parameters based on provided options.
+ * - If the value is an array but the desired type is not an array, it will return the first value
+ * - If the value is not correct, it will be ommited
+ *
+ * @param options Optional configuration to infer the type of each parameter.
+ * @returns Parsed parameters with inferred types.
+ */
+export function parseSearchParams<Options extends ParseOptions>(
+  searchParams: NextSearchParams,
+  options?: Options
+): Partial<InferParsedParams<Options>> {
+  const result: Record<string, unknown> = {}
+
+  for (const [key, value] of Object.entries(searchParams)) {
+    const type = options?.[key] || 'string'
+
+    switch (type) {
+      case 'number':
+        result[key] = Array.isArray(value) ? Number(value[0]) : Number(value)
+        break
+      case 'boolean':
+        result[key] = Array.isArray(value)
+          ? value[0] === 'true'
+          : value === 'true'
+        break
+      case 'array':
+        result[key] = Array.isArray(value) ? value : value ? [value] : []
+        break
+      default:
+        result[key] = Array.isArray(value) ? value[0] : value || undefined
+    }
+  }
+
+  return result as Partial<InferParsedParams<Options>>
+}

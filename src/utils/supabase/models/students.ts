@@ -1,13 +1,15 @@
+import { Base } from '@/utils/supabase/models/base'
+import { Halaqah } from '@/utils/supabase/models/halaqah'
+import { getUser } from '@/utils/supabase/get-user'
+import { CheckpointStatus } from '@/models/checkpoint'
 import { RoleFilter } from '@/models/supabase/models/filter'
-import { Base } from './base'
-import { Halaqah } from './halaqah'
-import { getUser } from '../get-user'
 
 interface ListFilter extends RoleFilter {
   virtual_account?: string
   pin?: string
   email?: string
   halaqah_ids?: number[]
+  checkpoint_statuses?: CheckpointStatus[]
 }
 
 interface CreatePayload {
@@ -20,10 +22,26 @@ interface CreatePayload {
 const COLUMNS = `id, name, users (id, email), halaqah (id, name)`
 export class Students extends Base {
   async list(args: ListFilter) {
-    const { virtual_account, pin, email, student_id, ustadz_id, halaqah_ids } =
-      args
+    const {
+      virtual_account,
+      pin,
+      email,
+      student_id,
+      ustadz_id,
+      halaqah_ids,
+      checkpoint_statuses
+    } = args
 
-    let query = (await this.supabase).from('students').select(COLUMNS)
+    let resolvedColumns = COLUMNS
+
+    const hasCheckpointStatusFilter =
+      Array.isArray(checkpoint_statuses) && checkpoint_statuses.length > 0
+
+    if (hasCheckpointStatusFilter) {
+      resolvedColumns = `${COLUMNS}, last_checkpoint:checkpoint!inner (id, status)`
+    }
+
+    let query = (await this.supabase).from('students').select(resolvedColumns)
 
     if (virtual_account) query = query.eq('virtual_account', virtual_account)
     if (pin) query = query.eq('pin', pin)
@@ -40,7 +58,18 @@ export class Students extends Base {
       query = query.in('halaqah_id', halaqahIds)
     }
 
+    if (hasCheckpointStatusFilter) {
+      query = query
+        .order('updated_at', {
+          ascending: false,
+          referencedTable: 'checkpoint'
+        })
+        .limit(1, { foreignTable: 'checkpoint' })
+        .in('checkpoint.status', checkpoint_statuses)
+    }
+
     const result = await query
+    console.log(result)
     return result
   }
 

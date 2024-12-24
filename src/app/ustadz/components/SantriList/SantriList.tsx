@@ -1,28 +1,31 @@
 'use client'
 
-import { Students } from '@/utils/supabase/models/students'
-import { Activities } from '@/utils/supabase/models/activities'
 import { useContext, useMemo } from 'react'
-import { MappedActivityStatus } from '@/models/activities'
+
+import { Activities } from '@/utils/supabase/models/activities'
 import {
   SantriCard,
   SantriCardSkeleton
-} from '../../../../components/SantriCard/SantriCard'
-import SampleSantriAvatar from '@/assets/sample-santri-photo.png'
+} from '@/components/SantriCard/SantriCard'
+import { SearchContext } from '@/app/ustadz/components/Search/SearchProvider'
+
+import { Students } from '@/utils/supabase/models/students'
 import { MENU_USTADZ_PATH_RECORDS } from '@/utils/menus/ustadz'
-import { SearchContext } from '../Search/SearchProvider'
 import { addFromQueryString, FromQueryParams } from '@/utils/url'
+import { MappedActivityStatus } from '@/models/activities'
+
+import SampleSantriAvatar from '@/assets/sample-santri-photo.png'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const DEFAULT_EMPTY_ARRAY: any[] = []
 
-interface Props {
+export interface SantriListProps {
   students: Awaited<ReturnType<Students['list']>>['data']
   activities: Awaited<ReturnType<Activities['list']>>['data']
   from: FromQueryParams
 }
 
-type StudentRecordValue = NonNullable<Props['students']>[number] & {
+type StudentRecordValue = NonNullable<SantriListProps['students']>[number] & {
   activities: MappedActivityStatus[]
 }
 
@@ -30,7 +33,7 @@ export function SantriList({
   students: studentsProp,
   activities: activitiesProp,
   from
-}: Props) {
+}: SantriListProps) {
   const defaultStudentsWithActivities = useMemo(() => {
     const students = studentsProp ?? DEFAULT_EMPTY_ARRAY
     const activities = activitiesProp ?? DEFAULT_EMPTY_ARRAY
