@@ -105,10 +105,12 @@ type LajnahTypes = Record<
       id: number
       checkpoints: {
         start: {
+          juz: number
           surah: number
           verse: number
         }
         end: {
+          juz: number
           surah: number
           verse: number
         }

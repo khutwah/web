@@ -113,7 +113,7 @@ export function AddLajnahForm() {
             <Label>
               {session_type === LajnahType.surah_kamil_lajnah
                 ? 'Pilih Surat'
-                : `Mulai dari ${LAJNAH_TYPES[session_type].id.label}`}
+                : `Pilih Materi (Juz)`}
             </Label>
 
             {LAJNAH_TYPES[session_type].id.type === 'surah' ? (
@@ -158,7 +158,8 @@ export function AddLajnahForm() {
                       id={String(item.id)}
                     />
                     <Label htmlFor={String(item.id)}>
-                      {LAJNAH_TYPES[session_type].id.label} {item.id}
+                      Juz {item.checkpoints.start.juz} - Juz{' '}
+                      {item.checkpoints.end.juz}
                     </Label>
                   </div>
                 ))}
