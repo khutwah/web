@@ -33,7 +33,6 @@ const requiredForFinalizeLajnah: [string, any] = [
 
 export const lajnahSchema = object({
   student_id: number().integer().min(1).required(),
-  ustadz_id: number().integer().min(1).required(),
   session_type: string()
     .oneOf(Object.values(LajnahType))
     .when(...requiredForInitialLajnah),
