@@ -79,6 +79,14 @@ export default async function Santri({
                   ] as CheckpointStatus[]) || undefined
                 }
                 ustadzId={parsedSearchParams[USTADZ_ID_SEARCH_PARAMS_KEY]}
+                emptyState={
+                  <StateMessage
+                    className='py-8'
+                    type='empty'
+                    title='Tidak Menemukan Data Santri'
+                    description='Silakan periksa kembali pencarian dan filter. Atau coba lagi nanti.'
+                  />
+                }
               />
             </Suspense>
           </div>

@@ -24,6 +24,7 @@ export interface SantriListProps {
   students: Awaited<ReturnType<Students['list']>>['data']
   activities: Awaited<ReturnType<Activities['list']>>['data']
   from: FromQueryParams
+  emptyState?: React.ReactNode
 }
 
 type StudentRecordValue = NonNullable<SantriListProps['students']>[number] & {
@@ -33,7 +34,8 @@ type StudentRecordValue = NonNullable<SantriListProps['students']>[number] & {
 export function SantriList({
   students: studentsProp,
   activities: activitiesProp,
-  from
+  from,
+  emptyState
 }: SantriListProps) {
   const defaultStudentsWithActivities = useMemo(() => {
     const students = studentsProp ?? DEFAULT_EMPTY_ARRAY
@@ -67,11 +69,9 @@ export function SantriList({
 
   if (filteredStudents.length <= 0) {
     return (
-      <StateMessage
-        type='empty'
-        title='Tidak menemukan data santri yang Anda cari'
-        description='Silakan periksa kembali pencarian dan filter. Atau coba lagi nanti.'
-      ></StateMessage>
+      emptyState || (
+        <StateMessage type='empty' title='Tidak Menemukan Data Santri' />
+      )
     )
   }
 

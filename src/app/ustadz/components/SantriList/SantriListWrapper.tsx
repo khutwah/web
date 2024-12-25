@@ -14,12 +14,14 @@ type SantriListWrapperProps = Pick<SantriListProps, 'from'> & Filter
 type Filter = {
   ustadzId?: number
   checkpointStatuses?: Array<CheckpointStatus>
+  emptyState?: React.ReactNode
 }
 
 export async function SantriListWrapper({
   from,
   checkpointStatuses,
-  ustadzId
+  ustadzId,
+  emptyState
 }: SantriListWrapperProps) {
   const tz = await getTimezoneInfo()
   const day = dayjs().tz(tz)
@@ -38,6 +40,7 @@ export async function SantriListWrapper({
         students={students.data}
         activities={activities.data}
         from={from}
+        emptyState={emptyState}
       />
     )
   }

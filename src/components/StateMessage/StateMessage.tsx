@@ -10,8 +10,8 @@ type ErrorStateProps = {
 }
 
 const TYPE_TO_ICON_MAP: Record<ErrorStateProps['type'], React.ReactNode> = {
-  error: <CircleAlert className='mx-auto' />,
-  empty: <SearchX className='mx-auto' />
+  error: <CircleAlert className='mx-auto text-mtmh-red-base' />,
+  empty: <SearchX className='mx-auto text-mtmh-red-base' />
 }
 
 export function StateMessage({
