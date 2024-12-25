@@ -12,16 +12,7 @@ type CreateSchema = InferType<typeof lajnahSchema>
 export async function createLajnah(_prev: unknown, formData: FormData) {
   let redirectUri = ''
   const payload = await validateOrFail<CreateSchema>(() =>
-    lajnahSchema.validate({
-      session_name: formData.get('session_name'),
-      session_type: formData.get('session_type'),
-      student_id: formData.get('student_id'),
-      start_surah: formData.get('start_surah'),
-      start_verse: formData.get('start_verse'),
-      end_surah: formData.get('end_surah'),
-      end_verse: formData.get('end_verse'),
-      start_date: formData.get('start_date')
-    })
+    lajnahSchema.validate(Object.fromEntries(formData), { stripUnknown: true })
   )
 
   if ('message' in payload) {
