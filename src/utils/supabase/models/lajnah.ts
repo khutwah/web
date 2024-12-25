@@ -8,10 +8,7 @@ export class Lajnah extends Base {
     let query = supabase.from('lajnah').select(`
             students(id, name),
             ustadz:users(id, name),
-            start_surah,
-            start_verse,
-            end_surah,
-            end_verse,
+            surah_range,
             start_date,
             end_date,
             notes,

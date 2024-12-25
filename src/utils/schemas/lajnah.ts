@@ -1,7 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { number, object, string } from 'yup'
+import { number, object, string, array } from 'yup'
 import { testTimestamp } from '../is-valid-date'
 import { LajnahFinalMark, LajnahType } from '@/models/lajnah'
+
+const surahRangeSchema = array()
+  .of(
+    array()
+      .of(
+        string()
+          .matches(/^\d+:\d+$/, "Must follow the format 'surah:verse'") // Validates format "surah:verse"
+          .required('Each entry in the range is required')
+      )
+      .min(1, 'Each sub-array must have at least 1 element')
+      .max(2, 'Each sub-array must have at most 2 elements') // Allows ["start:verse"] or ["start:verse", "end:verse"]
+  )
+  .required('surah_range is required')
 
 const requiredForCompletingDraftLajnah: [string[], any] = [
   ['parent_lajnah_id', 'end_date'],
@@ -37,14 +50,7 @@ export const lajnahSchema = object({
     .oneOf(Object.values(LajnahType))
     .when(...requiredForInitialLajnah),
   session_name: string().when(...requiredForInitialLajnah),
-  start_surah: number().integer().required(),
-  start_verse: number().integer().required(),
-  end_surah: number()
-    .integer()
-    .when(...requiredForCompletingDraftLajnah),
-  end_verse: number()
-    .integer()
-    .when(...requiredForCompletingDraftLajnah),
+  surah_range: surahRangeSchema,
   notes: string(),
   low_mistake_count: number()
     .integer()

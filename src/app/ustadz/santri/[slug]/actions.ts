@@ -46,8 +46,7 @@ export async function createLajnah(_prev: unknown, formData: FormData) {
       ustadz_id: data.ustadz_id,
       student_id: data.student_id,
       start_date: new Date().toISOString(),
-      start_surah: data.start_surah,
-      start_verse: data.start_verse,
+      surah_range: data.surah_range,
       parent_lajnah_id: result.data?.id
     })
 
