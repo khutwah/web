@@ -33,12 +33,23 @@ export async function createLajnah(_prev: unknown, formData: FormData) {
 
   const lajnahInstance = new Lajnah()
   try {
+    // create parent / master lajnah
     const result = await lajnahInstance.create(data)
     if (result.error) {
       return {
         message: result.error.message
       }
     }
+
+    // create 1st draft checkpoint
+    await lajnahInstance.create({
+      ustadz_id: data.ustadz_id,
+      student_id: data.student_id,
+      start_date: new Date().toISOString(),
+      start_surah: data.start_surah,
+      start_verse: data.start_verse,
+      parent_lajnah_id: result.data?.id
+    })
 
     redirectUri = `/ustadz/lajnah/${result.data?.id}`
   } catch (error) {
