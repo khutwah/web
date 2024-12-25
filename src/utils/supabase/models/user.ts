@@ -13,6 +13,10 @@ interface GetFilter {
   sb_user_id?: string
 }
 
+interface ListFilter {
+  role: number
+}
+
 export class User extends Base {
   async create(payload: UserPayload) {
     return (await this.supabase).from('users').upsert(payload).select()
@@ -26,6 +30,17 @@ export class User extends Base {
 
     const result = await query.limit(1).single()
 
+    return result
+  }
+
+  async list({ role }: ListFilter) {
+    const query = (await this.supabase).from('users').select()
+
+    if (role) {
+      query.eq('role', role)
+    }
+
+    const result = await query
     return result
   }
 }

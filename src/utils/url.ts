@@ -119,7 +119,7 @@ export function convertSearchParamsToStringRecords(searchParams: {
 type ParamType = 'string' | 'number' | 'boolean' | 'array'
 type ParseOptions = Record<string, ParamType>
 type InferParsedParams<Options extends ParseOptions> = {
-  [Key in keyof Options]: Options[Key] extends 'string'
+  [Key in keyof Options]?: Options[Key] extends 'string'
     ? string
     : Options[Key] extends 'number'
       ? number
@@ -139,13 +139,26 @@ type InferParsedParams<Options extends ParseOptions> = {
  * @returns Parsed parameters with inferred types.
  */
 export function parseSearchParams<Options extends ParseOptions>(
-  searchParams: NextSearchParams,
-  options?: Options
+  searchParams: Readonly<URLSearchParams> | NextSearchParams,
+  options: Options
 ): Partial<InferParsedParams<Options>> {
   const result: Record<string, unknown> = {}
 
-  for (const [key, value] of Object.entries(searchParams)) {
-    const type = options?.[key] || 'string'
+  const getParamValue = (key: string): string | string[] | undefined => {
+    if (searchParams instanceof URLSearchParams) {
+      // Handle URLSearchParams (e.g. from useSearchParams)
+      const values = searchParams.getAll(key)
+      return values.length > 1 ? values : values[0] || undefined
+    } else {
+      // Handle plain object (e.g. from Server Component props)
+      return searchParams[key]
+    }
+  }
+
+  for (const [key, type] of Object.entries(options)) {
+    const value = getParamValue(key)
+
+    if (value === undefined) continue // Skip undefined values
 
     switch (type) {
       case 'number':

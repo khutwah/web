@@ -69,7 +69,7 @@ export class Students extends Base {
     }
 
     const result = await query
-    console.log(result)
+
     return result
   }
 

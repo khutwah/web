@@ -10,7 +10,7 @@ const CLASSES_BY_COLOR = {
   red: {
     // Dev's note: this is required so that the input is seen as "integrated" with the header.
     // Alternatively, what we can do is adding <HeaderBackground /> (which is absolutely positioned), so we don't have to add an outer container.
-    outerContainer: 'pb-4 px-4 bg-mtmh-red-base',
+    outerContainer: 'pb-4 px-4 bg-mtmh-red-base flex gap-3',
     innerContainer:
       'bg-mtmh-red-darker text-mtmh-red-lightest focus-within:text-white',
     input:
@@ -28,9 +28,14 @@ const CLASSES_BY_COLOR = {
 interface Props
   extends Pick<ComponentProps<typeof Input>, 'id' | 'name' | 'placeholder'> {
   color?: 'white' | 'red'
+  trailingComponent?: React.ReactNode
 }
 
-export function SearchSection({ color = 'red', ...inputProps }: Props) {
+export function SearchSection({
+  color = 'red',
+  trailingComponent,
+  ...inputProps
+}: Props) {
   const searchContext = useContext(SearchContext)
   if (searchContext === undefined) {
     throw new Error('SearchSection must be used within a SearchContext')
@@ -49,7 +54,7 @@ export function SearchSection({ color = 'red', ...inputProps }: Props) {
         <Search size={16} aria-hidden className='absolute h-full ml-3' />
         <Input
           type='text'
-          className={cn('pl-10', classes.input)}
+          className={cn('pl-10 h-full', classes.input)}
           value={searchContext.searchQuery}
           onChange={(e) => {
             searchContext.setSearchQuery(e.target.value)
@@ -57,6 +62,7 @@ export function SearchSection({ color = 'red', ...inputProps }: Props) {
           {...inputProps}
         />
       </div>
+      {trailingComponent}
     </div>
   )
 }

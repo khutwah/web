@@ -15,6 +15,7 @@ import { addFromQueryString, FromQueryParams } from '@/utils/url'
 import { MappedActivityStatus } from '@/models/activities'
 
 import SampleSantriAvatar from '@/assets/sample-santri-photo.png'
+import { StateMessage } from '@/components/StateMessage/StateMessage'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const DEFAULT_EMPTY_ARRAY: any[] = []
@@ -63,6 +64,16 @@ export function SantriList({
   const filteredStudents = defaultStudentsWithActivities.filter((student) =>
     student.name?.toLowerCase().includes(searchContext.searchQuery)
   )
+
+  if (filteredStudents.length <= 0) {
+    return (
+      <StateMessage
+        type='empty'
+        title='Tidak menemukan data santri yang Anda cari'
+        description='Silakan periksa kembali pencarian dan filter. Atau coba lagi nanti.'
+      ></StateMessage>
+    )
+  }
 
   return (
     <ol className='flex flex-col gap-y-3'>

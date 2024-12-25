@@ -10,12 +10,17 @@ import { SearchSection } from '@/app/ustadz/components/Search/SearchSection'
 import SearchProvider from '@/app/ustadz/components/Search/SearchProvider'
 import { SantriListSkeleton } from '@/app/ustadz/components/SantriList/SantriList'
 import { SantriListWrapper } from '@/app/ustadz/components/SantriList/SantriListWrapper'
+import { FilterDrawer } from '@/app/ustadz/santri/components/FilterDrawer'
 
 import { dayjs } from '@/utils/dayjs'
 import getTimezoneInfo from '@/utils/get-timezone-info'
 import { MENU_USTADZ_PATH_RECORDS } from '@/utils/menus/ustadz'
 import { parseSearchParams } from '@/utils/url'
 import { CheckpointStatus } from '@/models/checkpoint'
+import {
+  CHECKPOINT_STATUS_SEARCH_PARAMS_KEY,
+  USTADZ_ID_SEARCH_PARAMS_KEY
+} from '@/app/ustadz/santri/constants'
 
 export default async function Santri({
   searchParams: searchParamsPromise
@@ -27,8 +32,8 @@ export default async function Santri({
 
   const searchParams = await searchParamsPromise
   const parsedSearchParams = parseSearchParams(searchParams, {
-    ustadz_id: 'number',
-    checkpoint_status: 'array'
+    [USTADZ_ID_SEARCH_PARAMS_KEY]: 'number',
+    [CHECKPOINT_STATUS_SEARCH_PARAMS_KEY]: 'array'
   })
 
   return (
@@ -40,6 +45,7 @@ export default async function Santri({
             id='search-santri'
             name='search-santri'
             placeholder='Cari santri...'
+            trailingComponent={<FilterDrawer></FilterDrawer>}
           />
         </header>
 
@@ -69,10 +75,10 @@ export default async function Santri({
                 from={{ from: 'santri' }}
                 checkpointStatuses={
                   (parsedSearchParams[
-                    'checkpoint_status'
+                    CHECKPOINT_STATUS_SEARCH_PARAMS_KEY
                   ] as CheckpointStatus[]) || undefined
                 }
-                ustadzId={parsedSearchParams['ustadz_id']}
+                ustadzId={parsedSearchParams[USTADZ_ID_SEARCH_PARAMS_KEY]}
               />
             </Suspense>
           </div>
