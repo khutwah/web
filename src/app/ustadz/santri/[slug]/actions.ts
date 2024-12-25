@@ -34,7 +34,7 @@ export async function createLajnah(_prev: unknown, formData: FormData) {
 
   if (!user.data) {
     return {
-      message: 'Maaf, anda tidak punya akses, silahkan login kembali'
+      message: 'Maaf, anda tidak punya akses, silakan login kembali'
     }
   }
 
