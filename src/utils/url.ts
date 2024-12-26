@@ -132,8 +132,8 @@ type InferParsedParams<Options extends ParseOptions> = {
 
 /**
  * Parses search parameters based on provided options.
- * - If the value is an array but the desired type is not an array, it will return the first value
- * - If the value is not correct, it will be ommited
+ * - If the value is an array but the expected type is not an array, it will return the first value
+ * - If the type of the value is not the same as expected, it will be ommited
  *
  * @param options Optional configuration to infer the type of each parameter.
  * @returns Parsed parameters with inferred types.

@@ -1,7 +1,9 @@
 import { Suspense } from 'react'
 import { CircleAlert } from 'lucide-react'
+import Link from 'next/link'
 
 import { Alert, AlertDescription } from '@/components/Alert/Alert'
+import { Button } from '@/components/Button/Button'
 import { ErrorBoundary } from '@/components/ErrorBoundary/ErrorBoundary'
 import { Layout } from '@/components/Layouts/Ustadz'
 import { Navbar } from '@/components/Navbar/Navbar'
@@ -21,10 +23,7 @@ import {
   CHECKPOINT_STATUS_SEARCH_PARAMS_KEY,
   USTADZ_ID_SEARCH_PARAMS_KEY
 } from '@/app/ustadz/santri/constants'
-import { getUserId } from '@/utils/supabase/get-user-id'
 import { getUser } from '@/utils/supabase/get-user'
-import Link from 'next/link'
-import { Button } from '@/components/Button/Button'
 
 export default async function Santri({
   searchParams: searchParamsPromise
@@ -103,7 +102,7 @@ export default async function Santri({
                     className='py-8'
                     type='empty'
                     title='Tidak Menemukan Data Santri'
-                    description='Silakan periksa kembali pencarian dan filter. Atau coba lagi nanti.'
+                    description='Silakan periksa kembali pencarian dan filter. Atau coba muat ulang halaman.'
                     actionButton={
                       <Link href='/ustadz/santri'>
                         <Button type='button' size='sm'>
