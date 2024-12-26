@@ -1,28 +1,33 @@
 'use client'
 
-import { Dot, Filter } from 'lucide-react'
-import Form from 'next/form'
+import { Filter } from 'lucide-react'
+import { FormProvider, useForm } from 'react-hook-form'
+import { useMemo, useState } from 'react'
+import { usePathname, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
 import { Button } from '@/components/Button/Button'
 import {
   Drawer,
   DrawerContent,
-  DrawerDescription,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger
 } from '@/components/Drawer/Drawer'
-import { UstadzFilter } from './UstadzFilter'
-import { CheckpointStatusFilter } from './CheckpointStatusFilter'
-import { useMemo, useState } from 'react'
-import { usePathname, useSearchParams } from 'next/navigation'
-import { useRouter } from 'next/navigation'
-import { addQueryParams, parseSearchParams } from '@/utils/url'
+import { UstadzFilter } from '@/app/ustadz/santri/components/UstadzFilter'
+import { CheckpointStatusFilter } from '@/app/ustadz/santri/components/CheckpointStatusFilter'
+
+import { parseSearchParams } from '@/utils/url'
 import {
   CHECKPOINT_STATUS_SEARCH_PARAMS_KEY,
   USTADZ_ID_SEARCH_PARAMS_KEY
-} from '../constants'
-import { resolve } from 'path'
+} from '@/app/ustadz/santri/constants'
+import { CheckpointStatus } from '@/models/checkpoint'
+
+type FilterFields = {
+  ustadzId: number | null
+  checkpointStatuses: Array<CheckpointStatus>
+}
 
 export function FilterDrawer({ children }: { children?: React.ReactNode }) {
   const searchParams = useSearchParams()
@@ -31,38 +36,16 @@ export function FilterDrawer({ children }: { children?: React.ReactNode }) {
 
   const [open, setOpen] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const params = new URLSearchParams(searchParams.toString())
-    const formData = new FormData(e.currentTarget)
-
-    const ustadzId = formData.get('ustadzId')
-    const checkpointStatuses = formData
-      .getAll('checkpointStatuses')
-      ?.map((status) => String(status))
-
-    if (typeof ustadzId === 'string') {
-      params.set(USTADZ_ID_SEARCH_PARAMS_KEY, ustadzId)
-    }
-
-    if (Array.isArray(checkpointStatuses)) {
-      params.delete(CHECKPOINT_STATUS_SEARCH_PARAMS_KEY)
-      checkpointStatuses.forEach((status) => {
-        params.append(CHECKPOINT_STATUS_SEARCH_PARAMS_KEY, status)
-      })
-    }
-
-    router.replace(`${pathname}?${params.toString()}`)
-  }
-
   const parsedSearchParams = parseSearchParams(searchParams, {
     [USTADZ_ID_SEARCH_PARAMS_KEY]: 'number',
     [CHECKPOINT_STATUS_SEARCH_PARAMS_KEY]: 'array'
   })
   const ustadzIdParam = parsedSearchParams[USTADZ_ID_SEARCH_PARAMS_KEY]
-  const checkpointStatusesParam =
-    parsedSearchParams[CHECKPOINT_STATUS_SEARCH_PARAMS_KEY]
+  const checkpointStatusesParam = parsedSearchParams[
+    CHECKPOINT_STATUS_SEARCH_PARAMS_KEY
+  ] as Array<CheckpointStatus>
 
+  // TODO: we might have t remove this
   const filters = useMemo(() => {
     const resolvedFilters = []
     if (ustadzIdParam) {
@@ -75,8 +58,47 @@ export function FilterDrawer({ children }: { children?: React.ReactNode }) {
 
     return resolvedFilters
   }, [ustadzIdParam, checkpointStatusesParam])
-
   const hasFilter = filters.length > 0
+
+  const formMethods = useForm<FilterFields>({
+    defaultValues: {
+      ustadzId: ustadzIdParam,
+      checkpointStatuses: checkpointStatusesParam
+    }
+  })
+
+  // Update search params based on form values
+  const handleUpdateFilter = (data: FilterFields) => {
+    const params = new URLSearchParams(searchParams.toString())
+
+    // Reset
+    params.delete(USTADZ_ID_SEARCH_PARAMS_KEY)
+    params.delete(CHECKPOINT_STATUS_SEARCH_PARAMS_KEY)
+
+    const { ustadzId, checkpointStatuses } = data
+
+    console.log({ ustadzId, checkpointStatuses })
+
+    if (!!ustadzId) {
+      params.set(USTADZ_ID_SEARCH_PARAMS_KEY, String(ustadzId))
+    }
+
+    if (Array.isArray(checkpointStatuses)) {
+      checkpointStatuses.forEach((status) => {
+        params.append(CHECKPOINT_STATUS_SEARCH_PARAMS_KEY, status)
+      })
+    }
+
+    router.replace(`${pathname}?${params.toString()}`)
+  }
+
+  // Reset filter to default value
+  const handleResetFilter = () => {
+    formMethods.reset({
+      ustadzId: null,
+      checkpointStatuses: []
+    })
+  }
 
   return (
     <Drawer open={open} onOpenChange={setOpen}>
@@ -95,22 +117,30 @@ export function FilterDrawer({ children }: { children?: React.ReactNode }) {
         <DrawerHeader>
           <DrawerTitle>Filter</DrawerTitle>
         </DrawerHeader>
-
-        <form onSubmit={handleSubmit} className='px-4 space-y-8'>
-          <div className='space-y-3'>
-            <UstadzFilter selected={ustadzIdParam} />
-            <CheckpointStatusFilter selected={checkpointStatusesParam} />
-          </div>
-          <div className='flex space-x-3'>
-            <Button className='w-full block' type='reset' variant='outline'>
-              Reset
-            </Button>
-            <Button className='w-full block' type='submit'>
-              Terapkan
-            </Button>
-          </div>
-        </form>
-
+        <FormProvider {...formMethods}>
+          <form
+            onSubmit={formMethods.handleSubmit(handleUpdateFilter)}
+            className='px-4 space-y-8'
+          >
+            <div className='space-y-3'>
+              <UstadzFilter />
+              <CheckpointStatusFilter />
+            </div>
+            <div className='flex space-x-3'>
+              <Button
+                className='w-full block'
+                variant='outline'
+                type='button'
+                onClick={handleResetFilter}
+              >
+                Reset
+              </Button>
+              <Button className='w-full block' type='submit'>
+                Terapkan
+              </Button>
+            </div>
+          </form>
+        </FormProvider>
         {children}
       </DrawerContent>
     </Drawer>

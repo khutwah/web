@@ -10,14 +10,15 @@ import {
 
 import { getUstadzs } from '@/app/actions/ustadz'
 import { useEffect, useState } from 'react'
-import { useSearchParams } from 'next/navigation'
-import { parseSearchParams } from '@/utils/url'
 import { Label } from '@/components/Form/Label'
+import { Controller, useFormContext } from 'react-hook-form'
 
-export function UstadzFilter({ selected }: { selected?: number }) {
+export function UstadzFilter() {
   const [options, setOptions] = useState<
     Array<{ label: string; value: string }>
   >([])
+
+  const { control } = useFormContext()
 
   useEffect(() => {
     const loadData = async () => {
@@ -39,21 +40,30 @@ export function UstadzFilter({ selected }: { selected?: number }) {
   return (
     <div className='space-y-2'>
       <Label htmlFor='ustadzId'>Ustadz</Label>
-      <Select
+
+      <Controller
+        control={control}
         name='ustadzId'
-        defaultValue={selected ? String(selected) : undefined}
-      >
-        <SelectTrigger>
-          <SelectValue placeholder='Pilih ustadz' />
-        </SelectTrigger>
-        <SelectContent>
-          {options?.map((option) => (
-            <SelectItem value={option.value} key={option.value}>
-              {option.label}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+        render={({ field }) => {
+          return (
+            <Select
+              onValueChange={(val) => field.onChange(Number(val))}
+              value={field.value ? String(field.value) : undefined}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder='Pilih ustadz' />
+              </SelectTrigger>
+              <SelectContent>
+                {options?.map((option) => (
+                  <SelectItem value={option.value} key={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )
+        }}
+      />
     </div>
   )
 }
