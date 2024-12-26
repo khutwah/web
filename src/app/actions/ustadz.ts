@@ -13,7 +13,6 @@ export async function getUstadzs() {
     const userInstance = new User()
 
     const result = await userInstance.list({ role: 2 })
-    console.log(result)
 
     if (result.error) {
       throw result.error
