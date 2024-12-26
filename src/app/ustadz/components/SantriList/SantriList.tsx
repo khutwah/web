@@ -9,7 +9,6 @@ import {
 import { SearchContext } from '@/app/ustadz/components/Search/SearchProvider'
 import { StateMessage } from '@/components/StateMessage/StateMessage'
 
-import { Students } from '@/utils/supabase/models/students'
 import { Activities } from '@/utils/supabase/models/activities'
 import { MENU_USTADZ_PATH_RECORDS } from '@/utils/menus/ustadz'
 import { addFromQueryString, FromQueryParams } from '@/utils/url'
