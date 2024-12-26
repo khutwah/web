@@ -6,8 +6,8 @@ import {
 import { dayjs } from '@/utils/dayjs'
 import getTimezoneInfo from '@/utils/get-timezone-info'
 import { CheckpointStatus } from '@/models/checkpoint'
-import { getStudents } from '@/app/actions/student'
-import { getActivities } from '@/app/actions/activity'
+import { Students } from '@/utils/supabase/models/students'
+import { Activities } from '@/utils/supabase/models/activities'
 
 type SantriListWrapperProps = Pick<SantriListProps, 'from'> & Filter
 
@@ -26,18 +26,29 @@ export async function SantriListWrapper({
   const tz = await getTimezoneInfo()
   const day = dayjs().tz(tz)
 
+  const studentInstance = new Students()
+  const activitiesInstance = new Activities()
+
   const [students, activities] = await Promise.all([
-    getStudents({ ustadzId, checkpointStatuses }),
-    getActivities({
-      startDate: day.startOf('day').utc().toISOString(),
-      endDate: day.endOf('day').utc().toISOString()
+    studentInstance.listWithCheckpoint({
+      ustadz_id: ustadzId,
+      checkpoint_statuses: checkpointStatuses
+    }),
+    activitiesInstance.list({
+      ustadz_id: ustadzId,
+      start_date: day.startOf('day').utc().toISOString(),
+      end_date: day.endOf('day').utc().toISOString()
     })
   ])
 
   if ('data' in students && 'data' in activities) {
+    const studentsData = students.data?.map(({ id, name }) => ({
+      id,
+      name: name || ''
+    }))
     return (
       <SantriList
-        students={students.data}
+        students={studentsData || []}
         activities={activities.data}
         from={from}
         emptyState={emptyState}

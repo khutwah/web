@@ -1,15 +1,14 @@
+import { CheckpointStatus } from '@/models/checkpoint'
+import { RoleFilter } from '@/models/supabase/models/filter'
 import { Base } from '@/utils/supabase/models/base'
 import { Halaqah } from '@/utils/supabase/models/halaqah'
 import { getUser } from '@/utils/supabase/get-user'
-import { CheckpointStatus } from '@/models/checkpoint'
-import { RoleFilter } from '@/models/supabase/models/filter'
 
 interface ListFilter extends RoleFilter {
   virtual_account?: string
   pin?: string
   email?: string
   halaqah_ids?: number[]
-  checkpoint_statuses?: CheckpointStatus[]
 }
 
 interface CreatePayload {
@@ -22,30 +21,10 @@ interface CreatePayload {
 const COLUMNS = `id, name, users (id, email), halaqah (id, name)`
 export class Students extends Base {
   async list(args: ListFilter) {
-    const {
-      virtual_account,
-      pin,
-      email,
-      student_id,
-      ustadz_id,
-      halaqah_ids,
-      checkpoint_statuses
-    } = args
+    const { virtual_account, pin, email, student_id, ustadz_id, halaqah_ids } =
+      args
 
-    let resolvedColumns = COLUMNS
-
-    const hasCheckpointStatusFilter =
-      Array.isArray(checkpoint_statuses) && checkpoint_statuses.length > 0
-
-    if (hasCheckpointStatusFilter) {
-      resolvedColumns = `${COLUMNS}, last_checkpoint:checkpoint!inner (id, status)`
-    }
-
-    let query = (await this.supabase)
-      .from('students')
-      // The `as '*'` is a workaround for dynamically passed string variable to the `.select()`
-      // Ref https://github.com/supabase/supabase-js/issues/551#issuecomment-1955054798
-      .select(resolvedColumns as '*')
+    let query = (await this.supabase).from('students').select(COLUMNS)
 
     if (virtual_account) query = query.eq('virtual_account', virtual_account)
     if (pin) query = query.eq('pin', pin)
@@ -62,18 +41,47 @@ export class Students extends Base {
       query = query.in('halaqah_id', halaqahIds)
     }
 
-    if (hasCheckpointStatusFilter) {
-      query = query
-        .order('updated_at', {
-          ascending: false,
-          referencedTable: 'checkpoint'
-        })
-        .limit(1, { foreignTable: 'checkpoint' })
-        .in('checkpoint.status', checkpoint_statuses)
+    const result = await query
+    return result
+  }
+  async listWithCheckpoint(args: {
+    checkpoint_statuses?: Array<CheckpointStatus>
+    ustadz_id?: number
+  }) {
+    const { checkpoint_statuses, ustadz_id } = args
+
+    const query = (await this.supabase)
+      .from('students')
+      .select(
+        `id, name, halaqah (id, name), last_checkpoint:checkpoint (id, status)`
+      )
+      .order('updated_at', {
+        ascending: false,
+        referencedTable: 'checkpoint'
+      })
+      .limit(1, { foreignTable: 'checkpoint' })
+
+    if (ustadz_id) {
+      const halaqahIds = await this.getHalaqahByUstad({
+        ustadz_id: ustadz_id
+      })
+      query.in('halaqah_id', halaqahIds)
+    }
+
+    if (Array.isArray(checkpoint_statuses) && checkpoint_statuses.length > 0) {
+      const resultWithCheckpoint = await query.in(
+        'checkpoint.status',
+        checkpoint_statuses
+      )
+
+      // Only return the student that have checkpoint
+      const data = resultWithCheckpoint.data?.filter(
+        (item) => item.last_checkpoint.length > 0
+      )
+      return { ...resultWithCheckpoint, data }
     }
 
     const result = await query
-
     return result
   }
 

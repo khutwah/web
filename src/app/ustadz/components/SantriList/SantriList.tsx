@@ -21,7 +21,7 @@ import SampleSantriAvatar from '@/assets/sample-santri-photo.png'
 const DEFAULT_EMPTY_ARRAY: any[] = []
 
 export interface SantriListProps {
-  students: Awaited<ReturnType<Students['list']>>['data']
+  students: Array<{ id: number; name: string }> | null
   activities: Awaited<ReturnType<Activities['list']>>['data']
   from: FromQueryParams
   emptyState?: React.ReactNode
