@@ -2,20 +2,20 @@
 
 import { useContext, useMemo } from 'react'
 
-import { Activities } from '@/utils/supabase/models/activities'
 import {
   SantriCard,
   SantriCardSkeleton
 } from '@/components/SantriCard/SantriCard'
 import { SearchContext } from '@/app/ustadz/components/Search/SearchProvider'
+import { StateMessage } from '@/components/StateMessage/StateMessage'
 
 import { Students } from '@/utils/supabase/models/students'
+import { Activities } from '@/utils/supabase/models/activities'
 import { MENU_USTADZ_PATH_RECORDS } from '@/utils/menus/ustadz'
 import { addFromQueryString, FromQueryParams } from '@/utils/url'
 import { MappedActivityStatus } from '@/models/activities'
 
 import SampleSantriAvatar from '@/assets/sample-santri-photo.png'
-import { StateMessage } from '@/components/StateMessage/StateMessage'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const DEFAULT_EMPTY_ARRAY: any[] = []

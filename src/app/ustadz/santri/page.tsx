@@ -21,6 +21,10 @@ import {
   CHECKPOINT_STATUS_SEARCH_PARAMS_KEY,
   USTADZ_ID_SEARCH_PARAMS_KEY
 } from '@/app/ustadz/santri/constants'
+import { getUserId } from '@/utils/supabase/get-user-id'
+import { getUser } from '@/utils/supabase/get-user'
+import Link from 'next/link'
+import { Button } from '@/components/Button/Button'
 
 export default async function Santri({
   searchParams: searchParamsPromise
@@ -30,11 +34,21 @@ export default async function Santri({
   const tz = await getTimezoneInfo()
   const day = dayjs().tz(tz)
 
+  const currentUser = await getUser()
+
   const searchParams = await searchParamsPromise
   const parsedSearchParams = parseSearchParams(searchParams, {
-    [USTADZ_ID_SEARCH_PARAMS_KEY]: 'number',
+    [USTADZ_ID_SEARCH_PARAMS_KEY]: 'string',
     [CHECKPOINT_STATUS_SEARCH_PARAMS_KEY]: 'array'
-  })
+  } as const)
+
+  const checkpointStatuses = parsedSearchParams[
+    CHECKPOINT_STATUS_SEARCH_PARAMS_KEY
+  ] as Array<CheckpointStatus>
+  const ustadzId =
+    parsedSearchParams[USTADZ_ID_SEARCH_PARAMS_KEY] ||
+    currentUser.data?.id ||
+    null
 
   return (
     <Layout>
@@ -45,7 +59,12 @@ export default async function Santri({
             id='search-santri'
             name='search-santri'
             placeholder='Cari santri...'
-            trailingComponent={<FilterDrawer></FilterDrawer>}
+            trailingComponent={
+              <FilterDrawer
+                ustadzId={ustadzId === 'ALL' ? null : Number(ustadzId)}
+                checkpointStatuses={checkpointStatuses}
+              />
+            }
           />
         </header>
 
@@ -78,13 +97,20 @@ export default async function Santri({
                     CHECKPOINT_STATUS_SEARCH_PARAMS_KEY
                   ] as CheckpointStatus[]) || undefined
                 }
-                ustadzId={parsedSearchParams[USTADZ_ID_SEARCH_PARAMS_KEY]}
+                ustadzId={ustadzId === 'ALL' ? undefined : Number(ustadzId)}
                 emptyState={
                   <StateMessage
                     className='py-8'
                     type='empty'
                     title='Tidak Menemukan Data Santri'
                     description='Silakan periksa kembali pencarian dan filter. Atau coba lagi nanti.'
+                    actionButton={
+                      <Link href='/ustadz/santri'>
+                        <Button type='button' size='sm'>
+                          Muat ulang
+                        </Button>
+                      </Link>
+                    }
                   />
                 }
               />

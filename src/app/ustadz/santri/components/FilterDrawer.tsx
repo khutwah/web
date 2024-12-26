@@ -17,7 +17,6 @@ import {
 import { UstadzFilter } from '@/app/ustadz/santri/components/UstadzFilter'
 import { CheckpointStatusFilter } from '@/app/ustadz/santri/components/CheckpointStatusFilter'
 
-import { parseSearchParams } from '@/utils/url'
 import {
   CHECKPOINT_STATUS_SEARCH_PARAMS_KEY,
   USTADZ_ID_SEARCH_PARAMS_KEY
@@ -25,45 +24,40 @@ import {
 import { CheckpointStatus } from '@/models/checkpoint'
 
 type FilterFields = {
-  ustadzId: number | null
+  ustadzId: number | null | 'ALL'
   checkpointStatuses: Array<CheckpointStatus>
 }
 
-export function FilterDrawer({ children }: { children?: React.ReactNode }) {
+type FilterDrawerProps = FilterFields
+
+export function FilterDrawer({
+  ustadzId,
+  checkpointStatuses
+}: FilterDrawerProps) {
   const searchParams = useSearchParams()
   const pathname = usePathname()
   const router = useRouter()
 
   const [open, setOpen] = useState(false)
 
-  const parsedSearchParams = parseSearchParams(searchParams, {
-    [USTADZ_ID_SEARCH_PARAMS_KEY]: 'number',
-    [CHECKPOINT_STATUS_SEARCH_PARAMS_KEY]: 'array'
-  })
-  const ustadzIdParam = parsedSearchParams[USTADZ_ID_SEARCH_PARAMS_KEY]
-  const checkpointStatusesParam = parsedSearchParams[
-    CHECKPOINT_STATUS_SEARCH_PARAMS_KEY
-  ] as Array<CheckpointStatus>
-
-  // TODO: we might have t remove this
   const filters = useMemo(() => {
     const resolvedFilters = []
-    if (ustadzIdParam) {
-      resolvedFilters.push(ustadzIdParam)
-    }
 
-    if (Array.isArray(checkpointStatusesParam)) {
-      checkpointStatusesParam.forEach((status) => resolvedFilters.push(status))
+    if (ustadzId) {
+      resolvedFilters.push(ustadzId)
+    }
+    if (Array.isArray(checkpointStatuses)) {
+      checkpointStatuses.forEach((status) => resolvedFilters.push(status))
     }
 
     return resolvedFilters
-  }, [ustadzIdParam, checkpointStatusesParam])
+  }, [ustadzId, checkpointStatuses])
   const hasFilter = filters.length > 0
 
   const formMethods = useForm<FilterFields>({
     defaultValues: {
-      ustadzId: ustadzIdParam,
-      checkpointStatuses: checkpointStatusesParam
+      ustadzId: ustadzId === 'ALL' ? null : ustadzId,
+      checkpointStatuses
     }
   })
 
@@ -71,17 +65,14 @@ export function FilterDrawer({ children }: { children?: React.ReactNode }) {
   const handleUpdateFilter = (data: FilterFields) => {
     const params = new URLSearchParams(searchParams.toString())
 
-    // Reset
+    // Reset search params
     params.delete(USTADZ_ID_SEARCH_PARAMS_KEY)
     params.delete(CHECKPOINT_STATUS_SEARCH_PARAMS_KEY)
 
+    // Add search params as needed
     const { ustadzId, checkpointStatuses } = data
 
-    console.log({ ustadzId, checkpointStatuses })
-
-    if (!!ustadzId) {
-      params.set(USTADZ_ID_SEARCH_PARAMS_KEY, String(ustadzId))
-    }
+    params.set(USTADZ_ID_SEARCH_PARAMS_KEY, ustadzId ? String(ustadzId) : 'ALL')
 
     if (Array.isArray(checkpointStatuses)) {
       checkpointStatuses.forEach((status) => {
@@ -89,13 +80,14 @@ export function FilterDrawer({ children }: { children?: React.ReactNode }) {
       })
     }
 
-    router.replace(`${pathname}?${params.toString()}`)
+    // Apply search params without reloading the page
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false })
   }
 
   // Reset filter to default value
   const handleResetFilter = () => {
     formMethods.reset({
-      ustadzId: null,
+      ustadzId: 'ALL',
       checkpointStatuses: []
     })
   }
@@ -141,7 +133,6 @@ export function FilterDrawer({ children }: { children?: React.ReactNode }) {
             </div>
           </form>
         </FormProvider>
-        {children}
       </DrawerContent>
     </Drawer>
   )

@@ -29,7 +29,8 @@ export function StateMessage({
         <h2 className='text-mtmh-title-medium !text-center'>{title}</h2>
         <p className='text-mtmh-body-small !text-center'>{description}</p>
       </div>
-      {actionButton}
+
+      <div className='pt-3'>{actionButton}</div>
     </div>
   )
 }
