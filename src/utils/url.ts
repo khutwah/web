@@ -142,7 +142,7 @@ export function parseSearchParams<Options extends ParseOptions>(
   searchParams: Readonly<URLSearchParams> | NextSearchParams,
   options: Options
 ): Partial<InferParsedParams<Options>> {
-  const result: Record<string, any> = {}
+  const result: Record<string, unknown> = {}
 
   const getParamValue = (key: string): string | string[] | undefined => {
     if (searchParams instanceof URLSearchParams) {
