@@ -41,7 +41,11 @@ export class Students extends Base {
       resolvedColumns = `${COLUMNS}, last_checkpoint:checkpoint!inner (id, status)`
     }
 
-    let query = (await this.supabase).from('students').select(resolvedColumns)
+    let query = (await this.supabase)
+      .from('students')
+      // The `as '*'` is a workaround for dynamically passed string variable to the `.select()`
+      // Ref https://github.com/supabase/supabase-js/issues/551#issuecomment-1955054798
+      .select(resolvedColumns as '*')
 
     if (virtual_account) query = query.eq('virtual_account', virtual_account)
     if (pin) query = query.eq('pin', pin)
