@@ -25,6 +25,6 @@ jobs:
         with:
           name: mh-khutwah-id
           file: deployments/staging/stack.yaml
-          host: mh-staging.khutwah.id
+          host: mtmh-staging.khutwah.id
           user: khutwah
           ssh_key: ${{ secrets.STAGING_SSH_KEY }}
