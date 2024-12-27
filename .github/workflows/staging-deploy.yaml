@@ -13,11 +13,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-      - run: |
-          echo >> NEXT_PUBLIC_SUPABASE_URL=${{ secrets.STAGING_NEXT_PUBLIC_SUPABASE_URL }} >> .env.staging
-          echo >> NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ secrets.STAGING_NEXT_PUBLIC_SUPABASE_ANON_KEY }} >> .env.staging
-          echo >> DEFAULT_STUDENT_PASSWORD=${{ secrets.STAGING_DEFAULT_STUDENT_PASSWORD }} >> .env.staging
-          echo >> DATABASE_URL=${{ secrets.STAGING_DATABASE_URL }} >> .env.staging
+        run: |
+          echo >> NEXT_PUBLIC_SUPABASE_URL=${{ secrets.STAGING_NEXT_PUBLIC_SUPABASE_URL }} >> .env
+          echo >> NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ secrets.STAGING_NEXT_PUBLIC_SUPABASE_ANON_KEY }} >> .env
+          echo >> DEFAULT_STUDENT_PASSWORD=${{ secrets.STAGING_DEFAULT_STUDENT_PASSWORD }} >> .env
+          echo >> DATABASE_URL=${{ secrets.STAGING_DATABASE_URL }} >> .env
       - run: make
         env:
           SHA: ${{ github.sha }}
