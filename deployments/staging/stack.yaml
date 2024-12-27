@@ -20,7 +20,7 @@ services:
       - 'letsencrypt:/letsencrypt'
       - '/var/run/docker.sock:/var/run/docker.sock'
   staging:
-    image: ttl.sh/mh-khutwah-id-445a8dac7b4211532c73952823c228c3a3b403aa:1h
+    image: staging-image
     secrets:
       - staging-secret
     environment:
