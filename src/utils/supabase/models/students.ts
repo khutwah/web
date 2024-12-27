@@ -81,8 +81,7 @@ export class Students extends Base {
       return { ...resultWithCheckpoint, data }
     }
 
-    const result = await query
-    return result
+    return query
   }
 
   async isPinSubmitted(virtual_account: string) {

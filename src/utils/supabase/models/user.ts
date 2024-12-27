@@ -1,3 +1,4 @@
+import { ROLE } from '@/models/auth'
 import { Base } from './base'
 
 interface UserPayload {
@@ -14,7 +15,7 @@ interface GetFilter {
 }
 
 interface ListFilter {
-  role: number
+  role: keyof typeof ROLE
 }
 
 export class User extends Base {
@@ -37,7 +38,7 @@ export class User extends Base {
     const query = (await this.supabase).from('users').select()
 
     if (role) {
-      query.eq('role', role)
+      query.eq('role', ROLE[role])
     }
 
     const result = await query
