@@ -1,4 +1,4 @@
-FROM cgr.dev/chainguard/node@sha256:c7b054b1852e9b8bbb0821e4499734aff9cacbed88c9f20faa81299d0cca9c9a AS base
+FROM node@sha256:0e5b53891ddbf3c4924077990f037ff55d981d030648345574cd1cb0e4a524bb AS base
 
 # Stage 1: Install dependencies
 FROM base AS deps
