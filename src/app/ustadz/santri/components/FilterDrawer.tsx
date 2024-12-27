@@ -63,7 +63,7 @@ export function FilterDrawer({
 
   // Update search params based on form values
   const handleUpdateFilter = (data: FilterFields) => {
-    const params = new URLSearchParams(searchParams.toString())
+    const params = new URLSearchParams(searchParams)
 
     // Reset search params
     params.delete(USTADZ_ID_SEARCH_PARAMS_KEY)
