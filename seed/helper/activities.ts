@@ -72,7 +72,7 @@ export async function generateActivities(
       throw new Error('End surah and ayah not found')
     }
 
-    activities.push({
+    activities.unshift({
       student_id: student?.id,
       shift_id: shift?.id,
       type: activityType,
