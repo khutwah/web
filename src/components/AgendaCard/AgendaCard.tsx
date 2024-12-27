@@ -25,7 +25,7 @@ export default function AgendaCard({
       <Card className='max-w-2xl overflow-hidden relative group'>
         <div className='absolute inset-0 transition-transform duration-500 group-active:brightness-75'>
           <Image
-            src='https://images.unsplash.com/photo-1641069419212-2ba5f8de1dcd?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ix'
+            src='https://images.khutwah.id/photo-1641069419212-2ba5f8de1dcd?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ix'
             alt='Background image'
             className='object-cover'
             fill

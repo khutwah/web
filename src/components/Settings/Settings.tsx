@@ -1,6 +1,4 @@
-import Logo from '@/assets/minhajul-haq-logo-white.png'
-
-import Image from 'next/image'
+import Logo from '@/components/Logo'
 import { LogoutButton } from './LogoutButton'
 import { PropsWithChildren } from 'react'
 
@@ -15,7 +13,7 @@ export function SettingsSharedContent({ children }: PropsWithChildren) {
 
       <div className='flex flex-1 flex-col p-6 gap-y-4 h-full justify-between'>
         <div className='flex flex-col gap-y-4 items-center'>
-          <Image alt='Minhajul Haq' src={Logo} width={121} />
+          <Logo variant='white' />
 
           <div className='text-mtmh-neutral-white text-mtmh-sm-regular'>
             App version: {process.env.NEXT_PUBLIC_APP_VERSION}
