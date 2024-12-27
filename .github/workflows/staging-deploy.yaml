@@ -13,12 +13,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-      - uses: superfly/flyctl-actions/setup-flyctl@63da3ecc5e2793b98a3f2519b3d75d4f4c11cec2 # master
-      - run: |
-          flyctl deploy \
-            --build-arg NEXT_PUBLIC_APP_VERSION=stag-$(git rev-parse --short ${{ github.sha }}) \
-            --build-arg NEXT_PUBLIC_CACHE_BUSTER=$(git rev-parse --short ${{ github.sha }}) \
-            --config deployments/staging/fly.toml \
-            --remote-only
+      - run: make
         env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN_STAGING }}
+          SHA: ${{ github.sha }}
+      - uses: mikefarah/yq@f73c862cc555c0d98d3ac3120a79ec25fdda9837 # master@27-12-2024
+        with:
+          cmd: yq -i '.services.staging.image = env(IMAGE)' deployments/staging/stack.yaml
+        env:
+          IMAGE: ttl.sh/mh-khutwah-id-${{ github.sha }}:1h
+      - uses: cssnr/stack-deploy-action@1dae9f655527e6a141122886ae64e24afb6d6274 # master@27-12-2024
+        with:
+          name: mh-khutwah-id
+          file: deployments/staging/stack.yaml
+          host: mh-staging.khutwah.id
+          user: khutwah
+          ssh_key: ${{ secrets.STAGING_SSH_KEY }}

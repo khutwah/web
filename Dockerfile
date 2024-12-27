@@ -1,4 +1,4 @@
-FROM cgr.dev/chainguard/node@sha256:c7b054b1852e9b8bbb0821e4499734aff9cacbed88c9f20faa81299d0cca9c9a AS base
+FROM node@sha256:18379ee656cbc1d4d740ecd9da1c81c0609ce58d48fbe771e103bf6ad0028605 AS base
 
 # Stage 1: Install dependencies
 FROM base AS deps
@@ -18,6 +18,7 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN npm run build
+RUN echo 'const fs = require("fs"); process.env.DOTENV && fs.copyFileSync(process.env.DOTENV, ".env");' | cat - .next/standalone/server.js > temp.server.js && mv temp.server.js .next/standalone/server.js
 
 FROM base AS runner
 WORKDIR /app
