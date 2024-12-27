@@ -1,3 +1,5 @@
+import { NextSearchParams } from '@/models/url'
+
 export function extractPathnameAndQueryFromURL(url: URL) {
   const query = url.searchParams.toString()
   if (!query) return url.pathname
@@ -112,4 +114,68 @@ export function convertSearchParamsToStringRecords(searchParams: {
   }
 
   return result
+}
+
+type ParamType = 'string' | 'number' | 'boolean' | 'array'
+type ParseOptions = Record<string, ParamType>
+type InferParsedParams<Options extends ParseOptions> = {
+  [Key in keyof Options]?: Options[Key] extends 'string'
+    ? string
+    : Options[Key] extends 'number'
+      ? number
+      : Options[Key] extends 'boolean'
+        ? boolean
+        : Options[Key] extends 'array'
+          ? string[]
+          : string
+}
+
+/**
+ * Parses search parameters based on provided options.
+ * - If the value is an array but the expected type is not an array, it will return the first value
+ * - If the type of the value is not the same as expected, it will be ommited
+ *
+ * @param options Optional configuration to infer the type of each parameter.
+ * @returns Parsed parameters with inferred types.
+ */
+export function parseSearchParams<Options extends ParseOptions>(
+  searchParams: Readonly<URLSearchParams> | NextSearchParams,
+  options: Options
+): Partial<InferParsedParams<Options>> {
+  const result: Record<string, unknown> = {}
+
+  const getParamValue = (key: string): string | string[] | undefined => {
+    if (searchParams instanceof URLSearchParams) {
+      // Handle URLSearchParams (e.g. from useSearchParams)
+      const values = searchParams.getAll(key)
+      return values.length > 1 ? values : values[0] || undefined
+    } else {
+      // Handle plain object (e.g. from Server Component props)
+      return (searchParams as NextSearchParams)[key]
+    }
+  }
+
+  for (const [key, type] of Object.entries(options)) {
+    const value = getParamValue(key)
+
+    if (value === undefined) continue // Skip undefined values
+
+    switch (type) {
+      case 'number':
+        result[key] = Array.isArray(value) ? Number(value[0]) : Number(value)
+        break
+      case 'boolean':
+        result[key] = Array.isArray(value)
+          ? value[0] === 'true'
+          : value === 'true'
+        break
+      case 'array':
+        result[key] = Array.isArray(value) ? value : value ? [value] : []
+        break
+      default:
+        result[key] = Array.isArray(value) ? value[0] : value || undefined
+    }
+  }
+
+  return result as Partial<InferParsedParams<Options>>
 }

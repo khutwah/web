@@ -1,3 +1,4 @@
+import { ROLE } from '@/models/auth'
 import { Base } from './base'
 
 interface UserPayload {
@@ -13,6 +14,10 @@ interface GetFilter {
   sb_user_id?: string
 }
 
+interface ListFilter {
+  role: keyof typeof ROLE
+}
+
 export class User extends Base {
   async create(payload: UserPayload) {
     return (await this.supabase).from('users').upsert(payload).select()
@@ -26,6 +31,17 @@ export class User extends Base {
 
     const result = await query.limit(1).single()
 
+    return result
+  }
+
+  async list({ role }: ListFilter) {
+    const query = (await this.supabase).from('users').select()
+
+    if (role) {
+      query.eq('role', ROLE[role])
+    }
+
+    const result = await query
     return result
   }
 }

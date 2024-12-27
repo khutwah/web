@@ -1,36 +1,41 @@
 'use client'
 
-import { Students } from '@/utils/supabase/models/students'
-import { Activities } from '@/utils/supabase/models/activities'
 import { useContext, useMemo } from 'react'
-import { MappedActivityStatus } from '@/models/activities'
+
 import {
   SantriCard,
   SantriCardSkeleton
-} from '../../../../components/SantriCard/SantriCard'
-import SampleSantriAvatar from '@/assets/sample-santri-photo.png'
+} from '@/components/SantriCard/SantriCard'
+import { SearchContext } from '@/app/ustadz/components/Search/SearchProvider'
+import { StateMessage } from '@/components/StateMessage/StateMessage'
+
+import { Activities } from '@/utils/supabase/models/activities'
 import { MENU_USTADZ_PATH_RECORDS } from '@/utils/menus/ustadz'
-import { SearchContext } from '../Search/SearchProvider'
 import { addFromQueryString, FromQueryParams } from '@/utils/url'
+import { MappedActivityStatus } from '@/models/activities'
+
+import SampleSantriAvatar from '@/assets/sample-santri-photo.png'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const DEFAULT_EMPTY_ARRAY: any[] = []
 
-interface Props {
-  students: Awaited<ReturnType<Students['list']>>['data']
+export interface SantriListProps {
+  students: Array<{ id: number; name: string }> | null
   activities: Awaited<ReturnType<Activities['list']>>['data']
   from: FromQueryParams
+  emptyState?: React.ReactNode
 }
 
-type StudentRecordValue = NonNullable<Props['students']>[number] & {
+type StudentRecordValue = NonNullable<SantriListProps['students']>[number] & {
   activities: MappedActivityStatus[]
 }
 
 export function SantriList({
   students: studentsProp,
   activities: activitiesProp,
-  from
-}: Props) {
+  from,
+  emptyState
+}: SantriListProps) {
   const defaultStudentsWithActivities = useMemo(() => {
     const students = studentsProp ?? DEFAULT_EMPTY_ARRAY
     const activities = activitiesProp ?? DEFAULT_EMPTY_ARRAY
@@ -60,6 +65,14 @@ export function SantriList({
   const filteredStudents = defaultStudentsWithActivities.filter((student) =>
     student.name?.toLowerCase().includes(searchContext.searchQuery)
   )
+
+  if (filteredStudents.length <= 0) {
+    return (
+      emptyState || (
+        <StateMessage type='empty' title='Tidak Menemukan Data Santri' />
+      )
+    )
+  }
 
   return (
     <ol className='flex flex-col gap-y-3'>

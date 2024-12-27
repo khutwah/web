@@ -93,7 +93,12 @@ export default async function DetailHalaqah({
               </AlertDescription>
             </Alert>
             <SantriList
-              students={students.data}
+              students={
+                students.data?.map(({ id, name }) => ({
+                  id,
+                  name: name || ''
+                })) || []
+              }
               activities={activities.data}
               from={{ from: 'halaqah', id: halaqahInfo.data.id }}
             />

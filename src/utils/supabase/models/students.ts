@@ -1,7 +1,8 @@
+import { CheckpointStatus } from '@/models/checkpoint'
 import { RoleFilter } from '@/models/supabase/models/filter'
-import { Base } from './base'
-import { Halaqah } from './halaqah'
-import { getUser } from '../get-user'
+import { Base } from '@/utils/supabase/models/base'
+import { Halaqah } from '@/utils/supabase/models/halaqah'
+import { getUser } from '@/utils/supabase/get-user'
 
 interface ListFilter extends RoleFilter {
   virtual_account?: string
@@ -42,6 +43,45 @@ export class Students extends Base {
 
     const result = await query
     return result
+  }
+  async listWithCheckpoint(args: {
+    checkpoint_statuses?: Array<CheckpointStatus>
+    ustadz_id?: number
+  }) {
+    const { checkpoint_statuses, ustadz_id } = args
+
+    const query = (await this.supabase)
+      .from('students')
+      .select(
+        `id, name, halaqah (id, name), last_checkpoint:checkpoint (id, status)`
+      )
+      .order('updated_at', {
+        ascending: false,
+        referencedTable: 'checkpoint'
+      })
+      .limit(1, { foreignTable: 'checkpoint' })
+
+    if (ustadz_id) {
+      const halaqahIds = await this.getHalaqahByUstad({
+        ustadz_id: ustadz_id
+      })
+      query.in('halaqah_id', halaqahIds)
+    }
+
+    if (Array.isArray(checkpoint_statuses) && checkpoint_statuses.length > 0) {
+      const resultWithCheckpoint = await query.in(
+        'checkpoint.status',
+        checkpoint_statuses
+      )
+
+      // Only return the student that have checkpoint
+      const data = resultWithCheckpoint.data?.filter(
+        (item) => item.last_checkpoint.length > 0
+      )
+      return { ...resultWithCheckpoint, data }
+    }
+
+    return query
   }
 
   async isPinSubmitted(virtual_account: string) {
