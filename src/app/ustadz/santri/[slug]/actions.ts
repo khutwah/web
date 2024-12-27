@@ -44,12 +44,15 @@ export async function createLajnah(_prev: unknown, formData: FormData) {
       }
     }
 
+    const surahRangeForCheckpoint = JSON.parse(data.surah_range)
+    const newArray = [[surahRangeForCheckpoint[0][0]]]
+
     // create 1st draft checkpoint
     await lajnahInstance.create({
       ustadz_id: data.ustadz_id,
       student_id: data.student_id,
       start_date: new Date().toISOString(),
-      surah_range: JSON.parse(data.surah_range),
+      surah_range: newArray,
       parent_lajnah_id: result.data?.id
     })
 
