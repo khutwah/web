@@ -1,80 +1,128 @@
 [
   {
     "id": 5,
-    "checkpoints": {
-      "start": {
-        "surah": 78,
-        "verse": 1
-      },
-      "end": {
-        "surah": 50,
-        "verse": 45
+    "checkpoints": [
+      {
+        "start": {
+          "juz": 30,
+          "surah": 78,
+          "verse": 1
+        },
+        "end": {
+          "juz": 26,
+          "surah": 50,
+          "verse": 45
+        }
       }
-    }
+    ]
   },
   {
     "id": 10,
-    "checkpoints": {
-      "start": {
-        "surah": 78,
-        "verse": 1
-      },
-      "end": {
-        "surah": 32,
-        "verse": 30
+    "checkpoints": [
+      {
+        "start": {
+          "juz": 30,
+          "surah": 78,
+          "verse": 1
+        },
+        "end": {
+          "juz": 21,
+          "surah": 32,
+          "verse": 30
+        }
       }
-    }
+    ]
   },
   {
     "id": 15,
-    "checkpoints": {
-      "start": {
-        "surah": 78,
-        "verse": 1
-      },
-      "end": {
-        "surah": 20,
-        "verse": 135
+    "checkpoints": [
+      {
+        "start": {
+          "juz": 30,
+          "surah": 78,
+          "verse": 1
+        },
+        "end": {
+          "juz": 16,
+          "surah": 20,
+          "verse": 135
+        }
       }
-    }
+    ]
   },
   {
     "id": 20,
-    "checkpoints": {
-      "start": {
-        "surah": 78,
-        "verse": 1
+    "checkpoints": [
+      {
+        "start": {
+          "juz": 1,
+          "surah": 2,
+          "verse": 1
+        },
+        "end": {
+          "juz": 5,
+          "surah": 4,
+          "verse": 176
+        }
       },
-      "end": {
-        "surah": 4,
-        "verse": 176
+      {
+        "start": {
+          "juz": 30,
+          "surah": 78,
+          "verse": 1
+        },
+        "end": {
+          "juz": 16,
+          "surah": 20,
+          "verse": 135
+        }
       }
-    }
+    ]
   },
   {
     "id": 25,
-    "checkpoints": {
-      "start": {
-        "surah": 78,
-        "verse": 1
+    "checkpoints": [
+      {
+        "start": {
+          "juz": 1,
+          "surah": 2,
+          "verse": 1
+        },
+        "end": {
+          "juz": 10,
+          "surah": 9,
+          "verse": 129
+        }
       },
-      "end": {
-        "surah": 9,
-        "verse": 129
+      {
+        "start": {
+          "juz": 30,
+          "surah": 78,
+          "verse": 1
+        },
+        "end": {
+          "juz": 16,
+          "surah": 20,
+          "verse": 135
+        }
       }
-    }
+    ]
   },
   {
     "id": 30,
-    "checkpoints": {
-      "start": {
-        "surah": 78,
-        "verse": 1
-      },
-      "end": {
-        "surah": 17,
-        "verse": 111
+    "checkpoints": [
+      {
+        "start": {
+          "juz": 1,
+          "surah": 2,
+          "verse": 1
+        },
+        "end": {
+          "juz": 30,
+          "surah": 78,
+          "verse": 40
+        }
       }
-    }
+    ]
   }
 ]
