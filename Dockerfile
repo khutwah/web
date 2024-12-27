@@ -1,4 +1,4 @@
-FROM node@sha256:0e5b53891ddbf3c4924077990f037ff55d981d030648345574cd1cb0e4a524bb AS base
+FROM node@sha256:18379ee656cbc1d4d740ecd9da1c81c0609ce58d48fbe771e103bf6ad0028605 AS base
 
 # Stage 1: Install dependencies
 FROM base AS deps
