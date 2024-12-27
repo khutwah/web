@@ -90,6 +90,19 @@ export interface CheckpointType {
   mistakes: MistakeCounterType
 }
 
+export interface CheckpointLajnah {
+  start: {
+    juz?: number
+    surah: number
+    verse: number
+  }
+  end: {
+    juz?: number
+    surah: number
+    verse: number
+  }
+}
+
 type LajnahTypes = Record<
   LajnahType,
   {
@@ -100,18 +113,7 @@ type LajnahTypes = Record<
     }
     data: Array<{
       id: number
-      checkpoints: {
-        start: {
-          juz?: number
-          surah: number
-          verse: number
-        }
-        end: {
-          juz?: number
-          surah: number
-          verse: number
-        }
-      }
+      checkpoints: CheckpointLajnah | CheckpointLajnah[]
     }>
   }
 >

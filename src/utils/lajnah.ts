@@ -1,4 +1,4 @@
-import { LajnahState } from '@/models/lajnah'
+import { CheckpointLajnah, LajnahState } from '@/models/lajnah'
 import per5JuzLajnah from '@/data/lajnah/per-5-juz-lajnah.json'
 import { getPageCount } from './mushaf'
 
@@ -40,4 +40,34 @@ export function getPer5JuzLajnah(
     id: currentLajnah.id,
     pageDistance
   }
+}
+
+export function parseLabelCheckpoint(
+  checkpoints: CheckpointLajnah | CheckpointLajnah[]
+) {
+  if (Array.isArray(checkpoints)) {
+    return checkpoints
+      .map((item) => `Juz ${item.start.juz} - Juz ${item.end.juz}`)
+      .join(' dan ')
+  }
+  return `Juz ${checkpoints.start.juz} - Juz ${checkpoints.end.juz}`
+}
+
+export function parseValueCheckpoint(
+  checkpoints: CheckpointLajnah | CheckpointLajnah[]
+) {
+  if (Array.isArray(checkpoints)) {
+    return JSON.stringify(
+      checkpoints.map((item) => [
+        `${item.start.surah}:${item.start.verse}`,
+        `${item.end.surah}:${item.end.verse}`
+      ])
+    )
+  }
+  return JSON.stringify([
+    [
+      `${checkpoints.start.surah}:${checkpoints.start.verse}`,
+      `${checkpoints.end.surah}:${checkpoints.end.verse}`
+    ]
+  ])
 }

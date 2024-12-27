@@ -18,6 +18,7 @@ import { useActionState, startTransition } from 'react'
 import { createLajnah } from '../../actions'
 import { useParams } from 'next/navigation'
 import { getSurahDetailFromSurahRange } from '@/utils/get-surah-detail-from-surah-range'
+import { parseLabelCheckpoint, parseValueCheckpoint } from '@/utils/lajnah'
 
 export function AddLajnahForm() {
   const [state, formAction, isPending] = useActionState(createLajnah, undefined)
@@ -127,12 +128,7 @@ export function AddLajnahForm() {
                   if (surah) {
                     setValue(
                       'surah_range',
-                      JSON.stringify([
-                        [
-                          `${surah.checkpoints.start.surah}:${surah.checkpoints.start.verse}`,
-                          `${surah.checkpoints.end.surah}:${surah.checkpoints.end.verse}`
-                        ]
-                      ])
+                      parseValueCheckpoint(surah.checkpoints)
                     )
                   }
                 }}
@@ -150,12 +146,7 @@ export function AddLajnahForm() {
                   if (surah) {
                     setValue(
                       'surah_range',
-                      JSON.stringify([
-                        [
-                          `${surah.checkpoints.start.surah}:${surah.checkpoints.start.verse}`,
-                          `${surah.checkpoints.end.surah}:${surah.checkpoints.end.verse}`
-                        ]
-                      ])
+                      parseValueCheckpoint(surah.checkpoints)
                     )
                   }
                 }}
@@ -167,8 +158,7 @@ export function AddLajnahForm() {
                       id={String(item.id)}
                     />
                     <Label htmlFor={String(item.id)}>
-                      Juz {item.checkpoints.start.juz} - Juz{' '}
-                      {item.checkpoints.end.juz}
+                      {parseLabelCheckpoint(item.checkpoints)}
                     </Label>
                   </div>
                 ))}
