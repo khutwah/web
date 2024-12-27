@@ -1,18 +1,33 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { number, object, string, array } from 'yup'
+import { number, object, string } from 'yup'
 import { testTimestamp } from '../is-valid-date'
 import { LajnahFinalMark, LajnahType } from '@/models/lajnah'
 
-const surahRangeSchema = array()
-  .of(
-    array()
-      .of(
-        string()
-          .matches(/^\d+:\d+$/, "Must follow the format 'surah:verse'") // Validates format "surah:verse"
-          .required('Each entry in the range is required')
-      )
-      .min(1, 'Each sub-array must have at least 1 element')
-      .max(2, 'Each sub-array must have at most 2 elements') // Allows ["start:verse"] or ["start:verse", "end:verse"]
+const surahRangeSchema = string()
+  .test(
+    'is-valid-surah-range',
+    'The surah_range must be a valid JSON string of [["start:verse", "end:verse"], ...]',
+    (value) => {
+      try {
+        // Try to parse the string as JSON
+        const parsed = JSON.parse(value ?? '')
+
+        // Ensure it's an array of arrays
+        if (!Array.isArray(parsed)) return false
+
+        // Validate each sub-array
+        return parsed.every(
+          (subArray) =>
+            Array.isArray(subArray) &&
+            subArray.length >= 1 &&
+            subArray.length <= 2 &&
+            subArray.every((item) => /^\d+:\d+$/.test(item)) // Match "surah:verse" format
+        )
+      } catch {
+        // If parsing fails, return false
+        return false
+      }
+    }
   )
   .required('surah_range is required')
 

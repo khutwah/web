@@ -34,7 +34,10 @@ export async function createLajnah(_prev: unknown, formData: FormData) {
   const lajnahInstance = new Lajnah()
   try {
     // create parent / master lajnah
-    const result = await lajnahInstance.create(data)
+    const result = await lajnahInstance.create({
+      ...data,
+      surah_range: JSON.parse(data.surah_range)
+    })
     if (result.error) {
       return {
         message: result.error.message
@@ -46,7 +49,7 @@ export async function createLajnah(_prev: unknown, formData: FormData) {
       ustadz_id: data.ustadz_id,
       student_id: data.student_id,
       start_date: new Date().toISOString(),
-      surah_range: data.surah_range,
+      surah_range: JSON.parse(data.surah_range),
       parent_lajnah_id: result.data?.id
     })
 
