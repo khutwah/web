@@ -21,14 +21,9 @@ import {
   CHECKPOINT_STATUS_SEARCH_PARAMS_KEY,
   USTADZ_ID_SEARCH_PARAMS_KEY
 } from '@/app/ustadz/santri/constants'
-import { CheckpointStatus } from '@/models/checkpoint'
+import { FilterFormData } from '@/app/ustadz/santri/models/filter-form'
 
-type FilterFields = {
-  ustadzId: number | null | 'ALL'
-  checkpointStatuses: Array<CheckpointStatus>
-}
-
-type FilterDrawerProps = FilterFields
+type FilterDrawerProps = FilterFormData
 
 export function FilterDrawer({
   ustadzId,
@@ -54,7 +49,7 @@ export function FilterDrawer({
   }, [ustadzId, checkpointStatuses])
   const hasFilter = filters.length > 0
 
-  const formMethods = useForm<FilterFields>({
+  const formMethods = useForm<FilterFormData>({
     defaultValues: {
       ustadzId: ustadzId === 'ALL' ? null : ustadzId,
       checkpointStatuses
@@ -62,7 +57,7 @@ export function FilterDrawer({
   })
 
   // Update search params based on form values
-  const handleUpdateFilter = (data: FilterFields) => {
+  const handleUpdateFilter = (data: FilterFormData) => {
     const params = new URLSearchParams(searchParams)
 
     // Add search params as needed

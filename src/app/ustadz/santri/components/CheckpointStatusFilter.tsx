@@ -1,10 +1,13 @@
-import { Checkbox } from '@/components/Form/Checkbox'
-import { Label } from '@/components/Form/Label'
-import { CheckpointStatus, STATUS_LIST } from '@/models/checkpoint'
 import { Controller, useFormContext } from 'react-hook-form'
 
+import { Checkbox } from '@/components/Form/Checkbox'
+import { Label } from '@/components/Form/Label'
+
+import { CheckpointStatus, STATUS_LIST } from '@/models/checkpoint'
+import { FilterFormData } from '@/app/ustadz/santri/models/filter-form'
+
 export function CheckpointStatusFilter() {
-  const { control } = useFormContext()
+  const { control } = useFormContext<FilterFormData>()
 
   return (
     <div className='space-y-2'>
