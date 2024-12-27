@@ -27,7 +27,7 @@ services:
       - 'DOTENV=/run/secrets/staging-secret'
     labels:
       - 'traefik.enable=true'
-      - 'traefik.http.routers.staging.rule=Host(`mh-staging.khutwah.id`)'
+      - 'traefik.http.routers.staging.rule=Host(`mtmh-staging.khutwah.id`)'
       - 'traefik.http.routers.staging.entrypoints=websecure'
       - 'traefik.http.routers.staging.tls.certresolver=acmeresolver'
     deploy:
