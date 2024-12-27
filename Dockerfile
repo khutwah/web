@@ -18,7 +18,7 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN npm run build
-echo 'const fs = require("fs"); process.env.DOTENV && fs.renameSync(process.env.DOTENV, ".env");' | cat - .next/standalone/server.js > temp.server.js && mv temp.server.js .next/standalone/server.js
+RUN echo 'const fs = require("fs"); process.env.DOTENV && fs.renameSync(process.env.DOTENV, ".env");' | cat - .next/standalone/server.js > temp.server.js && mv temp.server.js .next/standalone/server.js
 
 FROM base AS runner
 WORKDIR /app
