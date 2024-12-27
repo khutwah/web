@@ -23,6 +23,7 @@ services:
     image: staging-image
     environment:
       - 'NEXT_PUBLIC_SKIP_MUMTAZ_LOGIN=true'
+      - 'DOTENV=/run/secrets/staging-secret'
     labels:
       - 'traefik.enable=true'
       - 'traefik.http.routers.staging.rule=Host(`mh-staging.khutwah.id`)'
@@ -34,3 +35,7 @@ services:
         order: start-first
 volumes:
   letsencrypt:
+
+secrets:
+  staging-secret:
+    external: true
