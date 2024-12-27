@@ -64,7 +64,8 @@ const selectQuery = `
     achieve_target,
     created_by,
     shifts(id, ustadz_id, users(name), halaqah(name)),
-    students(parent_id, id, name)`
+    students(parent_id, id, name)
+    `
 
 export class Activities extends Base {
   async _getUserId() {
@@ -190,6 +191,10 @@ export class Activities extends Base {
       .eq('id', id)
       .limit(1)
       .maybeSingle()
+  }
+
+  async count(args: GetFilter) {
+    return (await this.list(args)).data?.length
   }
 
   async create(payload: ActivitiesPayload) {

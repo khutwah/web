@@ -315,12 +315,12 @@
     {
       "id": 6,
       "start": {
-        "page": 293,
+        "page": 102,
         "surah": 4,
         "ayah": 148
       },
       "end": {
-        "page": 321,
+        "page": 121,
         "surah": 5,
         "ayah": 81
       }
@@ -343,7 +343,7 @@
       "start": {
         "page": 62,
         "surah": 3,
-        "ayah": 93
+        "ayah": 92
       },
       "end": {
         "page": 81,
@@ -361,7 +361,7 @@
       "end": {
         "page": 61,
         "surah": 3,
-        "ayah": 92
+        "ayah": 91
       }
     },
     {

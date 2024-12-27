@@ -1,6 +1,7 @@
 import pages from '@/data/mushaf/pages.json'
 import parts from '@/data/mushaf/parts.json'
 import surahs from '@/data/mushaf/surahs.json'
+import lajnah from '@/data/assessments/lajnah.json'
 import { Page, AyahLocationInfo } from '@/models/mushaf'
 
 /**
@@ -95,25 +96,117 @@ export function getAyahLocationInfo(
   if (!page) return undefined
 
   // Find the juz that contains the page. By comparing page with juz start and end pages.
-  const found = parts.juz.find(
+  const foundJuz = parts.juz.find(
     (j) => j.start.page <= page.page && page.page <= j.end.page
   )
-  if (!found) return undefined
+  if (!foundJuz) return undefined
 
-  const ayahCount = getAyahCount(surah, ayah, found.end.surah, found.end.ayah)
-  if (!ayahCount) return undefined
+  const foundLajnah = lajnah.find(({ parts }) => {
+    return parts.some((part) => part === foundJuz.id)
+  })
+  if (!foundLajnah) return undefined
+
+  const lajnahPartIndex = foundLajnah.parts.findIndex(
+    (part) => part === foundJuz.id
+  )
+  const lajnahRangeIndex = foundLajnah.ranges.findIndex((range) => {
+    return range.start.surah <= surah && surah <= range.end.surah
+  })
+
+  const numberOfAyahsToEndJuz = getAyahCount(
+    surah,
+    ayah,
+    foundJuz.end.surah,
+    foundJuz.end.ayah
+  )
+  if (!numberOfAyahsToEndJuz) return undefined
 
   // Calculate the distance to the end of the juz.
   const distanceToJuzEnd = {
-    surah: found.end.surah - surah,
-    ayah: ayahCount,
-    page: found.end.page - page.page
+    surah: foundJuz.end.surah - surah,
+    ayah: numberOfAyahsToEndJuz,
+    page: foundJuz.end.page - page.page
   }
 
+  const numberOfAyahsFromStartJuz = getAyahCount(
+    foundJuz.start.surah,
+    foundJuz.start.ayah,
+    surah,
+    ayah
+  )
+  if (!numberOfAyahsFromStartJuz) return undefined
+
+  const distanceFromJuzStart = {
+    surah: surah - foundJuz.start.surah,
+    ayah: numberOfAyahsFromStartJuz,
+    page: page.page - foundJuz.start.page
+  }
+
+  const lajnahTotalJuz =
+    foundLajnah.id - 5 + (lajnahPartIndex + (distanceToJuzEnd.ayah > 0 ? 0 : 1))
+
   return {
-    juz: found.id,
+    juz: foundJuz.id,
+    totalJuz: lajnahTotalJuz,
+    lajnah: {
+      id: foundLajnah.id,
+      range: lajnahRangeIndex
+    },
     page: page.page,
-    distanceToJuzEnd
+    distanceToJuzEnd,
+    distanceFromJuzStart
+  }
+}
+
+export function getAyahLocationSummary(surah: number, ayah: number) {
+  const location = getAyahLocationInfo(surah, ayah)
+  if (!location) return undefined
+
+  const juz = location.totalJuz
+  let juzFraction = 0.0
+  if (location.distanceToJuzEnd.ayah > 0) {
+    juzFraction =
+      location.distanceFromJuzStart.ayah /
+      (location.distanceToJuzEnd.ayah + location.distanceFromJuzStart.ayah)
+  }
+  const juzTotal = juz + juzFraction
+  const previousLajnahParts = lajnah
+    .filter(({ id }) => id < location.lajnah.id)
+    .flatMap(({ parts }) => parts)
+
+  const pagesTotal = previousLajnahParts
+    .map((part) => {
+      const item = parts.juz.find((j) => j.id === part)
+      return item ? item.end.page - item.start.page : 0
+    })
+    .reduce((acc, val) => acc + val, 0)
+
+  const ayahsTotal = previousLajnahParts
+    .map((part) => {
+      const item = parts.juz.find((j) => j.id === part)
+      const ayahCount = item
+        ? getAyahCount(
+            item.start.surah,
+            item.start.ayah,
+            item.end.surah,
+            item.end.ayah
+          )
+        : 0
+      return ayahCount || 0
+    })
+    .reduce((acc, val) => acc + val, 0)
+
+  return {
+    lajnah: {
+      upcoming: location.lajnah.id,
+      previous: location.lajnah.id > 0 ? location.lajnah.id - 5 : 0
+    },
+    juz: {
+      total: juzTotal,
+      progress: (juzTotal / 30) * 100
+    },
+    pages: pagesTotal + location.distanceFromJuzStart.page,
+    ayahs: ayahsTotal + location.distanceFromJuzStart.ayah
   }
 }
 
