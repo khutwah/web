@@ -41,13 +41,13 @@ export function FilterDrawer({
   const [open, setOpen] = useState(false)
 
   const filters = useMemo(() => {
-    const resolvedFilters = []
+    let resolvedFilters = []
 
     if (ustadzId) {
       resolvedFilters.push(ustadzId)
     }
     if (Array.isArray(checkpointStatuses)) {
-      checkpointStatuses.forEach((status) => resolvedFilters.push(status))
+      resolvedFilters = resolvedFilters.concat(checkpointStatuses)
     }
 
     return resolvedFilters
@@ -65,12 +65,11 @@ export function FilterDrawer({
   const handleUpdateFilter = (data: FilterFields) => {
     const params = new URLSearchParams(searchParams)
 
-    // Reset search params
-    params.delete(USTADZ_ID_SEARCH_PARAMS_KEY)
-    params.delete(CHECKPOINT_STATUS_SEARCH_PARAMS_KEY)
-
     // Add search params as needed
     const { ustadzId, checkpointStatuses } = data
+
+    // Reset search params
+    params.delete(CHECKPOINT_STATUS_SEARCH_PARAMS_KEY)
 
     params.set(USTADZ_ID_SEARCH_PARAMS_KEY, ustadzId ? String(ustadzId) : 'ALL')
 

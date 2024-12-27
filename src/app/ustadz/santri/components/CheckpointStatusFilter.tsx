@@ -17,10 +17,12 @@ export function CheckpointStatusFilter() {
             control={control}
             name='checkpointStatuses'
             render={({ field }) => {
+              const checkboxId = `filter-status-${status.value}`
+
               return (
                 <div className='flex space-x-2' key={status.value}>
                   <Checkbox
-                    id={`filter-status-${status.value}`}
+                    id={checkboxId}
                     checked={field.value?.includes(status.value)}
                     onCheckedChange={(checked) => {
                       const currentValues = field.value || []
@@ -32,10 +34,7 @@ export function CheckpointStatusFilter() {
                       field.onChange(newValues)
                     }}
                   />
-                  <label
-                    htmlFor={`filter-status-${status.value}`}
-                    className='text-mtmh-label'
-                  >
+                  <label htmlFor={checkboxId} className='text-mtmh-label'>
                     {status.label}
                   </label>
                 </div>
