@@ -1,13 +1,12 @@
 'use client'
 
-import Logo from '@/assets/minhajul-haq-logo-white.png'
+import Logo from '@/components/Logo'
 import UstadzImage from '@/assets/sample-ustadz-photo.png'
 import SantriImage from '@/assets/sample-santri-photo.png'
 import { GreetingsCard } from '@/components/GreetingsCard/GreetingsCard'
 import { DateHeader } from '@/components/Header/Date'
 import { useAlAdhanInfo } from '@/hooks/useAlAdhanInfo'
 import { CircleAlert } from 'lucide-react'
-import Image from 'next/image'
 
 interface Props {
   displayName: string
@@ -20,7 +19,7 @@ export function HomeHeader({ displayName, ustadz }: Props) {
   return (
     <>
       <div className='flex flex-col gap-y-4 items-center'>
-        <Image alt='Minhajul Haq' src={Logo} width={121} />
+        <Logo variant='white' />
 
         <DateHeader hijriDate={alAdhanInfo?.date.hijri} />
       </div>

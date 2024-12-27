@@ -1,5 +1,4 @@
-import Logo from '@/assets/minhajul-haq-logo.png'
-import Image from 'next/image'
+import Logo from '@/components/Logo'
 import { PropsWithChildren } from 'react'
 
 export default async function GetStartedLayout({
@@ -7,7 +6,7 @@ export default async function GetStartedLayout({
 }: PropsWithChildren) {
   return (
     <main className='pt-12 px-4 pb-6 flex flex-col items-center'>
-      <Image alt='Minhajul Haq' src={Logo} width={227} />
+      <Logo variant='main' />
 
       <div className='w-full mt-10 flex flex-col gap-y-10'>{children}</div>
     </main>
