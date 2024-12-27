@@ -5,28 +5,6 @@ const nextConfig: NextConfig = {
   output: process.env.DOCKER_BUILD === 'true' ? 'standalone' : undefined,
   generateBuildId() {
     return process.env.NEXT_PUBLIC_APP_VERSION || 'development'
-  },
-  generateEtags: false,
-  async headers() {
-    return ['/login', '/ustadz', '/santri', '/get-started', '/'].map(
-      (source) => ({
-        source,
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=0, must-revalidate'
-          }
-        ]
-      })
-    )
-  },
-  images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'images.unsplash.com'
-      }
-    ]
   }
 }
 
