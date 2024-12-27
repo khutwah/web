@@ -21,6 +21,8 @@ services:
       - '/var/run/docker.sock:/var/run/docker.sock'
   staging:
     image: staging-image
+    secrets:
+      - staging-secret
     environment:
       - 'NEXT_PUBLIC_SKIP_MUMTAZ_LOGIN=true'
       - 'DOTENV=/run/secrets/staging-secret'

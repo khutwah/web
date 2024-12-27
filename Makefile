@@ -7,5 +7,4 @@ image:
 		--push \
 		--build-arg NEXT_PUBLIC_APP_VERSION=$(PRE)-$(VER) \
 		--build-arg NEXT_PUBLIC_CACHE_BUSTER=$(VER) \
-		--platform linux/amd64 \
 		-t ttl.sh/mh-khutwah-id-$(SHA):1h .
