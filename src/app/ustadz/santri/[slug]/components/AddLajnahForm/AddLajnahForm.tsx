@@ -17,6 +17,7 @@ import { Button } from '@/components/Button/Button'
 import { useActionState, startTransition } from 'react'
 import { createLajnah } from '../../actions'
 import { useParams } from 'next/navigation'
+import { getSurahDetailFromSurahRange } from '@/utils/get-surah-detail-from-surah-range'
 
 export function AddLajnahForm() {
   const [state, formAction, isPending] = useActionState(createLajnah, undefined)
@@ -40,13 +41,14 @@ export function AddLajnahForm() {
     handleSubmit
   } = form
 
-  const { session_type, start_surah, start_verse, end_surah, end_verse } =
-    useWatch({
-      control
-    })
+  const { session_type, surah_range } = useWatch({
+    control
+  })
 
-  const startVerseItems = getVerseItems(start_surah)
-  const endVerseItems = getVerseItems(end_surah)
+  const surahDetail = getSurahDetailFromSurahRange(surah_range)
+
+  const startVerseItems = getVerseItems(Number(surahDetail.start_surah[0]))
+  const endVerseItems = getVerseItems(Number(surahDetail.end_surah[0]))
 
   const onSubmit = handleSubmit((payload) => {
     const formData = new FormData()
@@ -88,10 +90,7 @@ export function AddLajnahForm() {
           defaultValue={LajnahType.default}
           onValueChange={(value) => {
             setValue('session_type', value as LajnahType)
-            resetField('start_surah')
-            resetField('start_verse')
-            resetField('end_surah')
-            resetField('end_verse')
+            resetField('surah_range')
           }}
         >
           {LajnahTypeOptionsType.map((item) => (
@@ -119,17 +118,22 @@ export function AddLajnahForm() {
             {LAJNAH_TYPES[session_type].id.type === 'surah' ? (
               <Combobox
                 items={SURAH_ITEMS}
-                value={String(start_surah || '')}
+                value={surahDetail.start_surah[0]}
                 onChange={(value) => {
                   const id = Number(value)
                   const surah = LAJNAH_TYPES[session_type].data.find(
                     (item) => item.id === id
                   )
                   if (surah) {
-                    setValue('start_surah', surah.checkpoints.start.surah)
-                    setValue('start_verse', surah.checkpoints.start.verse)
-                    setValue('end_surah', surah.checkpoints.end.surah)
-                    setValue('end_verse', surah.checkpoints.end.verse)
+                    setValue(
+                      'surah_range',
+                      JSON.stringify([
+                        [
+                          `${surah.checkpoints.start.surah}:${surah.checkpoints.start.verse}`,
+                          `${surah.checkpoints.end.surah}:${surah.checkpoints.end.verse}`
+                        ]
+                      ])
+                    )
                   }
                 }}
                 placeholder='Pilih Surat'
@@ -144,10 +148,15 @@ export function AddLajnahForm() {
                     (item) => item.id === id
                   )
                   if (surah) {
-                    setValue('start_surah', surah.checkpoints.start.surah)
-                    setValue('start_verse', surah.checkpoints.start.verse)
-                    setValue('end_surah', surah.checkpoints.end.surah)
-                    setValue('end_verse', surah.checkpoints.end.verse)
+                    setValue(
+                      'surah_range',
+                      JSON.stringify([
+                        [
+                          `${surah.checkpoints.start.surah}:${surah.checkpoints.start.verse}`,
+                          `${surah.checkpoints.end.surah}:${surah.checkpoints.end.verse}`
+                        ]
+                      ])
+                    )
                   }
                 }}
               >
@@ -175,9 +184,17 @@ export function AddLajnahForm() {
                 <Label>Awal Baca</Label>
                 <Combobox
                   items={SURAH_ITEMS}
-                  value={String(start_surah || '')}
+                  value={surahDetail.start_surah[0]}
                   onChange={(value) => {
-                    setValue('start_surah', Number(value))
+                    setValue(
+                      'surah_range',
+                      JSON.stringify([
+                        [
+                          `${value}:${surahDetail.start_verse[0]}`,
+                          `${surahDetail.end_surah[0]}:${surahDetail.end_verse[0]}`
+                        ]
+                      ])
+                    )
                   }}
                   placeholder='Pilih Surat'
                   searchPlaceholder='Cari Surat'
@@ -186,9 +203,17 @@ export function AddLajnahForm() {
               <div className='basis-1/4'>
                 <Combobox
                   items={startVerseItems}
-                  value={String(start_verse || '')}
+                  value={surahDetail.start_verse[0]}
                   onChange={(value) => {
-                    setValue('start_verse', Number(value))
+                    setValue(
+                      'surah_range',
+                      JSON.stringify([
+                        [
+                          `${surahDetail.start_surah[0]}:${value}`,
+                          `${surahDetail.end_surah[0]}:${surahDetail.end_verse[0]}`
+                        ]
+                      ])
+                    )
                   }}
                   placeholder='Pilih Ayat'
                   searchPlaceholder='Cari Ayat'
@@ -200,9 +225,17 @@ export function AddLajnahForm() {
                 <Label>Akhir Baca</Label>
                 <Combobox
                   items={SURAH_ITEMS}
-                  value={String(end_surah || '')}
+                  value={surahDetail.end_surah[0]}
                   onChange={(value) => {
-                    setValue('end_surah', Number(value))
+                    setValue(
+                      'surah_range',
+                      JSON.stringify([
+                        [
+                          `${surahDetail.start_surah[0]}:${surahDetail.start_verse[0]}`,
+                          `${value}:${surahDetail.end_verse[0]}`
+                        ]
+                      ])
+                    )
                   }}
                   placeholder='Pilih Surat'
                   searchPlaceholder='Cari Surat'
@@ -211,9 +244,17 @@ export function AddLajnahForm() {
               <div className='basis-1/4'>
                 <Combobox
                   items={endVerseItems}
-                  value={String(end_verse || '')}
+                  value={surahDetail.end_verse[0]}
                   onChange={(value) => {
-                    setValue('end_verse', Number(value))
+                    setValue(
+                      'surah_range',
+                      JSON.stringify([
+                        [
+                          `${surahDetail.start_surah[0]}:${surahDetail.start_verse[0]}`,
+                          `${surahDetail.end_surah[0]}:${value}`
+                        ]
+                      ])
+                    )
                   }}
                   placeholder='Pilih Ayat'
                   searchPlaceholder='Cari Ayat'
@@ -223,15 +264,7 @@ export function AddLajnahForm() {
           </div>
         ) : null}
 
-        <ErrorField
-          error={
-            errors.start_surah?.message ||
-            errors.start_verse?.message ||
-            errors.end_surah?.message ||
-            errors.end_verse?.message ||
-            state?.message
-          }
-        />
+        <ErrorField error={errors.surah_range?.message || state?.message} />
       </div>
 
       <Button

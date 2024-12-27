@@ -34,20 +34,25 @@ export async function createLajnah(_prev: unknown, formData: FormData) {
   const lajnahInstance = new Lajnah()
   try {
     // create parent / master lajnah
-    const result = await lajnahInstance.create(data)
+    const result = await lajnahInstance.create({
+      ...data,
+      surah_range: JSON.parse(data.surah_range)
+    })
     if (result.error) {
       return {
         message: result.error.message
       }
     }
 
+    const surahRangeForCheckpoint = JSON.parse(data.surah_range)
+    const newArray = [[surahRangeForCheckpoint[0][0]]]
+
     // create 1st draft checkpoint
     await lajnahInstance.create({
       ustadz_id: data.ustadz_id,
       student_id: data.student_id,
       start_date: new Date().toISOString(),
-      start_surah: data.start_surah,
-      start_verse: data.start_verse,
+      surah_range: newArray,
       parent_lajnah_id: result.data?.id
     })
 

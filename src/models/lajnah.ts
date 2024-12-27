@@ -9,10 +9,7 @@ export interface UpsertPayload {
   end_date?: string
   session_type?: string
   session_name?: string
-  start_surah?: number
-  start_verse?: number
-  end_surah?: number
-  end_verse?: number
+  surah_range?: (string[] | undefined)[]
   notes?: string
   low_mistake_count?: number
   medium_mistake_count?: number
