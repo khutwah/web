@@ -40,7 +40,7 @@ create table "public"."assessments" (
 );
 
 
-create table "public"."checkpoint" (
+create table "public"."checkpoints" (
     "id" bigint generated always as identity not null,
     "student_id" bigint not null,
     "start_date" timestamp without time zone not null,
@@ -116,7 +116,7 @@ CREATE UNIQUE INDEX activities_pkey ON public.activities USING btree (id);
 
 CREATE UNIQUE INDEX assessments_pkey ON public.assessments USING btree (id);
 
-CREATE UNIQUE INDEX checkpoint_pkey ON public.checkpoint USING btree (id);
+CREATE UNIQUE INDEX checkpoint_pkey ON public.checkpoints USING btree (id);
 
 CREATE UNIQUE INDEX circles_pkey ON public.circles USING btree (id);
 
@@ -134,7 +134,7 @@ alter table "public"."activities" add constraint "activities_pkey" PRIMARY KEY u
 
 alter table "public"."assessments" add constraint "assessments_pkey" PRIMARY KEY using index "assessments_pkey";
 
-alter table "public"."checkpoint" add constraint "checkpoint_pkey" PRIMARY KEY using index "checkpoint_pkey";
+alter table "public"."checkpoints" add constraint "checkpoint_pkey" PRIMARY KEY using index "checkpoint_pkey";
 
 alter table "public"."circles" add constraint "circles_pkey" PRIMARY KEY using index "circles_pkey";
 
@@ -170,13 +170,13 @@ alter table "public"."assessments" add constraint "assessments_ustadz_id_fkey" F
 
 alter table "public"."assessments" validate constraint "assessments_ustadz_id_fkey";
 
-alter table "public"."checkpoint" add constraint "checkpoint_last_activity_id_fkey" FOREIGN KEY (last_activity_id) REFERENCES activities(id) not valid;
+alter table "public"."checkpoints" add constraint "checkpoint_last_activity_id_fkey" FOREIGN KEY (last_activity_id) REFERENCES activities(id) not valid;
 
-alter table "public"."checkpoint" validate constraint "checkpoint_last_activity_id_fkey";
+alter table "public"."checkpoints" validate constraint "checkpoint_last_activity_id_fkey";
 
-alter table "public"."checkpoint" add constraint "checkpoint_student_id_fkey" FOREIGN KEY (student_id) REFERENCES students(id) not valid;
+alter table "public"."checkpoints" add constraint "checkpoint_student_id_fkey" FOREIGN KEY (student_id) REFERENCES students(id) not valid;
 
-alter table "public"."checkpoint" validate constraint "checkpoint_student_id_fkey";
+alter table "public"."checkpoints" validate constraint "checkpoint_student_id_fkey";
 
 alter table "public"."shifts" add constraint "shifts_circle_id_fkey" FOREIGN KEY (circle_id) REFERENCES circles(id) not valid;
 
@@ -297,47 +297,47 @@ grant truncate on table "public"."assessments" to "service_role";
 
 grant update on table "public"."assessments" to "service_role";
 
-grant delete on table "public"."checkpoint" to "anon";
+grant delete on table "public"."checkpoints" to "anon";
 
-grant insert on table "public"."checkpoint" to "anon";
+grant insert on table "public"."checkpoints" to "anon";
 
-grant references on table "public"."checkpoint" to "anon";
+grant references on table "public"."checkpoints" to "anon";
 
-grant select on table "public"."checkpoint" to "anon";
+grant select on table "public"."checkpoints" to "anon";
 
-grant trigger on table "public"."checkpoint" to "anon";
+grant trigger on table "public"."checkpoints" to "anon";
 
-grant truncate on table "public"."checkpoint" to "anon";
+grant truncate on table "public"."checkpoints" to "anon";
 
-grant update on table "public"."checkpoint" to "anon";
+grant update on table "public"."checkpoints" to "anon";
 
-grant delete on table "public"."checkpoint" to "authenticated";
+grant delete on table "public"."checkpoints" to "authenticated";
 
-grant insert on table "public"."checkpoint" to "authenticated";
+grant insert on table "public"."checkpoints" to "authenticated";
 
-grant references on table "public"."checkpoint" to "authenticated";
+grant references on table "public"."checkpoints" to "authenticated";
 
-grant select on table "public"."checkpoint" to "authenticated";
+grant select on table "public"."checkpoints" to "authenticated";
 
-grant trigger on table "public"."checkpoint" to "authenticated";
+grant trigger on table "public"."checkpoints" to "authenticated";
 
-grant truncate on table "public"."checkpoint" to "authenticated";
+grant truncate on table "public"."checkpoints" to "authenticated";
 
-grant update on table "public"."checkpoint" to "authenticated";
+grant update on table "public"."checkpoints" to "authenticated";
 
-grant delete on table "public"."checkpoint" to "service_role";
+grant delete on table "public"."checkpoints" to "service_role";
 
-grant insert on table "public"."checkpoint" to "service_role";
+grant insert on table "public"."checkpoints" to "service_role";
 
-grant references on table "public"."checkpoint" to "service_role";
+grant references on table "public"."checkpoints" to "service_role";
 
-grant select on table "public"."checkpoint" to "service_role";
+grant select on table "public"."checkpoints" to "service_role";
 
-grant trigger on table "public"."checkpoint" to "service_role";
+grant trigger on table "public"."checkpoints" to "service_role";
 
-grant truncate on table "public"."checkpoint" to "service_role";
+grant truncate on table "public"."checkpoints" to "service_role";
 
-grant update on table "public"."checkpoint" to "service_role";
+grant update on table "public"."checkpoints" to "service_role";
 
 grant delete on table "public"."circles" to "anon";
 

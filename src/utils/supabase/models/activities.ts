@@ -261,7 +261,7 @@ export class Activities extends Base {
   async checkpoint({ student_id }: { student_id: number }) {
     const supabase = await this.supabase
     const checkpoint = await supabase
-      .from('checkpoint')
+      .from('checkpoints')
       .select(
         'last_activity_id, page_count_accumulation, end_date, part_count, notes, status'
       )
@@ -315,7 +315,7 @@ export class Activities extends Base {
     const supabase = await this.supabase
 
     const checkpoint = await supabase
-      .from('checkpoint')
+      .from('checkpoints')
       .select('last_activity_id, page_count_accumulation')
       .order('id', { ascending: false })
       .eq('student_id', student_id)

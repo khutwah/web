@@ -424,11 +424,11 @@
           "hasDefaultValue": false
         },
         {
-          "name": "checkpoint",
-          "type": "checkpoint",
+          "name": "checkpoints",
+          "type": "checkpoints",
           "isRequired": false,
           "kind": "object",
-          "relationName": "checkpointToactivities",
+          "relationName": "checkpointsToactivities",
           "relationFromFields": [],
           "relationToFields": [],
           "isList": true,
@@ -1029,13 +1029,13 @@
         }
       ]
     },
-    "checkpoint": {
-      "id": "public.checkpoint",
+    "checkpoints": {
+      "id": "public.checkpoints",
       "schemaName": "public",
-      "tableName": "checkpoint",
+      "tableName": "checkpoints",
       "fields": [
         {
-          "id": "public.checkpoint.id",
+          "id": "public.checkpoints.id",
           "name": "id",
           "columnName": "id",
           "type": "int8",
@@ -1044,7 +1044,7 @@
           "isList": false,
           "isGenerated": true,
           "sequence": {
-            "identifier": "\"public\".\"checkpoint_id_seq\"",
+            "identifier": "\"public\".\"checkpoints_id_seq\"",
             "increment": 1,
             "start": 1
           },
@@ -1053,7 +1053,7 @@
           "maxLength": null
         },
         {
-          "id": "public.checkpoint.student_id",
+          "id": "public.checkpoints.student_id",
           "name": "student_id",
           "columnName": "student_id",
           "type": "int8",
@@ -1067,7 +1067,7 @@
           "maxLength": null
         },
         {
-          "id": "public.checkpoint.start_date",
+          "id": "public.checkpoints.start_date",
           "name": "start_date",
           "columnName": "start_date",
           "type": "timestamp",
@@ -1081,7 +1081,7 @@
           "maxLength": null
         },
         {
-          "id": "public.checkpoint.end_date",
+          "id": "public.checkpoints.end_date",
           "name": "end_date",
           "columnName": "end_date",
           "type": "timestamp",
@@ -1095,7 +1095,7 @@
           "maxLength": null
         },
         {
-          "id": "public.checkpoint.page_count_accumulation",
+          "id": "public.checkpoints.page_count_accumulation",
           "name": "page_count_accumulation",
           "columnName": "page_count_accumulation",
           "type": "float4",
@@ -1109,7 +1109,7 @@
           "maxLength": null
         },
         {
-          "id": "public.checkpoint.last_activity_id",
+          "id": "public.checkpoints.last_activity_id",
           "name": "last_activity_id",
           "columnName": "last_activity_id",
           "type": "int8",
@@ -1123,7 +1123,7 @@
           "maxLength": null
         },
         {
-          "id": "public.checkpoint.part_count",
+          "id": "public.checkpoints.part_count",
           "name": "part_count",
           "columnName": "part_count",
           "type": "float4",
@@ -1137,7 +1137,7 @@
           "maxLength": null
         },
         {
-          "id": "public.checkpoint.status",
+          "id": "public.checkpoints.status",
           "name": "status",
           "columnName": "status",
           "type": "varchar",
@@ -1151,7 +1151,7 @@
           "maxLength": null
         },
         {
-          "id": "public.checkpoint.created_at",
+          "id": "public.checkpoints.created_at",
           "name": "created_at",
           "columnName": "created_at",
           "type": "timestamp",
@@ -1165,7 +1165,7 @@
           "maxLength": null
         },
         {
-          "id": "public.checkpoint.updated_at",
+          "id": "public.checkpoints.updated_at",
           "name": "updated_at",
           "columnName": "updated_at",
           "type": "timestamp",
@@ -1179,7 +1179,7 @@
           "maxLength": null
         },
         {
-          "id": "public.checkpoint.notes",
+          "id": "public.checkpoints.notes",
           "name": "notes",
           "columnName": "notes",
           "type": "varchar",
@@ -1197,7 +1197,7 @@
           "type": "activities",
           "isRequired": false,
           "kind": "object",
-          "relationName": "checkpointToactivities",
+          "relationName": "checkpointsToactivities",
           "relationFromFields": ["last_activity_id"],
           "relationToFields": ["id"],
           "isList": false,
@@ -1211,7 +1211,7 @@
           "type": "students",
           "isRequired": true,
           "kind": "object",
-          "relationName": "checkpointTostudents",
+          "relationName": "checkpointsTostudents",
           "relationFromFields": ["student_id"],
           "relationToFields": ["id"],
           "isList": false,
@@ -5285,11 +5285,11 @@
           "hasDefaultValue": false
         },
         {
-          "name": "checkpoint",
-          "type": "checkpoint",
+          "name": "checkpoints",
+          "type": "checkpoints",
           "isRequired": false,
           "kind": "object",
-          "relationName": "checkpointTostudents",
+          "relationName": "checkpointsTostudents",
           "relationFromFields": [],
           "relationToFields": [],
           "isList": true,

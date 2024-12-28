@@ -198,7 +198,7 @@ export type Database = {
           }
         ]
       }
-      checkpoint: {
+      checkpoints: {
         Row: {
           created_at: string | null
           end_date: string | null

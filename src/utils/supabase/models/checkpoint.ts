@@ -16,7 +16,7 @@ export class Checkpoint extends Base {
     const now = new Date().toISOString()
 
     let query = (await this.supabase)
-      .from('checkpoint')
+      .from('checkpoints')
       .select(SELECTED)
       .lt('start_date', now)
       .or(`end_date.is.null,end_date.gt.${now}`)
@@ -38,7 +38,7 @@ export class Checkpoint extends Base {
 
   async get(id: number) {
     return (await this.supabase)
-      .from('checkpoint')
+      .from('checkpoints')
       .select(SELECTED)
       .eq('id', id)
       .limit(1)
@@ -47,11 +47,11 @@ export class Checkpoint extends Base {
 
   async create(payload: InsertPayload) {
     const supabase = await this.supabase
-    return supabase.from('checkpoint').insert(payload)
+    return supabase.from('checkpoints').insert(payload)
   }
 
   async update(id: number, payload: UpdatePayload) {
     const supabase = await this.supabase
-    return supabase.from('checkpoint').update(payload).eq('id', id)
+    return supabase.from('checkpoints').update(payload).eq('id', id)
   }
 }
