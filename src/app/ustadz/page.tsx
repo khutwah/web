@@ -1,6 +1,6 @@
 import { HalaqahCard } from '@/components/HalaqahCard/HalaqahCard'
 import { Layout } from '@/components/Layouts/Ustadz'
-import { Halaqah } from '@/utils/supabase/models/halaqah'
+import { Circles } from '@/utils/supabase/models/circles'
 import { getUser } from '@/utils/supabase/get-user'
 import { HeaderBackground } from '../../components/Header/Background'
 import { Activities } from '@/utils/supabase/models/activities'
@@ -16,8 +16,8 @@ export default async function Home() {
   const userId = user.data?.id
   const tz = await getTimezoneInfo()
 
-  const halaqah = new Halaqah()
-  const halaqahList = await halaqah.list({ ustadz_id: userId })
+  const circlesInstance = new Circles()
+  const circles = await circlesInstance.list({ ustadz_id: userId })
 
   const activities = new Activities()
   const activityList = await activities.list({
@@ -38,13 +38,13 @@ export default async function Home() {
 
         <section className='flex flex-col gap-y-3 px-6'>
           {/* FIXME(dio-khutwah): Add empty state component for halaqah list. */}
-          {halaqahList.data.length > 0 && (
+          {circles.data.length > 0 && (
             <h2 className='text-mtmh-m-semibold'>Halaqah Hari Ini</h2>
           )}
 
-          {halaqahList?.kind === 'ustadz' && (
+          {circles?.kind === 'ustadz' && (
             <ul className='flex flex-col gap-y-3'>
-              {halaqahList.data.map((item) => {
+              {circles.data.map((item) => {
                 const defaultShift = item.shifts.find(
                   (shift) => shift.end_date === null
                 )
@@ -122,7 +122,7 @@ export default async function Home() {
                     type={item.type as ActivityTypeKey}
                     isStudentPresent={item.student_attendance === 'present'}
                     studentName={item.student_name!}
-                    halaqahName={item.halaqah_name!}
+                    halaqahName={item.circle_name!}
                     labels={tags}
                     status={item.status as ActivityStatus}
                   />

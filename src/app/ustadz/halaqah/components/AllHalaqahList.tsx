@@ -1,14 +1,14 @@
-import { Halaqah } from '@/utils/supabase/models/halaqah'
+import { Circles } from '@/utils/supabase/models/circles'
 import { type HalaqahItem, HalaqahList } from './HalaqahList'
 
 export async function AllHalaqahList() {
-  const halaqah = new Halaqah()
-  const halaqahList = await halaqah.list()
+  const ciclesInstance = new Circles()
+  const circles = await ciclesInstance.list()
 
   let items: Array<HalaqahItem> = []
 
-  if (halaqahList.kind === 'ustadz') {
-    items = halaqahList.data
+  if (circles.kind === 'ustadz') {
+    items = circles.data
       .filter((item) => {
         // Exclude halaqah with subtitutee
         return !item.shifts.some((shift) => shift.end_date !== null)

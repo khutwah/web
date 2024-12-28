@@ -19,8 +19,8 @@ export const activityFilterSchema = object({
   limit: number().integer().min(1),
   offset: number().integer().min(0),
   student_id: number().integer().min(1),
-  halaqah_ids: mixed().transform(
-    parseComaSeparatedNumbers('Format halaqah_ids harus benar. contoh: 1,2,3')
+  circle_ids: mixed().transform(
+    parseComaSeparatedNumbers('Format circle_ids harus benar. contoh: 1,2,3')
   ),
   student_attendance: string().oneOf(['present', 'absent'])
 })

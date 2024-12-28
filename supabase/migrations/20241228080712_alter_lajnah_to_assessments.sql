@@ -86,5 +86,5 @@ UPDATE ON assessments FOR EACH ROW
 EXECUTE FUNCTION update_assessment_updated_at ();
 
 -- 7. Update the sequence name
-ALTER SEQUENCE public.lajnah_id_seq
+ALTER SEQUENCE lajnah_id_seq
 RENAME TO assessments_id_seq;

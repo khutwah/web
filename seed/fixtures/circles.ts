@@ -1,6 +1,6 @@
-import { Halaqah } from '../helper/types'
+import { Cicle } from '../helper/types'
 
-export const halaqahList: Halaqah[] = [
+export const circles: Cicle[] = [
   {
     name: 'Halaqah 7.1',
     label: 'Halaqah 7.1',

@@ -1,7 +1,7 @@
 import { Card, CardContent } from '@/components/Card/Card'
 import { Layout } from '@/components/Layouts/Ustadz'
 import { Navbar } from '@/components/Navbar/Navbar'
-import { Halaqah } from '@/utils/supabase/models/halaqah'
+import { Circles } from '@/utils/supabase/models/circles'
 import { SantriList } from '@/app/ustadz/components/SantriList/SantriList'
 import { Students } from '@/utils/supabase/models/students'
 import { Activities } from '@/utils/supabase/models/activities'
@@ -24,13 +24,13 @@ export default async function DetailHalaqah({
   const params = await paramsPromise
   const searchParams = await searchParamsPromise
 
-  const halaqah = new Halaqah()
-  const halaqahInfo = await halaqah.get(Number(params.slug))
+  const circlesInstance = new Circles()
+  const circleInfo = await circlesInstance.get(Number(params.slug))
   let pageContent: JSX.Element
 
-  if (!halaqahInfo?.data) {
+  if (!circleInfo?.data) {
     // TODO: implement proper error handling.
-    pageContent = <div>Unexpected error: {halaqahInfo?.error.message}</div>
+    pageContent = <div>Unexpected error: {circleInfo?.error.message}</div>
   } else {
     const studentsInstance = new Students()
     const activitiesInstance = new Activities()
@@ -41,10 +41,10 @@ export default async function DetailHalaqah({
 
     const [students, activities] = await Promise.all([
       studentsInstance.list({
-        halaqah_ids: [halaqahInfo.data.id]
+        circle_ids: [circleInfo.data.id]
       }),
       activitiesInstance.list({
-        halaqah_ids: [halaqahInfo.data.id],
+        circle_ids: [circleInfo.data.id],
         // So this means, startOf and endOf the day in the client's timezone.
         // Then we convert it to UTC, before formatting it to ISO string.
         start_date: day.startOf('day').utc().toISOString(),
@@ -56,7 +56,7 @@ export default async function DetailHalaqah({
     pageContent = (
       <>
         <Navbar
-          text={halaqahInfo.data.name ?? ''}
+          text={circleInfo.data.name ?? ''}
           returnTo={`${MENU_USTADZ_PATH_RECORDS.home}${returnTo}`}
         />
 
@@ -65,10 +65,10 @@ export default async function DetailHalaqah({
             <CardContent className='flex flex-col p-4 gap-y-3'>
               <dl className='grid grid-cols-3 text-mtmh-m-regular gap-y-2'>
                 <dt className='font-semibold col-span-1'>Wali halaqah</dt>
-                <dd className='col-span-2'>{halaqahInfo.data.ustadz?.name}</dd>
+                <dd className='col-span-2'>{circleInfo.data.ustadz?.name}</dd>
 
                 <dt className='font-semibold col-span-1'>Lokasi</dt>
-                <dd className='col-span-2'>{halaqahInfo.data.location}</dd>
+                <dd className='col-span-2'>{circleInfo.data.location}</dd>
               </dl>
             </CardContent>
           </Card>
@@ -100,7 +100,7 @@ export default async function DetailHalaqah({
                 })) || []
               }
               activities={activities.data}
-              from={{ from: 'halaqah', id: halaqahInfo.data.id }}
+              from={{ from: 'halaqah', id: circleInfo.data.id }}
             />
           </SearchProvider>
         </div>

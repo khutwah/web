@@ -93,7 +93,7 @@ async function NoteList({ period }: NoteListProps) {
               notes={activity.notes ?? ''}
               type={activity.type as ActivityTypeKey}
               isStudentPresent={activity.student_attendance === 'present'}
-              halaqahName={activity.halaqah_name!}
+              halaqahName={activity.circle_name!}
               labels={activity.tags as Array<string>}
               status={activity.status as ActivityStatus}
             />

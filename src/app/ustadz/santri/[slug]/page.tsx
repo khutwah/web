@@ -72,7 +72,7 @@ export default async function DetailSantri({
   const studentId = params.slug
   const studentsInstance = new Students()
   const student = await studentsInstance.get(Number(studentId))
-  const halaqahId = String(student.data?.halaqah?.id)
+  const halaqahId = String(student.data?.circles?.id)
   const chartPeriod = searchParams['period'] === 'month' ? 'month' : 'week'
 
   // FIXME(dio-khutwah): When we refactor this, we should probably move this somewhere else.
@@ -188,7 +188,7 @@ export default async function DetailSantri({
                   {student.data.name}
                 </div>
                 <div className='text-mtmh-m-regular text-mtmh-grey-lighter'>
-                  {student.data.halaqah?.name}
+                  {student.data.circles?.name}
                 </div>
               </div>
 
@@ -326,7 +326,7 @@ export default async function DetailSantri({
                     type={item.type as ActivityTypeKey}
                     isStudentPresent={item.student_attendance === 'present'}
                     studentName={item.student_name!}
-                    halaqahName={item.halaqah_name!}
+                    halaqahName={item.circle_name!}
                     labels={tags}
                     status={item.status as ActivityStatus}
                   />

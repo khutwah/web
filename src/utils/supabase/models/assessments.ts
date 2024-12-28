@@ -10,8 +10,8 @@ export class Assessments extends Base {
     const { parent_assessment_id, ustadz_id, student_id } = filter
     const supabase = await this.supabase
     let query = supabase.from('assessments').select(`
-            students(id, name),
-            ustadz:users(id, name),
+            student:students (id, name),
+            ustadz:users (id, name),
             surah_range,
             start_date,
             end_date,
