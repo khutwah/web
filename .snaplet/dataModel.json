@@ -1229,6 +1229,150 @@
         }
       ]
     },
+    "circles": {
+      "id": "public.circles",
+      "schemaName": "public",
+      "tableName": "circles",
+      "fields": [
+        {
+          "id": "public.circles.id",
+          "name": "id",
+          "columnName": "id",
+          "type": "int8",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": true,
+          "sequence": {
+            "identifier": "\"public\".\"circles_id_seq\"",
+            "increment": 1,
+            "start": 1
+          },
+          "hasDefaultValue": false,
+          "isId": true,
+          "maxLength": null
+        },
+        {
+          "id": "public.circles.name",
+          "name": "name",
+          "columnName": "name",
+          "type": "varchar",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "public.circles.created_at",
+          "name": "created_at",
+          "columnName": "created_at",
+          "type": "timestamp",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "public.circles.updated_at",
+          "name": "updated_at",
+          "columnName": "updated_at",
+          "type": "timestamp",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "public.circles.academic_year",
+          "name": "academic_year",
+          "columnName": "academic_year",
+          "type": "int2",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "public.circles.label",
+          "name": "label",
+          "columnName": "label",
+          "type": "varchar",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 50
+        },
+        {
+          "id": "public.circles.grade",
+          "name": "grade",
+          "columnName": "grade",
+          "type": "varchar",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "name": "shifts",
+          "type": "shifts",
+          "isRequired": false,
+          "kind": "object",
+          "relationName": "shiftsTocircles",
+          "relationFromFields": [],
+          "relationToFields": [],
+          "isList": true,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
+          "name": "students",
+          "type": "students",
+          "isRequired": false,
+          "kind": "object",
+          "relationName": "studentsTocircles",
+          "relationFromFields": [],
+          "relationToFields": [],
+          "isList": true,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        }
+      ],
+      "uniqueConstraints": [
+        {
+          "name": "circles_pkey",
+          "fields": ["id"],
+          "nullNotDistinct": false
+        }
+      ]
+    },
     "extensions": {
       "id": "_realtime.extensions",
       "schemaName": "_realtime",
@@ -1532,150 +1676,6 @@
       "uniqueConstraints": [
         {
           "name": "flow_state_pkey",
-          "fields": ["id"],
-          "nullNotDistinct": false
-        }
-      ]
-    },
-    "halaqah": {
-      "id": "public.halaqah",
-      "schemaName": "public",
-      "tableName": "halaqah",
-      "fields": [
-        {
-          "id": "public.halaqah.id",
-          "name": "id",
-          "columnName": "id",
-          "type": "int8",
-          "isRequired": true,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": true,
-          "sequence": {
-            "identifier": "\"public\".\"halaqah_id_seq\"",
-            "increment": 1,
-            "start": 1
-          },
-          "hasDefaultValue": false,
-          "isId": true,
-          "maxLength": null
-        },
-        {
-          "id": "public.halaqah.name",
-          "name": "name",
-          "columnName": "name",
-          "type": "varchar",
-          "isRequired": false,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false,
-          "isId": false,
-          "maxLength": null
-        },
-        {
-          "id": "public.halaqah.created_at",
-          "name": "created_at",
-          "columnName": "created_at",
-          "type": "timestamp",
-          "isRequired": false,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": true,
-          "isId": false,
-          "maxLength": null
-        },
-        {
-          "id": "public.halaqah.updated_at",
-          "name": "updated_at",
-          "columnName": "updated_at",
-          "type": "timestamp",
-          "isRequired": false,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": true,
-          "isId": false,
-          "maxLength": null
-        },
-        {
-          "id": "public.halaqah.academic_year",
-          "name": "academic_year",
-          "columnName": "academic_year",
-          "type": "int2",
-          "isRequired": false,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false,
-          "isId": false,
-          "maxLength": null
-        },
-        {
-          "id": "public.halaqah.label",
-          "name": "label",
-          "columnName": "label",
-          "type": "varchar",
-          "isRequired": false,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false,
-          "isId": false,
-          "maxLength": 50
-        },
-        {
-          "id": "public.halaqah.class",
-          "name": "class",
-          "columnName": "class",
-          "type": "varchar",
-          "isRequired": false,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false,
-          "isId": false,
-          "maxLength": null
-        },
-        {
-          "name": "shifts",
-          "type": "shifts",
-          "isRequired": false,
-          "kind": "object",
-          "relationName": "shiftsTohalaqah",
-          "relationFromFields": [],
-          "relationToFields": [],
-          "isList": true,
-          "isId": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false
-        },
-        {
-          "name": "students",
-          "type": "students",
-          "isRequired": false,
-          "kind": "object",
-          "relationName": "studentsTohalaqah",
-          "relationFromFields": [],
-          "relationToFields": [],
-          "isList": true,
-          "isId": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false
-        }
-      ],
-      "uniqueConstraints": [
-        {
-          "name": "halaqah_pkey",
           "fields": ["id"],
           "nullNotDistinct": false
         }
@@ -4759,9 +4759,9 @@
           "maxLength": null
         },
         {
-          "id": "public.shifts.halaqah_id",
-          "name": "halaqah_id",
-          "columnName": "halaqah_id",
+          "id": "public.shifts.circle_id",
+          "name": "circle_id",
+          "columnName": "circle_id",
           "type": "int8",
           "isRequired": false,
           "kind": "scalar",
@@ -4857,12 +4857,12 @@
           "maxLength": null
         },
         {
-          "name": "halaqah",
-          "type": "halaqah",
+          "name": "circles",
+          "type": "circles",
           "isRequired": false,
           "kind": "object",
-          "relationName": "shiftsTohalaqah",
-          "relationFromFields": ["halaqah_id"],
+          "relationName": "shiftsTocircles",
+          "relationFromFields": ["circle_id"],
           "relationToFields": ["id"],
           "isList": false,
           "isId": false,
@@ -5155,9 +5155,9 @@
           "maxLength": null
         },
         {
-          "id": "public.students.halaqah_id",
-          "name": "halaqah_id",
-          "columnName": "halaqah_id",
+          "id": "public.students.circle_id",
+          "name": "circle_id",
+          "columnName": "circle_id",
           "type": "int8",
           "isRequired": false,
           "kind": "scalar",
@@ -5267,12 +5267,12 @@
           "maxLength": 6
         },
         {
-          "name": "halaqah",
-          "type": "halaqah",
+          "name": "circles",
+          "type": "circles",
           "isRequired": false,
           "kind": "object",
-          "relationName": "studentsTohalaqah",
-          "relationFromFields": ["halaqah_id"],
+          "relationName": "studentsTocircles",
+          "relationFromFields": ["circle_id"],
           "relationToFields": ["id"],
           "isList": false,
           "isId": false,

@@ -8,7 +8,7 @@ type Owner = {
   email: string
 }
 
-export type Halaqah = {
+export type Cicle = {
   name: string
   label: string
   location: string

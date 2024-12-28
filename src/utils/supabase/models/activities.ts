@@ -15,7 +15,7 @@ export interface GetFilter extends RoleFilter, PaginationFilter {
   start_date?: string
   end_date?: string
   status?: ActivityStatus
-  halaqah_ids?: number[]
+  circle_ids?: number[]
   student_attendance?: StudentAttendance
   order_by?: Array<[string, 'asc' | 'desc']>
   limit?: number
@@ -63,8 +63,8 @@ const selectQuery = `
     student_attendance,
     achieve_target,
     created_by,
-    shifts(id, ustadz_id, users(name), halaqah(name)),
-    students(parent_id, id, name)
+    shift:shifts (id, ustadz_id, users (name), circle:circles (name)),
+    students (parent_id, id, name)
     `
 
 export class Activities extends Base {
@@ -77,7 +77,7 @@ export class Activities extends Base {
     const {
       student_id,
       parent_id,
-      halaqah_ids,
+      circle_ids,
       ustadz_id,
       limit = 10,
       offset = 0,
@@ -102,7 +102,7 @@ export class Activities extends Base {
     }
 
     if (ustadz_id) {
-      query = query.eq('shifts.ustadz_id', ustadz_id).not('shifts', 'is', null)
+      query = query.eq('shift.ustadz_id', ustadz_id).not('shift', 'is', null)
     }
 
     if (type) {
@@ -121,10 +121,8 @@ export class Activities extends Base {
       query = query.lte('created_at', end_date)
     }
 
-    if (halaqah_ids && halaqah_ids.length) {
-      query = query
-        .in('shifts.halaqah_id', halaqah_ids)
-        .not('shifts', 'is', null)
+    if (Array.isArray(circle_ids) && circle_ids.length > 0) {
+      query = query.in('shift.circle_id', circle_ids).not('shift', 'is', null)
     }
 
     if (student_attendance) {
@@ -163,7 +161,7 @@ export class Activities extends Base {
           end_surah_id: item.end_surah,
           start_verse: item.start_verse,
           end_verse: item.end_verse,
-          halaqah_name: item.shifts?.halaqah?.name,
+          circle_name: item.shift?.circle?.name,
           student_attendance: item.student_attendance,
           created_by: item.created_by,
           has_edit_access: item.created_by === userId
@@ -221,7 +219,7 @@ export class Activities extends Base {
 
     const result = await supabase
       .from('activities')
-      .select('id, created_by, shifts!inner(id, ustadz_id)')
+      .select('id, created_by, shifts!inner (id, ustadz_id)')
       .eq('id', id)
       .limit(1)
       .maybeSingle()

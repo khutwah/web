@@ -59,7 +59,7 @@ export default async function EditActivity(props: EditActivityProps) {
 
   const activityKey: ActivityType = activity.data.type!
   const activityType = ActivityType[activityKey] as ActivityTypeKey
-  const shiftId = activity.data.shifts?.id ?? 0
+  const shiftId = activity.data.shift?.id ?? 0
 
   // get last completed activity
   const _activities = new Activities()
@@ -90,7 +90,7 @@ export default async function EditActivity(props: EditActivityProps) {
         tz={tz}
         studentName={activity.data.students?.name ?? ''}
         activityType={activityType}
-        ustadName={activity.data.shifts?.users?.name ?? ''}
+        ustadName={activity.data.shift?.users?.name ?? ''}
       />
       <div className='p-6 w-full'>
         <Tabs

@@ -8,7 +8,7 @@ interface GetFilter extends RoleFilter {
   end_date?: string
 }
 
-export class Halaqah extends Base {
+export class Circles extends Base {
   async list(filter: GetFilter = {}) {
     const tz = await getTimezoneInfo()
     const day = dayjs().tz(tz)
@@ -23,12 +23,12 @@ export class Halaqah extends Base {
 
     if (student_id) {
       const response = await supabase
-        .from('halaqah')
+        .from('circles')
         .select(
           `
             id,
             name,
-            class,
+            grade,
             students!inner(parent_id)
           `
         )
@@ -58,15 +58,15 @@ export class Halaqah extends Base {
 
     if (ustadz_id) {
       const response = await supabase
-        .from('halaqah')
+        .from('circles')
         .select(
           `
             id,
             name,
-            class,
+            grade,
             selected_shifts:shifts(ustadz_id),
             shifts(user: users!inner(name,id), ustadz_id, start_date, end_date, location),
-            student_count:students(halaqah_id)
+            student_count:students(circle_id)
           `
         )
         .eq('selected_shifts.ustadz_id', ustadz_id)
@@ -104,15 +104,15 @@ export class Halaqah extends Base {
     }
 
     const response = await supabase
-      .from('halaqah')
+      .from('circles')
       .select(
         `
         id,
         name,
-        class,
+        grade,
         selected_shifts:shifts(ustadz_id),
         shifts(user: users!inner(name,id), ustadz_id, start_date, end_date, location),
-        student_count:students(halaqah_id)
+        student_count:students(circle_id)
       `
       )
       .gte('shifts.start_date', start_date)
@@ -154,13 +154,13 @@ export class Halaqah extends Base {
     } = filter ?? {}
 
     let query = (await this.supabase)
-      .from('halaqah')
+      .from('circles')
       .select(
         `
           id,
           name,
           label,
-          class,
+          grade,
           shifts(id, location, ustadz_id, users(name, id), start_date),
           students(id, name, parent_id)
         `

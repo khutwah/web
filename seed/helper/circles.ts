@@ -2,17 +2,17 @@ import dayjs from '@/utils/dayjs'
 import { copycat } from '@snaplet/copycat'
 import { SeedClient } from '@snaplet/seed'
 import Supabase from './supabase'
-import { Halaqah as HalaqahType } from './types'
+import { Cicle } from './types'
 
-export async function registerHalaqah(
+export async function registerCircles(
   supabase: Supabase,
   seed: SeedClient,
-  halaqahList: HalaqahType[],
+  circles: Cicle[],
   year: number
 ) {
-  await seed.halaqah((x) =>
-    x(halaqahList.length, (ctx) => {
-      const halaqah = halaqahList[ctx.index]
+  await seed.circles((x) =>
+    x(circles.length, (ctx) => {
+      const halaqah = circles[ctx.index]
       return {
         name: halaqah.name,
         academic_year: year,
@@ -24,7 +24,7 @@ export async function registerHalaqah(
   )
 
   const password = process.env.DEFAULT_STUDENT_PASSWORD || 'testakun123'
-  for (const { name: halaqahName, owner, members } of halaqahList) {
+  for (const { name, owner, members } of circles) {
     const registeredOwner = await supabase.registerUser(
       owner.name,
       owner.email,
@@ -51,14 +51,12 @@ export async function registerHalaqah(
     await seed.shifts(
       (x) =>
         x(1, () => {
-          const halaqah = seed.$store.halaqah.find(
-            (i) => i.name === halaqahName
-          )
+          const halaqah = seed.$store.circles.find((i) => i.name === name)
           const user = seed.$store.public_users.find(
             (i) => i.email === owner.email
           )
           return {
-            halaqah_id: halaqah?.id,
+            circle_id: halaqah?.id,
             ustadz_id: user?.id,
             location: 'Saung Umar bin Khattab',
             start_date: dayjs().startOf('month').toISOString(),
@@ -99,13 +97,11 @@ export async function registerHalaqah(
           const user = seed.$store.public_users.find(
             (i) => i.role === 1 && i.email === members[ctx.index].email
           )
-          const halaqah = seed.$store.halaqah.find(
-            (i) => i.name === halaqahName
-          )
+          const halaqah = seed.$store.circles.find((i) => i.name === name)
           return {
             parent_id: user?.id,
             name: user?.name,
-            halaqah_id: halaqah?.id
+            circle_id: halaqah?.id
           }
         }),
       {
@@ -139,7 +135,7 @@ export function getShift(seed: SeedClient, email: string) {
   const user = seed.$store.public_users.find((i) => i.email === email)
   const student = seed.$store.students.find((i) => i.parent_id === user?.id)
   const shift = seed.$store.shifts.find(
-    (i) => i.halaqah_id === student?.halaqah_id
+    (i) => i.circle_id === student?.circle_id
   )
   return shift
 }

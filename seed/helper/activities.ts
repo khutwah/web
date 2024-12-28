@@ -1,6 +1,6 @@
 import dayjs from '@/utils/dayjs'
 import { SeedClient } from '@snaplet/seed'
-import { getShift, getStudent } from './halaqah'
+import { getShift, getStudent } from './circles'
 import { ActivityStatus } from '@/models/activities'
 import { getEndSurahAndAyah, getNextPage } from '@/utils/mushaf'
 import { copycat } from '@snaplet/copycat'

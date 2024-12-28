@@ -255,11 +255,11 @@ export type Database = {
           }
         ]
       }
-      halaqah: {
+      circles: {
         Row: {
           academic_year: number | null
-          class: string | null
           created_at: string | null
+          grade: string | null
           id: number
           label: string | null
           name: string | null
@@ -267,8 +267,8 @@ export type Database = {
         }
         Insert: {
           academic_year?: number | null
-          class?: string | null
           created_at?: string | null
+          grade?: string | null
           id?: never
           label?: string | null
           name?: string | null
@@ -276,8 +276,8 @@ export type Database = {
         }
         Update: {
           academic_year?: number | null
-          class?: string | null
           created_at?: string | null
+          grade?: string | null
           id?: never
           label?: string | null
           name?: string | null
@@ -287,9 +287,9 @@ export type Database = {
       }
       shifts: {
         Row: {
+          circle_id: number | null
           created_at: string | null
           end_date: string | null
-          halaqah_id: number | null
           id: number
           location: string | null
           start_date: string
@@ -297,9 +297,9 @@ export type Database = {
           ustadz_id: number | null
         }
         Insert: {
+          circle_id?: number | null
           created_at?: string | null
           end_date?: string | null
-          halaqah_id?: number | null
           id?: never
           location?: string | null
           start_date: string
@@ -307,9 +307,9 @@ export type Database = {
           ustadz_id?: number | null
         }
         Update: {
+          circle_id?: number | null
           created_at?: string | null
           end_date?: string | null
-          halaqah_id?: number | null
           id?: never
           location?: string | null
           start_date?: string
@@ -318,10 +318,10 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'shifts_halaqah_id_fkey'
-            columns: ['halaqah_id']
+            foreignKeyName: 'shifts_circle_id_fkey'
+            columns: ['circle_id']
             isOneToOne: false
-            referencedRelation: 'halaqah'
+            referencedRelation: 'circles'
             referencedColumns: ['id']
           },
           {
@@ -335,8 +335,8 @@ export type Database = {
       }
       students: {
         Row: {
+          circle_id: number | null
           created_at: string | null
-          halaqah_id: number | null
           id: number
           name: string | null
           nis: string | null
@@ -347,8 +347,8 @@ export type Database = {
           virtual_account: string | null
         }
         Insert: {
+          circle_id?: number | null
           created_at?: string | null
-          halaqah_id?: number | null
           id?: never
           name?: string | null
           nis?: string | null
@@ -359,8 +359,8 @@ export type Database = {
           virtual_account?: string | null
         }
         Update: {
+          circle_id?: number | null
           created_at?: string | null
-          halaqah_id?: number | null
           id?: never
           name?: string | null
           nis?: string | null
@@ -372,10 +372,10 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'students_halaqah_id_fkey'
-            columns: ['halaqah_id']
+            foreignKeyName: 'students_circle_id_fkey'
+            columns: ['circle_id']
             isOneToOne: false
-            referencedRelation: 'halaqah'
+            referencedRelation: 'circles'
             referencedColumns: ['id']
           },
           {

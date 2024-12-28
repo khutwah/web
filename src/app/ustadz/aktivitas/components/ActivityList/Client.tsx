@@ -80,7 +80,7 @@ export function ActivityListClient({
               type={item.type as ActivityTypeKey}
               isStudentPresent={item.student_attendance === 'present'}
               studentName={isStudentIdSet ? '' : item.student_name!}
-              halaqahName={item.halaqah_name!}
+              halaqahName={item.circle_name!}
               labels={tags}
               status={item.status as ActivityStatus}
               searchParams={params}

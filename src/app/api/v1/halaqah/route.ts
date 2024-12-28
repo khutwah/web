@@ -8,7 +8,7 @@ import { parseFilter } from '@/utils/parse-filter'
 import { halaqahFilterSchema } from '@/utils/schemas/halaqah'
 import { errorTranslator } from '@/utils/supabase/error-translator'
 import { getUserId } from '@/utils/supabase/get-user-id'
-import { Halaqah } from '@/utils/supabase/models/halaqah'
+import { Circles } from '@/utils/supabase/models/circles'
 import { NextRequest } from 'next/server'
 
 export async function GET(request: NextRequest) {
@@ -38,8 +38,8 @@ export async function GET(request: NextRequest) {
     )
   }
 
-  const halaqah = new Halaqah()
-  const response = await halaqah.list({ ...roleFilter, ..._filters })
+  const circlesInstance = new Circles()
+  const response = await circlesInstance.list({ ...roleFilter, ..._filters })
 
   if (response?.error) {
     return Response.json(createErrorResponse(errorTranslator(response.error)), {

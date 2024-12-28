@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { Halaqah as HalaqahComponent } from '../components/Halaqah'
 
-import { Halaqah } from '@/utils/supabase/models/halaqah'
+import { Circles } from '@/utils/supabase/models/circles'
 import {
   ActivityStatus,
   ActivityType,
@@ -55,14 +55,14 @@ export default async function AddActivity(props: AddActivityProps) {
   const activityType = searchParams.activity_type as ActivityTypeKey
   const activityKey = ActivityType[activityType]
 
-  const _halaqah = new Halaqah()
-  const halaqah = await _halaqah.get(searchParams.halaqah_id)
+  const circlesInstance = new Circles()
+  const circleInfo = await circlesInstance.get(searchParams.halaqah_id)
 
-  const _student = new Students()
-  const student = await _student.get(params.slug)
+  const studentsInstance = new Students()
+  const studentInfo = await studentsInstance.get(params.slug)
 
-  const _activities = new Activities()
-  const activities = await _activities.list({
+  const activitiesInstance = new Activities()
+  const activities = await activitiesInstance.list({
     student_id: Number(params.slug),
     student_attendance: 'present',
     type: activityType === 'Sabqi' ? ActivityType.Sabaq : activityKey,
@@ -105,9 +105,9 @@ export default async function AddActivity(props: AddActivityProps) {
       <HalaqahComponent
         date={new Date().toISOString()}
         tz={tz}
-        studentName={student.data?.name ?? ''}
+        studentName={studentInfo.data?.name ?? ''}
         activityType={activityType}
-        ustadName={halaqah?.data?.ustadz?.name ?? ''}
+        ustadName={circleInfo?.data?.ustadz?.name ?? ''}
         lastSurah={
           lastActivity
             ? `${lastActivity?.end_surah}: ${lastActivity?.end_verse}`
@@ -122,7 +122,7 @@ export default async function AddActivity(props: AddActivityProps) {
           </TabsList>
           <TabsContent value='present'>
             <FormPresent
-              shiftId={halaqah?.data?.ustadz?.shiftId ?? 0}
+              shiftId={circleInfo?.data?.ustadz?.shiftId ?? 0}
               studentId={params.slug}
               activityType={activityKey}
               santriPageUri={santriPage}
@@ -132,7 +132,7 @@ export default async function AddActivity(props: AddActivityProps) {
           </TabsContent>
           <TabsContent value='absent'>
             <FormAbsent
-              shiftId={halaqah?.data?.ustadz?.shiftId ?? 0}
+              shiftId={circleInfo?.data?.ustadz?.shiftId ?? 0}
               studentId={params.slug}
               activityType={activityKey}
               santriPageUri={santriPage}

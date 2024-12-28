@@ -66,7 +66,7 @@ function generateData(
     end_surah: 'Al-Fatihah',
     end_surah_id: 1,
     end_verse: 1,
-    halaqah_name: undefined,
+    circle_name: undefined,
     id: idx,
     notes: '',
     start_surah: 'Al-Fatihah',

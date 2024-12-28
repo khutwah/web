@@ -2,9 +2,9 @@ require('dotenv').config()
 
 import { createSeedClient } from '@snaplet/seed'
 import Supabase from '../helper/supabase'
-import { halaqahList } from '../fixtures/halaqah'
+import { circles } from '../fixtures/circles'
 import { registerTags } from '../helper/tags'
-import { registerHalaqah } from '../helper/halaqah'
+import { registerCircles } from '../helper/circles'
 import { generateActivities } from '../helper/activities'
 
 export default (async function () {
@@ -14,11 +14,11 @@ export default (async function () {
 
   await Promise.all([
     registerTags(seed),
-    registerHalaqah(supabase, seed, halaqahList, new Date().getFullYear())
+    registerCircles(supabase, seed, circles, new Date().getFullYear())
   ])
 
   // Generate activities for each student in each halaqah.
-  const members = halaqahList.flatMap((halaqah) => halaqah.members)
+  const members = circles.flatMap(({ members }) => members)
   for (const { email } of members) {
     await Promise.all(
       Array.from({ length: 3 }, (_, i) => i + 1).map(async (activityType) =>

@@ -1,16 +1,16 @@
 import { getUser } from '@/utils/supabase/get-user'
-import { Halaqah } from '@/utils/supabase/models/halaqah'
+import { Circles } from '@/utils/supabase/models/circles'
 import { type HalaqahItem, HalaqahList } from './HalaqahList'
 
 export async function YourHalaqahList() {
   const user = await getUser()
-  const halaqah = new Halaqah()
-  const halaqahList = await halaqah.list({ ustadz_id: user.data?.id })
+  const circlesInstance = new Circles()
+  const circles = await circlesInstance.list({ ustadz_id: user.data?.id })
 
   let items: Array<HalaqahItem> = []
 
-  if (halaqahList.kind === 'ustadz') {
-    items = halaqahList.data.map((item) => {
+  if (circles.kind === 'ustadz') {
+    items = circles.data.map((item) => {
       const defaultShift = item.shifts.find((shift) => shift.end_date === null)
       const replacementShift = item.shifts.find(
         (shift) => shift.end_date !== null
