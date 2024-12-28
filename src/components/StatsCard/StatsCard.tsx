@@ -22,7 +22,7 @@ export function StatsCard({ surah, ayah, halaqahCount }: StatsCardProps) {
         </TabsList>
       </Tabs>
 
-      <Card className='border shadow-md'>
+      <Card className='border'>
         <CardContent className='p-6'>
           <h2 className='text-lg text-mtmh-l-semibold mb-2 text-mtmh-tamarind-dark'>
             Menuju 30 Juz Mutqin
