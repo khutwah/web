@@ -23,8 +23,8 @@ jobs:
           IMAGE: ttl.sh/mh-khutwah-id-${{ github.sha }}:1h
       - uses: cssnr/stack-deploy-action@1dae9f655527e6a141122886ae64e24afb6d6274 # master@27-12-2024
         with:
-          name: mh-khutwah-id
+          name: mtmh-staging-khutwah-id
           file: deployments/staging/stack.yaml
           host: mtmh-staging.khutwah.id
-          user: khutwah
-          ssh_key: ${{ secrets.STAGING_SSH_KEY }}
+          user: deploy
+          ssh_key: ${{ secrets.STAGING_DEPLOY_KEY }}
