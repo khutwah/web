@@ -210,8 +210,6 @@ export type Database = {
         Row: {
           created_at: string | null
           end_date: string | null
-          end_surah: number | null
-          end_verse: number | null
           final_mark: string | null
           high_mistake_count: number | null
           id: number
@@ -222,17 +220,14 @@ export type Database = {
           session_name: string | null
           session_type: string | null
           start_date: string
-          start_surah: number | null
-          start_verse: number | null
           student_id: number
+          surah_range: Json | null
           updated_at: string | null
           ustadz_id: number
         }
         Insert: {
           created_at?: string | null
           end_date?: string | null
-          end_surah?: number | null
-          end_verse?: number | null
           final_mark?: string | null
           high_mistake_count?: number | null
           id?: never
@@ -243,17 +238,14 @@ export type Database = {
           session_name?: string | null
           session_type?: string | null
           start_date: string
-          start_surah?: number | null
-          start_verse?: number | null
           student_id: number
+          surah_range?: Json | null
           updated_at?: string | null
           ustadz_id: number
         }
         Update: {
           created_at?: string | null
           end_date?: string | null
-          end_surah?: number | null
-          end_verse?: number | null
           final_mark?: string | null
           high_mistake_count?: number | null
           id?: never
@@ -264,9 +256,8 @@ export type Database = {
           session_name?: string | null
           session_type?: string | null
           start_date?: string
-          start_surah?: number | null
-          start_verse?: number | null
           student_id?: number
+          surah_range?: Json | null
           updated_at?: string | null
           ustadz_id?: number
         }

@@ -2,6 +2,8 @@ import Per5JuzLajnah from '@/data/lajnah/per-5-juz-lajnah.json'
 import PerSurahLajnah from '@/data/lajnah/per-surah-lajnah.json'
 import DefaultLajnah from '@/data/lajnah/default-lajnah.json'
 
+import { Json } from '@/models/database.types'
+
 export interface UpsertPayload {
   student_id: number
   ustadz_id: number
@@ -9,7 +11,7 @@ export interface UpsertPayload {
   end_date?: string
   session_type?: string
   session_name?: string
-  surah_range?: (string[] | undefined)[]
+  surah_range?: Json | undefined
   notes?: string
   low_mistake_count?: number
   medium_mistake_count?: number

@@ -15,6 +15,7 @@
     "db-types": "supabase gen types --lang=typescript --local > src/models/database.types.ts",
     "prepare": "husky",
     "format": "prettier . --write",
+    "format:sql": "find . -type f -name \"*.sql\" -exec sql-formatter -l postgresql --fix {} ';'",
     "type:check": "tsc --noEmit"
   },
   "dependencies": {
@@ -61,6 +62,7 @@
     "postcss": "^8",
     "prettier": "^3.3.3",
     "prettier-config-standard": "^7.0.0",
+    "sql-formatter": "^15.4.8",
     "tailwindcss": "^3.4.1",
     "tsx": "^4.19.2",
     "typescript": "^5"
