@@ -1,6 +1,0 @@
-BEGIN;
-
-ALTER TABLE students
-ADD COLUMN pin CHAR(6);
-
-COMMIT;

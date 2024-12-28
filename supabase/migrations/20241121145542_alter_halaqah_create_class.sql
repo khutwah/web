@@ -1,6 +1,0 @@
-BEGIN;
-
-ALTER TABLE halaqah
-ADD COLUMN class VARCHAR;
-
-COMMIT;

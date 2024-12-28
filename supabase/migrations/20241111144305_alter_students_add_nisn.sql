@@ -1,9 +1,0 @@
-BEGIN;
-
-ALTER TABLE students
-ADD COLUMN nisn VARCHAR;
-
-ALTER TABLE students
-ADD COLUMN nis VARCHAR;
-
-COMMIT;

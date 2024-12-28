@@ -1,7 +1,0 @@
-BEGIN;
-
-ALTER TABLE
-checkpoint
-ADD COLUMN notes VARCHAR;
-
-COMMIT;
