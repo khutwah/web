@@ -4,30 +4,33 @@ import { Label } from '@/components/Form/Label'
 import { RadioGroup, RadioGroupItem } from '@/components/Form/RadioGroup'
 import { SURAH_ITEMS } from '@/models/activity-form'
 import {
-  LAJNAH_TYPES,
-  LajnahType,
-  LajnahTypeOptionsType
-} from '@/models/lajnah'
-import { lajnahSchema } from '@/utils/schemas/lajnah'
+  ASSESSMENT_TYPES,
+  AssessmentType,
+  AssessmentTypeOptionsType
+} from '@/models/assessments'
+import { assessmentSchema } from '@/utils/schemas/assessments'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, useWatch } from 'react-hook-form'
 import { getVerseItems } from '../../aktivitas/utils/form'
 import { ErrorField } from '@/components/Form/ErrorField'
 import { Button } from '@/components/Button/Button'
 import { useActionState, startTransition } from 'react'
-import { createLajnah } from '../../actions'
+import { createAssessment } from '../../actions'
 import { useParams } from 'next/navigation'
 import { getSurahDetailFromSurahRange } from '@/utils/get-surah-detail-from-surah-range'
-import { parseLabelCheckpoint, parseValueCheckpoint } from '@/utils/lajnah'
+import { parseCheckpointLabel, parseCheckpointValue } from '@/utils/assessments'
 
-export function AddLajnahForm() {
-  const [state, formAction, isPending] = useActionState(createLajnah, undefined)
+export function AddAsesmenForm() {
+  const [state, formAction, isPending] = useActionState(
+    createAssessment,
+    undefined
+  )
   const { slug: studentId } = useParams<{ slug: string }>()
 
   const form = useForm({
-    resolver: yupResolver(lajnahSchema),
+    resolver: yupResolver(assessmentSchema),
     defaultValues: {
-      session_type: LajnahType.default,
+      session_type: AssessmentType.default,
       start_date: new Date().toISOString(),
       student_id: Number(studentId)
     }
@@ -73,28 +76,28 @@ export function AddLajnahForm() {
       <input type='hidden' {...register('start_date')} />
       <div className='flex flex-col gap-2'>
         <InputWithLabel
-          label='Nama Sesi Lajnah'
+          label='Nama Sesi Asesmen'
           inputProps={{
             ...register('session_name'),
             id: 'session_name',
             className: 'w-full',
             type: 'text',
-            placeholder: 'Masukkan nama sesi lajnah',
+            placeholder: 'Masukkan nama sesi asesmen',
             required: false
           }}
         />
         <ErrorField error={errors.session_name?.message} />
       </div>
       <div className='flex flex-col gap-4'>
-        <Label>Pilih tipe lajnah</Label>
+        <Label>Pilih tipe asesmen</Label>
         <RadioGroup
-          defaultValue={LajnahType.default}
+          defaultValue={AssessmentType.default}
           onValueChange={(value) => {
-            setValue('session_type', value as LajnahType)
+            setValue('session_type', value as AssessmentType)
             resetField('surah_range')
           }}
         >
-          {LajnahTypeOptionsType.map((item) => (
+          {AssessmentTypeOptionsType.map((item) => (
             <div className='flex items-center space-x-2' key={item.value}>
               <RadioGroupItem
                 value={item.value}
@@ -108,27 +111,27 @@ export function AddLajnahForm() {
       </div>
 
       <div className='flex flex-col gap-2'>
-        {session_type && session_type !== LajnahType.custom ? (
+        {session_type && session_type !== AssessmentType.custom ? (
           <div className='flex flex-col gap-4'>
             <Label>
-              {session_type === LajnahType.surah_kamil_lajnah
+              {session_type === AssessmentType.surah_kamil_lajnah
                 ? 'Pilih Surat'
                 : `Pilih Materi (Juz)`}
             </Label>
 
-            {LAJNAH_TYPES[session_type].id.type === 'surah' ? (
+            {ASSESSMENT_TYPES[session_type].id.type === 'surah' ? (
               <Combobox
                 items={SURAH_ITEMS}
                 value={surahDetail.start_surah[0]}
                 onChange={(value) => {
                   const id = Number(value)
-                  const surah = LAJNAH_TYPES[session_type].data.find(
+                  const surah = ASSESSMENT_TYPES[session_type].data.find(
                     (item) => item.id === id
                   )
                   if (surah) {
                     setValue(
                       'surah_range',
-                      parseValueCheckpoint(surah.checkpoints)
+                      parseCheckpointValue(surah.checkpoints)
                     )
                   }
                 }}
@@ -137,28 +140,28 @@ export function AddLajnahForm() {
               />
             ) : (
               <RadioGroup
-                defaultValue={LajnahType.default}
+                defaultValue={AssessmentType.default}
                 onValueChange={(value) => {
                   const id = Number(value)
-                  const surah = LAJNAH_TYPES[session_type].data.find(
+                  const surah = ASSESSMENT_TYPES[session_type].data.find(
                     (item) => item.id === id
                   )
                   if (surah) {
                     setValue(
                       'surah_range',
-                      parseValueCheckpoint(surah.checkpoints)
+                      parseCheckpointValue(surah.checkpoints)
                     )
                   }
                 }}
               >
-                {LAJNAH_TYPES[session_type].data.map((item) => (
+                {ASSESSMENT_TYPES[session_type].data.map((item) => (
                   <div className='flex items-center space-x-2' key={item.id}>
                     <RadioGroupItem
                       value={String(item.id)}
                       id={String(item.id)}
                     />
                     <Label htmlFor={String(item.id)}>
-                      {parseLabelCheckpoint(item.checkpoints)}
+                      {parseCheckpointLabel(item.checkpoints)}
                     </Label>
                   </div>
                 ))}
@@ -167,7 +170,7 @@ export function AddLajnahForm() {
           </div>
         ) : null}
 
-        {session_type === LajnahType.custom ? (
+        {session_type === AssessmentType.custom ? (
           <div className='flex flex-col gap-4'>
             <div className='flex flex-row gap-4 items-end'>
               <div className='basis-3/4 flex flex-col gap-2'>
@@ -263,7 +266,7 @@ export function AddLajnahForm() {
         className='w-full mt-4'
         disabled={isPending}
       >
-        {isPending ? 'Memulai Lajnah...' : 'Mulai Lajnah'}
+        {isPending ? 'Memulai Asesmen...' : 'Mulai Asesmen'}
       </Button>
     </form>
   )

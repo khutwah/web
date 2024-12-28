@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { number, object, string } from 'yup'
 import { testTimestamp } from '../is-valid-date'
-import { LajnahFinalMark, LajnahType } from '@/models/lajnah'
+import { AssessmentFinalMark, AssessmentType } from '@/models/assessments'
 
 const surahRangeSchema = string()
   .test(
@@ -31,53 +31,53 @@ const surahRangeSchema = string()
   )
   .required('surah_range is required')
 
-const requiredForCompletingDraftLajnah: [string[], any] = [
-  ['parent_lajnah_id', 'end_date'],
+const requiredForCompletingDraftAssessment: [string[], any] = [
+  ['parent_assessment_id', 'end_date'],
   {
-    is: (parent_lajnah_id: number, end_date: string) =>
-      parent_lajnah_id && end_date,
+    is: (parent_assessment_id: number, end_date: string) =>
+      parent_assessment_id && end_date,
     then: (schema: any) => schema.required(),
     otherwise: (schema: any) => schema.notRequired()
   }
 ]
 
-const requiredForInitialLajnah: [string, any] = [
-  'parent_lajnah_id',
+const requiredForInitialAssessment: [string, any] = [
+  'parent_assessment_id',
   {
-    is: (parent_lajnah_id: number) => !parent_lajnah_id,
+    is: (parent_assessment_id: number) => !parent_assessment_id,
     then: (schema: any) => schema.required(),
     otherwise: (schema: any) => schema.notRequired()
   }
 ]
 
-const requiredForFinalizeLajnah: [string, any] = [
+const requiredForFinalizingAssessment: [string, any] = [
   'final_mark',
   {
-    is: (final_mark: LajnahFinalMark) => Boolean(final_mark),
+    is: (final_mark: AssessmentFinalMark) => Boolean(final_mark),
     then: (schema: any) => schema.required(),
     otherwise: (schema: any) => schema.notRequired()
   }
 ]
 
-export const lajnahSchema = object({
+export const assessmentSchema = object({
   student_id: number().integer().min(1).required(),
   session_type: string()
-    .oneOf(Object.values(LajnahType))
-    .when(...requiredForInitialLajnah),
-  session_name: string().when(...requiredForInitialLajnah),
+    .oneOf(Object.values(AssessmentType))
+    .when(...requiredForInitialAssessment),
+  session_name: string().when(...requiredForInitialAssessment),
   surah_range: surahRangeSchema,
   notes: string(),
   low_mistake_count: number()
     .integer()
-    .when(...requiredForCompletingDraftLajnah),
+    .when(...requiredForCompletingDraftAssessment),
   medium_mistake_count: number()
     .integer()
-    .when(...requiredForCompletingDraftLajnah),
+    .when(...requiredForCompletingDraftAssessment),
   high_mistake_count: number()
     .integer()
-    .when(...requiredForCompletingDraftLajnah),
-  parent_lajnah_id: number().integer(),
-  final_mark: string().oneOf(Object.values(LajnahFinalMark)),
+    .when(...requiredForCompletingDraftAssessment),
+  parent_assessment_id: number().integer(),
+  final_mark: string().oneOf(Object.values(AssessmentFinalMark)),
   start_date: string()
     .test(
       'is-valid-date',
@@ -91,5 +91,5 @@ export const lajnahSchema = object({
       'Tanggal harus dalam format ISO yang valid',
       testTimestamp
     )
-    .when(...requiredForFinalizeLajnah)
+    .when(...requiredForFinalizingAssessment)
 })

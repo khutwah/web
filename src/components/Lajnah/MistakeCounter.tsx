@@ -1,5 +1,5 @@
 import { Button } from '@/components/Button/Button'
-import { MistakeCounterType } from '@/models/lajnah'
+import { MistakeCounterType } from '@/models/assessments'
 import { Undo2 as Undo } from 'lucide-react'
 import Link from 'next/link'
 

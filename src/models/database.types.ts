@@ -119,6 +119,85 @@ export type Database = {
           }
         ]
       }
+      assessments: {
+        Row: {
+          created_at: string | null
+          end_date: string | null
+          final_mark: string | null
+          high_mistake_count: number | null
+          id: number
+          low_mistake_count: number | null
+          medium_mistake_count: number | null
+          notes: string | null
+          parent_assessment_id: number | null
+          session_name: string | null
+          session_type: string | null
+          start_date: string
+          student_id: number
+          surah_range: Json | null
+          updated_at: string | null
+          ustadz_id: number
+        }
+        Insert: {
+          created_at?: string | null
+          end_date?: string | null
+          final_mark?: string | null
+          high_mistake_count?: number | null
+          id?: never
+          low_mistake_count?: number | null
+          medium_mistake_count?: number | null
+          notes?: string | null
+          parent_assessment_id?: number | null
+          session_name?: string | null
+          session_type?: string | null
+          start_date: string
+          student_id: number
+          surah_range?: Json | null
+          updated_at?: string | null
+          ustadz_id: number
+        }
+        Update: {
+          created_at?: string | null
+          end_date?: string | null
+          final_mark?: string | null
+          high_mistake_count?: number | null
+          id?: never
+          low_mistake_count?: number | null
+          medium_mistake_count?: number | null
+          notes?: string | null
+          parent_assessment_id?: number | null
+          session_name?: string | null
+          session_type?: string | null
+          start_date?: string
+          student_id?: number
+          surah_range?: Json | null
+          updated_at?: string | null
+          ustadz_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'assessments_parent_assessment_id_fkey'
+            columns: ['parent_assessment_id']
+            isOneToOne: false
+            referencedRelation: 'assessments'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'assessments_student_id_fkey'
+            columns: ['student_id']
+            isOneToOne: false
+            referencedRelation: 'students'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'assessments_ustadz_id_fkey'
+            columns: ['ustadz_id']
+            isOneToOne: false
+            referencedRelation: 'users'
+            referencedColumns: ['id']
+          }
+        ]
+      }
       checkpoint: {
         Row: {
           created_at: string | null
@@ -205,85 +284,6 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: []
-      }
-      lajnah: {
-        Row: {
-          created_at: string | null
-          end_date: string | null
-          final_mark: string | null
-          high_mistake_count: number | null
-          id: number
-          low_mistake_count: number | null
-          medium_mistake_count: number | null
-          notes: string | null
-          parent_lajnah_id: number | null
-          session_name: string | null
-          session_type: string | null
-          start_date: string
-          student_id: number
-          surah_range: Json | null
-          updated_at: string | null
-          ustadz_id: number
-        }
-        Insert: {
-          created_at?: string | null
-          end_date?: string | null
-          final_mark?: string | null
-          high_mistake_count?: number | null
-          id?: never
-          low_mistake_count?: number | null
-          medium_mistake_count?: number | null
-          notes?: string | null
-          parent_lajnah_id?: number | null
-          session_name?: string | null
-          session_type?: string | null
-          start_date: string
-          student_id: number
-          surah_range?: Json | null
-          updated_at?: string | null
-          ustadz_id: number
-        }
-        Update: {
-          created_at?: string | null
-          end_date?: string | null
-          final_mark?: string | null
-          high_mistake_count?: number | null
-          id?: never
-          low_mistake_count?: number | null
-          medium_mistake_count?: number | null
-          notes?: string | null
-          parent_lajnah_id?: number | null
-          session_name?: string | null
-          session_type?: string | null
-          start_date?: string
-          student_id?: number
-          surah_range?: Json | null
-          updated_at?: string | null
-          ustadz_id?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: 'lajnah_parent_lajnah_id_fkey'
-            columns: ['parent_lajnah_id']
-            isOneToOne: false
-            referencedRelation: 'lajnah'
-            referencedColumns: ['id']
-          },
-          {
-            foreignKeyName: 'lajnah_student_id_fkey'
-            columns: ['student_id']
-            isOneToOne: false
-            referencedRelation: 'students'
-            referencedColumns: ['id']
-          },
-          {
-            foreignKeyName: 'lajnah_ustadz_id_fkey'
-            columns: ['ustadz_id']
-            isOneToOne: false
-            referencedRelation: 'users'
-            referencedColumns: ['id']
-          }
-        ]
       }
       shifts: {
         Row: {

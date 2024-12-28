@@ -1,21 +1,21 @@
 import { StateMessage } from '@/components/StateMessage/StateMessage'
-import { Lajnah } from '@/utils/supabase/models/lajnah'
+import { Assessments } from '@/utils/supabase/models/assessments'
 
-interface LajnahPageProps {
+interface AsesmenPageProps {
   params: Promise<{ slug: number }>
 }
 
-export default async function LajnahPage({
+export default async function AsesemenPage({
   params: paramsPromise
-}: Readonly<LajnahPageProps>) {
+}: Readonly<AsesmenPageProps>) {
   const { slug } = await paramsPromise
 
-  const lajnahInstance = new Lajnah()
-  const lajnah = await lajnahInstance.list({
-    parent_lajnah_id: slug
+  const assessmentsInstance = new Assessments()
+  const assessments = await assessmentsInstance.list({
+    parent_assessment_id: slug
   })
 
-  if (lajnah.error) {
+  if (assessments.error) {
     return (
       <StateMessage
         type='error'
@@ -25,7 +25,7 @@ export default async function LajnahPage({
     )
   }
 
-  console.log(lajnah)
+  console.log(assessments)
 
   return <div>{slug}</div>
 }

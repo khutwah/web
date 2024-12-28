@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert'
-import { getPer5JuzLajnah } from './lajnah'
+import { getPer5JuzLajnah } from './assessments'
 
 test('getPer5JuzLajnah', () => {
   ;[

@@ -1,11 +1,15 @@
-import { FilterPayload, UpsertPayload, ResetPayload } from '@/models/lajnah'
+import {
+  FilterPayload,
+  UpsertPayload,
+  ResetPayload
+} from '@/models/assessments'
 import { Base } from './base'
 
-export class Lajnah extends Base {
+export class Assessments extends Base {
   async list(filter: FilterPayload) {
-    const { parent_lajnah_id, ustadz_id, student_id } = filter
+    const { parent_assessment_id, ustadz_id, student_id } = filter
     const supabase = await this.supabase
-    let query = supabase.from('lajnah').select(`
+    let query = supabase.from('assessments').select(`
             students(id, name),
             ustadz:users(id, name),
             surah_range,
@@ -28,13 +32,13 @@ export class Lajnah extends Base {
       query = query.eq('student_id', student_id)
     }
 
-    if (parent_lajnah_id === null) {
-      query = query.is('parent_lajnah_id', null)
+    if (parent_assessment_id === null) {
+      query = query.is('parent_assessment_id', null)
     }
 
-    if (parent_lajnah_id) {
+    if (parent_assessment_id) {
       query = query.or(
-        `id.eq.${parent_lajnah_id},parent_lajnah_id.eq.${parent_lajnah_id}`
+        `id.eq.${parent_assessment_id},parent_assessment_id.eq.${parent_assessment_id}`
       )
     }
 
@@ -42,14 +46,14 @@ export class Lajnah extends Base {
   }
 
   async reset(payload: ResetPayload) {
-    const { parent_lajnah_id, offset_parent_lajnah_id } = payload
+    const { parent_assessment_id, offset_parent_assessment_id } = payload
     const supabase = await this.supabase
 
     const hasCompleted = await supabase
-      .from('lajnah')
+      .from('assessments')
       .select('id')
       .not('final_mark', 'is', null)
-      .eq('parent_lajnah_id', parent_lajnah_id)
+      .eq('parent_assessment_id', parent_assessment_id)
       .limit(1)
       .maybeSingle()
 
@@ -57,12 +61,12 @@ export class Lajnah extends Base {
       throw new Error('lajnah already completed')
     }
 
-    let query = supabase.from('lajnah').delete()
+    let query = supabase.from('assessments').delete()
 
-    query = query.eq('parent_lajnah_id', parent_lajnah_id)
+    query = query.eq('parent_assessment_id', parent_assessment_id)
 
-    if (offset_parent_lajnah_id) {
-      query = query.gt('id', offset_parent_lajnah_id)
+    if (offset_parent_assessment_id) {
+      query = query.gt('id', offset_parent_assessment_id)
     }
 
     return query
@@ -70,11 +74,15 @@ export class Lajnah extends Base {
 
   async create(payload: UpsertPayload) {
     const supabase = await this.supabase
-    return supabase.from('lajnah').insert(payload).select('id').maybeSingle()
+    return supabase
+      .from('assessments')
+      .insert(payload)
+      .select('id')
+      .maybeSingle()
   }
 
   async update(id: number, payload: UpsertPayload) {
     const supabase = await this.supabase
-    return supabase.from('lajnah').update(payload).eq('id', id)
+    return supabase.from('assessments').update(payload).eq('id', id)
   }
 }

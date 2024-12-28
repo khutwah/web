@@ -1,4 +1,4 @@
-import { CheckpointType } from '@/models/lajnah'
+import { CheckpointType } from '@/models/assessments'
 import { Circle, MoveRight } from 'lucide-react'
 import { cn } from '@/utils/classnames'
 import { Badge } from '../Badge/Badge'
