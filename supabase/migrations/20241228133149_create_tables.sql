@@ -196,10 +196,6 @@ alter table "public"."students" validate constraint "students_parent_id_fk";
 
 alter table "public"."users" add constraint "users_email_unique" UNIQUE using index "users_email_unique";
 
-alter table "public"."users" add constraint "users_sb_user_id_fkey" FOREIGN KEY (sb_user_id) REFERENCES auth.users(id) not valid;
-
-alter table "public"."users" validate constraint "users_sb_user_id_fkey";
-
 set check_function_bodies = off;
 
 CREATE OR REPLACE FUNCTION public.update_assessment_updated_at()
