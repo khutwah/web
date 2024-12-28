@@ -1,10 +1,13 @@
 BEGIN;
 
-ALTER TABLE "public"."halaqah" DROP CONSTRAINT IF EXISTS "halaqah_ustad_id_fkey";
+ALTER TABLE "public"."halaqah"
+DROP CONSTRAINT IF EXISTS "halaqah_ustad_id_fkey";
 
-ALTER TABLE "public"."halaqah" DROP COLUMN IF EXISTS "ustad_id";
+ALTER TABLE "public"."halaqah"
+DROP COLUMN IF EXISTS "ustad_id";
 
-ALTER TABLE "public"."halaqah" ADD COLUMN IF NOT EXISTS "ustadz_id" character varying;
+ALTER TABLE "public"."halaqah"
+ADD COLUMN IF NOT EXISTS "ustadz_id" character varying;
 
 DO $$
 BEGIN

@@ -1,6 +1,6 @@
 BEGIN;
 
 ALTER TABLE shifts
-    ADD COLUMN location VARCHAR;
+ADD COLUMN location VARCHAR;
 
 COMMIT;

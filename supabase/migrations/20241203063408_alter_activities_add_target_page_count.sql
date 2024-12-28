@@ -1,6 +1,6 @@
 BEGIN;
 
 ALTER TABLE activities
-    ADD COLUMN target_page_count FLOAT4 NOT NULL DEFAULT 0;
+ADD COLUMN target_page_count FLOAT4 NOT NULL DEFAULT 0;
 
 COMMIT;
