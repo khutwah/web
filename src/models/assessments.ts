@@ -16,62 +16,62 @@ export interface UpsertPayload {
   low_mistake_count?: number
   medium_mistake_count?: number
   high_mistake_count?: number
-  parent_lajnah_id?: number
+  parent_assessment_id?: number
   final_mark?: string
   created_at?: string
   updated_at?: string
 }
 
-export enum LajnahFinalMark {
+export enum AssessmentFinalMark {
   Mumtaz = 'Mumtaz',
   'Jayyid Jiddan' = 'jayyid jiddan',
   Jayyid = 'Jayyid',
   Maqbul = 'Maqbul'
 }
 
-export enum LajnahType {
+export enum AssessmentType {
   'default' = 'default',
   'per_5_juz_lajnah' = 'per_5_juz_lajnah',
   'surah_kamil_lajnah' = 'surah_kamil_lajnah',
   'custom' = 'custom'
 }
 
-interface LajnahTypeOptionsType {
-  value: LajnahType
+interface AssessmentTypeOptionsType {
+  value: AssessmentType
   label: string
 }
 
-export const LajnahTypeOptionsType: LajnahTypeOptionsType[] = [
+export const AssessmentTypeOptionsType: AssessmentTypeOptionsType[] = [
   {
-    value: LajnahType.default,
+    value: AssessmentType.default,
     label: 'Default'
   },
   {
-    value: LajnahType.per_5_juz_lajnah,
-    label: 'Per 5 Juz Lajnah'
+    value: AssessmentType.per_5_juz_lajnah,
+    label: 'Per 5 Juz'
   },
   {
-    value: LajnahType.surah_kamil_lajnah,
+    value: AssessmentType.surah_kamil_lajnah,
     label: 'Per Surat'
   },
   {
-    value: LajnahType.custom,
+    value: AssessmentType.custom,
     label: 'Tentukan sendiri'
   }
 ]
 
 export interface FilterPayload {
-  parent_lajnah_id?: number | null
+  parent_assessment_id?: number | null
   ustadz_id?: number
   student_id?: number
 }
 
 export interface ResetPayload {
-  parent_lajnah_id: number
-  offset_parent_lajnah_id?: number
+  parent_assessment_id: number
+  offset_parent_assessment_id?: number
 }
 
-export interface LajnahState {
+export interface AssessmentState {
   id: number
   pageDistance: number
 }
@@ -92,7 +92,7 @@ export interface CheckpointType {
   mistakes: MistakeCounterType
 }
 
-export interface CheckpointLajnah {
+export interface AssessmentCheckpoint {
   start: {
     juz?: number
     surah: number
@@ -105,8 +105,8 @@ export interface CheckpointLajnah {
   }
 }
 
-type LajnahTypes = Record<
-  LajnahType,
+type AssessmentTypes = Record<
+  AssessmentType,
   {
     title: string
     id: {
@@ -115,13 +115,13 @@ type LajnahTypes = Record<
     }
     data: Array<{
       id: number
-      checkpoints: CheckpointLajnah | CheckpointLajnah[]
+      checkpoints: AssessmentCheckpoint | AssessmentCheckpoint[]
     }>
   }
 >
 
-export const LAJNAH_TYPES: LajnahTypes = {
-  [LajnahType.default]: {
+export const ASSESSMENT_TYPES: AssessmentTypes = {
+  [AssessmentType.default]: {
     title: 'Lajnah',
     id: {
       type: 'juz',
@@ -129,7 +129,7 @@ export const LAJNAH_TYPES: LajnahTypes = {
     },
     data: DefaultLajnah
   },
-  [LajnahType.per_5_juz_lajnah]: {
+  [AssessmentType.per_5_juz_lajnah]: {
     title: 'Lajnah Per 5 Juz',
     id: {
       type: 'juz',
@@ -137,7 +137,7 @@ export const LAJNAH_TYPES: LajnahTypes = {
     },
     data: Per5JuzLajnah
   },
-  [LajnahType.surah_kamil_lajnah]: {
+  [AssessmentType.surah_kamil_lajnah]: {
     title: 'Lajnah Per Surat',
     id: {
       type: 'surah',
@@ -145,7 +145,7 @@ export const LAJNAH_TYPES: LajnahTypes = {
     },
     data: PerSurahLajnah
   },
-  [LajnahType['custom']]: {
+  [AssessmentType['custom']]: {
     title: 'Lajnah Custom',
     id: {
       type: 'surah',

@@ -37,7 +37,7 @@ import {
   ProgressToggle,
   ProgressToggleProps
 } from './components/ProgressToggle/ProgressToggle'
-import { AddLajnah } from './components/AddLajnah/AddLajnah'
+import { AddAsesmen } from './components/AddAsesmen/AddAsesmen'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const DEFAULT_EMPTY_ARRAY: any[] = []
@@ -239,7 +239,7 @@ export default async function DetailSantri({
         </div>
 
         <section className='mx-6 mb-6'>
-          <AddLajnah />
+          <AddAsesmen />
         </section>
 
         {isUserManageStudent && latestCheckpoint?.status !== 'inactive' ? (

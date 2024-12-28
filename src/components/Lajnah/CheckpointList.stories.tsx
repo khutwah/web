@@ -1,5 +1,5 @@
 import { CheckpointList } from '@/components/Lajnah/CheckpointList'
-import type { CheckpointType } from '@/models/lajnah'
+import type { CheckpointType } from '@/models/assessments'
 
 export function CheckpointListStory() {
   const checkpoints: CheckpointType[] = [

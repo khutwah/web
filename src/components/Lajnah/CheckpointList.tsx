@@ -1,4 +1,4 @@
-import type { CheckpointType } from '@/models/lajnah'
+import type { CheckpointType } from '@/models/assessments'
 import { Checkpoint } from './Checkpoint'
 
 interface CheckpointListProps {

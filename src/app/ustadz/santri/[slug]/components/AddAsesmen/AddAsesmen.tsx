@@ -11,26 +11,26 @@ import {
 } from '@/components/Drawer/Drawer'
 import { Flame } from 'lucide-react'
 import { useState } from 'react'
-import { AddLajnahForm } from '../AddLajnahForm/AddLajnahForm'
+import { AddAsesmenForm } from '../AddAsesmenForm/AddAsesmenForm'
 
-export function AddLajnah() {
+export function AddAsesmen() {
   const [open, setOpen] = useState(false)
 
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
         <Button variant='primary' className='w-full'>
-          <Flame size={16} /> Mulai Lajnah
+          <Flame size={16} /> Mulai Asesmen
         </Button>
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
-          <DrawerTitle>Mulai Lajnah</DrawerTitle>
+          <DrawerTitle>Mulai Asesmen</DrawerTitle>
           <DrawerDescription>
-            Isi data berikut untuk memulai lajnah.
+            Isi data berikut untuk memulai asesmen.
           </DrawerDescription>
         </DrawerHeader>
-        <AddLajnahForm />
+        <AddAsesmenForm />
       </DrawerContent>
     </Drawer>
   )

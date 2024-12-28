@@ -1,4 +1,4 @@
-import { CheckpointLajnah, LajnahState } from '@/models/lajnah'
+import { AssessmentCheckpoint, AssessmentState } from '@/models/assessments'
 import per5JuzLajnah from '@/data/lajnah/per-5-juz-lajnah.json'
 import { getPageCount } from './mushaf'
 
@@ -11,7 +11,7 @@ import { getPageCount } from './mushaf'
 export function getPer5JuzLajnah(
   surah: number,
   ayah: number
-): LajnahState | undefined {
+): AssessmentState | undefined {
   const currentLajnah = per5JuzLajnah.find(({ checkpoints }) => {
     const { start, end } = checkpoints
     const reverse = end.surah < start.surah
@@ -42,8 +42,8 @@ export function getPer5JuzLajnah(
   }
 }
 
-export function parseLabelCheckpoint(
-  checkpoints: CheckpointLajnah | CheckpointLajnah[]
+export function parseCheckpointLabel(
+  checkpoints: AssessmentCheckpoint | AssessmentCheckpoint[]
 ) {
   if (Array.isArray(checkpoints)) {
     return checkpoints
@@ -53,8 +53,8 @@ export function parseLabelCheckpoint(
   return `Juz ${checkpoints.start.juz} - Juz ${checkpoints.end.juz}`
 }
 
-export function parseValueCheckpoint(
-  checkpoints: CheckpointLajnah | CheckpointLajnah[]
+export function parseCheckpointValue(
+  checkpoints: AssessmentCheckpoint | AssessmentCheckpoint[]
 ) {
   if (Array.isArray(checkpoints)) {
     return JSON.stringify(

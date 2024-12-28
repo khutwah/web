@@ -12,10 +12,10 @@
     "lint": "next lint",
     "seed:sync": "NODE_OPTIONS='-r dotenv/config' snaplet-seed sync",
     "seed": "tsx seed/setup.ts",
-    "db-types": "supabase gen types --lang=typescript --local > src/models/database.types.ts",
+    "dbtypes:gen": "supabase gen types --lang=typescript --local > src/models/database.types.ts",
     "prepare": "husky",
     "format": "prettier . --write",
-    "format:sql": "find . -type f -name \"*.sql\" -exec sql-formatter -l postgresql --fix {} ';'",
+    "sql:format": "find . -type f -name \"*.sql\" -exec sql-formatter -l postgresql --fix {} ';'",
     "type:check": "tsc --noEmit"
   },
   "dependencies": {

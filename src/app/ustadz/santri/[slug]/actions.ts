@@ -1,18 +1,20 @@
 'use server'
 
-import { lajnahSchema } from '@/utils/schemas/lajnah'
+import { assessmentSchema } from '@/utils/schemas/assessments'
 import { getUser } from '@/utils/supabase/get-user'
-import { Lajnah } from '@/utils/supabase/models/lajnah'
+import { Assessments } from '@/utils/supabase/models/assessments'
 import { validateOrFail } from '@/utils/validate-or-fail'
 import { redirect } from 'next/navigation'
 import { InferType } from 'yup'
 
-type CreateSchema = InferType<typeof lajnahSchema>
+type CreateSchema = InferType<typeof assessmentSchema>
 
-export async function createLajnah(_prev: unknown, formData: FormData) {
+export async function createAssessment(_prev: unknown, formData: FormData) {
   let redirectUri = ''
   const payload = await validateOrFail<CreateSchema>(() =>
-    lajnahSchema.validate(Object.fromEntries(formData), { stripUnknown: true })
+    assessmentSchema.validate(Object.fromEntries(formData), {
+      stripUnknown: true
+    })
   )
 
   if ('message' in payload) {
@@ -31,10 +33,10 @@ export async function createLajnah(_prev: unknown, formData: FormData) {
 
   const data = { ...payload, ustadz_id: user.data.id }
 
-  const lajnahInstance = new Lajnah()
+  const assessmentsInstance = new Assessments()
   try {
     // create parent / master lajnah
-    const result = await lajnahInstance.create({
+    const result = await assessmentsInstance.create({
       ...data,
       surah_range: JSON.parse(data.surah_range)
     })
@@ -48,15 +50,15 @@ export async function createLajnah(_prev: unknown, formData: FormData) {
     const newArray = [[surahRangeForCheckpoint[0][0]]]
 
     // create 1st draft checkpoint
-    await lajnahInstance.create({
+    await assessmentsInstance.create({
       ustadz_id: data.ustadz_id,
       student_id: data.student_id,
       start_date: new Date().toISOString(),
       surah_range: newArray,
-      parent_lajnah_id: result.data?.id
+      parent_assessment_id: result.data?.id
     })
 
-    redirectUri = `/ustadz/lajnah/${result.data?.id}`
+    redirectUri = `/ustadz/asesmen/${result.data?.id}`
   } catch (error) {
     console.error(error)
     return {
