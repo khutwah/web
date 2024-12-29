@@ -22,7 +22,7 @@ import { FormPresent } from '../components/Forms/Present'
 import { MENU_USTADZ_PATH_RECORDS } from '@/utils/menus/ustadz'
 import { FormAbsent } from '../components/Forms/Absent'
 import { Checkpoint } from '@/utils/supabase/models/checkpoints'
-import { TAG_DURING_LAJNAH } from '@/models/checkpoints'
+import { TAG_LAJNAH_ASSESSMENT_ONGOING } from '@/models/checkpoints'
 import { addQueryParams } from '@/utils/url'
 import getTimezoneInfo from '@/utils/get-timezone-info'
 
@@ -75,7 +75,11 @@ export default async function AddActivity(props: AddActivityProps) {
 
   const checkpointInstance = new Checkpoint()
   const activeCheckpoint = await checkpointInstance.list({
-    status: ['lajnah-approaching', 'lajnah-exam', 'lajnah-ready']
+    status: [
+      'lajnah-assessment-approaching',
+      'lajnah-assessment-ready',
+      'lajnah-assessment-ongoing'
+    ]
   })
   const isCheckpointExist = Boolean(activeCheckpoint?.data?.length)
 
@@ -88,7 +92,7 @@ export default async function AddActivity(props: AddActivityProps) {
 
   const defaultValues = {
     ...(isCheckpointExist && {
-      tags: [TAG_DURING_LAJNAH]
+      tags: [TAG_LAJNAH_ASSESSMENT_ONGOING]
     })
   }
 
