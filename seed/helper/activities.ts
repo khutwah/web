@@ -78,7 +78,7 @@ export async function generateActivities(
       type: activityType,
       status: ActivityStatus.completed,
       student_attendance: 'present',
-      achieve_target: pageCount >= targetPageCount,
+      is_target_achieved: pageCount >= targetPageCount,
 
       start_surah: start.surah,
       start_verse: start.verse,

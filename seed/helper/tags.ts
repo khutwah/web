@@ -17,7 +17,7 @@ export async function registerTags(seed: SeedClient) {
       tags: {
         data: {
           name: (ctx) => copycat.unique(ctx.seed, fn, tagStore) as string,
-          type: (ctx) =>
+          category: (ctx) =>
             copycat.oneOf(ctx.seed, ['Kefasihan', 'Kemampuan menghafal'])
         }
       }

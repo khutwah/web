@@ -1,4 +1,4 @@
-import { CheckpointStatus, FormState, STATUS_LIST } from '@/models/checkpoint'
+import { CheckpointStatus, FormState, STATUS_LIST } from '@/models/checkpoints'
 import { ErrorField } from '@/components/Form/ErrorField'
 
 import { Button } from '../Button/Button'
@@ -99,7 +99,7 @@ export function CheckpointDrawer({
         />
       ) : null}
 
-      {payload.status === 'lajnah-completed' ? (
+      {payload.status === 'lajnah-assessment-completed' ? (
         <input type='hidden' name='end_date' value={new Date().toISOString()} />
       ) : null}
 

@@ -20,8 +20,8 @@ import {
 } from '@/models/activities'
 import { convertSearchParamsToStringRecords } from '@/utils/url'
 import { Students } from '@/utils/supabase/models/students'
-import { Checkpoint } from '@/utils/supabase/models/checkpoint'
-import { CheckpointStatus } from '@/models/checkpoint'
+import { Checkpoint } from '@/utils/supabase/models/checkpoints'
+import { CheckpointStatus } from '@/models/checkpoints'
 import { parseParameter } from '@/utils/parse-parameter'
 
 interface Props {

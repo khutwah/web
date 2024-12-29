@@ -15,18 +15,14 @@ test('per-5-juz-lajnah consistency test', () => {
     const lajnah = per5JuzLajnah.find((lajnah) => lajnah.id === entry.id)
     assert.ok(lajnah)
 
-    const start = surahs.find(
-      (surah) => lajnah.checkpoints.start.surah === surah.id
-    )
+    const start = surahs.find((surah) => lajnah.ranges.start.surah === surah.id)
     assert.ok(start)
 
-    const end = surahs.find(
-      (surah) => lajnah.checkpoints.end.surah === surah.id
-    )
+    const end = surahs.find((surah) => lajnah.ranges.end.surah === surah.id)
     assert.ok(end)
 
     assert.equal(
-      `${start.name_simple}: ${lajnah.checkpoints.start.verse} -> ${end.name_simple}: ${lajnah.checkpoints.end.verse}`,
+      `${start.name_simple}: ${lajnah.ranges.start.verse} -> ${end.name_simple}: ${lajnah.ranges.end.verse}`,
       entry.expect
     )
   })

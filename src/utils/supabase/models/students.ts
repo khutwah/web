@@ -1,4 +1,4 @@
-import { CheckpointStatus } from '@/models/checkpoint'
+import { CheckpointStatus } from '@/models/checkpoints'
 import { RoleFilter } from '@/models/supabase/models/filter'
 import { Base } from '@/utils/supabase/models/base'
 import { Circles } from '@/utils/supabase/models/circles'
@@ -45,7 +45,7 @@ export class Students extends Base {
     const result = await query
     return result
   }
-  async listWithCheckpoint(args: {
+  async listWithCheckpoints(args: {
     checkpoint_statuses?: Array<CheckpointStatus>
     ustadz_id?: number
   }) {
@@ -54,13 +54,13 @@ export class Students extends Base {
     const query = (await this.supabase)
       .from('students')
       .select(
-        `id, name, circles (id, name), last_checkpoint:checkpoint (id, status)`
+        `id, name, circles (id, name), last_checkpoint:checkpoints (id, status)`
       )
       .order('updated_at', {
         ascending: false,
-        referencedTable: 'checkpoint'
+        referencedTable: 'checkpoints'
       })
-      .limit(1, { foreignTable: 'checkpoint' })
+      .limit(1, { foreignTable: 'checkpoints' })
 
     if (ustadz_id) {
       const halaqahIds = await this.getCircleByUstadz({
@@ -70,16 +70,16 @@ export class Students extends Base {
     }
 
     if (Array.isArray(checkpoint_statuses) && checkpoint_statuses.length > 0) {
-      const resultWithCheckpoint = await query.in(
-        'checkpoint.status',
+      const resultWithCheckpoints = await query.in(
+        'checkpoints.status',
         checkpoint_statuses
       )
 
-      // Only return the student that have checkpoint
-      const data = resultWithCheckpoint.data?.filter(
+      // Only return the student that have checkpoints.
+      const data = resultWithCheckpoints.data?.filter(
         (item) => item.last_checkpoint.length > 0
       )
-      return { ...resultWithCheckpoint, data }
+      return { ...resultWithCheckpoints, data }
     }
 
     return query

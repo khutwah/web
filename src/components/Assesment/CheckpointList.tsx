@@ -1,16 +1,16 @@
-import type { CheckpointType } from '@/models/assessments'
-import { Checkpoint } from './Checkpoint'
+import type { AssessmentCheckpointType } from '@/models/assessments'
+import { AssessmentCheckpoint } from './Checkpoint'
 import { cn } from '@/utils/classnames'
 
-interface CheckpointListProps {
-  checkpoints: CheckpointType[]
+interface AssessmentCheckpointListProps {
+  checkpoints: AssessmentCheckpointType[]
   isFinished?: boolean
 }
 
-export function CheckpointList({
+export function AssessmentCheckpointList({
   checkpoints,
   isFinished
-}: CheckpointListProps) {
+}: AssessmentCheckpointListProps) {
   return (
     <div className='relative mt-8'>
       <div
@@ -23,10 +23,10 @@ export function CheckpointList({
       />
 
       <div className='space-y-8'>
-        <Checkpoint type='started' checkpoint={checkpoints[0]} />
+        <AssessmentCheckpoint type='started' checkpoint={checkpoints[0]} />
         {checkpoints.length >= 1 &&
           checkpoints.map((checkpoint) => (
-            <Checkpoint
+            <AssessmentCheckpoint
               key={checkpoint.id}
               type={checkpoint.endSurah ? 'submitted' : 'upcoming'}
               upcomingIndex={checkpoints.length}
@@ -35,7 +35,7 @@ export function CheckpointList({
           ))}
 
         {isFinished && (
-          <Checkpoint
+          <AssessmentCheckpoint
             type='finished'
             checkpoint={checkpoints[checkpoints.length - 1]}
           />

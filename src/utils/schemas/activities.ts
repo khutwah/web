@@ -64,7 +64,7 @@ export const activityCreateSchema = object({
       'Status yang diperbolehkan: draft / completed / deleted'
     )
     .required('Status Aktifitas wajib diisi'),
-  achieve_target: boolean()
+  is_target_achieved: boolean()
     .required('Target pencapaian wajib diisi')
     .when(['student_attendance', 'status'], {
       is: whenNotRequired,

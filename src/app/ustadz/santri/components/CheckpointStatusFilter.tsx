@@ -3,7 +3,7 @@ import { Controller, useFormContext } from 'react-hook-form'
 import { Checkbox } from '@/components/Form/Checkbox'
 import { Label } from '@/components/Form/Label'
 
-import { CheckpointStatus, STATUS_LIST } from '@/models/checkpoint'
+import { CheckpointStatus, STATUS_LIST } from '@/models/checkpoints'
 import { FilterFormData } from '@/app/ustadz/santri/models/filter-form'
 
 export function CheckpointStatusFilter() {

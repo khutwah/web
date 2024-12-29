@@ -114,7 +114,7 @@ export function AddAsesmenForm() {
         {session_type && session_type !== AssessmentType.custom ? (
           <div className='flex flex-col gap-4'>
             <Label>
-              {session_type === AssessmentType.surah_kamil_lajnah
+              {session_type === AssessmentType.per_surah
                 ? 'Pilih Surat'
                 : `Pilih Materi (Juz)`}
             </Label>
@@ -129,10 +129,7 @@ export function AddAsesmenForm() {
                     (item) => item.id === id
                   )
                   if (surah) {
-                    setValue(
-                      'surah_range',
-                      parseCheckpointValue(surah.checkpoints)
-                    )
+                    setValue('surah_range', parseCheckpointValue(surah.ranges))
                   }
                 }}
                 placeholder='Pilih Surat'
@@ -147,10 +144,7 @@ export function AddAsesmenForm() {
                     (item) => item.id === id
                   )
                   if (surah) {
-                    setValue(
-                      'surah_range',
-                      parseCheckpointValue(surah.checkpoints)
-                    )
+                    setValue('surah_range', parseCheckpointValue(surah.ranges))
                   }
                 }}
               >
@@ -161,7 +155,7 @@ export function AddAsesmenForm() {
                       id={String(item.id)}
                     />
                     <Label htmlFor={String(item.id)}>
-                      {parseCheckpointLabel(item.checkpoints)}
+                      {parseCheckpointLabel(item.ranges)}
                     </Label>
                   </div>
                 ))}

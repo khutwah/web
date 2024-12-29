@@ -22,7 +22,7 @@ export interface ActivityFormValues {
   tags?: string[]
   notes: string
   status: ActivityStatus
-  achieve_target: boolean
+  is_target_achieved: boolean
   page_count: number
   target_page_count: number
   student_attendance: 'present' | 'absent'

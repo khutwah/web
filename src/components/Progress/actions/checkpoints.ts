@@ -1,11 +1,11 @@
 'use server'
 
-import { FormState, UpdatePayload, InsertPayload } from '@/models/checkpoint'
+import { FormState, UpdatePayload, InsertPayload } from '@/models/checkpoints'
 import {
   createCheckpointSchema,
   updateCheckpointSchema
 } from '@/utils/schemas/checkpoint'
-import { Checkpoint } from '@/utils/supabase/models/checkpoint'
+import { Checkpoint } from '@/utils/supabase/models/checkpoints'
 import { validateOrFail } from '@/utils/validate-or-fail'
 import { InferType } from 'yup'
 

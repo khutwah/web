@@ -5,22 +5,22 @@ async function getTags() {
     const response = await fetch('/api/v1/tags')
     const tags = await response.json()
 
-    const groupedByType = (
-      tags.data as Array<{ name: string; type: string }>
+    const groupedByCategory = (
+      tags.data as Array<{ name: string; category: string }>
     ).reduce(
       (acc, item) => {
         // If the type doesn't exist in the accumulator, initialize it as an array
-        if (!acc[item.type]) {
-          acc[item.type] = []
+        if (!acc[item.category]) {
+          acc[item.category] = []
         }
         // Add the name to the corresponding type
-        acc[item.type].push(item.name)
+        acc[item.category].push(item.name)
         return acc
       },
       {} as Record<string, string[]>
     )
 
-    return groupedByType
+    return groupedByCategory
   } catch (_error) {
     console.error(_error)
     return {}

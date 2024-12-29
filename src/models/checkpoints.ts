@@ -1,10 +1,10 @@
-import type { Checkpoint } from '@/utils/supabase/models/checkpoint'
+import type { Checkpoint } from '@/utils/supabase/models/checkpoints'
 
 export const CHECKPOINT_STATUS: CheckpointStatus[] = [
-  'lajnah-approaching',
-  'lajnah-ready',
-  'lajnah-exam',
-  'lajnah-completed',
+  'lajnah-assessment-approaching',
+  'lajnah-assessment-ready',
+  'lajnah-assessment-ongoing',
+  'lajnah-assessment-completed',
   'inactive'
 ]
 
@@ -12,27 +12,27 @@ export const STATUS_LIST: Array<{ label: string; value: CheckpointStatus }> = [
   { label: 'Sedang Berhalangan', value: 'inactive' },
   {
     label: 'Mendekati Lajnah',
-    value: 'lajnah-approaching'
+    value: 'lajnah-assessment-approaching'
   },
   {
     label: 'Persiapan Lajnah',
-    value: 'lajnah-ready'
+    value: 'lajnah-assessment-ready'
   },
   {
     label: 'Sedang Lajnah',
-    value: 'lajnah-exam'
+    value: 'lajnah-assessment-ongoing'
   },
   {
     label: 'Lajnah Selesai',
-    value: 'lajnah-completed'
+    value: 'lajnah-assessment-completed'
   }
 ]
 
 export type CheckpointStatus =
-  | 'lajnah-approaching'
-  | 'lajnah-ready'
-  | 'lajnah-exam'
-  | 'lajnah-completed'
+  | 'lajnah-assessment-approaching'
+  | 'lajnah-assessment-ready'
+  | 'lajnah-assessment-ongoing'
+  | 'lajnah-assessment-completed'
   | 'inactive'
 
 export interface InsertPayload {
@@ -82,4 +82,4 @@ export type FormState =
       success: boolean
     }
 
-export const TAG_DURING_LAJNAH = 'Sedang Lajnah'
+export const TAG_LAJNAH_ASSESSMENT_ONGOING = 'Sedang Asesmen Lajnah'
