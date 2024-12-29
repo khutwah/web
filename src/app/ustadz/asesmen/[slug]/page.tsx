@@ -13,6 +13,10 @@ import { Assessments } from '@/utils/supabase/models/assessments'
 import Image from 'next/image'
 import { Badge } from '@/components/Badge/Badge'
 import { AssessmentCounters } from './components/AssessmentCounters/AssessmentCounters'
+import { CheckpointList } from '@/components/Lajnah/CheckpointList'
+import { SURAH_ITEMS } from '@/models/activity-form'
+import { Button } from '@/components/Button/Button'
+import { Plus } from 'lucide-react'
 
 interface AsesmenPageProps {
   params: Promise<{ slug: number }>
@@ -82,7 +86,47 @@ export default async function AsesemenPage({
             <AssessmentCounters assessment={lastAssessment} />
           </CardContent>
         </Card>
+
+        <CheckpointList
+          checkpoints={childAssessments.map((assessment) => {
+            const [startString, endString] = assessment.surah_range as [
+              [string],
+              [string] | undefined
+            ]
+            const start = parseSurahNameAndAyahFromRangeSegment(startString)
+            const end = parseSurahNameAndAyahFromRangeSegment(endString)
+
+            return {
+              id: Number(assessment.id),
+              mistakes: {
+                small: assessment.low_mistake_count ?? 0,
+                medium: assessment.medium_mistake_count ?? 0,
+                large: assessment.high_mistake_count ?? 0
+              },
+              startSurah: start?.name!,
+              startVerse: start?.verse!,
+              endSurah: end?.name,
+              endVerse: end?.verse,
+              timestamp: assessment.start_date
+            }
+          })}
+        />
+
+        <Button className='w-full'>
+          <Plus aria-label='Tambah' />
+          Checkpoint
+        </Button>
       </div>
     </Layout>
   )
+}
+
+function parseSurahNameAndAyahFromRangeSegment(value: [string] | undefined) {
+  if (!value) return undefined
+
+  const [surahNumber, verseNumber] = value[0].split(':')
+  return {
+    name: SURAH_ITEMS[Number(surahNumber) - 1].label,
+    verse: Number(verseNumber)
+  }
 }

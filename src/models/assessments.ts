@@ -83,7 +83,7 @@ export interface MistakeCounterType {
 }
 
 export interface CheckpointType {
-  id: string
+  id: number
   timestamp: string
   startSurah: string
   endSurah?: string

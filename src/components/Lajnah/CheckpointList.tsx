@@ -12,7 +12,7 @@ export function CheckpointList({
 }: CheckpointListProps) {
   return (
     <div className='relative mt-8'>
-      <div className='absolute left-4 top-0 bottom-16 w-px bg-mtmh-tamarind-base' />
+      <div className='absolute left-4 top-0 bottom-0 w-px bg-mtmh-tamarind-base' />
       <Checkpoint type='started' checkpoint={checkpoints[0]} />
       {checkpoints.length > 1 &&
         checkpoints.map((checkpoint) => (

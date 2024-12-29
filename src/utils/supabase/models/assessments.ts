@@ -22,7 +22,8 @@ export class Assessments extends Base {
             high_mistake_count,
             final_mark,
             session_type,
-            session_name
+            session_name,
+            start_date
         `)
 
     if (ustadz_id) {
