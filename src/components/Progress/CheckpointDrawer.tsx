@@ -99,7 +99,7 @@ export function CheckpointDrawer({
         />
       ) : null}
 
-      {payload.status === 'lajnah-completed' ? (
+      {payload.status === 'lajnah-assessment-completed' ? (
         <input type='hidden' name='end_date' value={new Date().toISOString()} />
       ) : null}
 

@@ -5,7 +5,7 @@ import surahs from '@/data/mushaf/surahs.json'
 import { getUserId } from '../get-user-id'
 import { ApiError } from '@/utils/api-error'
 import dayjs from '@/utils/dayjs'
-import { TAG_DURING_LAJNAH } from '@/models/checkpoints'
+import { TAG_LAJNAH_ASSESSMENT_ONGOING } from '@/models/checkpoints'
 
 export type StudentAttendance = 'present' | 'absent'
 
@@ -289,7 +289,7 @@ export class Activities extends Base {
       .eq('student_id', student_id)
       .eq('type', ActivityType.Sabaq)
       .eq('status', ActivityStatus.completed)
-      .not('tags', 'cs', JSON.stringify([TAG_DURING_LAJNAH]))
+      .not('tags', 'cs', JSON.stringify([TAG_LAJNAH_ASSESSMENT_ONGOING]))
 
     if (lastActivityId) {
       activities = activities.gt('id', lastActivityId)
@@ -333,7 +333,7 @@ export class Activities extends Base {
       .eq('type', ActivityType.Sabaq)
       .gte('created_at', start_date)
       .lte('created_at', end_date)
-      .not('tags', 'cs', JSON.stringify([TAG_DURING_LAJNAH]))
+      .not('tags', 'cs', JSON.stringify([TAG_LAJNAH_ASSESSMENT_ONGOING]))
       .order('id', { ascending: true })
 
     let pageCountStart = checkpoints.data?.page_count_accumulation ?? 0

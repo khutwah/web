@@ -7,7 +7,7 @@ import {
   DrawerTrigger
 } from '@/components/Drawer/Drawer'
 import { useTags } from '@/hooks/useTags'
-import { TAG_DURING_LAJNAH } from '@/models/checkpoints'
+import { TAG_LAJNAH_ASSESSMENT_ONGOING } from '@/models/checkpoints'
 import { PlusIcon, X } from 'lucide-react'
 import { useState } from 'react'
 
@@ -82,7 +82,7 @@ export function Tags(props: TagsProps) {
   return (
     <div className='flex flex-row flex-wrap gap-1.5'>
       {tags
-        .filter((tag) => tag !== TAG_DURING_LAJNAH)
+        .filter((tag) => tag !== TAG_LAJNAH_ASSESSMENT_ONGOING)
         .map((tag) => (
           <div
             key={tag}

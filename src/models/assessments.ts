@@ -31,8 +31,8 @@ export enum AssessmentFinalMark {
 
 export enum AssessmentType {
   'default' = 'default',
-  'per_5_juz_lajnah' = 'per_5_juz_lajnah',
-  'surah_kamil_lajnah' = 'surah_kamil_lajnah',
+  'per_5_juz' = 'per_5_juz',
+  'per_surah' = 'per_surah',
   'custom' = 'custom'
 }
 
@@ -47,11 +47,11 @@ export const AssessmentTypeOptionsType: AssessmentTypeOptionsType[] = [
     label: 'Default'
   },
   {
-    value: AssessmentType.per_5_juz_lajnah,
+    value: AssessmentType.per_5_juz,
     label: 'Per 5 Juz'
   },
   {
-    value: AssessmentType.surah_kamil_lajnah,
+    value: AssessmentType.per_surah,
     label: 'Per Surat'
   },
   {
@@ -101,23 +101,23 @@ type AssessmentTypes = Record<
 
 export const ASSESSMENT_TYPES: AssessmentTypes = {
   [AssessmentType.default]: {
-    title: 'Lajnah',
+    title: 'Asesmen Lajnah',
     id: {
       type: 'juz',
       label: 'Juz'
     },
     data: DefaultLajnah
   },
-  [AssessmentType.per_5_juz_lajnah]: {
-    title: 'Lajnah Per 5 Juz',
+  [AssessmentType.per_5_juz]: {
+    title: 'Asesmen Per 5 Juz',
     id: {
       type: 'juz',
       label: 'Juz'
     },
     data: Per5JuzLajnah
   },
-  [AssessmentType.surah_kamil_lajnah]: {
-    title: 'Lajnah Per Surat',
+  [AssessmentType.per_surah]: {
+    title: 'Asesmen Per Surat',
     id: {
       type: 'surah',
       label: 'Surat'
@@ -125,7 +125,7 @@ export const ASSESSMENT_TYPES: AssessmentTypes = {
     data: PerSurahLajnah
   },
   [AssessmentType['custom']]: {
-    title: 'Lajnah Custom',
+    title: 'Asesmen Custom',
     id: {
       type: 'surah',
       label: 'Surat'

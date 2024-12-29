@@ -114,7 +114,7 @@ export function AddAsesmenForm() {
         {session_type && session_type !== AssessmentType.custom ? (
           <div className='flex flex-col gap-4'>
             <Label>
-              {session_type === AssessmentType.surah_kamil_lajnah
+              {session_type === AssessmentType.per_surah
                 ? 'Pilih Surat'
                 : `Pilih Materi (Juz)`}
             </Label>

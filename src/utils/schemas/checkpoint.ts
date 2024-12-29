@@ -1,6 +1,6 @@
 import { object, string, number } from 'yup'
 import { testTimestamp } from '../is-valid-date'
-import { CHECKPOINT_STATUS } from '@/models/checkpoints'
+import { CHECKPOINT_STATUS, CheckpointStatus } from '@/models/checkpoints'
 
 export const createCheckpointSchema = object({
   status: string().oneOf(CHECKPOINT_STATUS).required(),
@@ -44,8 +44,8 @@ export const updateCheckpointSchema = object({
   }),
   end_date: string()
     .when('status', {
-      is: (status: string) =>
-        status === 'lajnah-completed' || status === 'cancelled',
+      is: (status: CheckpointStatus) =>
+        status === 'lajnah-assessment-completed', // TODO(dio): Add lajnah-assessment-cancelled
       then: (schema) => schema.required(),
       otherwise: (schema) => schema.notRequired()
     })
