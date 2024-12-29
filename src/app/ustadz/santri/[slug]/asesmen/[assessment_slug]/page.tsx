@@ -56,7 +56,7 @@ export default async function AsesemenPage({
     <Layout>
       <Navbar text={rootAssessment.session_name!} />
 
-      <div className='p-6 pb-0'>
+      <div className='p-6'>
         <Card className='bg-mtmh-neutral-white text-mtmh-grey-base shadow-md border border-mtmh-snow-lighter rounded-md sticky top-0 z-10'>
           <CardHeader className='rounded-t-xl p-5 pb-3'>
             <CardTitle className='flex justify-between'>
