@@ -14,7 +14,7 @@ import {
 import {
   MistakeCounter,
   MistakeCounterProps
-} from '@/components/Lajnah/MistakeCounter'
+} from '@/components/Assesment/MistakeCounter'
 import { useErrorToast } from '@/hooks/useToast'
 import { Assessments } from '@/utils/supabase/models/assessments'
 import { MistakeCounterType } from '@/models/assessments'
@@ -34,9 +34,9 @@ export function AssessmentCounters({ assessment }: Props) {
     }
   )
   const [mistakesCount, setMistakesCount] = useState<MistakeCounterType>({
-    small: assessment.low_mistake_count ?? 0,
+    low: assessment.low_mistake_count ?? 0,
     medium: assessment.medium_mistake_count ?? 0,
-    large: assessment.high_mistake_count ?? 0
+    high: assessment.high_mistake_count ?? 0
   })
 
   const router = useRouter()
@@ -52,16 +52,16 @@ export function AssessmentCounters({ assessment }: Props) {
 
       formData.set('id', String(assessment.id))
       formData.set(
-        getAssessmentCounterFieldName('small'),
-        String(mistakesCount.small)
+        getAssessmentCounterFieldName('low'),
+        String(mistakesCount.low)
       )
       formData.set(
         getAssessmentCounterFieldName('medium'),
         String(mistakesCount.medium)
       )
       formData.set(
-        getAssessmentCounterFieldName('large'),
-        String(mistakesCount.large)
+        getAssessmentCounterFieldName('high'),
+        String(mistakesCount.high)
       )
 
       startTransition(() => {
@@ -78,9 +78,9 @@ export function AssessmentCounters({ assessment }: Props) {
   useEffect(() => {
     // Reset mistakes count when assessment object differs.
     setMistakesCount({
-      small: assessment.low_mistake_count ?? 0,
+      low: assessment.low_mistake_count ?? 0,
       medium: assessment.medium_mistake_count ?? 0,
-      large: assessment.high_mistake_count ?? 0
+      high: assessment.high_mistake_count ?? 0
     })
   }, [
     assessment.id,
@@ -97,8 +97,8 @@ export function AssessmentCounters({ assessment }: Props) {
     <div className='flex justify-between gap-x-6'>
       <MistakeCounter
         label='Kecil'
-        type='small'
-        count={mistakesCount.small}
+        type='low'
+        count={mistakesCount.low}
         onChange={onChange}
       />
 
@@ -111,8 +111,8 @@ export function AssessmentCounters({ assessment }: Props) {
 
       <MistakeCounter
         label='Besar'
-        type='large'
-        count={mistakesCount.large}
+        type='high'
+        count={mistakesCount.high}
         onChange={onChange}
       />
     </div>
@@ -122,7 +122,7 @@ export function AssessmentCounters({ assessment }: Props) {
 function getAssessmentCounterFieldName(
   type: keyof MistakeCounterType
 ): keyof UpsertPayloadMistakeCounts {
-  if (type === 'small') return 'low_mistake_count'
+  if (type === 'low') return 'low_mistake_count'
   if (type === 'medium') return 'medium_mistake_count'
 
   return 'high_mistake_count'

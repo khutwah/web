@@ -13,7 +13,7 @@ import { Assessments } from '@/utils/supabase/models/assessments'
 import Image from 'next/image'
 import { Badge } from '@/components/Badge/Badge'
 import { AssessmentCounters } from './components/AssessmentCounters/AssessmentCounters'
-import { CheckpointList } from '@/components/Lajnah/CheckpointList'
+import { AssessmentCheckpointList } from '@/components/Assesment/CheckpointList'
 import { parseSurahNameAndAyahFromRangeSegment } from '@/utils/mushaf'
 import { AddAssessmentCheckpoint } from './components/AddAssessmentCheckpoint/AddAssessmentCheckpoint'
 
@@ -99,7 +99,7 @@ export default async function AsesemenPage({
           </CardContent>
         </Card>
 
-        <CheckpointList
+        <AssessmentCheckpointList
           isFinished={isAssessmentFinished}
           checkpoints={childAssessments.map((assessment) => {
             const [startString, endString] = assessment.surah_range as [
@@ -112,9 +112,9 @@ export default async function AsesemenPage({
             return {
               id: Number(assessment.id),
               mistakes: {
-                small: assessment.low_mistake_count ?? 0,
+                low: assessment.low_mistake_count ?? 0,
                 medium: assessment.medium_mistake_count ?? 0,
-                large: assessment.high_mistake_count ?? 0
+                high: assessment.high_mistake_count ?? 0
               },
               startSurah: start?.name ?? '',
               startVerse: start?.verse ?? 0,
