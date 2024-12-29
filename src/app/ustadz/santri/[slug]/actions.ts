@@ -59,7 +59,7 @@ export async function createAssessment(_prev: unknown, formData: FormData) {
       parent_assessment_id: result.data?.id
     })
 
-    redirectUri = `${MENU_USTADZ_PATH_RECORDS.santri}/asesmen/${result.data?.id}`
+    redirectUri = `${MENU_USTADZ_PATH_RECORDS.santri}/${data.student_id}/asesmen/${result.data?.id}`
   } catch (error) {
     console.error(error)
     return {

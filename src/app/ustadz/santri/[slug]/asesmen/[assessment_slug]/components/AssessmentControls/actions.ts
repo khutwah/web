@@ -1,6 +1,6 @@
 'use server'
 
-import { AddAssessmentCheckpointSchema } from '@/utils/schemas/assessments'
+import { UpdateAssessmentCheckpointSchema } from '@/utils/schemas/assessments'
 import { Assessments } from '@/utils/supabase/models/assessments'
 import { validateOrFail } from '@/utils/validate-or-fail'
 
@@ -9,7 +9,7 @@ export async function addAssessmentCheckpoint(
   formData: FormData
 ) {
   const payload = await validateOrFail(() =>
-    AddAssessmentCheckpointSchema.validate(Object.fromEntries(formData), {
+    UpdateAssessmentCheckpointSchema.validate(Object.fromEntries(formData), {
       stripUnknown: true
     })
   )

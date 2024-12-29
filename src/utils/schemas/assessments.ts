@@ -94,17 +94,16 @@ export const assessmentSchema = object({
     .when(...requiredForFinalizingAssessment)
 })
 
-export const AddAssessmentCheckpointSchema = object({
+export const UpdateAssessmentCheckpointSchema = object({
   id: number().required(),
   student_id: number().required(),
   ustadz_id: number().required(),
   parent_assessment_id: number().required(),
+  notes: string().required(),
   start_surah: number().required().min(1),
   start_verse: number().required().min(1),
   end_surah: number().required().min(1),
   end_verse: number().required().min(1),
   // Only sent for the final mark.
-  root_start_surah: number().min(1),
-  root_start_verse: number().min(1),
   final_mark: string()
 })

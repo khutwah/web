@@ -15,16 +15,18 @@ import { Badge } from '@/components/Badge/Badge'
 import { AssessmentCounters } from './components/AssessmentCounters/AssessmentCounters'
 import { AssessmentCheckpointList } from '@/components/Assesment/CheckpointList'
 import { parseSurahNameAndAyahFromRangeSegment } from '@/utils/mushaf'
-import { AddAssessmentCheckpoint } from './components/AddAssessmentCheckpoint/AddAssessmentCheckpoint'
+import { AddAssessmentCheckpoint } from './components/AssessmentControls/AddAssessmentCheckpoint'
+import { FinalizeAssessment } from './components/AssessmentControls/FinalizeAssessment'
+import { Button } from '@/components/Button/Button'
 
 interface AsesmenPageProps {
-  params: Promise<{ slug: number }>
+  params: Promise<{ assessment_slug: number }>
 }
 
 export default async function AsesemenPage({
   params: paramsPromise
 }: Readonly<AsesmenPageProps>) {
-  const { slug } = await paramsPromise
+  const { assessment_slug: slug } = await paramsPromise
 
   const assessmentsInstance = new Assessments()
   const assessments = await assessmentsInstance.list({
@@ -126,8 +128,21 @@ export default async function AsesemenPage({
         />
 
         {!rootAssessment.final_mark && (
-          <div>
-            <AddAssessmentCheckpoint lastCheckpoint={lastAssessment} />
+          <div className='flex flex-col gap-y-6'>
+            <div className='flex gap-x-2 mt-6'>
+              <AddAssessmentCheckpoint lastCheckpoint={lastAssessment} />
+
+              <FinalizeAssessment lastCheckpoint={lastAssessment} />
+            </div>
+
+            <hr />
+
+            <div>
+              {/* TODO: implement this one. */}
+              <Button className='w-full' variant='text'>
+                Tunda asesmen
+              </Button>
+            </div>
           </div>
         )}
       </div>
