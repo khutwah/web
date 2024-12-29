@@ -1,5 +1,6 @@
 'use server'
 
+import { MENU_USTADZ_PATH_RECORDS } from '@/utils/menus/ustadz'
 import { assessmentSchema } from '@/utils/schemas/assessments'
 import { getUser } from '@/utils/supabase/get-user'
 import { Assessments } from '@/utils/supabase/models/assessments'
@@ -58,7 +59,7 @@ export async function createAssessment(_prev: unknown, formData: FormData) {
       parent_assessment_id: result.data?.id
     })
 
-    redirectUri = `/ustadz/asesmen/${result.data?.id}`
+    redirectUri = `${MENU_USTADZ_PATH_RECORDS.santri}/asesmen/${result.data?.id}`
   } catch (error) {
     console.error(error)
     return {

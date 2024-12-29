@@ -126,7 +126,7 @@ export default async function AsesemenPage({
         />
 
         {!rootAssessment.final_mark && (
-          <div className='sticky bottom-0 py-6 bg-mtmh-neutral-white'>
+          <div>
             <AddAssessmentCheckpoint lastCheckpoint={lastAssessment} />
           </div>
         )}

@@ -24,10 +24,14 @@ export async function updateAssessmentMistakeCounters(
   const assessmentsInstance = new Assessments()
 
   try {
-    await assessmentsInstance.update(
-      Number(id),
-      convertObjectValuesToNumbers(entries) satisfies UpsertPayloadMistakeCounts
-    )
+    const mistakesCount = convertObjectValuesToNumbers(
+      entries
+    ) satisfies UpsertPayloadMistakeCounts
+
+    await assessmentsInstance.update(Number(id), {
+      ...mistakesCount,
+      updated_at: new Date().toISOString()
+    })
   } catch (error) {
     const e = (error as Error).message
     return {

@@ -2,7 +2,8 @@ import { AssessmentCheckpointType } from '@/models/assessments'
 import { Circle, MoveRight } from 'lucide-react'
 import { cn } from '@/utils/classnames'
 import { Badge } from '../Badge/Badge'
-import dayjsClientSideLocal from '@/utils/dayjs-client-side-local'
+import { dayjs } from '@/utils/dayjs'
+import getTimezoneInfo from '@/utils/get-timezone-info'
 
 interface AssessmentCheckpointProps {
   checkpoint: AssessmentCheckpointType
@@ -10,11 +11,13 @@ interface AssessmentCheckpointProps {
   type: 'started' | 'submitted' | 'upcoming' | 'finished'
 }
 
-export function AssessmentCheckpoint({
+export async function AssessmentCheckpoint({
   checkpoint,
   upcomingIndex,
   type
 }: AssessmentCheckpointProps) {
+  const tz = await getTimezoneInfo()
+
   return (
     <div className='relative pl-12 w-full'>
       <Circle
@@ -29,9 +32,7 @@ export function AssessmentCheckpoint({
       />
       <div className='text-left'>
         <div className='text-mtmh-sm-regular text-mtmh-neutral-50'>
-          {dayjsClientSideLocal(checkpoint.timestamp).format(
-            'DD MMM YYYY HH:mm'
-          )}
+          {dayjs(checkpoint.timestamp).tz(tz).format('DD MMM YYYY HH:mm')}
         </div>
         <div className='mt-1 text-mtmh-l-regular flex items-center gap-1'>
           {type === 'started' && (

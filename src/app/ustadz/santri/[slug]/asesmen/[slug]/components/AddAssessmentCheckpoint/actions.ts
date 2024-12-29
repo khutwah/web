@@ -28,6 +28,7 @@ export async function addAssessmentCheckpoint(
     // Intentionally chaining, so that the new checkpoint will only be created once the current checkpoint is updated.
     await assessmentsInstance.update(id, {
       ...restPayload,
+      updated_at: new Date().toISOString(),
       surah_range: [
         [`${start_surah}:${start_verse}`],
         [`${end_surah}:${end_verse}`]
@@ -48,6 +49,7 @@ export async function addAssessmentCheckpoint(
 
       await assessmentsInstance.update(restPayload.parent_assessment_id, {
         ...restPayload,
+        updated_at: new Date().toISOString(),
         surah_range: [
           [`${rootStartSurah}:${rootStartVerse}`],
           [`${end_surah}:${end_verse}`]
