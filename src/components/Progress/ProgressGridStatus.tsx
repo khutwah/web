@@ -5,7 +5,7 @@ import StatusInactive from './statuses/inactive.png'
 import StatusLajnahApproaching from './statuses/lajnah-approaching.png'
 import StatusLajnahReady from './statuses/lajnah-ready.png'
 import StatusLajnahExam from './statuses/lajnah-exam.png'
-import { CheckpointStatus } from '@/models/checkpoint'
+import { CheckpointStatus } from '@/models/checkpoints'
 import {
   Drawer,
   DrawerContent,

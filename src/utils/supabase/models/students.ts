@@ -1,4 +1,4 @@
-import { CheckpointStatus } from '@/models/checkpoint'
+import { CheckpointStatus } from '@/models/checkpoints'
 import { RoleFilter } from '@/models/supabase/models/filter'
 import { Base } from '@/utils/supabase/models/base'
 import { Circles } from '@/utils/supabase/models/circles'

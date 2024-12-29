@@ -1,4 +1,4 @@
-import { Filter, InsertPayload, UpdatePayload } from '@/models/checkpoint'
+import { Filter, InsertPayload, UpdatePayload } from '@/models/checkpoints'
 import { Base } from './base'
 
 const SELECTED = `

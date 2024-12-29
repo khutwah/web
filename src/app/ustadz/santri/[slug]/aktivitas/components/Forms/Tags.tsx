@@ -7,7 +7,7 @@ import {
   DrawerTrigger
 } from '@/components/Drawer/Drawer'
 import { useTags } from '@/hooks/useTags'
-import { TAG_DURING_LAJNAH } from '@/models/checkpoint'
+import { TAG_DURING_LAJNAH } from '@/models/checkpoints'
 import { PlusIcon, X } from 'lucide-react'
 import { useState } from 'react'
 

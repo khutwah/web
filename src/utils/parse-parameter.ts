@@ -1,4 +1,4 @@
-import { CheckpointList } from '@/models/checkpoint'
+import { CheckpointList } from '@/models/checkpoints'
 
 export function parseParameter(checkpoint?: CheckpointList[0]) {
   if (!checkpoint) return

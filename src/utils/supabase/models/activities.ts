@@ -5,7 +5,7 @@ import surahs from '@/data/mushaf/surahs.json'
 import { getUserId } from '../get-user-id'
 import { ApiError } from '@/utils/api-error'
 import dayjs from '@/utils/dayjs'
-import { TAG_DURING_LAJNAH } from '@/models/checkpoint'
+import { TAG_DURING_LAJNAH } from '@/models/checkpoints'
 
 export type StudentAttendance = 'present' | 'absent'
 

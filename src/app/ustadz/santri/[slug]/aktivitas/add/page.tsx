@@ -21,8 +21,8 @@ import {
 import { FormPresent } from '../components/Forms/Present'
 import { MENU_USTADZ_PATH_RECORDS } from '@/utils/menus/ustadz'
 import { FormAbsent } from '../components/Forms/Absent'
-import { Checkpoint } from '@/utils/supabase/models/checkpoint'
-import { TAG_DURING_LAJNAH } from '@/models/checkpoint'
+import { Checkpoint } from '@/utils/supabase/models/checkpoints'
+import { TAG_DURING_LAJNAH } from '@/models/checkpoints'
 import { addQueryParams } from '@/utils/url'
 import getTimezoneInfo from '@/utils/get-timezone-info'
 

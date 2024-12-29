@@ -5,7 +5,7 @@ import {
 
 import { dayjs } from '@/utils/dayjs'
 import getTimezoneInfo from '@/utils/get-timezone-info'
-import { CheckpointStatus } from '@/models/checkpoint'
+import { CheckpointStatus } from '@/models/checkpoints'
 import { Students } from '@/utils/supabase/models/students'
 import { Activities } from '@/utils/supabase/models/activities'
 

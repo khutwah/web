@@ -1,4 +1,4 @@
-import type { Checkpoint } from '@/utils/supabase/models/checkpoint'
+import type { Checkpoint } from '@/utils/supabase/models/checkpoints'
 
 export const CHECKPOINT_STATUS: CheckpointStatus[] = [
   'lajnah-approaching',

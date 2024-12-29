@@ -20,8 +20,8 @@ import {
   ActivityStatus,
   ActivityTypeKey
 } from '@/models/activities'
-import { Checkpoint } from '@/utils/supabase/models/checkpoint'
-import { CheckpointStatus } from '@/models/checkpoint'
+import { Checkpoint } from '@/utils/supabase/models/checkpoints'
+import { CheckpointStatus } from '@/models/checkpoints'
 import { parseParameter } from '@/utils/parse-parameter'
 import getTimezoneInfo from '@/utils/get-timezone-info'
 import { MENU_USTADZ_PATH_RECORDS } from '@/utils/menus/ustadz'

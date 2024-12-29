@@ -1,4 +1,4 @@
-import { CheckpointStatus, FormState, STATUS_LIST } from '@/models/checkpoint'
+import { CheckpointStatus, FormState, STATUS_LIST } from '@/models/checkpoints'
 import { ErrorField } from '@/components/Form/ErrorField'
 
 import { Button } from '../Button/Button'
