@@ -1,6 +1,5 @@
 import { ActivityFormValues, ActivityType } from './activities'
 import surahs from '@/data/mushaf/surahs.json'
-import defaultAssessments from '@/data/assessments/ranges/default.json'
 
 export interface FormProps {
   activityId?: number // indicate editing activity
@@ -23,23 +22,6 @@ export const SURAH_ITEMS = surahs.map((s) => ({
   label: s.name,
   searchable: s.name_simple
 }))
-
-export const PER_ASSESSMENT_JUZ_ITEMS = Array.from({ length: 30 }, (_, i) => ({
-  value: String(i + 1),
-  label: `Juz ${i + 1}`,
-  searchable: String(i + 1)
-}))
-
-export const DEFAULT_ASSESSMENT_ITEMS = defaultAssessments.map(
-  (assessment) => ({
-    value: String(assessment.id),
-    label: (() => {
-      return assessment.ranges
-        .map((range) => `Juz ${range.start.juz} - Juz ${range.end.juz}`)
-        .join(' dan ')
-    })()
-  })
-)
 
 export const DEFAULT_START = {
   [ActivityType.Sabaq]: {
