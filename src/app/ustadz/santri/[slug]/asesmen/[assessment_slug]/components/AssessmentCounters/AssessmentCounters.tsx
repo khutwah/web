@@ -96,14 +96,13 @@ export function AssessmentCounters({ assessment }: Props) {
   }, [state?.lastUpdate, router])
 
   useEffect(() => {
-    const prevId = prevAssessmentId.current
     // Reset mistakes count when assessment ID differs. This is used after we create a new checkpoint.
     // If we don't do this, then the `assessment` will refer to the initially rendered one (from SSR).
     //
     // This will also make sure that there will be no race condition between the optimistic updates and the `router.refresh()`.
-    if (prevId === assessment.id) return
+    if (prevAssessmentId.current === assessment.id) return
 
-    if (prevId !== INITIAL_ASSESSMENT_ID) {
+    if (prevAssessmentId.current !== INITIAL_ASSESSMENT_ID) {
       setMistakesCount({
         low: assessment.low_mistake_count ?? 0,
         medium: assessment.medium_mistake_count ?? 0,
