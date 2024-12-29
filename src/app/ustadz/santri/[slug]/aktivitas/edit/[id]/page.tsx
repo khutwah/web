@@ -121,7 +121,7 @@ export default async function EditActivity(props: EditActivityProps) {
                 end_verse: activity.data.end_verse || undefined,
                 tags: activity.data.tags as string[] | undefined,
                 notes: activity.data.notes || undefined,
-                achieve_target: Boolean(activity.data.achieve_target),
+                is_target_achieved: Boolean(activity.data.is_target_achieved),
                 page_count: activity.data.page_count ?? 0,
                 target_page_count: activity.data.target_page_count,
                 created_at: activity.data.created_at!

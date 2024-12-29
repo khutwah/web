@@ -1,6 +1,6 @@
 import { object, string, number } from 'yup'
 import { testTimestamp } from '../is-valid-date'
-import { CHECKPOINT_STATUS } from '@/models/checkpoint'
+import { CHECKPOINT_STATUS } from '@/models/checkpoints'
 
 export const createCheckpointSchema = object({
   status: string().oneOf(CHECKPOINT_STATUS).required(),

@@ -5,7 +5,7 @@ import surahs from '@/data/mushaf/surahs.json'
 import { getUserId } from '../get-user-id'
 import { ApiError } from '@/utils/api-error'
 import dayjs from '@/utils/dayjs'
-import { TAG_DURING_LAJNAH } from '@/models/checkpoint'
+import { TAG_DURING_LAJNAH } from '@/models/checkpoints'
 
 export type StudentAttendance = 'present' | 'absent'
 
@@ -28,7 +28,7 @@ interface ActivitiesPayload {
   student_id: number
   type: ActivityType
   status: ActivityStatus
-  achieve_target: boolean
+  is_target_achieved: boolean
   start_surah: number
   end_surah: number
   start_verse: number
@@ -61,7 +61,7 @@ const selectQuery = `
     start_verse,
     end_verse,
     student_attendance,
-    achieve_target,
+    is_target_achieved,
     created_by,
     shift:shifts (id, ustadz_id, users (name), circle:circles (name)),
     students (parent_id, id, name)
@@ -261,7 +261,7 @@ export class Activities extends Base {
   async checkpoint({ student_id }: { student_id: number }) {
     const supabase = await this.supabase
     const checkpoint = await supabase
-      .from('checkpoint')
+      .from('checkpoints')
       .select(
         'last_activity_id, page_count_accumulation, end_date, part_count, notes, status'
       )
@@ -315,7 +315,7 @@ export class Activities extends Base {
     const supabase = await this.supabase
 
     const checkpoint = await supabase
-      .from('checkpoint')
+      .from('checkpoints')
       .select('last_activity_id, page_count_accumulation')
       .order('id', { ascending: false })
       .eq('student_id', student_id)

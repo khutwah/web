@@ -50,7 +50,7 @@ export function FormPresent(props: FormProps) {
       end_verse: undefined,
       tags: undefined,
       notes: undefined,
-      achieve_target: false,
+      is_target_achieved: false,
       student_attendance: 'present',
       page_count: 0,
       target_page_count: GLOBAL_TARGET_PAGE,
@@ -65,7 +65,7 @@ export function FormPresent(props: FormProps) {
     successUri: santriPageUri
   })
 
-  const { startSurah, endSurah, startVerse, endVerse, tags, achieveTarget } =
+  const { startSurah, endSurah, startVerse, endVerse, tags, isTargetAchieved } =
     useActivityControlledValue({
       control,
       setValue,
@@ -187,10 +187,10 @@ export function FormPresent(props: FormProps) {
         <ErrorField error={errors.notes?.message} />
       </div>
 
-      <input type='hidden' {...register('achieve_target')} />
+      <input type='hidden' {...register('is_target_achieved')} />
 
       <div className='m-auto bottom-0 left-0 right-0 max-w-[500px] fixed w-full shadow-flat-top bg-white p-6 gap-4 flex flex-col'>
-        {achieveTarget ? (
+        {isTargetAchieved ? (
           <Alert>
             <Trophy size={16} />
             <AlertDescription>

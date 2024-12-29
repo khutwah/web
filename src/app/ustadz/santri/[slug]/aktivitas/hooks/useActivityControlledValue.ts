@@ -14,7 +14,7 @@ export function useActivityControlledValue({
   setValue,
   autofillSurah = true
 }: UseActivityControlledValueArgs) {
-  const [startSurah, endSurah, startVerse, endVerse, tags, achieveTarget] =
+  const [startSurah, endSurah, startVerse, endVerse, tags, isTargetAchieved] =
     useWatch({
       control,
       name: [
@@ -23,7 +23,7 @@ export function useActivityControlledValue({
         'start_verse',
         'end_verse',
         'tags',
-        'achieve_target'
+        'is_target_achieved'
       ]
     })
 
@@ -49,9 +49,9 @@ export function useActivityControlledValue({
           endVerse
         )
         if (pageCount >= GLOBAL_TARGET_PAGE) {
-          setValue('achieve_target', true)
+          setValue('is_target_achieved', true)
         } else {
-          setValue('achieve_target', false)
+          setValue('is_target_achieved', false)
         }
 
         setValue('page_count', pageCount, { shouldValidate: true })
@@ -66,6 +66,6 @@ export function useActivityControlledValue({
     startVerse: startVerse,
     endVerse: endVerse,
     tags: tags ?? [],
-    achieveTarget
+    isTargetAchieved
   }
 }

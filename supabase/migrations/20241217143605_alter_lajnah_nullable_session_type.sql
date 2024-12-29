@@ -1,7 +1,0 @@
-BEGIN;
-
-ALTER TABLE lajnah
-ALTER COLUMN session_type
-DROP NOT NULL;
-
-COMMIT;
