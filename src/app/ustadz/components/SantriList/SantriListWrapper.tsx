@@ -30,7 +30,7 @@ export async function SantriListWrapper({
   const activitiesInstance = new Activities()
 
   const [students, activities] = await Promise.all([
-    studentInstance.listWithCheckpoint({
+    studentInstance.listWithCheckpoints({
       ustadz_id: ustadzId,
       checkpoint_statuses: checkpointStatuses
     }),

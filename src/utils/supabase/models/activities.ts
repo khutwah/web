@@ -260,7 +260,7 @@ export class Activities extends Base {
 
   async checkpoint({ student_id }: { student_id: number }) {
     const supabase = await this.supabase
-    const checkpoint = await supabase
+    const checkpoints = await supabase
       .from('checkpoints')
       .select(
         'last_activity_id, page_count_accumulation, end_date, part_count, notes, status'
@@ -270,18 +270,18 @@ export class Activities extends Base {
       .limit(1)
       .maybeSingle()
 
-    if (checkpoint.data?.end_date === null) {
+    if (checkpoints.data?.end_date === null) {
       return {
-        last_activity_id: checkpoint.data.last_activity_id,
-        page_count_accumulation: checkpoint.data.page_count_accumulation,
-        part_count: checkpoint.data.part_count,
-        notes: checkpoint.data.notes,
-        status: checkpoint.data.status
+        last_activity_id: checkpoints.data.last_activity_id,
+        page_count_accumulation: checkpoints.data.page_count_accumulation,
+        part_count: checkpoints.data.part_count,
+        notes: checkpoints.data.notes,
+        status: checkpoints.data.status
       }
     }
 
-    const lastActivityId = checkpoint.data?.last_activity_id
-    const pageCountAccumulation = checkpoint.data?.page_count_accumulation ?? 0
+    const lastActivityId = checkpoints.data?.last_activity_id
+    const pageCountAccumulation = checkpoints.data?.page_count_accumulation ?? 0
 
     let activities = supabase
       .from('activities')
@@ -314,7 +314,7 @@ export class Activities extends Base {
   async chart({ student_id, start_date, end_date, tz }: ActivitiesForChart) {
     const supabase = await this.supabase
 
-    const checkpoint = await supabase
+    const checkpoints = await supabase
       .from('checkpoints')
       .select('last_activity_id, page_count_accumulation')
       .order('id', { ascending: false })
@@ -336,15 +336,15 @@ export class Activities extends Base {
       .not('tags', 'cs', JSON.stringify([TAG_DURING_LAJNAH]))
       .order('id', { ascending: true })
 
-    let pageCountStart = checkpoint.data?.page_count_accumulation ?? 0
+    let pageCountStart = checkpoints.data?.page_count_accumulation ?? 0
 
-    if (checkpoint.data?.last_activity_id) {
+    if (checkpoints.data?.last_activity_id) {
       // Deduct pageCountStart if there is activity is found
       // before reaching checkpoint
       // because page_count_accumulation already include
       // those page_count numbers
       activities.data?.forEach((item) => {
-        if (item.id <= (checkpoint?.data?.last_activity_id ?? 0)) {
+        if (item.id <= (checkpoints?.data?.last_activity_id ?? 0)) {
           pageCountStart -= item.page_count || 0
         }
       })
