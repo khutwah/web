@@ -16,6 +16,7 @@ import {
 import {
   Drawer,
   DrawerContent,
+  DrawerDescription,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger
@@ -27,7 +28,7 @@ export interface ComboboxProps {
   items: Array<{
     value: string
     label: string
-    searchable: string
+    searchable?: string
   }>
   onChange: (value: string) => void
   value: string
@@ -145,7 +146,9 @@ export function Combobox({
     if (!search || !withSearch) return items
 
     return items.filter((item) =>
-      item.searchable.toLowerCase().includes(search.toLowerCase())
+      (item.searchable || item.value)
+        .toLowerCase()
+        .includes(search.toLowerCase())
     )
   }, [search, items, withSearch])
   const selectedValue = _items.find((item) => item.value === value)
@@ -190,6 +193,7 @@ export function Combobox({
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
+          <DrawerDescription />
           <DrawerTitle>
             <div className='flex items-center justify-between'>
               <div className='text-left'>{placeholder}</div>

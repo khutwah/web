@@ -238,11 +238,13 @@ export default async function DetailSantri({
           </Card>
         </div>
 
-        <section className='mx-6 mb-6'>
-          <AddAsesmen />
-        </section>
+        {latestCheckpoint?.status !== 'inactive' && (
+          <section className='mx-6 mb-6'>
+            <AddAsesmen />
+          </section>
+        )}
 
-        {isUserManageStudent && latestCheckpoint?.status !== 'inactive' ? (
+        {isUserManageStudent && latestCheckpoint?.status !== 'inactive' && (
           <section className='mx-6 mb-6'>
             <h2 className='text-mtmh-grey-base mb-3 font-semibold text-sm'>
               Tambah Input
@@ -274,7 +276,7 @@ export default async function DetailSantri({
               />
             </div>
           </section>
-        ) : null}
+        )}
 
         <section className='flex flex-col gap-3 mb-8'>
           {/* FIXME(dio-khutwah): Add empty state component for last activities. */}
