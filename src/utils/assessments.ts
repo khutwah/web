@@ -8,30 +8,13 @@ export interface SurahDetail {
   end_verse: string[]
 }
 
-export function parseRangeLabel(ranges: AssessmentRange | AssessmentRange[]) {
-  if (Array.isArray(ranges)) {
-    return ranges
-      .map((range) => `Juz ${range.start.juz} - Juz ${range.end.juz}`)
-      .join(' dan ')
-  }
-  return `Juz ${ranges.start.juz} - Juz ${ranges.end.juz}`
-}
-
-export function parseRangeValue(ranges: AssessmentRange | AssessmentRange[]) {
-  if (Array.isArray(ranges)) {
-    return JSON.stringify(
-      ranges.map((range) => [
-        `${range.start.surah}:${range.start.verse}`,
-        `${range.end.surah}:${range.end.verse}`
-      ])
-    )
-  }
-  return JSON.stringify([
-    [
-      `${ranges.start.surah}:${ranges.start.verse}`,
-      `${ranges.end.surah}:${ranges.end.verse}`
-    ]
-  ])
+export function parseRangeValue(ranges: AssessmentRange[]) {
+  return JSON.stringify(
+    ranges.map((range) => [
+      `${range.start.surah}:${range.start.verse}`,
+      `${range.end.surah}:${range.end.verse}`
+    ])
+  )
 }
 
 export function getAssessmentRangeItems(
@@ -67,23 +50,25 @@ export function getAssessmentRangeId(
   surahRange: string | undefined,
   assessmentRanges: Array<{
     id: number
-    ranges: AssessmentRange | AssessmentRange[]
+    ranges: AssessmentRange[]
   }>
 ) {
   if (!sessionType || !surahRange) {
     return ''
   }
 
+  if (!Array.isArray(assessmentRanges) || assessmentRanges.length === 0) {
+    return ''
+  }
+
   const parsedSurahRange = JSON.parse(surahRange)
   const found = assessmentRanges.find((range) => {
-    if (
-      parsedSurahRange.length !== (range.ranges as AssessmentRange[]).length
-    ) {
+    if (parsedSurahRange.length !== range.ranges.length) {
       return false
     }
     for (let i = 0; i < parsedSurahRange.length; i++) {
       const [start, end] = parsedSurahRange[i]
-      const rangeEntry = (range.ranges as AssessmentRange[])[i]
+      const rangeEntry = range.ranges[i]
 
       if (
         start !== `${rangeEntry.start.surah}:${rangeEntry.start.verse}` ||
