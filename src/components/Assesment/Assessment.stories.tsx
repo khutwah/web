@@ -1,7 +1,9 @@
+import { Card, CardContent } from '../Card/Card'
+import { MistakeCounter } from './MistakeCounter'
 import { AssessmentCheckpointList } from '@/components/Assesment/CheckpointList'
 import type { AssessmentCheckpointType } from '@/models/assessments'
 
-export function CheckpointListStory() {
+export function Checkpoints() {
   const checkpoints: AssessmentCheckpointType[] = [
     {
       id: '1',
@@ -56,5 +58,21 @@ export function CheckpointListStory() {
         <AssessmentCheckpointList isFinished checkpoints={checkpoints} />
       </div>
     </>
+  )
+}
+
+export function Counter() {
+  return (
+    <div className='mx-auto max-w-md p-4'>
+      <Card className='mb-8 p-6 shadow-md'>
+        <CardContent>
+          <div className='flex justify-between'>
+            <MistakeCounter label='Kecil' type='low' count={3} />
+            <MistakeCounter label='Sedang' type='medium' count={5} />
+            <MistakeCounter label='Besar' type='high' count={9} />
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   )
 }
