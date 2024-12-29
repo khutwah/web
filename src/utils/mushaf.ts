@@ -3,6 +3,7 @@ import parts from '@/data/mushaf/parts.json'
 import surahs from '@/data/mushaf/surahs.json'
 import lajnah from '@/data/assessments/lajnah.json'
 import { Page, AyahLocationInfo } from '@/models/mushaf'
+import { SURAH_ITEMS } from '@/models/activity-form'
 
 /**
  * Get the page object that contains the boundaries of the surah and ayah.
@@ -240,4 +241,16 @@ export function getAyahCount(
     ayahDistance += surahInfo.verses_count
   }
   return startAyahToStartSurahEnd + endAyah + ayahDistance
+}
+
+export function parseSurahNameAndAyahFromRangeSegment(
+  value: [string] | undefined
+) {
+  if (!value) return undefined
+
+  const [surahNumber, verseNumber] = value[0].split(':')
+  return {
+    name: SURAH_ITEMS[Number(surahNumber) - 1].label,
+    verse: Number(verseNumber)
+  }
 }

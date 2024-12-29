@@ -6,11 +6,13 @@ import { cn } from '@/utils/classnames'
 export function InputWithLabel({
   label,
   inputProps,
-  error
+  error,
+  helperText
 }: {
   label: string
   inputProps: ComponentProps<typeof Input>
   error?: string
+  helperText?: string
 }) {
   const { className, ...rest } = inputProps
 
@@ -27,6 +29,11 @@ export function InputWithLabel({
         className={cn(className, error && 'border-mtmh-red-light')}
       />
 
+      {helperText && (
+        <div className='text-mtmh-sm-regular text-mtmh-grey-light'>
+          {helperText}
+        </div>
+      )}
       {error && (
         <div className='text-mtmh-sm-regular text-mtmh-red-light'>{error}</div>
       )}

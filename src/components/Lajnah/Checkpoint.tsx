@@ -2,7 +2,6 @@ import { CheckpointType } from '@/models/assessments'
 import { Circle, MoveRight } from 'lucide-react'
 import { cn } from '@/utils/classnames'
 import { Badge } from '../Badge/Badge'
-import Link from 'next/link'
 import dayjsClientSideLocal from '@/utils/dayjs-client-side-local'
 
 interface CheckpointProps {
@@ -17,7 +16,7 @@ export function Checkpoint({
   type
 }: CheckpointProps) {
   return (
-    <div className='relative mb-8 pl-12 w-full'>
+    <div className='relative pl-12 w-full'>
       <Circle
         className={cn(
           `absolute left-4 top-2 h-${type === 'submitted' ? 4 : 6} w-${type === 'submitted' ? 4 : 6} -translate-x-1/2 -translate-y-1/2`,
@@ -45,18 +44,11 @@ export function Checkpoint({
               {checkpoint.endSurah}: {checkpoint.endVerse}
             </>
           )}
-          {type === 'submitted' && (
+          {(type === 'submitted' || type === 'upcoming') && (
             <>
               {checkpoint.startSurah}: {checkpoint.startVerse}{' '}
               <MoveRight size={16} /> {checkpoint.endSurah}:{' '}
-              {checkpoint.endVerse}
-            </>
-          )}
-          {type === 'upcoming' && (
-            <>
-              {checkpoint[upcomingIndex === 1 ? 'startSurah' : 'endSurah']}:{' '}
-              {checkpoint[upcomingIndex === 1 ? 'startVerse' : 'endVerse']}{' '}
-              <MoveRight size={16} /> ...
+              {checkpoint.endVerse ?? '...'}
             </>
           )}
         </div>

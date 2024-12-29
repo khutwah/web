@@ -14,9 +14,8 @@ import Image from 'next/image'
 import { Badge } from '@/components/Badge/Badge'
 import { AssessmentCounters } from './components/AssessmentCounters/AssessmentCounters'
 import { CheckpointList } from '@/components/Lajnah/CheckpointList'
-import { SURAH_ITEMS } from '@/models/activity-form'
-import { Button } from '@/components/Button/Button'
-import { Plus } from 'lucide-react'
+import { parseSurahNameAndAyahFromRangeSegment } from '@/utils/mushaf'
+import { AddAssessmentCheckpoint } from './components/AddAssessmentCheckpoint/AddAssessmentCheckpoint'
 
 interface AsesmenPageProps {
   params: Promise<{ slug: number }>
@@ -49,13 +48,14 @@ export default async function AsesemenPage({
   const checkpointNumber = childAssessments.length
   // We always create 2 assessments when starting one, so this will never be out of bounds.
   const lastAssessment = childAssessments[checkpointNumber - 1]
+  const isAssessmentFinished = !!rootAssessment.final_mark
 
   return (
     <Layout>
       <Navbar text={rootAssessment.session_name!} />
 
-      <div className='p-6'>
-        <Card className='bg-mtmh-neutral-white text-mtmh-grey-base shadow-md border border-mtmh-snow-lighter rounded-md'>
+      <div className='p-6 pb-0'>
+        <Card className='bg-mtmh-neutral-white text-mtmh-grey-base shadow-md border border-mtmh-snow-lighter rounded-md sticky top-0 z-10'>
           <CardHeader className='rounded-t-xl p-5 pb-3'>
             <CardTitle className='flex justify-between'>
               <div className='flex-col'>
@@ -76,18 +76,31 @@ export default async function AsesemenPage({
               />
             </CardTitle>
           </CardHeader>
-          <CardContent className='flex flex-col p-5 pt-0 gap-y-3 items-center'>
-            <Badge
-              color='tamarind'
-              text={`Checkpoint ${checkpointNumber}`}
-              dashed
-            />
+          <CardContent className='p-5 pt-0'>
+            {isAssessmentFinished ? (
+              <div className='space-y-3 inline-block'>
+                <Badge color='tamarind' text='Selesai' />
 
-            <AssessmentCounters assessment={lastAssessment} />
+                <p className='text-mtmh-m-regular text-mtmh-grey-light italic'>
+                  {rootAssessment.final_mark}
+                </p>
+              </div>
+            ) : (
+              <div className='flex flex-col gap-y-3 items-center'>
+                <Badge
+                  color='tamarind'
+                  text={`Checkpoint ${checkpointNumber}`}
+                  dashed
+                />
+
+                <AssessmentCounters assessment={lastAssessment} />
+              </div>
+            )}
           </CardContent>
         </Card>
 
         <CheckpointList
+          isFinished={isAssessmentFinished}
           checkpoints={childAssessments.map((assessment) => {
             const [startString, endString] = assessment.surah_range as [
               [string],
@@ -103,8 +116,8 @@ export default async function AsesemenPage({
                 medium: assessment.medium_mistake_count ?? 0,
                 large: assessment.high_mistake_count ?? 0
               },
-              startSurah: start?.name!,
-              startVerse: start?.verse!,
+              startSurah: start?.name ?? '',
+              startVerse: start?.verse ?? 0,
               endSurah: end?.name,
               endVerse: end?.verse,
               timestamp: assessment.start_date
@@ -112,21 +125,12 @@ export default async function AsesemenPage({
           })}
         />
 
-        <Button className='w-full'>
-          <Plus aria-label='Tambah' />
-          Checkpoint
-        </Button>
+        {!rootAssessment.final_mark && (
+          <div className='sticky bottom-0 py-6 bg-mtmh-neutral-white'>
+            <AddAssessmentCheckpoint lastCheckpoint={lastAssessment} />
+          </div>
+        )}
       </div>
     </Layout>
   )
-}
-
-function parseSurahNameAndAyahFromRangeSegment(value: [string] | undefined) {
-  if (!value) return undefined
-
-  const [surahNumber, verseNumber] = value[0].split(':')
-  return {
-    name: SURAH_ITEMS[Number(surahNumber) - 1].label,
-    verse: Number(verseNumber)
-  }
 }

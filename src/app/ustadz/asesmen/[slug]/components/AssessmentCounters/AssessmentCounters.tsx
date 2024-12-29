@@ -18,6 +18,7 @@ import {
 import { useErrorToast } from '@/hooks/useToast'
 import { Assessments } from '@/utils/supabase/models/assessments'
 import { MistakeCounterType } from '@/models/assessments'
+import { useRouter } from 'next/navigation'
 
 interface Props {
   assessment: NonNullable<
@@ -26,7 +27,7 @@ interface Props {
 }
 
 export function AssessmentCounters({ assessment }: Props) {
-  const [state, formAction, isTransitioning] = useActionState(
+  const [state, formAction, isPending] = useActionState(
     updateAssessmentMistakeCounters,
     {
       message: ''
@@ -37,11 +38,13 @@ export function AssessmentCounters({ assessment }: Props) {
     medium: assessment.medium_mistake_count ?? 0,
     large: assessment.high_mistake_count ?? 0
   })
-  const timeoutRef = useRef<any>()
 
-  useErrorToast(state?.message, isTransitioning)
+  const router = useRouter()
+  const timeoutRef = useRef<NodeJS.Timeout>()
 
+  useErrorToast(state?.message, isPending)
   useEffect(() => {
+    // Do batch updates for the mistakes count.
     clearTimeout(timeoutRef.current)
 
     timeoutRef.current = setTimeout(() => {
@@ -63,13 +66,28 @@ export function AssessmentCounters({ assessment }: Props) {
 
       startTransition(() => {
         formAction(formData)
+        router.refresh()
       })
     }, 500)
 
     return () => {
       clearTimeout(timeoutRef.current)
     }
-  }, [assessment, mistakesCount])
+  }, [assessment.id, mistakesCount, formAction, router])
+
+  useEffect(() => {
+    // Reset mistakes count when assessment object differs.
+    setMistakesCount({
+      small: assessment.low_mistake_count ?? 0,
+      medium: assessment.medium_mistake_count ?? 0,
+      large: assessment.high_mistake_count ?? 0
+    })
+  }, [
+    assessment.id,
+    assessment.low_mistake_count,
+    assessment.medium_mistake_count,
+    assessment.high_mistake_count
+  ])
 
   const onChange: MistakeCounterProps['onChange'] = (type, value) => {
     setMistakesCount((prev) => ({ ...prev, [type]: value }))
