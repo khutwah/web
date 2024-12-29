@@ -9,6 +9,7 @@ import {
 } from 'react'
 import {
   updateAssessmentMistakeCounters,
+  UpdateAssessmentMistakeCountersState,
   UpsertPayloadMistakeCounts
 } from './actions'
 import {
@@ -26,11 +27,14 @@ interface Props {
   >[number]
 }
 
+const INITIAL_ASSESSMENT_ID = -1
+
 export function AssessmentCounters({ assessment }: Props) {
-  const [state, formAction, isPending] = useActionState(
-    updateAssessmentMistakeCounters,
-    undefined
-  )
+  const [state, formAction, isPending] = useActionState<
+    UpdateAssessmentMistakeCountersState,
+    FormData
+  >(updateAssessmentMistakeCounters, { isInitialLoad: true })
+
   const [mistakesCount, setMistakesCount] = useState<MistakeCounterType>({
     low: assessment.low_mistake_count ?? 0,
     medium: assessment.medium_mistake_count ?? 0,
@@ -39,9 +43,22 @@ export function AssessmentCounters({ assessment }: Props) {
 
   const router = useRouter()
   const timeoutRef = useRef<NodeJS.Timeout>()
+  const prevAssessmentId = useRef<number>(INITIAL_ASSESSMENT_ID)
 
   useErrorToast(state?.message, isPending)
   useEffect(() => {
+    const shouldSkipUpdate = Object.values(mistakesCount).every(
+      (value) => value === 0
+    )
+
+    // Prevent updating if all numbers are 0, or if it's the initial assessment.
+    if (
+      prevAssessmentId.current === INITIAL_ASSESSMENT_ID ||
+      shouldSkipUpdate
+    ) {
+      return
+    }
+
     // Do batch updates for the mistakes count.
     clearTimeout(timeoutRef.current)
 
@@ -59,23 +76,42 @@ export function AssessmentCounters({ assessment }: Props) {
 
       startTransition(() => {
         formAction(formData)
-        router.refresh()
       })
     }, 500)
 
     return () => {
       clearTimeout(timeoutRef.current)
     }
-  }, [assessment.id, mistakesCount, formAction, router])
+  }, [assessment.id, mistakesCount, formAction])
 
   useEffect(() => {
-    // Reset mistakes count when assessment object differs. This is used after we create a new checkpoint.
+    // `lastUpdate` indicates successful update. So it covers 3 events:
+    //
+    // 1. Initial state --> success
+    // 2. Error state --> success
+    // 3. Success --> success
+    if (!state?.lastUpdate) return
+
+    router.refresh()
+  }, [state?.lastUpdate, router])
+
+  useEffect(() => {
+    const prevId = prevAssessmentId.current
+    // Reset mistakes count when assessment ID differs. This is used after we create a new checkpoint.
     // If we don't do this, then the `assessment` will refer to the initially rendered one (from SSR).
-    setMistakesCount({
-      low: assessment.low_mistake_count ?? 0,
-      medium: assessment.medium_mistake_count ?? 0,
-      high: assessment.high_mistake_count ?? 0
-    })
+    //
+    // This will also make sure that there will be no race condition between the optimistic updates and the `router.refresh()`.
+    if (prevId === assessment.id) return
+
+    if (prevId !== INITIAL_ASSESSMENT_ID) {
+      setMistakesCount({
+        low: assessment.low_mistake_count ?? 0,
+        medium: assessment.medium_mistake_count ?? 0,
+        high: assessment.high_mistake_count ?? 0
+      })
+    }
+
+    prevAssessmentId.current = assessment.id
   }, [
     assessment.id,
     assessment.low_mistake_count,

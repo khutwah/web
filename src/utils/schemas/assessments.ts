@@ -99,7 +99,7 @@ export const UpdateAssessmentCheckpointSchema = object({
   student_id: number().required(),
   ustadz_id: number().required(),
   parent_assessment_id: number().required(),
-  notes: string().required(),
+  notes: string(),
   start_surah: number().required().min(1),
   start_verse: number().required().min(1),
   end_surah: number().required().min(1),

@@ -15,10 +15,16 @@ export type UpsertPayloadMistakeCounts = Pick<
   'low_mistake_count' | 'medium_mistake_count' | 'high_mistake_count'
 >
 
+export type UpdateAssessmentMistakeCountersState = {
+  message?: string
+  lastUpdate?: string
+  isInitialLoad?: boolean
+}
+
 export async function updateAssessmentMistakeCounters(
   _prevState: unknown,
   formData: FormData
-) {
+): Promise<UpdateAssessmentMistakeCountersState> {
   const { id, ...entries } = Object.fromEntries(formData) as unknown as Payload
 
   const assessmentsInstance = new Assessments()
@@ -32,6 +38,10 @@ export async function updateAssessmentMistakeCounters(
       ...mistakesCount,
       updated_at: new Date().toISOString()
     })
+
+    return {
+      lastUpdate: new Date().toISOString()
+    }
   } catch (error) {
     const e = (error as Error).message
     return {
