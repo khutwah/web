@@ -49,11 +49,15 @@ export function Checkpoints() {
     <>
       <h2>Just started...</h2>
       <div className='mx-auto max-w-md p-4'>
-        <AssessmentCheckpointList checkpoints={[checkpoints[0]]} />
+        <AssessmentCheckpointList
+          checkpoints={removeEndVerseFromLastArrayElement([checkpoints[0]])}
+        />
       </div>
       <h2>Submitted...</h2>
       <div className='mx-auto max-w-md p-4'>
-        <AssessmentCheckpointList checkpoints={checkpoints} />
+        <AssessmentCheckpointList
+          checkpoints={removeEndVerseFromLastArrayElement(checkpoints)}
+        />
       </div>
       <h2>Finished!</h2>
       <div className='mx-auto max-w-md p-4'>
@@ -102,4 +106,15 @@ export function Counter() {
 
 function getDateISOString(date: number, hour: number, minute: number) {
   return dayjs().date(date).hour(hour).minute(minute).toISOString()
+}
+
+function removeEndVerseFromLastArrayElement(array: AssessmentCheckpointType[]) {
+  const newArray = [...array]
+  newArray[newArray.length - 1] = {
+    ...newArray[newArray.length - 1],
+    endSurah: undefined,
+    endVerse: undefined
+  }
+
+  return newArray
 }
