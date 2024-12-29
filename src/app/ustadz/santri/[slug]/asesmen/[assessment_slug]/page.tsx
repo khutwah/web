@@ -62,7 +62,7 @@ export default async function AsesemenPage({
             <CardTitle className='flex justify-between'>
               <div className='flex-col'>
                 <div className='text-mtmh-m-regular text-mtmh-grey-lightest'>
-                  Asesmen {assessmentTypeFormatted}
+                  {assessmentTypeFormatted}
                 </div>
                 <div className='text-mtmh-l-semibold'>
                   {rootAssessment.student?.name}
