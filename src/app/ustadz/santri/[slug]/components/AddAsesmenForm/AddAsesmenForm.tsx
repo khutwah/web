@@ -129,10 +129,7 @@ export function AddAsesmenForm() {
                     (item) => item.id === id
                   )
                   if (surah) {
-                    setValue(
-                      'surah_range',
-                      parseCheckpointValue(surah.checkpoints)
-                    )
+                    setValue('surah_range', parseCheckpointValue(surah.ranges))
                   }
                 }}
                 placeholder='Pilih Surat'
@@ -147,10 +144,7 @@ export function AddAsesmenForm() {
                     (item) => item.id === id
                   )
                   if (surah) {
-                    setValue(
-                      'surah_range',
-                      parseCheckpointValue(surah.checkpoints)
-                    )
+                    setValue('surah_range', parseCheckpointValue(surah.ranges))
                   }
                 }}
               >
@@ -161,7 +155,7 @@ export function AddAsesmenForm() {
                       id={String(item.id)}
                     />
                     <Label htmlFor={String(item.id)}>
-                      {parseCheckpointLabel(item.checkpoints)}
+                      {parseCheckpointLabel(item.ranges)}
                     </Label>
                   </div>
                 ))}

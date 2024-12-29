@@ -1,7 +1,7 @@
 [
   {
     "id": 5,
-    "checkpoints": [
+    "ranges": [
       {
         "start": {
           "juz": 30,
@@ -18,7 +18,7 @@
   },
   {
     "id": 10,
-    "checkpoints": [
+    "ranges": [
       {
         "start": {
           "juz": 30,
@@ -35,7 +35,7 @@
   },
   {
     "id": 15,
-    "checkpoints": [
+    "ranges": [
       {
         "start": {
           "juz": 30,
@@ -52,7 +52,7 @@
   },
   {
     "id": 20,
-    "checkpoints": [
+    "ranges": [
       {
         "start": {
           "juz": 1,
@@ -81,7 +81,7 @@
   },
   {
     "id": 25,
-    "checkpoints": [
+    "ranges": [
       {
         "start": {
           "juz": 1,
@@ -110,7 +110,7 @@
   },
   {
     "id": 30,
-    "checkpoints": [
+    "ranges": [
       {
         "start": {
           "juz": 1,

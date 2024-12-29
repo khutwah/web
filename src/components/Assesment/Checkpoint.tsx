@@ -1,20 +1,20 @@
-import { CheckpointType } from '@/models/assessments'
+import { AssessmentCheckpointType } from '@/models/assessments'
 import { Circle, MoveRight } from 'lucide-react'
 import { cn } from '@/utils/classnames'
 import { Badge } from '../Badge/Badge'
 import Link from 'next/link'
 
-interface CheckpointProps {
-  checkpoint: CheckpointType
+interface AssessmentCheckpointProps {
+  checkpoint: AssessmentCheckpointType
   upcomingIndex?: number
   type: 'started' | 'submitted' | 'upcoming' | 'finished'
 }
 
-export function Checkpoint({
+export function AssessmentCheckpoint({
   checkpoint,
   upcomingIndex,
   type
-}: CheckpointProps) {
+}: AssessmentCheckpointProps) {
   return (
     <div className='relative mb-8 pl-12 w-full'>
       <Link href=''>
@@ -81,13 +81,13 @@ export function Checkpoint({
           {type == 'submitted' && (
             <div className='mt-2 flex gap-2 text-mtmh-neutral-white'>
               <div className='h-6 w-6 rounded-full flex items-center justify-center text-mtmh-sm-regular text-mtmh-warning-70 border border-mtmh-warning-70'>
-                {checkpoint.mistakes?.small || 0}
+                {checkpoint.mistakes?.low || 0}
               </div>
               <div className='h-6 w-6 rounded-full flex items-center justify-center text-mtmh-sm-regular text-mtmh-warning-70 border border-mtmh-warning-70'>
                 {checkpoint.mistakes?.medium || 0}
               </div>
               <div className='h-6 w-6 rounded-full flex items-center justify-center text-mtmh-sm-regular text-mtmh-warning-70 border border-mtmh-warning-70'>
-                {checkpoint.mistakes?.large || 0}
+                {checkpoint.mistakes?.high || 0}
               </div>
             </div>
           )}

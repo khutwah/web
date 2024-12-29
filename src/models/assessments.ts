@@ -71,28 +71,7 @@ export interface ResetPayload {
   offset_parent_assessment_id?: number
 }
 
-export interface AssessmentState {
-  id: number
-  pageDistance: number
-}
-
-export interface MistakeCounterType {
-  small: number
-  medium: number
-  large: number
-}
-
-export interface CheckpointType {
-  id: string
-  timestamp: string
-  startSurah: string
-  endSurah?: string
-  startVerse: number
-  endVerse?: number
-  mistakes: MistakeCounterType
-}
-
-export interface AssessmentCheckpoint {
+export interface AssessmentRange {
   start: {
     juz?: number
     surah: number
@@ -115,7 +94,7 @@ type AssessmentTypes = Record<
     }
     data: Array<{
       id: number
-      checkpoints: AssessmentCheckpoint | AssessmentCheckpoint[]
+      ranges: AssessmentRange | AssessmentRange[]
     }>
   }
 >
@@ -153,4 +132,20 @@ export const ASSESSMENT_TYPES: AssessmentTypes = {
     },
     data: []
   }
+}
+
+export interface MistakeCounterType {
+  low: number
+  medium: number
+  high: number
+}
+
+export interface AssessmentCheckpointType {
+  id: string
+  timestamp: string
+  startSurah: string
+  endSurah?: string
+  startVerse: number
+  endVerse?: number
+  mistakes: MistakeCounterType
 }
