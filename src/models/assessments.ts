@@ -77,12 +77,12 @@ export interface AssessmentState {
 }
 
 export interface MistakeCounterType {
-  small: number
+  low: number
   medium: number
-  large: number
+  high: number
 }
 
-export interface CheckpointType {
+export interface AssessmentCheckpointType {
   id: string
   timestamp: string
   startSurah: string

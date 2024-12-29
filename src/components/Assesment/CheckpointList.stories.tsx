@@ -1,8 +1,8 @@
-import { CheckpointList } from '@/components/Lajnah/CheckpointList'
-import type { CheckpointType } from '@/models/assessments'
+import { AssessmentCheckpointList } from '@/components/Assesment/CheckpointList'
+import type { AssessmentCheckpointType } from '@/models/assessments'
 
 export function CheckpointListStory() {
-  const checkpoints: CheckpointType[] = [
+  const checkpoints: AssessmentCheckpointType[] = [
     {
       id: '1',
       timestamp: '22 Des 18:15',
@@ -10,7 +10,7 @@ export function CheckpointListStory() {
       endSurah: 'An-Naziat',
       startVerse: 1,
       endVerse: 20,
-      mistakes: { small: 1, medium: 0, large: 1 }
+      mistakes: { low: 1, medium: 0, high: 1 }
     },
     {
       id: '2',
@@ -19,7 +19,7 @@ export function CheckpointListStory() {
       endSurah: 'At-Takwir',
       startVerse: 1,
       endVerse: 29,
-      mistakes: { small: 2, medium: 1, large: 0 }
+      mistakes: { low: 2, medium: 1, high: 0 }
     },
     {
       id: '3',
@@ -28,7 +28,7 @@ export function CheckpointListStory() {
       endSurah: 'Al-Mutaffifin',
       startVerse: 1,
       endVerse: 19,
-      mistakes: { small: 0, medium: 2, large: 1 }
+      mistakes: { low: 0, medium: 2, high: 1 }
     },
     {
       id: '4',
@@ -37,7 +37,7 @@ export function CheckpointListStory() {
       endSurah: 'Al-Buruj',
       startVerse: 1,
       endVerse: 22,
-      mistakes: { small: 3, medium: 1, large: 0 }
+      mistakes: { low: 3, medium: 1, high: 0 }
     }
   ]
 
@@ -45,15 +45,15 @@ export function CheckpointListStory() {
     <>
       <h2>Just started...</h2>
       <div className='mx-auto max-w-md p-4'>
-        <CheckpointList checkpoints={[checkpoints[0]]} />
+        <AssessmentCheckpointList checkpoints={[checkpoints[0]]} />
       </div>
       <h2>Submitted...</h2>
       <div className='mx-auto max-w-md p-4'>
-        <CheckpointList checkpoints={checkpoints} />
+        <AssessmentCheckpointList checkpoints={checkpoints} />
       </div>
       <h2>Finished!</h2>
       <div className='mx-auto max-w-md p-4'>
-        <CheckpointList isFinished checkpoints={checkpoints} />
+        <AssessmentCheckpointList isFinished checkpoints={checkpoints} />
       </div>
     </>
   )

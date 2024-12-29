@@ -7,9 +7,9 @@ export function MistakeCounterStory() {
       <Card className='mb-8 p-6 shadow-md'>
         <CardContent>
           <div className='flex justify-between'>
-            <MistakeCounter label='Kecil' type='small' count={3} />
+            <MistakeCounter label='Kecil' type='low' count={3} />
             <MistakeCounter label='Sedang' type='medium' count={5} />
-            <MistakeCounter label='Besar' type='large' count={9} />
+            <MistakeCounter label='Besar' type='high' count={9} />
           </div>
         </CardContent>
       </Card>
