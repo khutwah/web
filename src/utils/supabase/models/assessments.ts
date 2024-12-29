@@ -10,6 +10,7 @@ export class Assessments extends Base {
     const { parent_assessment_id, ustadz_id, student_id } = filter
     const supabase = await this.supabase
     let query = supabase.from('assessments').select(`
+            id,
             student:students (id, name),
             ustadz:users (id, name),
             surah_range,
@@ -81,7 +82,7 @@ export class Assessments extends Base {
       .maybeSingle()
   }
 
-  async update(id: number, payload: UpsertPayload) {
+  async update(id: number, payload: Partial<UpsertPayload>) {
     const supabase = await this.supabase
     return supabase.from('assessments').update(payload).eq('id', id)
   }

@@ -1,6 +1,6 @@
 'use client'
 
-import { startTransition, useEffect, useState, useActionState } from 'react'
+import { startTransition, useState, useActionState } from 'react'
 import { login } from './actions'
 import { InputWithLabel } from '@/components/Form/InputWithLabel'
 import { Checkbox } from '@/components/Form/Checkbox'
@@ -16,15 +16,13 @@ import {
   DialogTitle,
   DialogTrigger
 } from '@/components/Dialog/Dialog'
-import { useToast } from '@/hooks/useToast'
-import { CircleAlert } from 'lucide-react'
+import { useErrorToast } from '@/hooks/useToast'
 import { Button } from '@/components/Button/Button'
 
 export default function LoginPage() {
   const [state, formAction, isTransitioning] = useActionState(login, {
     message: ''
   })
-  const { toast } = useToast()
 
   const { register, control, handleSubmit } = useForm({
     defaultValues: {
@@ -38,21 +36,7 @@ export default function LoginPage() {
   const [isForgotPasswordDialogOpen, setIsForgotPasswordDialogOpen] =
     useState(false)
 
-  useEffect(() => {
-    if (!state?.message || isTransitioning) return
-
-    toast({
-      description: (
-        <div className='flex gap-x-4'>
-          <CircleAlert />
-
-          <div>{state?.message}</div>
-        </div>
-      ),
-      duration: 5000,
-      className: 'p-4 bg-mtmh-error-error text-mtmh-neutral-white'
-    })
-  }, [toast, state?.message, isTransitioning])
+  useErrorToast(state?.message, isTransitioning)
 
   const isSubmitButtonDisabled = username === '' || password === ''
 
