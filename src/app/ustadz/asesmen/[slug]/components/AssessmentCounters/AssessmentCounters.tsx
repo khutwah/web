@@ -29,9 +29,7 @@ interface Props {
 export function AssessmentCounters({ assessment }: Props) {
   const [state, formAction, isPending] = useActionState(
     updateAssessmentMistakeCounters,
-    {
-      message: ''
-    }
+    undefined
   )
   const [mistakesCount, setMistakesCount] = useState<MistakeCounterType>({
     low: assessment.low_mistake_count ?? 0,
@@ -51,18 +49,13 @@ export function AssessmentCounters({ assessment }: Props) {
       const formData = new FormData()
 
       formData.set('id', String(assessment.id))
-      formData.set(
-        getAssessmentCounterFieldName('low'),
-        String(mistakesCount.low)
-      )
-      formData.set(
-        getAssessmentCounterFieldName('medium'),
-        String(mistakesCount.medium)
-      )
-      formData.set(
-        getAssessmentCounterFieldName('high'),
-        String(mistakesCount.high)
-      )
+      for (const key in mistakesCount) {
+        const typedKey = key as keyof typeof mistakesCount
+        formData.set(
+          getAssessmentCounterFieldName(typedKey),
+          String(mistakesCount[typedKey])
+        )
+      }
 
       startTransition(() => {
         formAction(formData)
@@ -76,7 +69,8 @@ export function AssessmentCounters({ assessment }: Props) {
   }, [assessment.id, mistakesCount, formAction, router])
 
   useEffect(() => {
-    // Reset mistakes count when assessment object differs.
+    // Reset mistakes count when assessment object differs. This is used after we create a new checkpoint.
+    // If we don't do this, then the `assessment` will refer to the initially rendered one (from SSR).
     setMistakesCount({
       low: assessment.low_mistake_count ?? 0,
       medium: assessment.medium_mistake_count ?? 0,

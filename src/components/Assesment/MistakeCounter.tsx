@@ -38,6 +38,8 @@ export function MistakeCounter({
         onClick={() => onChange(type, count + 1)}
       >
         {count}
+
+        <span className='sr-only'>Tambah kesalahan</span>
       </Button>
       <Button
         variant='outline'
@@ -45,9 +47,9 @@ export function MistakeCounter({
         disabled={count === 0}
         onClick={() => onChange(type, count - 1)}
       >
-        <Undo className='h-4 w-4' />
+        <Undo className='h-4 w-4' aria-hidden />
 
-        <span className='sr-only'>Kurangi 1</span>
+        <span className='sr-only'>Kurangi kesalahan</span>
       </Button>
     </div>
   )

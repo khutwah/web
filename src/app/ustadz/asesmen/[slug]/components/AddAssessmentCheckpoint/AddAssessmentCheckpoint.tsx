@@ -67,7 +67,8 @@ function AddAssessmentCheckpointForm({
 }: Props & { setOpen: (isOpen: boolean) => void }) {
   const [state, formAction, isPending] = useActionState<ActionState, FormData>(
     addAssessmentCheckpoint,
-    // Prevent the drawer from being closed by setting this initial value.
+    // Prevent the drawer from being closed by setting this initial value. If we don't provide this, then when we open the drawer,
+    // it will be immediately closed because of the `useEffect` firing during the first render phase.
     { isInitialLoad: true }
   )
   const router = useRouter()

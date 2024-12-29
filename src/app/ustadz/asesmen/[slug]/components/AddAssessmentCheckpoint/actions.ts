@@ -36,6 +36,7 @@ export async function addAssessmentCheckpoint(
 
     // TODO: can we have some kind of rollback here in case this update fails?
     if (restPayload.final_mark) {
+      // When `final_mark` exists, then we do not create a new checkpoint. Instead, we update the root assessment.
       const parentAssessment = await assessmentsInstance.get(
         restPayload.parent_assessment_id
       )

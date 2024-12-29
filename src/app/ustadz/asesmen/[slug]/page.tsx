@@ -46,7 +46,7 @@ export default async function AsesemenPage({
     ASSESSMENT_TYPES[rootAssessment.session_type as AssessmentType].title
 
   const checkpointNumber = childAssessments.length
-  // We always create 2 assessments when starting one, so this will never be out of bounds.
+  // We always create 2 assessments when initially starting an assessment, so this will never be out of bounds.
   const lastAssessment = childAssessments[checkpointNumber - 1]
   const isAssessmentFinished = !!rootAssessment.final_mark
 
