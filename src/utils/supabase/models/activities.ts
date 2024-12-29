@@ -28,7 +28,7 @@ interface ActivitiesPayload {
   student_id: number
   type: ActivityType
   status: ActivityStatus
-  achieve_target: boolean
+  is_target_achieved: boolean
   start_surah: number
   end_surah: number
   start_verse: number
@@ -61,7 +61,7 @@ const selectQuery = `
     start_verse,
     end_verse,
     student_attendance,
-    achieve_target,
+    is_target_achieved,
     created_by,
     shift:shifts (id, ustadz_id, users (name), circle:circles (name)),
     students (parent_id, id, name)

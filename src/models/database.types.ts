@@ -36,12 +36,12 @@ export type Database = {
     Tables: {
       activities: {
         Row: {
-          achieve_target: boolean | null
           created_at: string | null
           created_by: number | null
           end_surah: number | null
           end_verse: number | null
           id: number
+          is_target_achieved: boolean | null
           notes: string | null
           page_count: number | null
           shift_id: number | null
@@ -56,12 +56,12 @@ export type Database = {
           updated_at: string | null
         }
         Insert: {
-          achieve_target?: boolean | null
           created_at?: string | null
           created_by?: number | null
           end_surah?: number | null
           end_verse?: number | null
           id?: never
+          is_target_achieved?: boolean | null
           notes?: string | null
           page_count?: number | null
           shift_id?: number | null
@@ -76,12 +76,12 @@ export type Database = {
           updated_at?: string | null
         }
         Update: {
-          achieve_target?: boolean | null
           created_at?: string | null
           created_by?: number | null
           end_surah?: number | null
           end_verse?: number | null
           id?: never
+          is_target_achieved?: boolean | null
           notes?: string | null
           page_count?: number | null
           shift_id?: number | null
@@ -263,6 +263,7 @@ export type Database = {
           id: number
           label: string | null
           name: string | null
+          target_page_count: number
           updated_at: string | null
         }
         Insert: {
@@ -272,6 +273,7 @@ export type Database = {
           id?: never
           label?: string | null
           name?: string | null
+          target_page_count?: number
           updated_at?: string | null
         }
         Update: {
@@ -281,6 +283,7 @@ export type Database = {
           id?: never
           label?: string | null
           name?: string | null
+          target_page_count?: number
           updated_at?: string | null
         }
         Relationships: []
@@ -343,6 +346,7 @@ export type Database = {
           nisn: string | null
           parent_id: number | null
           pin: string | null
+          target_page_count: number
           updated_at: string | null
           virtual_account: string | null
         }
@@ -355,6 +359,7 @@ export type Database = {
           nisn?: string | null
           parent_id?: number | null
           pin?: string | null
+          target_page_count?: number
           updated_at?: string | null
           virtual_account?: string | null
         }
@@ -367,6 +372,7 @@ export type Database = {
           nisn?: string | null
           parent_id?: number | null
           pin?: string | null
+          target_page_count?: number
           updated_at?: string | null
           virtual_account?: string | null
         }
@@ -389,24 +395,24 @@ export type Database = {
       }
       tags: {
         Row: {
+          category: string | null
           created_at: string | null
           id: number
           name: string | null
-          type: string | null
           updated_at: string | null
         }
         Insert: {
+          category?: string | null
           created_at?: string | null
           id?: never
           name?: string | null
-          type?: string | null
           updated_at?: string | null
         }
         Update: {
+          category?: string | null
           created_at?: string | null
           id?: never
           name?: string | null
-          type?: string | null
           updated_at?: string | null
         }
         Relationships: []
