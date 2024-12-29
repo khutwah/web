@@ -34,7 +34,6 @@ export function AddAsesmenForm() {
   const form = useForm({
     resolver: yupResolver(assessmentSchema),
     defaultValues: {
-      session_type: AssessmentType.per_juz, // TODO(dio): For lajnah this should be default.
       start_date: new Date().toISOString(),
       student_id: Number(studentId)
     }
@@ -81,7 +80,7 @@ export function AddAsesmenForm() {
             id: 'session_name',
             className: 'w-full',
             type: 'text',
-            placeholder: 'Masukkan nama sesi asesmen',
+            placeholder: 'Misalnya: Ujian Juz 30',
             required: false
           }}
         />
@@ -103,13 +102,15 @@ export function AddAsesmenForm() {
       </div>
 
       <div className='flex flex-col gap-2'>
-        {session_type && session_type !== AssessmentType.custom ? (
+        {session_type && session_type !== AssessmentType.custom && (
           <PredefinedAssessmentRange
             surahRange={surah_range}
             sessionType={session_type}
             setValue={setValue}
           />
-        ) : (
+        )}
+
+        {session_type === AssessmentType.custom && (
           <CustomAssessmentRange surahRange={surah_range} setValue={setValue} />
         )}
 
@@ -203,7 +204,7 @@ function CustomAssessmentRange({
                 ])
               )
             }}
-            placeholder='Pilih Surat'
+            placeholder='Pilih surat'
             searchPlaceholder='Cari Surat'
           />
         </div>
@@ -226,7 +227,7 @@ function CustomAssessmentRange({
                 ])
               )
             }}
-            placeholder='Pilih Ayat'
+            placeholder='Pilih ayat'
             searchPlaceholder='Cari Ayat'
           />
         </div>
@@ -252,7 +253,7 @@ function CustomAssessmentRange({
                 ])
               )
             }}
-            placeholder='Pilih Surat'
+            placeholder='Pilih surat'
             searchPlaceholder='Cari Surat'
           />
         </div>
@@ -275,7 +276,7 @@ function CustomAssessmentRange({
                 ])
               )
             }}
-            placeholder='Pilih Ayat'
+            placeholder='Pilih ayat'
             searchPlaceholder='Cari Ayat'
           />
         </div>

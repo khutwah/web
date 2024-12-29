@@ -56,7 +56,7 @@ export const AssessmentTypeOptions: AssessmentTypeOptionType[] = [
   },
   {
     value: AssessmentType.custom,
-    label: 'Rentang Surat Pilihan'
+    label: 'Pilihan Sendiri'
   }
 ]
 
