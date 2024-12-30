@@ -11,7 +11,7 @@ const SELECTED = `
     notes
 `
 
-export class Checkpoint extends Base {
+export class Checkpoints extends Base {
   async list(filter?: Filter) {
     const now = new Date().toISOString()
 

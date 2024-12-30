@@ -5,7 +5,7 @@ import {
   createCheckpointSchema,
   updateCheckpointSchema
 } from '@/utils/schemas/checkpoint'
-import { Checkpoint } from '@/utils/supabase/models/checkpoints'
+import { Checkpoints } from '@/utils/supabase/models/checkpoints'
 import { validateOrFail } from '@/utils/validate-or-fail'
 import { InferType } from 'yup'
 
@@ -24,13 +24,13 @@ async function upsertOrFail(
   id: number | undefined,
   payload: InsertPayload | UpdatePayload
 ): Promise<{ success: boolean } | { message: string }> {
-  const checkpointInstance = new Checkpoint()
+  const checkpointsInstance = new Checkpoints()
   try {
     let response
     if (typeof id === 'number') {
-      response = await checkpointInstance.update(id, payload as UpdatePayload)
+      response = await checkpointsInstance.update(id, payload as UpdatePayload)
     } else {
-      response = await checkpointInstance.create(payload as InsertPayload)
+      response = await checkpointsInstance.create(payload as InsertPayload)
     }
 
     if (response.error) {

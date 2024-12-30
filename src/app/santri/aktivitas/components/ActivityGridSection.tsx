@@ -20,7 +20,7 @@ import {
 } from '@/models/activities'
 import { convertSearchParamsToStringRecords } from '@/utils/url'
 import { Students } from '@/utils/supabase/models/students'
-import { Checkpoint } from '@/utils/supabase/models/checkpoints'
+import { Checkpoints } from '@/utils/supabase/models/checkpoints'
 import { CheckpointStatus } from '@/models/checkpoints'
 import { parseParameter } from '@/utils/parse-parameter'
 
@@ -100,7 +100,7 @@ async function ActivityGrid({
     .tz(tz)
 
   const activitiesInstance = new Activities()
-  const checkpointInstance = new Checkpoint()
+  const checkpointInstance = new Checkpoints()
 
   const [activities, latestCheckpoint, checkpoints] = await Promise.all([
     activitiesInstance.list({
