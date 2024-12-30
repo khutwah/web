@@ -1,4 +1,4 @@
-import type { Checkpoint } from '@/utils/supabase/models/checkpoints'
+import type { Checkpoints } from '@/utils/supabase/models/checkpoints'
 
 export const CHECKPOINT_STATUS: CheckpointStatus[] = [
   'lajnah-assessment-approaching',
@@ -59,7 +59,7 @@ export interface Filter {
 }
 
 export type CheckpointList = NonNullable<
-  Awaited<ReturnType<Checkpoint['list']>>['data']
+  Awaited<ReturnType<Checkpoints['list']>>['data']
 >
 
 export interface FormStateErrors {
