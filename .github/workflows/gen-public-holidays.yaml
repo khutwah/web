@@ -63,9 +63,8 @@ jobs:
             // Output result
             console.log(JSON.stringify(result, null, 2));
             
-            // Save the result to 'data/holidays/public.json' (overwrite if exists)
-            fs.mkdirSync('data/holidays', { recursive: true });
-            fs.writeFileSync('data/holidays/public.json', JSON.stringify(result, null, 2));
+            // Save the result to 'src/data/holidays/public.json' (overwrite if exists)
+            fs.writeFileSync('src/data/holidays/public.json', JSON.stringify(result, null, 2));
           "
 
       - name: Create Pull Request
