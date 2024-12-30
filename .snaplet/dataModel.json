@@ -434,6 +434,20 @@
           "maxLength": 255
         },
         {
+          "id": "public.assessments.session_range_id",
+          "name": "session_range_id",
+          "columnName": "session_range_id",
+          "type": "int2",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
           "id": "public.assessments.notes",
           "name": "notes",
           "columnName": "notes",

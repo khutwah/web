@@ -109,7 +109,7 @@ export const ASSESSMENT_TYPES: AssessmentTypes = {
     data: DefaultRanges
   },
   [AssessmentType.per_juz]: {
-    title: 'Per 5 Juz',
+    title: 'Per Juz',
     id: {
       type: 'juz',
       label: 'Materi'

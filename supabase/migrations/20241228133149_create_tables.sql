@@ -27,6 +27,7 @@ create table "public"."assessments" (
   "end_date" timestamp without time zone,
   "session_type" character varying(255),
   "session_name" character varying(255),
+  "session_range_id" smallint,
   "notes" text,
   "low_mistake_count" smallint,
   "medium_mistake_count" smallint,

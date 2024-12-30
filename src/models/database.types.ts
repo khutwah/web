@@ -131,6 +131,7 @@ export type Database = {
           notes: string | null
           parent_assessment_id: number | null
           session_name: string | null
+          session_range_id: number | null
           session_type: string | null
           start_date: string
           student_id: number
@@ -149,6 +150,7 @@ export type Database = {
           notes?: string | null
           parent_assessment_id?: number | null
           session_name?: string | null
+          session_range_id?: number | null
           session_type?: string | null
           start_date: string
           student_id: number
@@ -167,6 +169,7 @@ export type Database = {
           notes?: string | null
           parent_assessment_id?: number | null
           session_name?: string | null
+          session_range_id?: number | null
           session_type?: string | null
           start_date?: string
           student_id?: number

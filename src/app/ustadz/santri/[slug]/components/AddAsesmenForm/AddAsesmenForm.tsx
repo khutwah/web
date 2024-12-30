@@ -9,7 +9,7 @@ import {
 } from '@/models/assessments'
 import { assessmentSchema } from '@/utils/schemas/assessments'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useForm, UseFormSetValue, useWatch } from 'react-hook-form'
+import { set, useForm, UseFormSetValue, useWatch } from 'react-hook-form'
 import { getVerseItems } from '../../aktivitas/utils/form'
 import { ErrorField } from '@/components/Form/ErrorField'
 import { Button } from '@/components/Button/Button'
@@ -48,7 +48,7 @@ export function AddAsesmenForm() {
     handleSubmit
   } = form
 
-  const { session_type, surah_range } = useWatch({
+  const { session_type, session_range_id, surah_range } = useWatch({
     control
   })
 
@@ -103,7 +103,7 @@ export function AddAsesmenForm() {
       <div className='flex flex-col gap-2'>
         {session_type && session_type !== AssessmentType.custom && (
           <PredefinedAssessmentRange
-            surahRange={surah_range}
+            sessionRangeId={session_range_id}
             sessionType={session_type}
             setValue={setValue}
           />
@@ -132,15 +132,14 @@ type AssessmentFormValues = InferType<typeof assessmentSchema>
 
 function PredefinedAssessmentRange({
   sessionType,
-  surahRange,
+  sessionRangeId,
   setValue
 }: {
   sessionType: AssessmentType
-  surahRange: string | undefined
+  sessionRangeId: number | undefined
   setValue: UseFormSetValue<AssessmentFormValues>
 }) {
   const { data, id } = ASSESSMENT_TYPES[sessionType]
-  const assessmentRangeId = getAssessmentRangeId(sessionType, surahRange, data)
 
   return (
     <div className='flex flex-col gap-4'>
@@ -148,18 +147,20 @@ function PredefinedAssessmentRange({
       <Combobox
         withSearch={id.type === 'surah'}
         items={getAssessmentRangeItems(data, id.type)}
-        value={assessmentRangeId}
+        value={`${sessionRangeId || ''}`}
         onChange={(value) => {
           if (!value) {
             setValue('surah_range', '')
+            setValue('session_range_id', undefined)
             return
           }
 
-          const id = Number(value)
-          const assessment = data.find((item) => item.id === id)
+          const rangeId = Number(value)
+          const assessment = data.find((range) => range.id === rangeId)
 
           if (assessment) {
             setValue('surah_range', parseRangeValue(assessment.ranges))
+            setValue('session_range_id', rangeId)
           }
         }}
         placeholder={`Pilih ${id.label}`}

@@ -57,12 +57,12 @@ export default async function AsesemenPage({
       <Navbar text={rootAssessment.session_name!} />
 
       <div className='p-6'>
-        <Card className='bg-mtmh-neutral-white text-mtmh-grey-base shadow-md border border-mtmh-snow-lighter rounded-md sticky top-0 z-10'>
+        <Card className='bg-mtmh-neutral-white text-mtmh-grey-base shadow-sm border border-mtmh-snow-lighter rounded-md sticky top-0 z-10'>
           <CardHeader className='rounded-t-xl p-5 pb-3'>
             <CardTitle className='flex justify-between'>
               <div className='flex-col'>
                 <div className='text-mtmh-m-regular text-mtmh-grey-lightest'>
-                  {assessmentTypeFormatted}
+                  Asesmen {assessmentTypeFormatted}
                 </div>
                 <div className='text-mtmh-l-semibold'>
                   {rootAssessment.student?.name}
@@ -103,7 +103,7 @@ export default async function AsesemenPage({
 
         <AssessmentCheckpointList
           isFinished={isAssessmentFinished}
-          checkpoints={childAssessments.map((assessment) => {
+          checkpoints={assessments.data.map((assessment) => {
             const [startString, endString] = assessment.surah_range as [
               [string],
               [string] | undefined
