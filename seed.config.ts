@@ -11,5 +11,5 @@ export default defineConfig({
     return new SeedPg(client)
   },
 
-  select: ['!*', 'public.*']
+  select: ['!*', 'auth.users', 'public.*']
 })
