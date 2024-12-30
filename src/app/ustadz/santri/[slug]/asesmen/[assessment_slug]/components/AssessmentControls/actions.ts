@@ -20,14 +20,23 @@ export async function addAssessmentCheckpoint(
     }
   }
 
-  const { id, end_surah, end_verse, start_surah, start_verse, ...restPayload } =
-    payload
+  const {
+    id,
+    end_surah,
+    end_verse,
+    start_surah,
+    start_verse,
+    final_mark,
+    notes,
+    ...restPayload
+  } = payload
   const assessmentsInstance = new Assessments()
 
   try {
     // Intentionally chaining, so that the new checkpoint will only be created once the current checkpoint is updated.
     await assessmentsInstance.update(id, {
       ...restPayload,
+      notes,
       updated_at: new Date().toISOString(),
       surah_range: [
         [`${start_surah}:${start_verse}`],
@@ -36,7 +45,7 @@ export async function addAssessmentCheckpoint(
     })
 
     // TODO: can we have some kind of rollback here in case this update fails?
-    if (restPayload.final_mark) {
+    if (final_mark) {
       // When `final_mark` exists, then we do not create a new checkpoint. Instead, we update the root assessment.
       const parentAssessment = await assessmentsInstance.get(
         restPayload.parent_assessment_id
@@ -49,6 +58,7 @@ export async function addAssessmentCheckpoint(
 
       await assessmentsInstance.update(restPayload.parent_assessment_id, {
         ...restPayload,
+        final_mark,
         updated_at: new Date().toISOString(),
         surah_range: [
           [`${rootStartSurah}:${rootStartVerse}`],
