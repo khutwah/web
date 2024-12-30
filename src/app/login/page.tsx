@@ -59,7 +59,6 @@ export default function LoginPage() {
           label='NIS/Email'
           inputProps={{
             ...register('username'),
-            id: 'username',
             className: 'w-full',
             placeholder: 'Masukkan NIS atau email',
             required: true
@@ -71,7 +70,6 @@ export default function LoginPage() {
             label='Sandi'
             inputProps={{
               ...register('password'),
-              id: 'password',
               className: 'w-full',
               type: isPasswordShown ? 'text' : 'password',
               placeholder: 'Masukkan sandi',

@@ -111,13 +111,11 @@ function AdditionalFormFields() {
         label='Nilai akhir'
         inputProps={{
           ...register('final_mark'),
-          id: 'final_mark',
           className: 'w-full',
           type: 'text',
           placeholder: 'Masukkan nilai akhir asesmen',
           required: false
         }}
-        helperText='Setelah nilai akhir dimasukkan dan formulir ini diunggah, sesi asesmen akan berakhir dan bersifat final'
       />
       <ErrorField error={errors.final_mark?.message} />
     </div>

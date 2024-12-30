@@ -120,7 +120,6 @@ export function UpdateAssessmentCheckpointForm({
               label='Catatan'
               inputProps={{
                 ...register('notes'),
-                id: 'notes',
                 className: 'w-full',
                 type: 'text',
                 placeholder: 'Masukkan catatan',

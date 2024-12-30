@@ -126,7 +126,6 @@ export function CheckpointDrawer({
         <InputWithLabel
           label='Catatan'
           inputProps={{
-            id: 'notes',
             name: 'notes',
             className: 'w-full',
             type: 'text',
@@ -142,7 +141,6 @@ export function CheckpointDrawer({
         <InputWithLabel
           label='Jumlah Juz'
           inputProps={{
-            id: 'part_count',
             name: 'part_count',
             className: 'w-full',
             type: 'number',
