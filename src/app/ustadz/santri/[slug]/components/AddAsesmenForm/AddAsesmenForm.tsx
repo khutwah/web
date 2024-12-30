@@ -79,7 +79,6 @@ export function AddAsesmenForm() {
           label='Nama Sesi Asesmen'
           inputProps={{
             ...register('session_name'),
-            id: 'session_name',
             className: 'w-full',
             type: 'text',
             placeholder: 'Masukkan nama sesi asesmen',

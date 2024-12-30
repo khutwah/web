@@ -241,3 +241,15 @@ export function getAyahCount(
   }
   return startAyahToStartSurahEnd + endAyah + ayahDistance
 }
+
+export function parseSurahNameAndAyahFromRangeSegment(
+  value: [string] | undefined
+) {
+  if (!value) return undefined
+
+  const [surahNumber, verseNumber] = value[0].split(':')
+  return {
+    name: surahs[Number(surahNumber) - 1].name,
+    verse: Number(verseNumber)
+  }
+}

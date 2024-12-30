@@ -93,3 +93,17 @@ export const assessmentSchema = object({
     )
     .when(...requiredForFinalizingAssessment)
 })
+
+export const UpdateAssessmentCheckpointSchema = object({
+  id: number().required(),
+  student_id: number().required(),
+  ustadz_id: number().required(),
+  parent_assessment_id: number().required(),
+  notes: string(),
+  start_surah: number().required().min(1),
+  start_verse: number().required().min(1),
+  end_surah: number().required().min(1),
+  end_verse: number().required().min(1),
+  // Only sent for the final mark.
+  final_mark: string()
+})
