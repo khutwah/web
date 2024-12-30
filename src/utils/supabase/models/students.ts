@@ -47,19 +47,26 @@ export class Students extends Base {
   }
 
   async listWithoutCheckpoints() {
+    const now = new Date().toLocaleString()
     const query = (await this.supabase)
       .from('students')
       .select(
-        `id, name, circles (id, name), last_checkpoint:checkpoints (id, status)`
+        `id,
+        name,
+        circles (id, name),
+        last_checkpoint:checkpoints (id, status),
+        shift:shifts (id, circle_id)`
       )
       .order('id', {
         ascending: false,
         referencedTable: 'checkpoints'
       })
       // Make sure last checkpoint already ended
-      .or(`end_date.lte.${new Date().toLocaleString()}`, {
+      .or(`end_date.lte.${now}`, {
         referencedTable: 'checkpoints'
       })
+      .lte('shift.start_date', now)
+      .or(`end_date.is.null, end_date.gte.${now}`, { referencedTable: 'shift' })
       .limit(1, { foreignTable: 'checkpoints' })
 
     return query
