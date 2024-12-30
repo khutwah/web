@@ -1,0 +1,58 @@
+diff --git a/node_modules/@snaplet/seed/dist/src/cli/commands/introspect/introspectHandler.js b/node_modules/@snaplet/seed/dist/src/cli/commands/introspect/introspectHandler.js
+index 44a35a7..5011802 100644
+--- a/node_modules/@snaplet/seed/dist/src/cli/commands/introspect/introspectHandler.js
++++ b/node_modules/@snaplet/seed/dist/src/cli/commands/introspect/introspectHandler.js
+@@ -4,6 +4,8 @@ import { getDatabaseClient } from "../../../adapters/getDatabaseClient.js";
+ import { getDataModelConfigPath, setDataModelConfig, } from "../../../config/dataModelConfig.js";
+ import { getDialect } from "../../../dialects/getDialect.js";
+ import { dim, link, spinner } from "../../lib/output.js";
++import { getSeedConfig } from "../../../config/seedConfig/seedConfig.js";
++import { getSelectFilteredDataModel } from "../../../core/dataModel/select.js";
+ export async function introspectHandler() {
+     try {
+         console.log();
+@@ -14,7 +16,7 @@ export async function introspectHandler() {
+         if (Object.keys(dataModel.models).length === 0) {
+             throw new Error("No tables found in the database, please make sure the database is not empty");
+         }
+-        await setDataModelConfig(dataModel);
++        await setDataModelConfig(getSelectFilteredDataModel(dataModel, (await getSeedConfig()).select));
+         // we know the path exists because we just called `setDataModelConfig`
+         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+         const dataModelConfigPath = (await getDataModelConfigPath());
+diff --git a/node_modules/@snaplet/seed/dist/src/cli/commands/sync/syncHandler.js b/node_modules/@snaplet/seed/dist/src/cli/commands/sync/syncHandler.js
+index a9a4f43..4cc0d3e 100644
+--- a/node_modules/@snaplet/seed/dist/src/cli/commands/sync/syncHandler.js
++++ b/node_modules/@snaplet/seed/dist/src/cli/commands/sync/syncHandler.js
+@@ -1,11 +1,9 @@
+-import { bold, brightGreen, dim } from "../../../cli/lib/output.js";
+ import { dotSnapletPathExists, getDotSnapletPath } from "../../../config/dotSnaplet.js";
+ import { getProjectConfigPath, projectConfigExists, } from "../../../config/project/projectConfig.js";
+ import { getSeedConfigPath, seedConfigExists, } from "../../../config/seedConfig/seedConfig.js";
+ import { SnapletError } from "../../../core/utils.js";
+ import { generateHandler } from "../generate/generateHandler.js";
+ import { introspectHandler } from "../introspect/introspectHandler.js";
+-import { predictHandler } from "../predict/predictHandler.js";
+ async function ensureCanSync() {
+     if (!(await seedConfigExists())) {
+         throw new SnapletError("SEED_CONFIG_NOT_FOUND", {
+@@ -26,19 +24,5 @@ async function ensureCanSync() {
+ export async function syncHandler(args) {
+     await ensureCanSync();
+     await introspectHandler();
+-    if (process.env["OPENAI_API_KEY"] ?? process.env["GROQ_API_KEY"]) {
+-        await predictHandler();
+-    }
+-    else {
+-        console.log(`
+-${dim("Skipping AI-generated data...")}
+-
+-To get ${bold(" AI-generated data")}, you need to set either the ${brightGreen("OPENAI_API_KEY")} or ${brightGreen("GROQ_API_KEY")} environment variable.")}
+-We also look for a .env file in the root of your project.
+-
+-To use a specific model, set the ${brightGreen("AI_MODEL_NAME")} environment variable.
+-Example: ${brightGreen("AI_MODEL_NAME=gpt-4-mini")}
+-      `);
+-    }
+     await generateHandler(args);
+ }

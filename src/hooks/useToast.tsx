@@ -4,6 +4,7 @@
 import * as React from 'react'
 
 import type { ToastActionElement, ToastProps } from '@/components/Toast/Toast'
+import { CircleAlert } from 'lucide-react'
 
 const TOAST_LIMIT = 1
 const TOAST_REMOVE_DELAY = 1000000
@@ -189,4 +190,24 @@ function useToast() {
   }
 }
 
-export { useToast, toast }
+function useErrorToast(message: string | undefined, isTransitioning: boolean) {
+  const { toast } = useToast()
+
+  React.useEffect(() => {
+    if (!message || isTransitioning) return
+
+    toast({
+      description: (
+        <div className='flex gap-x-4'>
+          <CircleAlert />
+
+          <div>{message}</div>
+        </div>
+      ),
+      duration: 5000,
+      className: 'p-4 bg-mtmh-error-error text-mtmh-neutral-white'
+    })
+  }, [toast, message, isTransitioning])
+}
+
+export { useToast, useErrorToast, toast }

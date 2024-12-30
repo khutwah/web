@@ -5,24 +5,29 @@ import {
 } from '@/models/assessments'
 import { Base } from './base'
 
+const QUERY_FIELDS = `
+  id,
+  student:students (id, name),
+  ustadz:users (id, name),
+  surah_range,
+  start_date,
+  end_date,
+  notes,
+  low_mistake_count,
+  medium_mistake_count,
+  high_mistake_count,
+  parent_assessment_id,
+  final_mark,
+  session_type,
+  session_name,
+  start_date
+`
+
 export class Assessments extends Base {
   async list(filter: FilterPayload) {
     const { parent_assessment_id, ustadz_id, student_id } = filter
     const supabase = await this.supabase
-    let query = supabase.from('assessments').select(`
-            student:students (id, name),
-            ustadz:users (id, name),
-            surah_range,
-            start_date,
-            end_date,
-            notes,
-            low_mistake_count,
-            medium_mistake_count,
-            high_mistake_count,
-            final_mark,
-            session_type,
-            session_name
-        `)
+    let query = supabase.from('assessments').select(QUERY_FIELDS)
 
     if (ustadz_id) {
       query = query.eq('ustadz_id', ustadz_id)
@@ -42,7 +47,7 @@ export class Assessments extends Base {
       )
     }
 
-    return query
+    return query.order('id')
   }
 
   async reset(payload: ResetPayload) {
@@ -81,7 +86,17 @@ export class Assessments extends Base {
       .maybeSingle()
   }
 
-  async update(id: number, payload: UpsertPayload) {
+  async get(id: number) {
+    const supabase = await this.supabase
+    return supabase
+      .from('assessments')
+      .select(QUERY_FIELDS)
+      .eq('id', id)
+      .limit(1)
+      .maybeSingle()
+  }
+
+  async update(id: number, payload: Partial<UpsertPayload>) {
     const supabase = await this.supabase
     return supabase.from('assessments').update(payload).eq('id', id)
   }
