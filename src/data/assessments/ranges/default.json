@@ -3,12 +3,12 @@
     "id": 5,
     "ranges": [
       {
-        "start": {
+        "end": {
           "juz": 30,
           "surah": 78,
           "verse": 1
         },
-        "end": {
+        "start": {
           "juz": 26,
           "surah": 50,
           "verse": 45
@@ -20,12 +20,12 @@
     "id": 10,
     "ranges": [
       {
-        "start": {
+        "end": {
           "juz": 30,
           "surah": 78,
           "verse": 1
         },
-        "end": {
+        "start": {
           "juz": 21,
           "surah": 32,
           "verse": 30
@@ -37,12 +37,12 @@
     "id": 15,
     "ranges": [
       {
-        "start": {
+        "end": {
           "juz": 30,
           "surah": 78,
           "verse": 1
         },
-        "end": {
+        "start": {
           "juz": 16,
           "surah": 20,
           "verse": 135
@@ -66,12 +66,12 @@
         }
       },
       {
-        "start": {
+        "end": {
           "juz": 30,
           "surah": 78,
           "verse": 1
         },
-        "end": {
+        "start": {
           "juz": 16,
           "surah": 20,
           "verse": 135
@@ -95,12 +95,12 @@
         }
       },
       {
-        "start": {
+        "end": {
           "juz": 30,
           "surah": 78,
           "verse": 1
         },
-        "end": {
+        "start": {
           "juz": 16,
           "surah": 20,
           "verse": 135

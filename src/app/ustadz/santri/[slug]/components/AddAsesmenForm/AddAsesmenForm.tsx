@@ -1,24 +1,27 @@
 import { Combobox } from '@/components/Form/Combobox'
-import { InputWithLabel } from '@/components/Form/InputWithLabel'
 import { Label } from '@/components/Form/Label'
-import { RadioGroup, RadioGroupItem } from '@/components/Form/RadioGroup'
 import { SURAH_ITEMS } from '@/models/activity-form'
+import surahs from '@/data/mushaf/surahs.json'
 import {
   ASSESSMENT_TYPES,
   AssessmentType,
-  AssessmentTypeOptionsType
+  AssessmentTypeOptions
 } from '@/models/assessments'
 import { assessmentSchema } from '@/utils/schemas/assessments'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useForm, useWatch } from 'react-hook-form'
+import { useForm, UseFormSetValue, useWatch } from 'react-hook-form'
 import { getVerseItems } from '../../aktivitas/utils/form'
 import { ErrorField } from '@/components/Form/ErrorField'
 import { Button } from '@/components/Button/Button'
 import { useActionState, startTransition } from 'react'
 import { createAssessment } from '../../actions'
 import { useParams } from 'next/navigation'
-import { getSurahDetailFromSurahRange } from '@/utils/get-surah-detail-from-surah-range'
-import { parseCheckpointLabel, parseCheckpointValue } from '@/utils/assessments'
+import {
+  getAssessmentRangeItems,
+  parseRangeValue,
+  getSurahDetailFromSurahRange
+} from '@/utils/assessments'
+import { InferType } from 'yup'
 
 export function AddAsesmenForm() {
   const [state, formAction, isPending] = useActionState(
@@ -30,7 +33,6 @@ export function AddAsesmenForm() {
   const form = useForm({
     resolver: yupResolver(assessmentSchema),
     defaultValues: {
-      session_type: AssessmentType.default,
       start_date: new Date().toISOString(),
       student_id: Number(studentId)
     }
@@ -45,14 +47,9 @@ export function AddAsesmenForm() {
     handleSubmit
   } = form
 
-  const { session_type, surah_range } = useWatch({
+  const { session_type, session_range_id, surah_range } = useWatch({
     control
   })
-
-  const surahDetail = getSurahDetailFromSurahRange(surah_range)
-
-  const startVerseItems = getVerseItems(Number(surahDetail.start_surah[0]))
-  const endVerseItems = getVerseItems(Number(surahDetail.end_surah[0]))
 
   const onSubmit = handleSubmit((payload) => {
     const formData = new FormData()
@@ -75,182 +72,42 @@ export function AddAsesmenForm() {
       <input type='hidden' {...register('student_id')} />
       <input type='hidden' {...register('start_date')} />
       <div className='flex flex-col gap-2'>
-        <InputWithLabel
-          label='Nama Sesi Asesmen'
-          inputProps={{
-            ...register('session_name'),
-            className: 'w-full',
-            type: 'text',
-            placeholder: 'Masukkan nama sesi asesmen',
-            required: false
-          }}
-        />
-        <ErrorField error={errors.session_name?.message} />
-      </div>
-      <div className='flex flex-col gap-4'>
-        <Label>Pilih tipe asesmen</Label>
-        <RadioGroup
-          defaultValue={AssessmentType.default}
-          onValueChange={(value) => {
+        <Label>Jenis Asesmen</Label>
+        <Combobox
+          withSearch={false}
+          items={AssessmentTypeOptions}
+          value={session_type || ''}
+          onChange={(value) => {
             setValue('session_type', value as AssessmentType)
+            setValue('surah_range', '')
+            setValue('session_name', '')
             resetField('surah_range')
+            resetField('session_name')
           }}
-        >
-          {AssessmentTypeOptionsType.map((item) => (
-            <div className='flex items-center space-x-2' key={item.value}>
-              <RadioGroupItem
-                value={item.value}
-                id={item.value}
-                checked={session_type === item.value}
-              />
-              <Label htmlFor={item.value}>{item.label}</Label>
-            </div>
-          ))}
-        </RadioGroup>
+          placeholder='Pilih jenis asesmen'
+        />
       </div>
 
       <div className='flex flex-col gap-2'>
-        {session_type && session_type !== AssessmentType.custom ? (
-          <div className='flex flex-col gap-4'>
-            <Label>
-              {session_type === AssessmentType.per_surah
-                ? 'Pilih Surat'
-                : `Pilih Materi (Juz)`}
-            </Label>
+        {session_type && session_type !== AssessmentType.custom && (
+          <PredefinedAssessmentRange
+            sessionRangeId={session_range_id}
+            sessionType={session_type}
+            setValue={setValue}
+          />
+        )}
 
-            {ASSESSMENT_TYPES[session_type].id.type === 'surah' ? (
-              <Combobox
-                items={SURAH_ITEMS}
-                value={surahDetail.start_surah[0]}
-                onChange={(value) => {
-                  const id = Number(value)
-                  const surah = ASSESSMENT_TYPES[session_type].data.find(
-                    (item) => item.id === id
-                  )
-                  if (surah) {
-                    setValue('surah_range', parseCheckpointValue(surah.ranges))
-                  }
-                }}
-                placeholder='Pilih Surat'
-                searchPlaceholder='Cari Surat'
-              />
-            ) : (
-              <RadioGroup
-                defaultValue={AssessmentType.default}
-                onValueChange={(value) => {
-                  const id = Number(value)
-                  const surah = ASSESSMENT_TYPES[session_type].data.find(
-                    (item) => item.id === id
-                  )
-                  if (surah) {
-                    setValue('surah_range', parseCheckpointValue(surah.ranges))
-                  }
-                }}
-              >
-                {ASSESSMENT_TYPES[session_type].data.map((item) => (
-                  <div className='flex items-center space-x-2' key={item.id}>
-                    <RadioGroupItem
-                      value={String(item.id)}
-                      id={String(item.id)}
-                    />
-                    <Label htmlFor={String(item.id)}>
-                      {parseCheckpointLabel(item.ranges)}
-                    </Label>
-                  </div>
-                ))}
-              </RadioGroup>
-            )}
-          </div>
-        ) : null}
+        {session_type === AssessmentType.custom && (
+          <CustomAssessmentRange surahRange={surah_range} setValue={setValue} />
+        )}
 
-        {session_type === AssessmentType.custom ? (
-          <div className='flex flex-col gap-4'>
-            <div className='flex flex-row gap-4 items-end'>
-              <div className='basis-3/4 flex flex-col gap-2'>
-                <Label>Awal Baca</Label>
-                <Combobox
-                  items={SURAH_ITEMS}
-                  value={surahDetail.start_surah[0]}
-                  onChange={(value) => {
-                    setValue(
-                      'surah_range',
-                      JSON.stringify([
-                        [
-                          `${value}:${surahDetail.start_verse[0]}`,
-                          `${surahDetail.end_surah[0]}:${surahDetail.end_verse[0]}`
-                        ]
-                      ])
-                    )
-                  }}
-                  placeholder='Pilih Surat'
-                  searchPlaceholder='Cari Surat'
-                />
-              </div>
-              <div className='basis-1/4'>
-                <Combobox
-                  items={startVerseItems}
-                  value={surahDetail.start_verse[0]}
-                  onChange={(value) => {
-                    setValue(
-                      'surah_range',
-                      JSON.stringify([
-                        [
-                          `${surahDetail.start_surah[0]}:${value}`,
-                          `${surahDetail.end_surah[0]}:${surahDetail.end_verse[0]}`
-                        ]
-                      ])
-                    )
-                  }}
-                  placeholder='Pilih Ayat'
-                  searchPlaceholder='Cari Ayat'
-                />
-              </div>
-            </div>
-            <div className='flex flex-row gap-4 items-end'>
-              <div className='basis-3/4 flex flex-col gap-2'>
-                <Label>Akhir Baca</Label>
-                <Combobox
-                  items={SURAH_ITEMS}
-                  value={surahDetail.end_surah[0]}
-                  onChange={(value) => {
-                    setValue(
-                      'surah_range',
-                      JSON.stringify([
-                        [
-                          `${surahDetail.start_surah[0]}:${surahDetail.start_verse[0]}`,
-                          `${value}:${surahDetail.end_verse[0]}`
-                        ]
-                      ])
-                    )
-                  }}
-                  placeholder='Pilih Surat'
-                  searchPlaceholder='Cari Surat'
-                />
-              </div>
-              <div className='basis-1/4'>
-                <Combobox
-                  items={endVerseItems}
-                  value={surahDetail.end_verse[0]}
-                  onChange={(value) => {
-                    setValue(
-                      'surah_range',
-                      JSON.stringify([
-                        [
-                          `${surahDetail.start_surah[0]}:${surahDetail.start_verse[0]}`,
-                          `${surahDetail.end_surah[0]}:${value}`
-                        ]
-                      ])
-                    )
-                  }}
-                  placeholder='Pilih Ayat'
-                  searchPlaceholder='Cari Ayat'
-                />
-              </div>
-            </div>
-          </div>
-        ) : null}
-
-        <ErrorField error={errors.surah_range?.message || state?.message} />
+        <ErrorField
+          error={
+            errors.session_name?.message ||
+            errors.surah_range?.message ||
+            state?.message
+          }
+        />
       </div>
 
       <Button
@@ -262,5 +119,235 @@ export function AddAsesmenForm() {
         {isPending ? 'Memulai Asesmen...' : 'Mulai Asesmen'}
       </Button>
     </form>
+  )
+}
+
+type AssessmentFormValues = InferType<typeof assessmentSchema>
+
+function PredefinedAssessmentRange({
+  sessionType,
+  sessionRangeId,
+  setValue
+}: {
+  sessionType: AssessmentType
+  sessionRangeId: number | undefined
+  setValue: UseFormSetValue<AssessmentFormValues>
+}) {
+  const { data, id } = ASSESSMENT_TYPES[sessionType]
+
+  return (
+    <div className='flex flex-col gap-4'>
+      <Label>Materi Asesmen</Label>
+      <Combobox
+        withSearch={id.type === 'surah'}
+        items={getAssessmentRangeItems(data, id.type)}
+        value={`${sessionRangeId || ''}`}
+        onChange={(value) => {
+          if (!value) {
+            setValue('surah_range', '')
+            setValue('session_name', '')
+            setValue('session_range_id', undefined)
+            return
+          }
+
+          const rangeId = Number(value)
+          const assessment = data.find((range) => range.id === rangeId)
+
+          if (assessment) {
+            // Set session_name based on the selected session_type, session_range_id, and surah_range.
+            const assessmentType = ASSESSMENT_TYPES[sessionType]
+
+            const session_name =
+              assessmentType.id.type === 'juz'
+                ? assessment?.ranges
+                    .map((range) =>
+                      range.start.juz != range.end.juz
+                        ? 'Juz ' + range.start.juz + ' - Juz ' + range.end.juz
+                        : 'Juz ' + range.start.juz
+                    )
+                    .join(' dan ')
+                : `Surat ${surahs.find(({ id }) => id === assessment.ranges[0].start.surah)?.name}`
+
+            setValue('session_name', session_name || `${assessmentType.title}`)
+            setValue('surah_range', parseRangeValue(assessment.ranges))
+            setValue('session_range_id', rangeId)
+          }
+        }}
+        placeholder={`Pilih ${id.label}`}
+        searchPlaceholder={`Cari ${id.label}`}
+      />
+    </div>
+  )
+}
+
+function CustomAssessmentRange({
+  surahRange,
+  setValue
+}: {
+  surahRange: string | undefined
+  setValue: UseFormSetValue<AssessmentFormValues>
+}) {
+  const surahDetail = getSurahDetailFromSurahRange(surahRange)
+  const startVerseItems = getVerseItems(Number(surahDetail.start_surah[0]))
+  const endVerseItems = getVerseItems(Number(surahDetail.end_surah[0]))
+
+  return (
+    <div className='flex flex-col gap-4'>
+      <div className='flex flex-row gap-4 items-end'>
+        <div className='basis-3/4 flex flex-col gap-2'>
+          <Label>Awal Materi Asesmen {surahDetail.start_verse[0]}</Label>
+          <Combobox
+            items={SURAH_ITEMS}
+            value={surahDetail.start_surah[0]}
+            onChange={(value) => {
+              if (!value) {
+                setValue(
+                  'surah_range',
+                  JSON.stringify([
+                    [
+                      `:`,
+                      `${surahDetail.end_surah[0] || ''}:${surahDetail.end_verse[0] || ''}`
+                    ]
+                  ])
+                )
+                setValue('session_name', '')
+                return
+              }
+
+              setValue(
+                'surah_range',
+                JSON.stringify([
+                  [
+                    `${value}:${surahDetail.start_verse[0] || ''}`,
+                    `${surahDetail.end_surah[0] || ''}:${surahDetail.end_verse[0] || ''}`
+                  ]
+                ])
+              )
+              setValue(
+                'session_name',
+                `${value}:${surahDetail.start_verse[0] || ''} - ${surahDetail.end_surah[0] || ''}:${surahDetail.end_verse[0] || ''}`
+              )
+              setValue('session_range_id', 0)
+            }}
+            placeholder='Pilih surat'
+            searchPlaceholder='Cari Surat'
+          />
+        </div>
+        <div className='basis-1/4'>
+          <Combobox
+            items={startVerseItems}
+            value={surahDetail.start_verse[0] || ''}
+            onChange={(value) => {
+              if (!value) {
+                setValue(
+                  'surah_range',
+                  JSON.stringify([
+                    [
+                      `${surahDetail.start_surah[0] || ''}:`,
+                      `${surahDetail.end_surah[0] || ''}:${surahDetail.end_verse[0] || ''}`
+                    ]
+                  ])
+                )
+                setValue('session_name', '')
+                return
+              }
+              setValue(
+                'surah_range',
+                JSON.stringify([
+                  [
+                    `${surahDetail.start_surah[0] || ''}:${value}`,
+                    `${surahDetail.end_surah[0] || ''}:${surahDetail.end_verse[0] || ''}`
+                  ]
+                ])
+              )
+              setValue(
+                'session_name',
+                `${surahDetail.start_surah[0] || ''}:${value} - ${surahDetail.end_surah[0] || ''}:${surahDetail.end_verse[0] || ''}`
+              )
+              setValue('session_range_id', 0)
+            }}
+            placeholder='Pilih ayat'
+            searchPlaceholder='Cari Ayat'
+          />
+        </div>
+      </div>
+      <div className='flex flex-row gap-4 items-end'>
+        <div className='basis-3/4 flex flex-col gap-2'>
+          <Label>Akhir Materi Asesmen</Label>
+          <Combobox
+            items={SURAH_ITEMS}
+            value={surahDetail.end_surah[0]}
+            onChange={(value) => {
+              if (!value) {
+                setValue(
+                  'surah_range',
+                  JSON.stringify([
+                    [
+                      `${surahDetail.start_surah[0] || ''}:${surahDetail.start_verse[0] || ''}`,
+                      `:`
+                    ]
+                  ])
+                )
+                setValue('session_name', '')
+                return
+              }
+              setValue(
+                'surah_range',
+                JSON.stringify([
+                  [
+                    `${surahDetail.start_surah[0] || ''}:${surahDetail.start_verse[0] || ''}`,
+                    `${value}:${surahDetail.end_verse[0] || ''}`
+                  ]
+                ])
+              )
+              setValue(
+                'session_name',
+                `${surahDetail.start_surah[0] || ''}:${surahDetail.start_verse[0] || ''} - ${value}:${surahDetail.end_verse[0] || ''}`
+              )
+              setValue('session_range_id', 0)
+            }}
+            placeholder='Pilih surat'
+            searchPlaceholder='Cari Surat'
+          />
+        </div>
+        <div className='basis-1/4'>
+          <Combobox
+            items={endVerseItems}
+            value={surahDetail.end_verse[0]}
+            onChange={(value) => {
+              if (!value) {
+                setValue(
+                  'surah_range',
+                  JSON.stringify([
+                    [
+                      `${surahDetail.start_surah[0] || ''}:${surahDetail.start_verse[0] || ''}`,
+                      `${surahDetail.end_surah[0] || ''}:`
+                    ]
+                  ])
+                )
+                setValue('session_name', '')
+                return
+              }
+              setValue(
+                'surah_range',
+                JSON.stringify([
+                  [
+                    `${surahDetail.start_surah[0] || ''}:${surahDetail.start_verse[0] || ''}`,
+                    `${surahDetail.end_surah[0] || ''}:${value}`
+                  ]
+                ])
+              )
+              setValue(
+                'session_name',
+                `${surahDetail.start_surah[0] || ''}:${surahDetail.start_verse[0] || ''} - ${surahDetail.end_surah[0] || ''}:${value}`
+              )
+              setValue('session_range_id', 0)
+            }}
+            placeholder='Pilih ayat'
+            searchPlaceholder='Cari Ayat'
+          />
+        </div>
+      </div>
+    </div>
   )
 }

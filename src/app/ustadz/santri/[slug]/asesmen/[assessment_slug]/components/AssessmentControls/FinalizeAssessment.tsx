@@ -42,7 +42,7 @@ export function FinalizeAssessment({ lastCheckpoint }: Props) {
         <DrawerHeader>
           <DrawerTitle>Menyelesaikan asesmen</DrawerTitle>
           <DrawerDescription>
-            Isi data berikut untuk menyelesaikan asesmen.
+            Isi formulir berikut untuk menyelesaikan asesmen.
           </DrawerDescription>
         </DrawerHeader>
 

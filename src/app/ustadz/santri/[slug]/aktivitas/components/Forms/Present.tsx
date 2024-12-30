@@ -104,7 +104,7 @@ export function FormPresent(props: FormProps) {
                 // @ts-expect-error - reset field state
                 setValue('start_verse', undefined)
               }}
-              placeholder='Pilih Surat'
+              placeholder='Pilih surat'
               searchPlaceholder='Cari Surat'
             />
           </div>
@@ -115,7 +115,7 @@ export function FormPresent(props: FormProps) {
               onChange={(value) =>
                 setValue('start_verse', Number(value), { shouldValidate: true })
               }
-              placeholder='Pilih Ayat'
+              placeholder='Pilih ayat'
               searchPlaceholder='Cari Ayat'
             />
           </div>
@@ -137,7 +137,7 @@ export function FormPresent(props: FormProps) {
                 // @ts-expect-error - reset field state
                 setValue('end_verse', undefined)
               }}
-              placeholder='Pilih Surat'
+              placeholder='Pilih surat'
               searchPlaceholder='Cari Surat'
             />
           </div>
@@ -148,7 +148,7 @@ export function FormPresent(props: FormProps) {
               onChange={(value) =>
                 setValue('end_verse', Number(value), { shouldValidate: true })
               }
-              placeholder='Pilih Ayat'
+              placeholder='Pilih ayat'
               searchPlaceholder='Cari Ayat'
             />
           </div>

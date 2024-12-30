@@ -36,6 +36,7 @@ export function UpdateAssessmentCheckpointForm({
       ustadz_id: lastCheckpoint.ustadz?.id,
       parent_assessment_id: lastCheckpoint.parent_assessment_id!,
       notes: '',
+      start_date: new Date().toISOString(), // We update the "start_date" to the current date for the current checkpoint.
       start_surah: Number(startSurah),
       start_verse: Number(startVerse),
       end_surah: Number(startSurah),

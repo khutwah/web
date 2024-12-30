@@ -19,6 +19,7 @@ const QUERY_FIELDS = `
   parent_assessment_id,
   final_mark,
   session_type,
+  session_range_id,
   session_name,
   start_date
 `

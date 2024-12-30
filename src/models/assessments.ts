@@ -1,6 +1,6 @@
-import Per5JuzLajnah from '@/data/lajnah/per-5-juz-lajnah.json'
-import PerSurahLajnah from '@/data/lajnah/per-surah-lajnah.json'
-import DefaultLajnah from '@/data/lajnah/default-lajnah.json'
+import DefaultRanges from '@/data/assessments/ranges/default.json'
+import PerJuzRanges from '@/data/assessments/ranges/per-juz.json'
+import PerSurahRanges from '@/data/assessments/ranges/per-surah.json'
 
 import { Json } from '@/models/database.types'
 
@@ -24,31 +24,31 @@ export interface UpsertPayload {
 
 export enum AssessmentFinalMark {
   Mumtaz = 'Mumtaz',
-  'Jayyid Jiddan' = 'jayyid jiddan',
+  'Jayyid Jiddan' = 'Jayyid Jiddan',
   Jayyid = 'Jayyid',
   Maqbul = 'Maqbul'
 }
 
 export enum AssessmentType {
-  'default' = 'default',
-  'per_5_juz' = 'per_5_juz',
+  'lajnah' = 'lajnah',
+  'per_juz' = 'per_juz',
   'per_surah' = 'per_surah',
   'custom' = 'custom'
 }
 
-interface AssessmentTypeOptionsType {
+interface AssessmentTypeOptionType {
   value: AssessmentType
   label: string
 }
 
-export const AssessmentTypeOptionsType: AssessmentTypeOptionsType[] = [
+export const AssessmentTypeOptions: AssessmentTypeOptionType[] = [
   {
-    value: AssessmentType.default,
-    label: 'Default'
+    value: AssessmentType.lajnah,
+    label: 'Lajnah'
   },
   {
-    value: AssessmentType.per_5_juz,
-    label: 'Per 5 Juz'
+    value: AssessmentType.per_juz,
+    label: 'Per Juz'
   },
   {
     value: AssessmentType.per_surah,
@@ -56,7 +56,7 @@ export const AssessmentTypeOptionsType: AssessmentTypeOptionsType[] = [
   },
   {
     value: AssessmentType.custom,
-    label: 'Tentukan sendiri'
+    label: 'Pilihan Sendiri'
   }
 ]
 
@@ -94,38 +94,38 @@ type AssessmentTypes = Record<
     }
     data: Array<{
       id: number
-      ranges: AssessmentRange | AssessmentRange[]
+      ranges: AssessmentRange[]
     }>
   }
 >
 
 export const ASSESSMENT_TYPES: AssessmentTypes = {
-  [AssessmentType.default]: {
-    title: 'Asesmen Lajnah',
+  [AssessmentType.lajnah]: {
+    title: 'Lajnah',
     id: {
       type: 'juz',
-      label: 'Juz'
+      label: 'Materi'
     },
-    data: DefaultLajnah
+    data: DefaultRanges
   },
-  [AssessmentType.per_5_juz]: {
-    title: 'Asesmen Per 5 Juz',
+  [AssessmentType.per_juz]: {
+    title: 'Per Juz',
     id: {
       type: 'juz',
-      label: 'Juz'
+      label: 'Materi'
     },
-    data: Per5JuzLajnah
+    data: PerJuzRanges
   },
   [AssessmentType.per_surah]: {
-    title: 'Asesmen Per Surat',
+    title: 'Per Surat',
     id: {
       type: 'surah',
       label: 'Surat'
     },
-    data: PerSurahLajnah
+    data: PerSurahRanges
   },
   [AssessmentType['custom']]: {
-    title: 'Asesmen Custom',
+    title: 'Custom',
     id: {
       type: 'surah',
       label: 'Surat'

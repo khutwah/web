@@ -1,0 +1,512 @@
+[
+  {
+    "id": 30,
+    "ranges": [
+      {
+        "start": {
+          "juz": 30,
+          "surah": 78,
+          "verse": 1
+        },
+        "end": {
+          "juz": 30,
+          "surah": 114,
+          "verse": 6
+        }
+      }
+    ]
+  },
+  {
+    "id": 29,
+    "ranges": [
+      {
+        "start": {
+          "juz": 29,
+          "surah": 67,
+          "verse": 1
+        },
+        "end": {
+          "juz": 29,
+          "surah": 77,
+          "verse": 50
+        }
+      }
+    ]
+  },
+  {
+    "id": 28,
+    "ranges": [
+      {
+        "start": {
+          "juz": 28,
+          "surah": 58,
+          "verse": 1
+        },
+        "end": {
+          "juz": 28,
+          "surah": 66,
+          "verse": 12
+        }
+      }
+    ]
+  },
+  {
+    "id": 27,
+    "ranges": [
+      {
+        "start": {
+          "juz": 27,
+          "surah": 51,
+          "verse": 1
+        },
+        "end": {
+          "juz": 27,
+          "surah": 57,
+          "verse": 29
+        }
+      }
+    ]
+  },
+  {
+    "id": 26,
+    "ranges": [
+      {
+        "start": {
+          "juz": 26,
+          "surah": 46,
+          "verse": 1
+        },
+        "end": {
+          "juz": 26,
+          "surah": 50,
+          "verse": 45
+        }
+      }
+    ]
+  },
+  {
+    "id": 25,
+    "ranges": [
+      {
+        "start": {
+          "juz": 25,
+          "surah": 42,
+          "verse": 1
+        },
+        "end": {
+          "juz": 25,
+          "surah": 45,
+          "verse": 37
+        }
+      }
+    ]
+  },
+  {
+    "id": 24,
+    "ranges": [
+      {
+        "start": {
+          "juz": 24,
+          "surah": 39,
+          "verse": 1
+        },
+        "end": {
+          "juz": 24,
+          "surah": 41,
+          "verse": 54
+        }
+      }
+    ]
+  },
+  {
+    "id": 23,
+    "ranges": [
+      {
+        "start": {
+          "juz": 23,
+          "surah": 36,
+          "verse": 1
+        },
+        "end": {
+          "juz": 23,
+          "surah": 38,
+          "verse": 88
+        }
+      }
+    ]
+  },
+  {
+    "id": 22,
+    "ranges": [
+      {
+        "start": {
+          "juz": 22,
+          "surah": 33,
+          "verse": 1
+        },
+        "end": {
+          "juz": 22,
+          "surah": 35,
+          "verse": 45
+        }
+      }
+    ]
+  },
+  {
+    "id": 21,
+    "ranges": [
+      {
+        "start": {
+          "juz": 21,
+          "surah": 30,
+          "verse": 1
+        },
+        "end": {
+          "juz": 21,
+          "surah": 32,
+          "verse": 30
+        }
+      }
+    ]
+  },
+  {
+    "id": 20,
+    "ranges": [
+      {
+        "start": {
+          "juz": 20,
+          "surah": 27,
+          "verse": 1
+        },
+        "end": {
+          "juz": 20,
+          "surah": 29,
+          "verse": 69
+        }
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "ranges": [
+      {
+        "start": {
+          "juz": 19,
+          "surah": 25,
+          "verse": 1
+        },
+        "end": {
+          "juz": 19,
+          "surah": 26,
+          "verse": 227
+        }
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "ranges": [
+      {
+        "start": {
+          "juz": 18,
+          "surah": 23,
+          "verse": 1
+        },
+        "end": {
+          "juz": 18,
+          "surah": 24,
+          "verse": 64
+        }
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "ranges": [
+      {
+        "start": {
+          "juz": 17,
+          "surah": 21,
+          "verse": 1
+        },
+        "end": {
+          "juz": 17,
+          "surah": 22,
+          "verse": 78
+        }
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "ranges": [
+      {
+        "start": {
+          "juz": 16,
+          "surah": 18,
+          "verse": 1
+        },
+        "end": {
+          "juz": 16,
+          "surah": 20,
+          "verse": 135
+        }
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "ranges": [
+      {
+        "start": {
+          "juz": 15,
+          "surah": 21,
+          "verse": 1
+        },
+        "end": {
+          "juz": 15,
+          "surah": 17,
+          "verse": 111
+        }
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "ranges": [
+      {
+        "start": {
+          "juz": 14,
+          "surah": 15,
+          "verse": 1
+        },
+        "end": {
+          "juz": 14,
+          "surah": 16,
+          "verse": 128
+        }
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "ranges": [
+      {
+        "start": {
+          "juz": 13,
+          "surah": 12,
+          "verse": 53
+        },
+        "end": {
+          "juz": 13,
+          "surah": 14,
+          "verse": 52
+        }
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "ranges": [
+      {
+        "start": {
+          "juz": 12,
+          "surah": 11,
+          "verse": 6
+        },
+        "end": {
+          "juz": 12,
+          "surah": 12,
+          "verse": 52
+        }
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "ranges": [
+      {
+        "start": {
+          "juz": 11,
+          "surah": 9,
+          "verse": 129
+        },
+        "end": {
+          "juz": 11,
+          "surah": 11,
+          "verse": 5
+        }
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "ranges": [
+      {
+        "start": {
+          "juz": 10,
+          "surah": 8,
+          "verse": 41
+        },
+        "end": {
+          "juz": 10,
+          "surah": 9,
+          "verse": 92
+        }
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "ranges": [
+      {
+        "start": {
+          "juz": 9,
+          "surah": 7,
+          "verse": 206
+        },
+        "end": {
+          "juz": 9,
+          "surah": 8,
+          "verse": 40
+        }
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "ranges": [
+      {
+        "start": {
+          "juz": 8,
+          "surah": 6,
+          "verse": 111
+        },
+        "end": {
+          "juz": 8,
+          "surah": 7,
+          "verse": 87
+        }
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "ranges": [
+      {
+        "start": {
+          "juz": 7,
+          "surah": 5,
+          "verse": 82
+        },
+        "end": {
+          "juz": 7,
+          "surah": 7,
+          "verse": 110
+        }
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "ranges": [
+      {
+        "start": {
+          "juz": 6,
+          "surah": 4,
+          "verse": 148
+        },
+        "end": {
+          "juz": 6,
+          "surah": 5,
+          "verse": 81
+        }
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "ranges": [
+      {
+        "start": {
+          "juz": 5,
+          "surah": 4,
+          "verse": 24
+        },
+        "end": {
+          "juz": 5,
+          "surah": 4,
+          "verse": 147
+        }
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "ranges": [
+      {
+        "start": {
+          "juz": 4,
+          "surah": 3,
+          "verse": 92
+        },
+        "end": {
+          "juz": 4,
+          "surah": 4,
+          "verse": 23
+        }
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "ranges": [
+      {
+        "start": {
+          "juz": 3,
+          "surah": 2,
+          "verse": 253
+        },
+        "end": {
+          "juz": 3,
+          "surah": 3,
+          "verse": 91
+        }
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "ranges": [
+      {
+        "start": {
+          "juz": 2,
+          "surah": 2,
+          "verse": 142
+        },
+        "end": {
+          "juz": 2,
+          "surah": 2,
+          "verse": 252
+        }
+      }
+    ]
+  },
+  {
+    "id": 1,
+    "ranges": [
+      {
+        "start": {
+          "juz": 1,
+          "surah": 1,
+          "verse": 7
+        },
+        "end": {
+          "juz": 1,
+          "surah": 2,
+          "verse": 141
+        }
+      }
+    ]
+  }
+]

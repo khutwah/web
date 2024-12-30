@@ -38,7 +38,7 @@ export function AddAssessmentCheckpoint({ lastCheckpoint }: Props) {
         <DrawerHeader>
           <DrawerTitle>Tambah checkpoint</DrawerTitle>
           <DrawerDescription>
-            Isi data berikut untuk menambah checkpoint.
+            Isi formulir berikut untuk menambah checkpoint.
           </DrawerDescription>
         </DrawerHeader>
 

@@ -25,14 +25,16 @@ export function AssessmentCheckpointList({
       <div className='space-y-8'>
         <AssessmentCheckpoint type='started' checkpoint={checkpoints[0]} />
         {checkpoints.length >= 1 &&
-          checkpoints.map((checkpoint) => (
-            <AssessmentCheckpoint
-              key={checkpoint.id}
-              type={checkpoint.endSurah ? 'submitted' : 'upcoming'}
-              upcomingIndex={checkpoints.length}
-              checkpoint={checkpoint}
-            />
-          ))}
+          checkpoints
+            .filter((_, i) => i > 0)
+            .map((checkpoint) => (
+              <AssessmentCheckpoint
+                key={checkpoint.id}
+                type={checkpoint.endSurah ? 'submitted' : 'upcoming'}
+                upcomingIndex={checkpoints.length}
+                checkpoint={checkpoint}
+              />
+            ))}
 
         {isFinished && (
           <AssessmentCheckpoint

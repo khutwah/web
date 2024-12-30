@@ -48,8 +48,8 @@ export async function AssessmentCheckpoint({
           {(type === 'submitted' || type === 'upcoming') && (
             <>
               {checkpoint.startSurah}: {checkpoint.startVerse}{' '}
-              <MoveRight size={16} /> {checkpoint.endSurah}:{' '}
-              {checkpoint.endVerse ?? '...'}
+              <MoveRight size={16} /> {checkpoint.endSurah}
+              {type === 'submitted' && ':'} {checkpoint.endVerse ?? '...'}
             </>
           )}
         </div>
