@@ -5,13 +5,10 @@ import { StateMessage } from '@/components/StateMessage/StateMessage'
 import { cn } from '@/utils/classnames'
 import { Activities } from '@/utils/supabase/models/activities'
 import {
-  ACTIVITY_CURRENT_DATE_QUERY_PARAMETER,
-  ACTIVITY_CURRENT_DATE_QUERY_PARAMETER_DATE_FORMAT,
   ACTIVITY_PERIOD_QUERY_PARAMETER,
   ACTIVITY_VIEW_QUERY_PARAMETER
 } from '@/models/activities'
-import { convertSearchParamsToStringRecords } from '@/utils/url'
-import { dayjs } from '@/utils/dayjs'
+import { Dayjs } from '@/utils/dayjs'
 import { ProgressChartWithNavigation } from '@/components/Progress/ProgressChart'
 import { Checkpoints } from '@/utils/supabase/models/checkpoints'
 import { ProgressGridWithNavigation } from '@/components/Progress/ProgressGrid'
@@ -44,11 +41,12 @@ interface ProgressViewCardProps {
   isStudentManagedByUser: boolean
   searchParams: { [key: string]: string | string[] | undefined }
   tz: string
+  day: Dayjs
 }
 
 type ProgressViewCardHeaderProps = Omit<
   ProgressViewCardProps,
-  'latestCheckpoint' | 'isStudentManagedByUser' | 'searchParams' | 'tz'
+  'latestCheckpoint' | 'isStudentManagedByUser' | 'searchParams' | 'tz' | 'day'
 >
 type ProgressViewCardContentProps = ProgressViewCardProps
 
@@ -57,7 +55,8 @@ export default async function ProgressViewCard({
   latestCheckpoint,
   isStudentManagedByUser,
   searchParams,
-  tz
+  tz,
+  day
 }: ProgressViewCardProps) {
   return (
     <Card className='bg-mtmh-neutral-white text-mtmh-grey-base shadow-md border border-mtmh-snow-lighter rounded-md mb-2'>
@@ -68,6 +67,7 @@ export default async function ProgressViewCard({
         isStudentManagedByUser={isStudentManagedByUser}
         searchParams={searchParams}
         tz={tz}
+        day={day}
       />
     </Card>
   )
@@ -112,7 +112,8 @@ async function ProgressViewCardContent({
   latestCheckpoint,
   isStudentManagedByUser,
   searchParams,
-  tz
+  tz,
+  day
 }: ProgressViewCardContentProps) {
   if (!student || !student.circles || !latestCheckpoint) {
     return (
@@ -125,19 +126,8 @@ async function ProgressViewCardContent({
     )
   }
 
-  const {
-    [ACTIVITY_CURRENT_DATE_QUERY_PARAMETER]: currentDateQueryParameter,
-    [ACTIVITY_PERIOD_QUERY_PARAMETER]: periodQueryParameter,
-    [ACTIVITY_VIEW_QUERY_PARAMETER]: viewQueryParameter
-  } = convertSearchParamsToStringRecords(searchParams)
-
-  const day = dayjs
-    .utc(
-      currentDateQueryParameter,
-      ACTIVITY_CURRENT_DATE_QUERY_PARAMETER_DATE_FORMAT
-    )
-    .tz(tz)
-
+  const periodQueryParameter = searchParams[ACTIVITY_PERIOD_QUERY_PARAMETER]
+  const viewQueryParameter = searchParams[ACTIVITY_VIEW_QUERY_PARAMETER]
   const chartPeriod = periodQueryParameter === 'month' ? 'month' : 'week'
   const isChartView = viewQueryParameter === 'chart'
 
