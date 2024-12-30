@@ -5,6 +5,10 @@ on:
     - cron: '0 15 31 12 *' # Runs at 10:00 PM JKT (UTC+7), which is 3:00 PM UTC
   workflow_dispatch: # Allow manual triggering of the workflow
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   generate-holiday-data:
     runs-on: ubuntu-latest
@@ -17,10 +21,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-
-      - name: Install dependencies
-        run: |
-          npm install
 
       - name: Get the upcoming year
         id: get-year
@@ -63,33 +63,21 @@ jobs:
             // Output result
             console.log(JSON.stringify(result, null, 2));
             
-            // Save the result to 'data/holidays/public.json' (overwrite if exists)
-            fs.mkdirSync('data/holidays', { recursive: true });
-            fs.writeFileSync('data/holidays/public.json', JSON.stringify(result, null, 2));
+            // Save the result to 'src/data/holidays/public.json' (overwrite if exists)
+            fs.writeFileSync('src/data/holidays/public.json', JSON.stringify(result, null, 2));
           "
-
-      - name: Commit changes to new branch
-        run: |
-          # Create a new branch for the holiday update
-          git checkout -b "feat/update-public-holidays-${{ steps.get-year.outputs.year }}"
-
-          # Stage the changes
-          git add data/holidays/public.json
-
-          # Commit the changes
-          git commit -m "feat: update public holidays for ${{ steps.get-year.outputs.year }}"
-
-      - name: Push new branch
-        run: |
-          git push --set-upstream origin "feat/update-public-holidays-${{ steps.get-year.outputs.year }}"
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
+          add-paths: 'src/data/holidays/public.json'
+          commit-message: 'feat: update public holidays for ${{ steps.get-year.outputs.year }}'
+          branch: 'feat/update-public-holidays-${{ steps.get-year.outputs.year }}'
           delete-branch: true
           title: 'Update public holidays for ${{ steps.get-year.outputs.year }}'
           body: |
             This PR updates the public holidays for the upcoming year.
           base: main
-          branch: 'feat/update-public-holidays-${{ steps.get-year.outputs.year }}'
           draft: false
