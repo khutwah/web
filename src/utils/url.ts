@@ -102,13 +102,14 @@ export function addQueryParams(
   return queryString ? `${baseUrl}?${queryString}` : baseUrl
 }
 
-export function convertSearchParamsToStringRecords(searchParams: {
-  [key: string]: string | string[] | undefined
-}): Record<string, string> {
+export function convertSearchParamsToStringRecords(
+  searchParams: { [key: string]: string | string[] | undefined },
+  excludeKeys: string[] = [] // Optional array of keys to exclude
+): Record<string, string> {
   const result: Record<string, string> = {}
 
   for (const [key, value] of Object.entries(searchParams)) {
-    if (typeof value === 'string') {
+    if (typeof value === 'string' && !excludeKeys.includes(key)) {
       result[key] = value
     }
   }

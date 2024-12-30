@@ -9,11 +9,11 @@ import {
 import { useRouter } from 'next/navigation'
 import { useState, useTransition } from 'react'
 
-export interface ProgressToggleProps {
+export interface ProgressViewToggleProps {
   initialView: 'grid' | 'chart' | undefined
 }
 
-export function ProgressToggle({ initialView }: ProgressToggleProps) {
+export function ProgressViewToggle({ initialView }: ProgressViewToggleProps) {
   const router = useRouter()
   const [progressViewType, setProgressViewType] = useState<'grid' | 'chart'>(
     initialView ?? 'grid'

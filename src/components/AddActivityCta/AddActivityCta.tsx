@@ -7,9 +7,9 @@ import Link from 'next/link'
 
 interface AddActivityCtaProps extends ButtonProps {
   activityType: ActivityTypeKey
-  halaqahId: string
-  studentId: string
-  searchParams?: Record<string, string>
+  halaqahId: number
+  studentId: number
+  searchStringRecords?: Record<string, string>
 }
 
 const ACTIVITY_TYPE_TO_BUTTON_PROPS: Record<
@@ -37,7 +37,7 @@ export function AddActivityCta({
   activityType,
   halaqahId,
   studentId,
-  searchParams,
+  searchStringRecords,
   ...buttonProps
 }: AddActivityCtaProps) {
   const { label, className } = ACTIVITY_TYPE_TO_BUTTON_PROPS[activityType]
@@ -54,7 +54,7 @@ export function AddActivityCta({
           query: {
             activity_type: activityType,
             halaqah_id: halaqahId,
-            ...searchParams
+            ...searchStringRecords
           }
         }}
       >

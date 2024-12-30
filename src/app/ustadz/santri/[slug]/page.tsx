@@ -1,343 +1,106 @@
-import { Card, CardContent, CardHeader } from '@/components/Card/Card'
-import { AddActivityCta } from '@/components/AddActivityCta/AddActivityCta'
 import { Layout } from '@/components/Layouts/Ustadz'
 import { Navbar } from '@/components/Navbar/Navbar'
-import { Students } from '@/utils/supabase/models/students'
-import { Activities } from '@/utils/supabase/models/activities'
-import dayjs from '@/utils/dayjs'
-import Image from 'next/image'
-import SampleSantriAvatar from '@/assets/sample-santri-photo.png'
-import { ProgressGridWithNavigation } from '@/components/Progress/ProgressGrid'
 import { SantriActivityHeader } from '@/components/SantriActivity/Header'
-import { ActivityPopup } from '@/components/ActivityPopup'
-import { ActivityCard } from '@/components/ActivityCard/ActivityCard'
-import Link from 'next/link'
+import ProgressViewCard from './components/ProgressView/Card'
+import { Students } from '@/utils/supabase/models/students'
 import {
-  ACTIVITY_PERIOD_QUERY_PARAMETER,
-  ACTIVITY_CURRENT_DATE_QUERY_PARAMETER,
-  ACTIVITY_CURRENT_DATE_QUERY_PARAMETER_DATE_FORMAT,
+  ProgressViewToggle,
+  ProgressViewToggleProps
+} from './components/ProgressView/Toggle'
+import {
   ACTIVITY_VIEW_QUERY_PARAMETER,
-  ActivityStatus,
-  ActivityTypeKey
+  ACTIVITY_CURRENT_DATE_QUERY_PARAMETER,
+  ACTIVITY_PERIOD_QUERY_PARAMETER
 } from '@/models/activities'
-import { Checkpoint } from '@/utils/supabase/models/checkpoints'
-import { CheckpointStatus } from '@/models/checkpoints'
-import { parseParameter } from '@/utils/parse-parameter'
 import getTimezoneInfo from '@/utils/get-timezone-info'
-import { MENU_USTADZ_PATH_RECORDS } from '@/utils/menus/ustadz'
-import { cn } from '@/utils/classnames'
+import { convertSearchParamsToStringRecords } from '@/utils/url'
+import { Activities } from '@/utils/supabase/models/activities'
+import { CheckpointStatus } from '@/models/checkpoints'
 
-import {
-  addQueryParams,
-  convertSearchParamsToPath,
-  convertSearchParamsToStringRecords
-} from '@/utils/url'
-import { ProgressChartWithNavigation } from '@/components/Progress/ProgressChart'
-import {
-  ProgressToggle,
-  ProgressToggleProps
-} from './components/ProgressToggle/ProgressToggle'
-import { AddAsesmen } from './components/AddAsesmen/AddAsesmen'
+import ActivityCtaSection from './components/sections/ActivityCtaSection'
+import AssessmentSection from './components/sections/AssessmentSection'
+import LastActivitiesSection from './components/sections/LastActivitiesSection'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const DEFAULT_EMPTY_ARRAY: any[] = []
+interface DetailSantriProps {
+  params: Promise<{ slug: string }>
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}
 
 export default async function DetailSantri({
   params: paramsPromise,
   searchParams: searchParamsPromise
-}: {
-  params: Promise<{ slug: string }>
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
-}) {
+}: DetailSantriProps) {
+  // This gets the current day in the client's timezone.
+  const tz = await getTimezoneInfo()
+
   const params = await paramsPromise
   const searchParams = await searchParamsPromise
 
-  // Exclude <ActivityCard> related props, because they are irrelevant inside the Add/Edit Activity view.
-  // `periodQueryParameter` is of type `ProgressChartPeriod`.
-  const {
-    [ACTIVITY_CURRENT_DATE_QUERY_PARAMETER]: currentDateQueryParameter,
-    [ACTIVITY_PERIOD_QUERY_PARAMETER]: periodQueryParameter,
-    ...searchStringRecords
-  } = convertSearchParamsToStringRecords(searchParams)
-
-  // This gets the current day in the client's timezone.
-  const tz = await getTimezoneInfo()
-  const day = dayjs
-    .utc(
-      currentDateQueryParameter,
-      ACTIVITY_CURRENT_DATE_QUERY_PARAMETER_DATE_FORMAT
-    )
-    .tz(tz)
-
-  const studentId = params.slug
+  const studentId = Number(params.slug)
   const studentsInstance = new Students()
-  const student = await studentsInstance.get(Number(studentId))
-  const halaqahId = String(student.data?.circles?.id)
-  const chartPeriod = searchParams['period'] === 'month' ? 'month' : 'week'
-
-  // FIXME(dio-khutwah): When we refactor this, we should probably move this somewhere else.
-  const isChartView = searchParams[ACTIVITY_VIEW_QUERY_PARAMETER] === 'chart'
-  const startDateWeek = day.startOf('week')
-  const isCurrentWeek = startDateWeek.isSame(dayjs().tz(tz), 'week')
-
-  let pageContent: JSX.Element
-
-  if (!student.data) {
-    pageContent = <div>Unexpected error: {student.error?.message}</div>
-  } else {
-    const activitiesInstance = new Activities()
-    const [
-      activitiesPromise,
-      lastActivitiesPromise,
-      latestCheckpointPromise,
-      isUserManageStudentPromise,
-      checkpointPromise,
-      activitiesChartPromise
-    ] = await Promise.allSettled([
-      activitiesInstance.list({
-        student_id: student.data.id,
-        start_date: day
-          .startOf(isChartView ? chartPeriod : 'week')
-          .toISOString(),
-        end_date: day.endOf(isChartView ? chartPeriod : 'week').toISOString(),
-        limit: 21
-      }),
-      activitiesInstance.list({
-        student_id: student.data.id,
-        order_by: [['id', 'desc']],
-        limit: 10
-      }),
+  const activitiesInstance = new Activities()
+  const [student, isStudentManagedByUser, latestCheckpoint] = await Promise.all(
+    [
+      studentsInstance.get(studentId),
+      studentsInstance.isStudentManagedByUser(studentId),
       activitiesInstance.checkpoint({
-        student_id: student.data.id
-      }),
-      studentsInstance.isUserManagesStudent(Number(studentId)),
-      new Checkpoint().list({
-        student_id: Number(studentId)
-      }),
-      activitiesInstance.chart({
-        student_id: student.data!.id,
-        start_date: day.startOf(chartPeriod).toISOString(),
-        end_date: day.endOf(chartPeriod).toISOString(),
-        tz
+        student_id: studentId
       })
-    ])
+    ]
+  )
+  const isActive = (latestCheckpoint?.status as CheckpointStatus) !== 'inactive'
 
-    const activities =
-      activitiesPromise.status === 'fulfilled'
-        ? activitiesPromise.value
-        : undefined
+  return (
+    <Layout>
+      <Navbar
+        text='Detail Santri'
+        rightComponent={
+          <ProgressViewToggle
+            initialView={
+              searchParams[
+                ACTIVITY_VIEW_QUERY_PARAMETER
+              ] as ProgressViewToggleProps['initialView']
+            }
+          />
+        }
+      />
+      <div className='bg-mtmh-red-base w-full p-4 h-[225px] absolute -z-10' />
 
-    const checkpointData =
-      checkpointPromise.status === 'fulfilled'
-        ? checkpointPromise.value.data?.[0]
-        : undefined
-
-    const lastActivities =
-      lastActivitiesPromise.status === 'fulfilled'
-        ? lastActivitiesPromise.value
-        : undefined
-
-    const isUserManageStudent =
-      isUserManageStudentPromise.status === 'fulfilled'
-        ? isUserManageStudentPromise.value
-        : undefined
-
-    const latestCheckpoint =
-      latestCheckpointPromise.status === 'fulfilled'
-        ? latestCheckpointPromise.value
-        : undefined
-
-    const activitiesChart =
-      activitiesChartPromise.status === 'fulfilled'
-        ? activitiesChartPromise.value
-        : DEFAULT_EMPTY_ARRAY
-
-    const returnTo = convertSearchParamsToPath(searchParams)
-    pageContent = (
-      <>
-        <ActivityPopup
-          activities={lastActivities?.data ?? DEFAULT_EMPTY_ARRAY}
-        />
-        <Navbar
-          text='Detail Santri'
-          rightComponent={
-            <ProgressToggle
-              initialView={
-                searchParams[
-                  ACTIVITY_VIEW_QUERY_PARAMETER
-                ] as ProgressToggleProps['initialView']
-              }
-            />
-          }
-          returnTo={`${MENU_USTADZ_PATH_RECORDS.home}${returnTo}`}
-        />
-
-        <div className='bg-mtmh-red-base w-full p-4 h-[225px] absolute -z-10' />
-
-        <div className='flex flex-col p-6 gap-y-4'>
-          <div className='flex justify-center gap-x-[6.5px] text-mtmh-neutral-white text-mtmh-m-regular'>
-            <SantriActivityHeader
-              hasJumpToTodayLink={!isChartView && !isCurrentWeek}
-            />
-          </div>
-
-          <Card className='bg-mtmh-neutral-white text-mtmh-grey-base shadow-md border border-mtmh-snow-lighter rounded-md'>
-            <CardHeader className='flex flex-row justify-between items-center border-b border-b-mtmh-snow-lighter'>
-              <div>
-                <div className='text-mtmh-l-semibold text-mtmh-grey-base'>
-                  {student.data.name}
-                </div>
-                <div className='text-mtmh-m-regular text-mtmh-grey-lighter'>
-                  {student.data.circles?.name}
-                </div>
-              </div>
-
-              <Image
-                src={SampleSantriAvatar}
-                alt=''
-                width={52}
-                height={52}
-                className='rounded-full'
-              />
-            </CardHeader>
-            <CardContent
-              className={cn(
-                'flex flex-col p-0 gap-y-3 transition-all duration-200 ease-in-out',
-                {
-                  'p-4 pb-0': isChartView
-                }
-              )}
-            >
-              {isChartView ? (
-                <ProgressChartWithNavigation
-                  activities={activitiesChart}
-                  datePeriod={
-                    periodQueryParameter === 'month' ? 'month' : 'week'
-                  }
-                />
-              ) : (
-                <ProgressGridWithNavigation
-                  activities={activities?.data ?? DEFAULT_EMPTY_ARRAY}
-                  date={day.toDate()}
-                  className='border-none rounded-none'
-                  statusProps={{
-                    editable: isUserManageStudent,
-                    status: checkpointData?.status as CheckpointStatus,
-                    parameter: parseParameter(checkpointData),
-                    checkpointId: checkpointData?.id,
-                    lastActivityId: latestCheckpoint?.last_activity_id,
-                    pageCountAccumulation:
-                      latestCheckpoint?.page_count_accumulation,
-                    studentId: Number(studentId),
-                    notes: latestCheckpoint?.notes,
-                    partCount: latestCheckpoint?.part_count
-                  }}
-                />
-              )}
-            </CardContent>
-          </Card>
+      <div className='flex flex-col p-6 gap-y-4'>
+        <div className='flex justify-center gap-x-[6.5px] text-mtmh-neutral-white text-mtmh-m-regular'>
+          <SantriActivityHeader />
         </div>
 
-        <section className='mx-6 mb-6'>
-          <AddAsesmen />
-        </section>
+        <ProgressViewCard
+          student={student.data}
+          latestCheckpoint={latestCheckpoint}
+          isStudentManagedByUser={isStudentManagedByUser}
+          searchParams={searchParams}
+          tz={tz}
+        />
+      </div>
 
-        {isUserManageStudent && latestCheckpoint?.status !== 'inactive' ? (
-          <section className='mx-6 mb-6'>
-            <h2 className='text-mtmh-grey-base mb-3 font-semibold text-sm'>
-              Tambah Input
-            </h2>
-            <div className='flex gap-1.5'>
-              <AddActivityCta
-                activityType='Sabaq'
-                className='w-full'
-                halaqahId={halaqahId}
-                size='sm'
-                studentId={studentId}
-                searchParams={searchStringRecords}
-              />
-              <AddActivityCta
-                activityType='Sabqi'
-                className='w-full'
-                halaqahId={halaqahId}
-                size='sm'
-                studentId={studentId}
-                searchParams={searchStringRecords}
-              />
-              <AddActivityCta
-                activityType='Manzil'
-                className='w-full'
-                halaqahId={halaqahId}
-                size='sm'
-                studentId={studentId}
-                searchParams={searchStringRecords}
-              />
-            </div>
-          </section>
-        ) : null}
+      {isActive && <AssessmentSection />}
 
-        <section className='flex flex-col gap-3 mb-8'>
-          {/* FIXME(dio-khutwah): Add empty state component for last activities. */}
-          {lastActivities?.data && lastActivities?.data.length > 0 && (
-            <div className='flex flex-row items-center justify-between px-6'>
-              <h2 className='text-mtmh-m-semibold'>Input Terakhir</h2>
-              <Link
-                className='text-mtmh-sm-semibold text-mtmh-tamarind-base'
-                href={addQueryParams(
-                  `${MENU_USTADZ_PATH_RECORDS.home}/aktivitas`,
-                  {
-                    from: 'santri',
-                    id: addQueryParams(studentId, searchParams),
-                    student_id: studentId
-                  }
-                )}
-              >
-                Lihat semua
-              </Link>
-            </div>
+      {isActive && isStudentManagedByUser && (
+        <ActivityCtaSection
+          searchStringRecords={convertSearchParamsToStringRecords(
+            searchParams,
+            [
+              ACTIVITY_CURRENT_DATE_QUERY_PARAMETER,
+              ACTIVITY_VIEW_QUERY_PARAMETER,
+              ACTIVITY_PERIOD_QUERY_PARAMETER
+            ]
           )}
+          student={student.data}
+        />
+      )}
 
-          <ul className='flex overflow-x-scroll gap-3 px-6 items-start'>
-            {lastActivities?.data?.map((item) => {
-              const tags = item.tags as string[]
-              return (
-                <li key={item.id} className='w-[300px] flex-shrink-0 h-full'>
-                  <ActivityCard
-                    id={String(item.id)}
-                    surahEnd={
-                      item.student_attendance === 'present'
-                        ? {
-                            name: String(item.end_surah),
-                            verse: String(item.end_verse)
-                          }
-                        : null
-                    }
-                    surahStart={
-                      item.student_attendance === 'present'
-                        ? {
-                            name: String(item.start_surah),
-                            verse: String(item.start_verse)
-                          }
-                        : null
-                    }
-                    timestamp={item.created_at!}
-                    tz={tz}
-                    notes={item.notes ?? ''}
-                    type={item.type as ActivityTypeKey}
-                    isStudentPresent={item.student_attendance === 'present'}
-                    studentName={item.student_name!}
-                    halaqahName={item.circle_name!}
-                    labels={tags}
-                    status={item.status as ActivityStatus}
-                  />
-                </li>
-              )
-            })}
-          </ul>
-        </section>
-      </>
-    )
-  }
-
-  return <Layout>{pageContent}</Layout>
+      <LastActivitiesSection
+        studentId={params.slug}
+        searchParams={searchParams}
+        tz={tz}
+      />
+    </Layout>
+  )
 }
