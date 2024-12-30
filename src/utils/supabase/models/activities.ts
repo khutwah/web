@@ -213,6 +213,17 @@ export class Activities extends Base {
     return await (await this.supabase).from('activities').insert(_payload)
   }
 
+  async createBulk(payloads: ActivitiesPayload[]) {
+    const userId = await this._getUserId()
+
+    const _payloads = payloads.map((item) => ({
+      ...item,
+      created_by: userId
+    }))
+
+    return (await this.supabase).from('activities').insert(_payloads)
+  }
+
   async update(id: number, payload: ActivitiesPayload) {
     const userId = await this._getUserId()
     const supabase = await this.supabase

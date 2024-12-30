@@ -45,12 +45,33 @@ export class Students extends Base {
     const result = await query
     return result
   }
+
+  async listWithoutCheckpoints() {
+    const query = (await this.supabase)
+      .from('students')
+      .select(
+        `id, name, circles (id, name), last_checkpoint:checkpoints (id, status)`
+      )
+      .order('id', {
+        ascending: false,
+        referencedTable: 'checkpoints'
+      })
+      // Make sure last checkpoint already ended
+      .or(`end_date.lte.${new Date().toLocaleString()}`, {
+        referencedTable: 'checkpoints'
+      })
+      .limit(1, { foreignTable: 'checkpoints' })
+
+    return query
+  }
+
   async listWithCheckpoints(args: {
     checkpoint_statuses?: Array<CheckpointStatus>
     ustadz_id?: number
   }) {
     const { checkpoint_statuses, ustadz_id } = args
 
+    const now = new Date().toISOString()
     const query = (await this.supabase)
       .from('students')
       .select(
@@ -58,6 +79,14 @@ export class Students extends Base {
       )
       .order('updated_at', {
         ascending: false,
+        referencedTable: 'checkpoints'
+      })
+      // Make sure last checkpoint still active
+      // by checking start date < now
+      // and end_date > now
+      // or end_date null still considered checkpoint active / not ended
+      .lt('last_checkpoint.start_date', now)
+      .or(`end_date.gt.${new Date().toLocaleString()},end_date.is.null`, {
         referencedTable: 'checkpoints'
       })
       .limit(1, { foreignTable: 'checkpoints' })
