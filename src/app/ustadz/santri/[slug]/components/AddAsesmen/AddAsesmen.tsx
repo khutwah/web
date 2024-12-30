@@ -27,7 +27,7 @@ export function AddAsesmen() {
         <DrawerHeader>
           <DrawerTitle>Mulai Asesmen</DrawerTitle>
           <DrawerDescription>
-            Isi formulir berikut untuk memulai asesmen.
+            Tentukan jenis dan materi untuk memulai asesmen.
           </DrawerDescription>
         </DrawerHeader>
         <AddAsesmenForm />

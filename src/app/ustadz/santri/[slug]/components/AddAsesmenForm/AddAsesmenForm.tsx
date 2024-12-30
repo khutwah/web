@@ -1,7 +1,7 @@
 import { Combobox } from '@/components/Form/Combobox'
-import { InputWithLabel } from '@/components/Form/InputWithLabel'
 import { Label } from '@/components/Form/Label'
 import { SURAH_ITEMS } from '@/models/activity-form'
+import surahs from '@/data/mushaf/surahs.json'
 import {
   ASSESSMENT_TYPES,
   AssessmentType,
@@ -9,7 +9,7 @@ import {
 } from '@/models/assessments'
 import { assessmentSchema } from '@/utils/schemas/assessments'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { set, useForm, UseFormSetValue, useWatch } from 'react-hook-form'
+import { useForm, UseFormSetValue, useWatch } from 'react-hook-form'
 import { getVerseItems } from '../../aktivitas/utils/form'
 import { ErrorField } from '@/components/Form/ErrorField'
 import { Button } from '@/components/Button/Button'
@@ -17,7 +17,6 @@ import { useActionState, startTransition } from 'react'
 import { createAssessment } from '../../actions'
 import { useParams } from 'next/navigation'
 import {
-  getAssessmentRangeId,
   getAssessmentRangeItems,
   parseRangeValue,
   getSurahDetailFromSurahRange
@@ -73,19 +72,6 @@ export function AddAsesmenForm() {
       <input type='hidden' {...register('student_id')} />
       <input type='hidden' {...register('start_date')} />
       <div className='flex flex-col gap-2'>
-        <InputWithLabel
-          label='Nama Sesi Asesmen'
-          inputProps={{
-            ...register('session_name'),
-            className: 'w-full',
-            type: 'text',
-            placeholder: 'Misalnya: Ujian Juz 30',
-            required: false
-          }}
-        />
-        <ErrorField error={errors.session_name?.message} />
-      </div>
-      <div className='flex flex-col gap-2'>
         <Label>Jenis Asesmen</Label>
         <Combobox
           withSearch={false}
@@ -94,7 +80,9 @@ export function AddAsesmenForm() {
           onChange={(value) => {
             setValue('session_type', value as AssessmentType)
             setValue('surah_range', '')
+            setValue('session_name', '')
             resetField('surah_range')
+            resetField('session_name')
           }}
           placeholder='Pilih jenis asesmen'
         />
@@ -113,7 +101,13 @@ export function AddAsesmenForm() {
           <CustomAssessmentRange surahRange={surah_range} setValue={setValue} />
         )}
 
-        <ErrorField error={errors.surah_range?.message || state?.message} />
+        <ErrorField
+          error={
+            errors.session_name?.message ||
+            errors.surah_range?.message ||
+            state?.message
+          }
+        />
       </div>
 
       <Button
@@ -151,6 +145,7 @@ function PredefinedAssessmentRange({
         onChange={(value) => {
           if (!value) {
             setValue('surah_range', '')
+            setValue('session_name', '')
             setValue('session_range_id', undefined)
             return
           }
@@ -159,6 +154,21 @@ function PredefinedAssessmentRange({
           const assessment = data.find((range) => range.id === rangeId)
 
           if (assessment) {
+            // Set session_name based on the selected session_type, session_range_id, and surah_range.
+            const assessmentType = ASSESSMENT_TYPES[sessionType]
+
+            const session_name =
+              assessmentType.id.type === 'juz'
+                ? assessment?.ranges
+                    .map((range) =>
+                      range.start.juz != range.end.juz
+                        ? 'Juz ' + range.start.juz + ' - Juz ' + range.end.juz
+                        : 'Juz ' + range.start.juz
+                    )
+                    .join(' dan ')
+                : `Surat ${surahs.find(({ id }) => id === assessment.ranges[0].start.surah)?.name}`
+
+            setValue('session_name', session_name || `${assessmentType.title}`)
             setValue('surah_range', parseRangeValue(assessment.ranges))
             setValue('session_range_id', rangeId)
           }
@@ -185,15 +195,25 @@ function CustomAssessmentRange({
     <div className='flex flex-col gap-4'>
       <div className='flex flex-row gap-4 items-end'>
         <div className='basis-3/4 flex flex-col gap-2'>
-          <Label>Awal Materi Asesmen</Label>
+          <Label>Awal Materi Asesmen {surahDetail.start_verse[0]}</Label>
           <Combobox
             items={SURAH_ITEMS}
             value={surahDetail.start_surah[0]}
             onChange={(value) => {
               if (!value) {
-                setValue('surah_range', '')
+                setValue(
+                  'surah_range',
+                  JSON.stringify([
+                    [
+                      `:`,
+                      `${surahDetail.end_surah[0] || ''}:${surahDetail.end_verse[0] || ''}`
+                    ]
+                  ])
+                )
+                setValue('session_name', '')
                 return
               }
+
               setValue(
                 'surah_range',
                 JSON.stringify([
@@ -203,6 +223,11 @@ function CustomAssessmentRange({
                   ]
                 ])
               )
+              setValue(
+                'session_name',
+                `${value}:${surahDetail.start_verse[0] || ''} - ${surahDetail.end_surah[0] || ''}:${surahDetail.end_verse[0] || ''}`
+              )
+              setValue('session_range_id', 0)
             }}
             placeholder='Pilih surat'
             searchPlaceholder='Cari Surat'
@@ -211,10 +236,19 @@ function CustomAssessmentRange({
         <div className='basis-1/4'>
           <Combobox
             items={startVerseItems}
-            value={surahDetail.start_verse[0]}
+            value={surahDetail.start_verse[0] || ''}
             onChange={(value) => {
               if (!value) {
-                setValue('surah_range', '')
+                setValue(
+                  'surah_range',
+                  JSON.stringify([
+                    [
+                      `${surahDetail.start_surah[0] || ''}:`,
+                      `${surahDetail.end_surah[0] || ''}:${surahDetail.end_verse[0] || ''}`
+                    ]
+                  ])
+                )
+                setValue('session_name', '')
                 return
               }
               setValue(
@@ -226,6 +260,11 @@ function CustomAssessmentRange({
                   ]
                 ])
               )
+              setValue(
+                'session_name',
+                `${surahDetail.start_surah[0] || ''}:${value} - ${surahDetail.end_surah[0] || ''}:${surahDetail.end_verse[0] || ''}`
+              )
+              setValue('session_range_id', 0)
             }}
             placeholder='Pilih ayat'
             searchPlaceholder='Cari Ayat'
@@ -240,7 +279,16 @@ function CustomAssessmentRange({
             value={surahDetail.end_surah[0]}
             onChange={(value) => {
               if (!value) {
-                setValue('surah_range', '')
+                setValue(
+                  'surah_range',
+                  JSON.stringify([
+                    [
+                      `${surahDetail.start_surah[0] || ''}:${surahDetail.start_verse[0] || ''}`,
+                      `:`
+                    ]
+                  ])
+                )
+                setValue('session_name', '')
                 return
               }
               setValue(
@@ -252,6 +300,11 @@ function CustomAssessmentRange({
                   ]
                 ])
               )
+              setValue(
+                'session_name',
+                `${surahDetail.start_surah[0] || ''}:${surahDetail.start_verse[0] || ''} - ${value}:${surahDetail.end_verse[0] || ''}`
+              )
+              setValue('session_range_id', 0)
             }}
             placeholder='Pilih surat'
             searchPlaceholder='Cari Surat'
@@ -263,7 +316,16 @@ function CustomAssessmentRange({
             value={surahDetail.end_verse[0]}
             onChange={(value) => {
               if (!value) {
-                setValue('surah_range', '')
+                setValue(
+                  'surah_range',
+                  JSON.stringify([
+                    [
+                      `${surahDetail.start_surah[0] || ''}:${surahDetail.start_verse[0] || ''}`,
+                      `${surahDetail.end_surah[0] || ''}:`
+                    ]
+                  ])
+                )
+                setValue('session_name', '')
                 return
               }
               setValue(
@@ -275,6 +337,11 @@ function CustomAssessmentRange({
                   ]
                 ])
               )
+              setValue(
+                'session_name',
+                `${surahDetail.start_surah[0] || ''}:${surahDetail.start_verse[0] || ''} - ${surahDetail.end_surah[0] || ''}:${value}`
+              )
+              setValue('session_range_id', 0)
             }}
             placeholder='Pilih ayat'
             searchPlaceholder='Cari Ayat'

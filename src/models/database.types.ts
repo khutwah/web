@@ -124,10 +124,10 @@ export type Database = {
           created_at: string | null
           end_date: string | null
           final_mark: string | null
-          high_mistake_count: number | null
+          high_mistake_count: number
           id: number
-          low_mistake_count: number | null
-          medium_mistake_count: number | null
+          low_mistake_count: number
+          medium_mistake_count: number
           notes: string | null
           parent_assessment_id: number | null
           session_name: string | null
@@ -143,10 +143,10 @@ export type Database = {
           created_at?: string | null
           end_date?: string | null
           final_mark?: string | null
-          high_mistake_count?: number | null
+          high_mistake_count?: number
           id?: never
-          low_mistake_count?: number | null
-          medium_mistake_count?: number | null
+          low_mistake_count?: number
+          medium_mistake_count?: number
           notes?: string | null
           parent_assessment_id?: number | null
           session_name?: string | null
@@ -162,10 +162,10 @@ export type Database = {
           created_at?: string | null
           end_date?: string | null
           final_mark?: string | null
-          high_mistake_count?: number | null
+          high_mistake_count?: number
           id?: never
-          low_mistake_count?: number | null
-          medium_mistake_count?: number | null
+          low_mistake_count?: number
+          medium_mistake_count?: number
           notes?: string | null
           parent_assessment_id?: number | null
           session_name?: string | null

@@ -47,23 +47,45 @@ export async function addAssessmentCheckpoint(
     // TODO: can we have some kind of rollback here in case this update fails?
     if (final_mark) {
       // When `final_mark` exists, then we do not create a new checkpoint. Instead, we update the root assessment.
-      const parentAssessment = await assessmentsInstance.get(
-        restPayload.parent_assessment_id
-      )
+      const [parentAssessment, childrenAssessment] = await Promise.all([
+        assessmentsInstance.get(restPayload.parent_assessment_id),
+        assessmentsInstance.list({
+          parent_assessment_id: restPayload.parent_assessment_id
+        })
+      ])
+
       const [rootStart] = parentAssessment.data!.surah_range as [
         [string],
         [string] | undefined
       ]
       const [rootStartSurah, rootStartVerse] = rootStart[0].split(':')
+      const now = new Date().toISOString()
 
-      await assessmentsInstance.update(restPayload.parent_assessment_id, {
-        ...restPayload,
+      let lowMistakeCount = 0
+      let mediumMistakeCount = 0
+      let highMistakeCount = 0
+
+      for (const child of childrenAssessment.data!) {
+        lowMistakeCount += child.low_mistake_count
+        mediumMistakeCount += child.medium_mistake_count
+        highMistakeCount += child.high_mistake_count
+      }
+
+      // We skip updating root assessment's parent_assessment_id.
+      const { parent_assessment_id, ...payload } = restPayload
+      await assessmentsInstance.update(parent_assessment_id, {
+        ...payload,
         final_mark,
-        updated_at: new Date().toISOString(),
+        updated_at: now,
+        end_date: now,
+        notes, // Put the last checkpoint notes as the root assessment notes.
         surah_range: [
           [`${rootStartSurah}:${rootStartVerse}`],
           [`${end_surah}:${end_verse}`]
-        ]
+        ],
+        low_mistake_count: lowMistakeCount,
+        medium_mistake_count: mediumMistakeCount,
+        high_mistake_count: highMistakeCount
       })
     } else {
       await assessmentsInstance.create({

@@ -54,7 +54,7 @@ export default async function AsesemenPage({
 
   return (
     <Layout>
-      <Navbar text={rootAssessment.session_name!} />
+      <Navbar text={`Asesmen ${rootAssessment.session_name!}`} />
 
       <div className='p-6'>
         <Card className='bg-mtmh-neutral-white text-mtmh-grey-base shadow-sm border border-mtmh-snow-lighter rounded-md sticky top-0 z-10'>

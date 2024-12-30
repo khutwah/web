@@ -104,6 +104,7 @@ export const UpdateAssessmentCheckpointSchema = object({
   parent_assessment_id: number().required(),
   notes: string(),
   start_date: string().required().test(testTimestamp),
+  end_date: string().test(testTimestamp),
   start_surah: number().required().min(1),
   start_verse: number().required().min(1),
   end_surah: number().required().min(1),

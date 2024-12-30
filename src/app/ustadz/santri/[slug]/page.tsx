@@ -110,7 +110,7 @@ export default async function DetailSantri({
         />
       </div>
 
-      {isActive && <AssessmentSection />}
+      {isActive && <AssessmentSection studentId={studentId} />}
 
       {isActive && isStudentManagedByUser && (
         <ActivityCtaSection
