@@ -10,5 +10,7 @@ export default defineConfig({
     await client.connect()
     return new SeedPg(client)
   },
-  select: ['public.*']
+
+  // Please make sure to update the following list of tables when adding or removing tables.
+  select: ['!*', 'public.*']
 })
