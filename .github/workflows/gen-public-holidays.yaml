@@ -9,6 +9,10 @@ jobs:
   generate-holiday-data:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write # Allows creating branches and PRs
+      pull-requests: write # Allows the bot to create and manage pull requests
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -75,8 +79,6 @@ jobs:
         with:
           commit-message: 'feat: update public holidays for ${{ steps.get-year.outputs.year }}'
           branch: 'feat/update-public-holidays-${{ steps.get-year.outputs.year }}'
-          committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
-          author: ${{ github.actor }} <${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com>
           delete-branch: true
           title: 'Update public holidays for ${{ steps.get-year.outputs.year }}'
           body: |
