@@ -163,7 +163,7 @@ async function ProgressViewCardContent({
       {isChartView ? (
         <ProgressChartWithNavigation
           activities={activitiesChart}
-          datePeriod={periodQueryParameter === 'month' ? 'month' : 'week'}
+          datePeriod={chartPeriod}
         />
       ) : (
         <ProgressGridWithNavigation
@@ -177,7 +177,7 @@ async function ProgressViewCardContent({
             checkpointId: checkpoint?.id,
             lastActivityId: latestCheckpoint?.last_activity_id,
             pageCountAccumulation: latestCheckpoint?.page_count_accumulation,
-            studentId: Number(student.id),
+            studentId: student.id,
             notes: latestCheckpoint?.notes,
             partCount: latestCheckpoint?.part_count
           }}
