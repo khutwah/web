@@ -5,7 +5,7 @@ import studentHolidays from '@/data/holidays/students.json'
 
 import { doApiAction } from '@/utils/api-operation'
 import { createSuccessResponse } from '@/utils/api/response-generator'
-import { Activities } from '@/utils/supabase/models/activities'
+// import { Activities } from '@/utils/supabase/models/activities'
 import dayjs from 'dayjs'
 import { Students } from '@/utils/supabase/models/students'
 
