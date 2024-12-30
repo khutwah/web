@@ -5,13 +5,13 @@ on:
     - cron: '0 15 31 12 *' # Runs at 10:00 PM JKT (UTC+7), which is 3:00 PM UTC
   workflow_dispatch: # Allow manual triggering of the workflow
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   generate-holiday-data:
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: write # Allows creating branches and PRs
-      pull-requests: write # Allows the bot to create and manage pull requests
 
     steps:
       - name: Checkout code
@@ -21,10 +21,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-
-      - name: Install dependencies
-        run: |
-          npm install
 
       - name: Get the upcoming year
         id: get-year
@@ -77,6 +73,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
+          add-paths: 'src/data/holidays/public.json'
           commit-message: 'feat: update public holidays for ${{ steps.get-year.outputs.year }}'
           branch: 'feat/update-public-holidays-${{ steps.get-year.outputs.year }}'
           delete-branch: true
