@@ -32,7 +32,7 @@ export async function AssessmentCheckpoint({
       />
       <div className='text-left'>
         <div className='text-mtmh-sm-regular text-mtmh-neutral-50'>
-          {dayjs(checkpoint.timestamp).tz(tz).format('DD MMM YYYY HH:mm')}
+          {dayjs.utc(checkpoint.timestamp).tz(tz).format('DD MMM YYYY HH:mm')}
         </div>
         <div className='mt-1 text-mtmh-l-regular flex items-center gap-1'>
           {type === 'started' && (
