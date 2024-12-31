@@ -21,14 +21,16 @@ import { useErrorToast } from '@/hooks/useToast'
 import { useRouter } from 'next/navigation'
 import { UpdateAssessmentCheckpointForm } from './UpdateAssessmentCheckpointForm'
 import { InferType } from 'yup'
+import { Json } from '@/models/database.types'
 
 interface Props {
   lastCheckpoint: NonNullable<
     Awaited<ReturnType<Assessments['list']>>['data']
   >[number]
+  surahRange: Json
 }
 
-export function FinalizeAssessment({ lastCheckpoint }: Props) {
+export function FinalizeAssessment({ lastCheckpoint, surahRange }: Props) {
   const [open, setOpen] = useState(false)
 
   return (
@@ -48,6 +50,7 @@ export function FinalizeAssessment({ lastCheckpoint }: Props) {
 
         <AddAssessmentCheckpointForm
           lastCheckpoint={lastCheckpoint}
+          surahRange={surahRange}
           setOpen={setOpen}
         />
       </DrawerContent>
@@ -59,6 +62,7 @@ type ActionState = { message?: string; isInitialLoad?: true } | undefined
 
 function AddAssessmentCheckpointForm({
   lastCheckpoint,
+  surahRange,
   setOpen
 }: Props & { setOpen: (isOpen: boolean) => void }) {
   const [state, formAction, isPending] = useActionState<ActionState, FormData>(
@@ -84,17 +88,9 @@ function AddAssessmentCheckpointForm({
     <UpdateAssessmentCheckpointForm
       formAction={formAction}
       lastCheckpoint={lastCheckpoint}
+      surahRange={surahRange}
       additionalFormFields={<AdditionalFormFields />}
-      submitButton={
-        <Button
-          type='submit'
-          variant='primary'
-          className='w-full mt-4'
-          disabled={isPending}
-        >
-          {isPending ? 'Menyelesaikan asesmen...' : 'Selesaikan asesmen'}
-        </Button>
-      }
+      isPending={isPending}
     />
   )
 }
@@ -108,12 +104,12 @@ function AdditionalFormFields() {
   return (
     <div className='flex flex-col gap-2'>
       <InputWithLabel
-        label='Nilai akhir'
+        label='Nilai Akhir'
         inputProps={{
           ...register('final_mark'),
           className: 'w-full',
           type: 'text',
-          placeholder: 'Masukkan nilai akhir asesmen',
+          placeholder: 'Misalnya: Jayyid Jiddan',
           required: false
         }}
       />

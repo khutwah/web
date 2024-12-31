@@ -46,7 +46,6 @@ export default async function AsesemenPage({
   const [rootAssessment, ...childAssessments] = assessments.data
   const assessmentTypeFormatted =
     ASSESSMENT_TYPES[rootAssessment.session_type as AssessmentType].title
-
   const checkpointNumber = childAssessments.length
   // We always create 2 assessments when initially starting an assessment, so this will never be out of bounds.
   const lastAssessment = childAssessments[checkpointNumber - 1]
@@ -130,9 +129,15 @@ export default async function AsesemenPage({
         {!rootAssessment.final_mark && (
           <div className='flex flex-col gap-y-6'>
             <div className='flex gap-x-2 mt-6'>
-              <AddAssessmentCheckpoint lastCheckpoint={lastAssessment} />
+              <AddAssessmentCheckpoint
+                lastCheckpoint={lastAssessment}
+                surahRange={rootAssessment.surah_range}
+              />
 
-              <FinalizeAssessment lastCheckpoint={lastAssessment} />
+              <FinalizeAssessment
+                lastCheckpoint={lastAssessment}
+                surahRange={rootAssessment.surah_range}
+              />
             </div>
 
             <hr />

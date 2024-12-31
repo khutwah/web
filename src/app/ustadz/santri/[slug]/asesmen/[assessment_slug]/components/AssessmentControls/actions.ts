@@ -71,8 +71,9 @@ export async function addAssessmentCheckpoint(
         highMistakeCount += child.high_mistake_count
       }
 
-      // We skip updating root assessment's parent_assessment_id.
-      const { parent_assessment_id, ...payload } = restPayload
+      // We skip updating root assessment's parent_assessment_id and start_date.
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { parent_assessment_id, start_date, ...payload } = restPayload
       await assessmentsInstance.update(parent_assessment_id, {
         ...payload,
         final_mark,

@@ -8,6 +8,31 @@ export interface SurahDetail {
   end_verse: string[]
 }
 
+export function checkSurahDetail(surahDetail: SurahDetail) {
+  return isSurahDetailFilled(surahDetail) ? 0 : undefined
+}
+
+function isSurahDetailFilled(surahDetail: SurahDetail) {
+  return (
+    // Currently, we only have one range.
+    surahDetail.start_surah[0] &&
+    surahDetail.start_verse[0] &&
+    surahDetail.end_surah[0] &&
+    surahDetail.end_verse[0]
+  )
+}
+
+export function customSurahRangeSessionName(
+  startSurah: string | undefined,
+  startVerse: string | undefined,
+  endSurah: string | undefined,
+  endVerse: string | undefined
+) {
+  const start = SURAH_ITEMS.find(({ value }) => value === startSurah)
+  const end = SURAH_ITEMS.find(({ value }) => value === endSurah)
+  return `${start?.label}: ${startVerse} - ${end?.label}: ${endVerse}`
+}
+
 export function parseRangeValue(ranges: AssessmentRange[]) {
   return JSON.stringify(
     ranges.map((range) => [

@@ -7,22 +7,28 @@ import { Assessments } from '@/utils/supabase/models/assessments'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { ReactNode, startTransition } from 'react'
 import { FormProvider, useForm, useWatch } from 'react-hook-form'
-import { Label } from 'recharts'
+import { Label } from '@/components/Form/Label'
 import { getVerseItems } from '../../../../aktivitas/utils/form'
+import { Json } from '@/models/database.types'
+import { Button } from '@/components/Button/Button'
 
 interface Props {
   lastCheckpoint: NonNullable<
     Awaited<ReturnType<Assessments['list']>>['data']
   >[number]
+  surahRange: Json
   formAction: (formData: FormData) => void
+  isPending?: boolean
   additionalFormFields?: ReactNode
-  submitButton: ReactNode
+  submitButton?: ReactNode
 }
 
 export function UpdateAssessmentCheckpointForm({
   lastCheckpoint,
+  surahRange,
   formAction,
   additionalFormFields,
+  isPending,
   submitButton
 }: Props) {
   const [start] = lastCheckpoint.surah_range as [[string], [string] | undefined]
@@ -35,8 +41,8 @@ export function UpdateAssessmentCheckpointForm({
       student_id: lastCheckpoint.student?.id,
       ustadz_id: lastCheckpoint.ustadz?.id,
       parent_assessment_id: lastCheckpoint.parent_assessment_id!,
+      start_date: new Date().toISOString(),
       notes: '',
-      start_date: new Date().toISOString(), // We update the "start_date" to the current date for the current checkpoint.
       start_surah: Number(startSurah),
       start_verse: Number(startVerse),
       end_surah: Number(startSurah),
@@ -56,8 +62,19 @@ export function UpdateAssessmentCheckpointForm({
   const { end_surah, end_verse } = useWatch({
     control
   })
+  const finalMark = form.watch('final_mark')
 
-  const endVerseItems = getVerseItems(end_surah)
+  const range = surahRange as [[string, string | undefined]]
+  const rangeStartSurah = Number(range[0][0].split(':')[0])
+  const rangeStartVerse = Number(range[0][0].split(':')[1])
+  const rangeEndSurahString = range[0][1] ?? '114:6'
+  const rangeEndSurah = Number(rangeEndSurahString.split(':')[0])
+  const rangeEndVerse = Number(rangeEndSurahString.split(':')[1])
+  const endVerseItems = getVerseItems(
+    end_surah,
+    end_surah === rangeStartSurah ? rangeStartVerse : 0,
+    end_surah === rangeEndVerse ? rangeEndVerse : undefined
+  )
 
   const onSubmit = handleSubmit((payload) => {
     const formData = new FormData()
@@ -90,11 +107,16 @@ export function UpdateAssessmentCheckpointForm({
             <div className='basis-3/4 flex flex-col gap-2'>
               <Label>Akhir Baca</Label>
               <Combobox
-                items={SURAH_ITEMS}
-                value={`${end_surah}`}
+                mustSelect={true}
+                items={SURAH_ITEMS.filter((item) => {
+                  const itemValue = Number(item.value)
+                  return (
+                    itemValue >= rangeStartSurah && itemValue <= rangeEndSurah
+                  )
+                })}
+                value={`${end_surah || ''}`}
                 onChange={(value) => {
                   setValue('end_surah', Number(value))
-                  setValue('end_verse', 1)
                 }}
                 placeholder='Pilih Surat'
                 searchPlaceholder='Cari Surat'
@@ -102,8 +124,9 @@ export function UpdateAssessmentCheckpointForm({
             </div>
             <div className='basis-1/4'>
               <Combobox
+                mustSelect={true}
                 items={endVerseItems}
-                value={`${end_verse}`}
+                value={`${end_verse || ''}`}
                 onChange={(value) => {
                   setValue('end_verse', Number(value))
                 }}
@@ -123,7 +146,7 @@ export function UpdateAssessmentCheckpointForm({
                 ...register('notes'),
                 className: 'w-full',
                 type: 'text',
-                placeholder: 'Masukkan catatan',
+                placeholder: 'Misalnya: Baik sekali',
                 required: false
               }}
             />
@@ -134,7 +157,19 @@ export function UpdateAssessmentCheckpointForm({
           {additionalFormFields}
         </div>
 
-        {submitButton}
+        {/* FIXME(dio): This is a really bad hack, but we need to have a way to watch finalMark value */}
+        {submitButton ? (
+          <>{submitButton}</>
+        ) : (
+          <Button
+            type='submit'
+            variant='primary'
+            className='w-full mt-4'
+            disabled={isPending || !finalMark}
+          >
+            {isPending ? 'Menyelesaikan Asesmen...' : 'Selesaikan Asesmen'}
+          </Button>
+        )}
       </form>
     </FormProvider>
   )
