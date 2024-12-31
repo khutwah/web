@@ -90,16 +90,7 @@ function AddAssessmentCheckpointForm({
       lastCheckpoint={lastCheckpoint}
       surahRange={surahRange}
       additionalFormFields={<AdditionalFormFields />}
-      submitButton={
-        <Button
-          type='submit'
-          variant='primary'
-          className='w-full mt-4'
-          disabled={isPending}
-        >
-          {isPending ? 'Menyelesaikan Asesmen...' : 'Selesaikan Asesmen'}
-        </Button>
-      }
+      isPending={isPending}
     />
   )
 }

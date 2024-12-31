@@ -10,6 +10,7 @@ import { FormProvider, useForm, useWatch } from 'react-hook-form'
 import { Label } from '@/components/Form/Label'
 import { getVerseItems } from '../../../../aktivitas/utils/form'
 import { Json } from '@/models/database.types'
+import { Button } from '@/components/Button/Button'
 
 interface Props {
   lastCheckpoint: NonNullable<
@@ -17,8 +18,9 @@ interface Props {
   >[number]
   surahRange: Json
   formAction: (formData: FormData) => void
+  isPending?: boolean
   additionalFormFields?: ReactNode
-  submitButton: ReactNode
+  submitButton?: ReactNode
 }
 
 export function UpdateAssessmentCheckpointForm({
@@ -26,6 +28,7 @@ export function UpdateAssessmentCheckpointForm({
   surahRange,
   formAction,
   additionalFormFields,
+  isPending,
   submitButton
 }: Props) {
   const [start] = lastCheckpoint.surah_range as [[string], [string] | undefined]
@@ -59,6 +62,7 @@ export function UpdateAssessmentCheckpointForm({
   const { end_surah, end_verse } = useWatch({
     control
   })
+  const finalMark = form.watch('final_mark')
 
   const range = surahRange as [[string, string | undefined]]
   const rangeStartSurah = Number(range[0][0].split(':')[0])
@@ -153,7 +157,19 @@ export function UpdateAssessmentCheckpointForm({
           {additionalFormFields}
         </div>
 
-        {submitButton}
+        {/* FIXME(dio): This is a really bad hack, but we need to have a way to watch finalMark value */}
+        {submitButton ? (
+          <>{submitButton}</>
+        ) : (
+          <Button
+            type='submit'
+            variant='primary'
+            className='w-full mt-4'
+            disabled={isPending || !finalMark}
+          >
+            {isPending ? 'Menyelesaikan Asesmen...' : 'Selesaikan Asesmen'}
+          </Button>
+        )}
       </form>
     </FormProvider>
   )
