@@ -5,9 +5,15 @@ import studentHolidays from '@/data/holidays/students.json'
 
 import { doApiAction } from '@/utils/api-operation'
 import { createSuccessResponse } from '@/utils/api/response-generator'
-// import { Activities } from '@/utils/supabase/models/activities'
+import { Activities } from '@/utils/supabase/models/activities'
 import dayjs from 'dayjs'
 import { Students } from '@/utils/supabase/models/students'
+import {
+  ActivityStatus,
+  ActivityType,
+  GLOBAL_TARGET_PAGE
+} from '@/models/activities'
+import { ApiError } from '@/utils/api-error'
 
 dayjs.extend(isBetween)
 
@@ -28,7 +34,7 @@ type StudentHolidays = Array<
   ]
 >
 
-export async function POST() {
+export async function GET() {
   return await doApiAction<ReturnType<typeof createSuccessResponse>>(
     async () => {
       const currentDate = dayjs()
@@ -48,7 +54,7 @@ export async function POST() {
       }
 
       const studentsInstance = new Students()
-      const studentsData = await studentsInstance.listWithoutCheckpoints()
+      const studentsData = await studentsInstance.listForDraftSabaqAutomation()
 
       let students = studentsData.data ?? []
 
@@ -65,17 +71,32 @@ export async function POST() {
         return !isStudentHoliday
       })
 
-      console.log(students)
+      const activitiesInstance = new Activities()
 
-      //   const activitiesInstance = new Activities()
+      const response = await activitiesInstance.createBulk(
+        students.map((student) => {
+          return {
+            student_id: student.id,
+            shift_id: student.shift_id,
+            type: ActivityType.Sabaq,
+            is_target_achieved: false,
+            notes: 'Draft Sabaq ini dibuat otomatis, mohon segera dilengkapi.',
+            tags: [],
+            status: ActivityStatus.draft,
+            student_attendance: 'present',
+            target_page_count: GLOBAL_TARGET_PAGE,
+            page_count: 0
+          }
+        })
+      )
 
-      //   activitiesInstance.createBulk(
-      //     students.map((student) => {
-      //       return {
-      //         student_id: student.id
-      //       }
-      //     })
-      //   )
+      if (response.error) {
+        throw new ApiError({
+          code: response.error.code,
+          status: 500,
+          message: response.error.message
+        })
+      }
 
       return DEFAULT_RETURN_TYPE
     }
