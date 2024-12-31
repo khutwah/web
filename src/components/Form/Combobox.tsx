@@ -35,6 +35,7 @@ export interface ComboboxProps {
   placeholder?: string
   searchPlaceholder?: string
   withSearch?: boolean
+  mustSelect?: boolean
   startFrom?: number // this is only for "value" that have type number so we can disable the value below defined
 }
 
@@ -124,6 +125,7 @@ export function Combobox({
   placeholder = '',
   searchPlaceholder = 'Cari',
   withSearch = true,
+  mustSelect,
   startFrom
 }: ComboboxProps) {
   const [open, setOpen] = useState(false)
@@ -174,7 +176,7 @@ export function Combobox({
           </span>
 
           <div className='flex items-center space-x-2'>
-            {value && (
+            {value && !mustSelect && (
               <span
                 onClick={(e) => {
                   e.stopPropagation()
@@ -197,7 +199,7 @@ export function Combobox({
           <DrawerTitle>
             <div className='flex items-center justify-between'>
               <div className='text-left'>{placeholder}</div>
-              {selectedValue && (
+              {selectedValue && !mustSelect && (
                 <Button
                   className='max-w-xs'
                   variant='outline'

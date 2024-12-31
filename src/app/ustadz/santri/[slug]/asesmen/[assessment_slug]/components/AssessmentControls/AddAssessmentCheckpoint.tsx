@@ -16,14 +16,16 @@ import { Assessments } from '@/utils/supabase/models/assessments'
 import { useErrorToast } from '@/hooks/useToast'
 import { useRouter } from 'next/navigation'
 import { UpdateAssessmentCheckpointForm } from './UpdateAssessmentCheckpointForm'
+import { Json } from '@/models/database.types'
 
 interface Props {
   lastCheckpoint: NonNullable<
     Awaited<ReturnType<Assessments['list']>>['data']
   >[number]
+  surahRange: Json
 }
 
-export function AddAssessmentCheckpoint({ lastCheckpoint }: Props) {
+export function AddAssessmentCheckpoint({ lastCheckpoint, surahRange }: Props) {
   const [open, setOpen] = useState(false)
 
   return (
@@ -38,12 +40,13 @@ export function AddAssessmentCheckpoint({ lastCheckpoint }: Props) {
         <DrawerHeader>
           <DrawerTitle>Tambah checkpoint</DrawerTitle>
           <DrawerDescription>
-            Isi formulir berikut untuk menambah checkpoint.
+            Lengkapi data berikut untuk menambah checkpoint.
           </DrawerDescription>
         </DrawerHeader>
 
         <AddAssessmentCheckpointForm
           lastCheckpoint={lastCheckpoint}
+          surahRange={surahRange}
           setOpen={setOpen}
         />
       </DrawerContent>
@@ -55,6 +58,7 @@ type ActionState = { message?: string; isInitialLoad?: true } | undefined
 
 function AddAssessmentCheckpointForm({
   lastCheckpoint,
+  surahRange,
   setOpen
 }: Props & { setOpen: (isOpen: boolean) => void }) {
   const [state, formAction, isPending] = useActionState<ActionState, FormData>(
@@ -80,6 +84,7 @@ function AddAssessmentCheckpointForm({
     <UpdateAssessmentCheckpointForm
       formAction={formAction}
       lastCheckpoint={lastCheckpoint}
+      surahRange={surahRange}
       submitButton={
         <Button
           type='submit'

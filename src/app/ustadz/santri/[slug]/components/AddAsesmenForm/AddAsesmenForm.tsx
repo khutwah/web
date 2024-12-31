@@ -19,7 +19,9 @@ import { useParams } from 'next/navigation'
 import {
   getAssessmentRangeItems,
   parseRangeValue,
-  getSurahDetailFromSurahRange
+  getSurahDetailFromSurahRange,
+  checkSurahDetail,
+  customSurahRangeSessionName
 } from '@/utils/assessments'
 import { InferType } from 'yup'
 
@@ -47,9 +49,10 @@ export function AddAsesmenForm() {
     handleSubmit
   } = form
 
-  const { session_type, session_range_id, surah_range } = useWatch({
-    control
-  })
+  const { session_type, session_range_id, session_name, surah_range } =
+    useWatch({
+      control
+    })
 
   const onSubmit = handleSubmit((payload) => {
     const formData = new FormData()
@@ -81,6 +84,7 @@ export function AddAsesmenForm() {
             setValue('session_type', value as AssessmentType)
             setValue('surah_range', '')
             setValue('session_name', '')
+            setValue('session_range_id', undefined)
             resetField('surah_range')
             resetField('session_name')
           }}
@@ -104,6 +108,7 @@ export function AddAsesmenForm() {
         <ErrorField
           error={
             errors.session_name?.message ||
+            errors.session_range_id?.message ||
             errors.surah_range?.message ||
             state?.message
           }
@@ -114,7 +119,12 @@ export function AddAsesmenForm() {
         type='submit'
         variant='primary'
         className='w-full mt-4'
-        disabled={isPending}
+        disabled={
+          isPending ||
+          !session_type ||
+          session_range_id === undefined ||
+          !session_name
+        }
       >
         {isPending ? 'Memulai Asesmen...' : 'Mulai Asesmen'}
       </Button>
@@ -225,9 +235,14 @@ function CustomAssessmentRange({
               )
               setValue(
                 'session_name',
-                `${value}:${surahDetail.start_verse[0] || ''} - ${surahDetail.end_surah[0] || ''}:${surahDetail.end_verse[0] || ''}`
+                customSurahRangeSessionName(
+                  value,
+                  surahDetail.start_verse[0],
+                  surahDetail.end_surah[0],
+                  surahDetail.end_verse[0]
+                )
               )
-              setValue('session_range_id', 0)
+              setValue('session_range_id', checkSurahDetail(surahDetail))
             }}
             placeholder='Pilih surat'
             searchPlaceholder='Cari Surat'
@@ -262,9 +277,14 @@ function CustomAssessmentRange({
               )
               setValue(
                 'session_name',
-                `${surahDetail.start_surah[0] || ''}:${value} - ${surahDetail.end_surah[0] || ''}:${surahDetail.end_verse[0] || ''}`
+                customSurahRangeSessionName(
+                  surahDetail.start_surah[0],
+                  value,
+                  surahDetail.end_surah[0],
+                  surahDetail.end_verse[0]
+                )
               )
-              setValue('session_range_id', 0)
+              setValue('session_range_id', checkSurahDetail(surahDetail))
             }}
             placeholder='Pilih ayat'
             searchPlaceholder='Cari Ayat'
@@ -302,9 +322,14 @@ function CustomAssessmentRange({
               )
               setValue(
                 'session_name',
-                `${surahDetail.start_surah[0] || ''}:${surahDetail.start_verse[0] || ''} - ${value}:${surahDetail.end_verse[0] || ''}`
+                customSurahRangeSessionName(
+                  surahDetail.start_surah[0],
+                  surahDetail.start_verse[0],
+                  value,
+                  surahDetail.end_verse[0]
+                )
               )
-              setValue('session_range_id', 0)
+              setValue('session_range_id', checkSurahDetail(surahDetail))
             }}
             placeholder='Pilih surat'
             searchPlaceholder='Cari Surat'
@@ -339,9 +364,14 @@ function CustomAssessmentRange({
               )
               setValue(
                 'session_name',
-                `${surahDetail.start_surah[0] || ''}:${surahDetail.start_verse[0] || ''} - ${surahDetail.end_surah[0] || ''}:${value}`
+                customSurahRangeSessionName(
+                  surahDetail.start_surah[0],
+                  surahDetail.start_verse[0],
+                  surahDetail.end_surah[0],
+                  value
+                )
               )
-              setValue('session_range_id', 0)
+              setValue('session_range_id', checkSurahDetail(surahDetail))
             }}
             placeholder='Pilih ayat'
             searchPlaceholder='Cari Ayat'
