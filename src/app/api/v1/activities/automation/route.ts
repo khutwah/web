@@ -53,7 +53,7 @@ export async function GET() {
         return DEFAULT_RETURN_TYPE
       }
 
-      const studentsInstance = new Students()
+      const studentsInstance = new Students({ keyType: 'service-role' })
       const studentsData = await studentsInstance.listForDraftSabaqAutomation()
 
       let students = studentsData.data ?? []
@@ -71,7 +71,7 @@ export async function GET() {
         return !isStudentHoliday
       })
 
-      const activitiesInstance = new Activities()
+      const activitiesInstance = new Activities({ keyType: 'service-role' })
 
       const response = await activitiesInstance.createBulk(
         students.map((student) => {
@@ -85,7 +85,8 @@ export async function GET() {
             status: ActivityStatus.draft,
             student_attendance: 'present',
             target_page_count: GLOBAL_TARGET_PAGE,
-            page_count: 0
+            page_count: 0,
+            created_by: student.shift_ustadz_id!
           }
         })
       )

@@ -5,6 +5,7 @@ import { Circles } from '@/utils/supabase/models/circles'
 import { getUser } from '@/utils/supabase/get-user'
 import { ActivityStatus, ActivityType } from '@/models/activities'
 import dayjs from 'dayjs'
+import { BaseConstructorType } from '@/models/supabase/models/base'
 
 interface ListFilter extends RoleFilter {
   virtual_account?: string
@@ -22,6 +23,9 @@ interface CreatePayload {
 
 const COLUMNS = `id, name, users (id, email), circles (id, name)`
 export class Students extends Base {
+  constructor(args?: BaseConstructorType) {
+    super(args)
+  }
   async list(args: ListFilter) {
     const { virtual_account, pin, email, student_id, ustadz_id, circle_ids } =
       args
@@ -115,18 +119,20 @@ export class Students extends Base {
     // Retrieve shift id for given students circle ids
     const shifts = await supabase
       .from('shifts')
-      .select('id, circle_id')
+      .select('id, circle_id, ustadz_id')
       .lte('start_date', now)
       .or(`end_date.gte.${now}, end_date.is.null`)
       .in('circle_id', circleIds)
 
     // Populate students data with shift_id
     const studentsWithShifts = studentsWithoutDraftActivity?.map((student) => {
+      const shift = shifts.data?.find(
+        (shift) => shift.circle_id === student.circle_id
+      )
       return {
         ...student,
-        shift_id: shifts.data?.find(
-          (shift) => shift.circle_id === student.circle_id
-        )?.id
+        shift_id: shift?.id,
+        shift_ustadz_id: shift?.ustadz_id
       }
     })
 

@@ -6,6 +6,7 @@ import { getUserId } from '../get-user-id'
 import { ApiError } from '@/utils/api-error'
 import dayjs from '@/utils/dayjs'
 import { TAG_LAJNAH_ASSESSMENT_ONGOING } from '@/models/checkpoints'
+import { BaseConstructorType } from '@/models/supabase/models/base'
 
 export type StudentAttendance = 'present' | 'absent'
 
@@ -37,6 +38,7 @@ interface ActivitiesPayload {
   target_page_count: number
   student_attendance: StudentAttendance
   created_at?: string
+  created_by?: number
 }
 
 interface ActivitiesForChart {
@@ -68,6 +70,9 @@ const selectQuery = `
     `
 
 export class Activities extends Base {
+  constructor(args?: BaseConstructorType) {
+    super(args)
+  }
   async _getUserId() {
     const userId = Object.values((await getUserId()) ?? {})[0]
     return userId
@@ -214,14 +219,7 @@ export class Activities extends Base {
   }
 
   async createBulk(payloads: Partial<ActivitiesPayload>[]) {
-    const userId = await this._getUserId()
-
-    const _payloads = payloads.map((item) => ({
-      ...item,
-      created_by: userId
-    }))
-
-    return (await this.supabase).from('activities').insert(_payloads)
+    return (await this.supabase).from('activities').insert(payloads)
   }
 
   async update(id: number, payload: ActivitiesPayload) {
