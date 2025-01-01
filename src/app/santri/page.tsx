@@ -1,4 +1,4 @@
-import { Layout } from '@/components/Layouts/Santri'
+import { Layout } from '@/components/Layout/Santri'
 import { HeaderBackground } from '@/components/Header/Background'
 import { HomeHeader } from '@/components/Home/Header'
 import { getUser } from '@/utils/supabase/get-user'

@@ -10,7 +10,7 @@ import {
 } from '@/utils/auth/login-mumtaz'
 import { INVALID_CREDENTIALS } from '@/models/copywriting/auth'
 import { loginSupabase } from '@/utils/auth/login-supabase'
-import { isNeedMumtazLogin } from '@/utils/is-need-mumtaz-login'
+import { isMumtazLoginNeeded } from '@/utils/is-mumtaz-login-needed'
 
 export async function login(_prevState: unknown, formData: FormData) {
   let redirectUri = ''
@@ -21,16 +21,17 @@ export async function login(_prevState: unknown, formData: FormData) {
   }
 
   try {
-    const isNeedMumtaz = isNeedMumtazLogin(data.username)
+    const isMumtazNeeded = isMumtazLoginNeeded(data.username)
+    console.log('isMumtazNeeded', isMumtazNeeded)
 
-    if (isNeedMumtaz) {
+    if (isMumtazNeeded) {
       let status = -1,
         mumtazResponse = undefined
 
       // Skip mumtaz login when testing.
       if (
         process.env.NEXT_PUBLIC_SKIP_MUMTAZ_LOGIN !== 'true' ||
-        !data.username.endsWith('@santri.mtmh.com')
+        /@santri\./.test(data.username)
       ) {
         ;({ status, data: mumtazResponse } = await loginMumtaz({
           username: data.username,
@@ -51,7 +52,7 @@ export async function login(_prevState: unknown, formData: FormData) {
       }
     } else {
       /**
-       * Ustadz / Admin sign in
+       * Other than users who need mumtaz login. For example: admin, ustadz, lajnah.
        */
       await loginSupabase({
         email: data.username,

@@ -4,7 +4,7 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/Card/Card'
-import { Layout } from '@/components/Layouts/Ustadz'
+import { Layout } from '@/components/Layout/Ustadz'
 import { Navbar } from '@/components/Navbar/Navbar'
 import { StateMessage } from '@/components/StateMessage/StateMessage'
 import { ASSESSMENT_TYPES, AssessmentType } from '@/models/assessments'

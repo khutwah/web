@@ -1,26 +1,28 @@
 'use client'
 
 import { BottomNavbar } from '@/components/BottomNavbar/BottomNavbar'
-import { generateMenus } from '@/utils/menus'
-import { ACTIVE_ICONS, MENUS } from '@/utils/menus/santri'
-import { usePathname } from 'next/navigation'
+import { BottomNavbarLink } from '@/models/bottom-navbar'
 import { PropsWithChildren } from 'react'
 
-export function Layout({ children }: PropsWithChildren) {
-  const pathname = usePathname()
-  const menus = generateMenus(MENUS, ACTIVE_ICONS, pathname)
+interface BaseLayoutProps {
+  menus: BottomNavbarLink[] | null
+}
 
+export function BaseLayout({
+  children,
+  menus
+}: PropsWithChildren<BaseLayoutProps>) {
   return (
     <div className='flex flex-col h-full'>
       <div className='flex flex-col flex-1 overflow-y-auto relative'>
         {children}
       </div>
 
-      {menus ? (
+      {menus && (
         <div className='sticky bottom-0 left-0 w-full'>
           <BottomNavbar links={menus} />
         </div>
-      ) : null}
+      )}
     </div>
   )
 }

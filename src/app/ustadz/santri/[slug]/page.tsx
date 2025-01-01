@@ -1,4 +1,4 @@
-import { Layout } from '@/components/Layouts/Ustadz'
+import { Layout } from '@/components/Layout/Ustadz'
 import { Navbar } from '@/components/Navbar/Navbar'
 import { SantriActivityHeader } from '@/components/SantriActivity/Header'
 import ProgressViewCard from './components/ProgressView/Card'

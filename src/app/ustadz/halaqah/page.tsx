@@ -1,4 +1,4 @@
-import { Layout } from '@/components/Layouts/Ustadz'
+import { Layout } from '@/components/Layout/Ustadz'
 import { Navbar } from '@/components/Navbar/Navbar'
 import { Skeleton } from '@/components/Skeleton/Skeleton'
 import { Suspense } from 'react'

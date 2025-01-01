@@ -1,5 +1,14 @@
 import { Cicle } from '../helper/types'
 
+export const lajnah = {
+  members: [
+    {
+      name: 'Galih Sekarmeda',
+      email: 'galih@lajnah.mtmh.com'
+    }
+  ]
+}
+
 export const circles: Cicle[] = [
   {
     name: 'Halaqah 7.1',

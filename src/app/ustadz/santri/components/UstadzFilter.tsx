@@ -25,6 +25,7 @@ export function UstadzFilter() {
       const result = await getUstadzs()
 
       if ('data' in result) {
+        result.data?.unshift({ id: 0, name: 'Semua Ustadz' })
         setOptions(
           result.data?.map((ustadz) => ({
             label: ustadz.name || '',

@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation'
 import { getUserRole } from '../supabase/get-user-role'
 import { PAGE_BY_ROLE } from '@/models/auth'
 
-export async function isHaveAccess(role: number) {
+export async function isAllowedRole(role: number) {
   const _role = await getUserRole()
 
   // User has no access

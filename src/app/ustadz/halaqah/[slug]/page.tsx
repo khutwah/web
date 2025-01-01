@@ -1,5 +1,5 @@
 import { Card, CardContent } from '@/components/Card/Card'
-import { Layout } from '@/components/Layouts/Ustadz'
+import { Layout } from '@/components/Layout/Ustadz'
 import { Navbar } from '@/components/Navbar/Navbar'
 import { Circles } from '@/utils/supabase/models/circles'
 import { SantriList } from '@/app/ustadz/components/SantriList/SantriList'

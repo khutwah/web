@@ -2,7 +2,7 @@ import { ROLE } from '@/models/auth'
 import { isAllowedRole } from '@/utils/auth/is-allowed-role'
 import { PropsWithChildren } from 'react'
 
-export default async function StudentLayout({ children }: PropsWithChildren) {
-  await isAllowedRole(ROLE.STUDENT)
+export default async function LajnahLayout({ children }: PropsWithChildren) {
+  await isAllowedRole(ROLE.LAJNAH)
   return <main>{children}</main>
 }
