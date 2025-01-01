@@ -4,7 +4,7 @@ import { StateMessage } from '@/components/StateMessage/StateMessage'
 import Link from 'next/link'
 import { MENU_USTADZ_PATH_RECORDS } from '@/utils/menus/ustadz'
 import { Button } from '@/components/Button/Button'
-import { Flame } from 'lucide-react'
+import { LogIn } from 'lucide-react'
 
 interface AssessmentSectionProps {
   studentId: number
@@ -41,7 +41,8 @@ export default async function AssessmentSection({
           href={`${MENU_USTADZ_PATH_RECORDS.santri}/${studentId}/asesmen/${ongoingAssessment.id}`}
         >
           <Button variant='primary' className='w-full'>
-            <Flame size={16} /> Lanjutkan {ongoingAssessment.session_name}
+            <LogIn size={16} />
+            Lanjutkan {ongoingAssessment.session_name}
           </Button>
         </Link>
       ) : (
