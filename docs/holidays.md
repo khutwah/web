@@ -19,4 +19,4 @@ The holiday data serves as an identifier for various use cases within the applic
 
 Until a feature to manage holidays is implemented, admins can manually update the holiday data located at `@/data/holidays`.
 
-Refer to the `@/data/holidays/README.md` file for detailed instructions on how to manage the holiday data.
+Refer to the [@/data/holidays/README.md](../src/data/holidays/README.md) file for detailed instructions on how to manage the holiday data.
