@@ -14,6 +14,7 @@ import {
   GLOBAL_TARGET_PAGE
 } from '@/models/activities'
 import { ApiError } from '@/utils/api-error'
+import type { StudentHolidays } from '@/models/holidays'
 
 dayjs.extend(isBetween)
 
@@ -24,15 +25,8 @@ const DEFAULT_RETURN_TYPE = {
   status: 200
 }
 
-type StudentHolidays = Array<
-  [
-    string,
-    {
-      student_id: number
-      reason: string
-    }
-  ]
->
+const DRAFT_NOTES_COPY =
+  'Draft Sabaq ini dibuat otomatis, mohon segera dilengkapi.'
 
 export async function GET() {
   return await doApiAction<ReturnType<typeof createSuccessResponse>>(
@@ -80,7 +74,7 @@ export async function GET() {
             shift_id: student.shift_id,
             type: ActivityType.Sabaq,
             is_target_achieved: false,
-            notes: 'Draft Sabaq ini dibuat otomatis, mohon segera dilengkapi.',
+            notes: DRAFT_NOTES_COPY,
             tags: [],
             status: ActivityStatus.draft,
             student_attendance: 'present',
