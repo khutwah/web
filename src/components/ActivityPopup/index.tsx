@@ -116,7 +116,7 @@ export function ActivityPopup({ activities, from, id }: Props) {
                       }
                     )}
                   >
-                    Lanjutkan Mengedit
+                    Lanjutkan Melengkapi
                   </Link>
                 ) : (
                   <button type='button' disabled={!_activity.has_edit_access}>
