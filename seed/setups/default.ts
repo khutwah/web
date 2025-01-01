@@ -2,9 +2,10 @@ require('dotenv').config()
 
 import { createSeedClient } from '@snaplet/seed'
 import Supabase from '../helper/supabase'
-import { circles } from '../fixtures/circles'
+import { circles, lajnah } from '../fixtures/circles'
 import { registerTags } from '../helper/tags'
 import { registerCircles } from '../helper/circles'
+import { registerLajnahMembers } from '../helper/lajnah'
 import { generateActivities } from '../helper/activities'
 
 export default (async function () {
@@ -14,6 +15,7 @@ export default (async function () {
 
   await Promise.all([
     registerTags(seed),
+    registerLajnahMembers(supabase, seed, lajnah.members),
     registerCircles(supabase, seed, circles, new Date().getFullYear())
   ])
 

@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { Alert, AlertDescription } from '@/components/Alert/Alert'
 import { Button } from '@/components/Button/Button'
 import { ErrorBoundary } from '@/components/ErrorBoundary/ErrorBoundary'
-import { Layout } from '@/components/Layout/Ustadz'
+import { Layout } from '@/components/Layout/Lajnah'
 import { Navbar } from '@/components/Navbar/Navbar'
 import { StateMessage } from '@/components/StateMessage/StateMessage'
 import { SearchSection } from '@/app/ustadz/components/Search/SearchSection'
@@ -23,7 +23,6 @@ import {
   CHECKPOINT_STATUS_SEARCH_PARAMS_KEY,
   USTADZ_ID_SEARCH_PARAMS_KEY
 } from '@/app/ustadz/santri/constants'
-import { getUser } from '@/utils/supabase/get-user'
 
 export default async function Santri({
   searchParams: searchParamsPromise
@@ -32,8 +31,6 @@ export default async function Santri({
 }) {
   const tz = await getTimezoneInfo()
   const day = dayjs().tz(tz)
-
-  const currentUser = await getUser()
 
   const searchParams = await searchParamsPromise
   const parsedSearchParams = parseSearchParams(searchParams, {
@@ -45,9 +42,7 @@ export default async function Santri({
     CHECKPOINT_STATUS_SEARCH_PARAMS_KEY
   ] as Array<CheckpointStatus>
   const ustadzId =
-    parsedSearchParams[USTADZ_ID_SEARCH_PARAMS_KEY] ||
-    currentUser.data?.id ||
-    null
+    parsedSearchParams[USTADZ_ID_SEARCH_PARAMS_KEY] || 'ALL' || null
 
   return (
     <Layout>

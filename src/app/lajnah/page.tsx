@@ -1,5 +1,5 @@
 import { HalaqahCard } from '@/components/HalaqahCard/HalaqahCard'
-import { Layout } from '@/components/Layout/Ustadz'
+import { Layout } from '@/components/Layout/Lajnah'
 import { Circles } from '@/utils/supabase/models/circles'
 import { getUser } from '@/utils/supabase/get-user'
 import { HeaderBackground } from '@/components/Header/Background'

@@ -1,5 +1,5 @@
 import { HeaderBackground } from '@/components/Header/Background'
-import { Layout } from '@/components/Layouts/Santri'
+import { Layout } from '@/components/Layout/Santri'
 import { Navbar } from '@/components/Navbar/Navbar'
 import { ProgressChartPeriod } from '@/components/Progress/ProgressChart'
 import { NoteListSection } from '@/app/santri/pencapaian/components/NoteListSection'

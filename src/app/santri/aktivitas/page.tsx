@@ -1,5 +1,5 @@
 import { HeaderBackground } from '@/components/Header/Background'
-import { Layout } from '@/components/Layouts/Santri'
+import { Layout } from '@/components/Layout/Santri'
 import { Navbar } from '@/components/Navbar/Navbar'
 import { ActivityGridSection } from '@/app/santri/aktivitas/components/ActivityGridSection'
 import { LatestActivitiesSection } from '@/app/santri/aktivitas/components/LatestActivitiesSection'
