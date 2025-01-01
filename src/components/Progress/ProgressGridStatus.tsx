@@ -2,9 +2,9 @@ import { Pencil } from 'lucide-react'
 import Image, { StaticImageData } from 'next/image'
 import StatusDefault from './statuses/default.png'
 import StatusInactive from './statuses/inactive.png'
-import StatusLajnahApproaching from './statuses/lajnah-assessment-approaching.png'
-import StatusLajnahReady from './statuses/lajnah-assessment-ready.png'
-import StatusLajnahExam from './statuses/lajnah-assessment-ongoing.png'
+import StatusLajnahAssessmentApproaching from './statuses/lajnah-assessment-approaching.png'
+import StatusLajnahAssessmentReady from './statuses/lajnah-assessment-ready.png'
+import StatusLajnahAssessmentOngoing from './statuses/lajnah-assessment-ongoing.png'
 import { CheckpointStatus } from '@/models/checkpoints'
 import {
   Drawer,
@@ -117,31 +117,31 @@ function resolveStatus(
   switch (status) {
     case 'lajnah-assessment-approaching':
       return {
-        text: 'Siap-siap asesmen lajnah...',
+        text: 'Siap-siap Asesmen Lajnah...',
         description: `Alhamdulillah, hafalan ananda sudah mendekati ${parameter} juz.`,
         image: {
           alt: 'Jempol arah ke atas',
-          src: StatusLajnahApproaching
+          src: StatusLajnahAssessmentApproaching
         }
       }
 
     case 'lajnah-assessment-ready':
       return {
-        text: 'Sedang persiapan asesmen lajnah...',
-        description: `Bismillah, ananda sedang persiapan untuk lajnah ${parameter} juz.`,
+        text: 'Sedang persiapan Asesmen Lajnah...',
+        description: `Bismillah, ananda sedang persiapan untuk Asesmen Lajnah ${parameter} juz.`,
         image: {
           alt: 'Bendera berkibar berwarna merah',
-          src: StatusLajnahReady
+          src: StatusLajnahAssessmentReady
         }
       }
 
     case 'lajnah-assessment-ongoing':
       return {
-        text: 'Sedang mengikuti lajnah...',
-        description: `Bi'idznillah, ananda sedang mengikuti lajnah ${parameter} juz.`,
+        text: 'Sedang mengikuti Asesmen lajnah...',
+        description: `Bi'idznillah, ananda sedang mengikuti Asesmen Lajnah ${parameter} juz.`,
         image: {
           alt: 'Api menyala',
-          src: StatusLajnahExam
+          src: StatusLajnahAssessmentOngoing
         }
       }
 
