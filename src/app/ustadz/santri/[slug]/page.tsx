@@ -11,7 +11,10 @@ import {
   ACTIVITY_VIEW_QUERY_PARAMETER,
   ACTIVITY_CURRENT_DATE_QUERY_PARAMETER,
   ACTIVITY_PERIOD_QUERY_PARAMETER,
-  ACTIVITY_CURRENT_DATE_QUERY_PARAMETER_DATE_FORMAT
+  ACTIVITY_CURRENT_DATE_QUERY_PARAMETER_DATE_FORMAT,
+  ActivityType,
+  ACTIVITY_CONVERT_TO_DRAFT_PARAMETER,
+  ACTIVITY_ID_PARAMETER
 } from '@/models/activities'
 import getTimezoneInfo from '@/utils/get-timezone-info'
 import {
@@ -47,6 +50,8 @@ export default async function DetailSantri({
   const {
     [ACTIVITY_CURRENT_DATE_QUERY_PARAMETER]: currentDateQueryParameter,
     [ACTIVITY_VIEW_QUERY_PARAMETER]: viewQueryParameter,
+    [ACTIVITY_CONVERT_TO_DRAFT_PARAMETER]: convertToDraftQueryParameter,
+    [ACTIVITY_ID_PARAMETER]: activityIdQueryParameter,
     ...searchStringRecords
   } = convertSearchParamsToStringRecords(searchParams, [
     ACTIVITY_PERIOD_QUERY_PARAMETER
@@ -65,16 +70,28 @@ export default async function DetailSantri({
   const studentId = Number(params.slug)
   const studentsInstance = new Students()
   const activitiesInstance = new Activities()
-  const [student, isStudentManagedByUser, latestCheckpoint] = await Promise.all(
-    [
-      studentsInstance.get(studentId),
-      studentsInstance.isStudentManagedByUser(studentId),
-      activitiesInstance.checkpoint({
-        student_id: studentId
-      })
-    ]
-  )
+  const [
+    student,
+    isStudentManagedByUser,
+    latestCheckpoint,
+    activitiesForToday
+  ] = await Promise.all([
+    studentsInstance.get(studentId),
+    studentsInstance.isStudentManagedByUser(studentId),
+    activitiesInstance.checkpoint({
+      student_id: studentId
+    }),
+    activitiesInstance.listForDay(
+      studentId,
+      [ActivityType.Sabaq, ActivityType.Sabqi, ActivityType.Manzil],
+      day
+    )
+  ])
   const isActive = (latestCheckpoint?.status as CheckpointStatus) !== 'inactive'
+
+  if (convertToDraftQueryParameter === 'true' && activityIdQueryParameter) {
+    await activitiesInstance.convertToDraft(Number(activityIdQueryParameter))
+  }
 
   return (
     <Layout>
@@ -116,6 +133,7 @@ export default async function DetailSantri({
         <ActivityCtaSection
           searchStringRecords={searchStringRecords}
           student={student.data}
+          activitiesForToday={activitiesForToday.data || []}
         />
       )}
 

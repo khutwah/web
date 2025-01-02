@@ -124,7 +124,36 @@ export function ActivityPopup({ activities, from, id }: Props) {
                   </button>
                 )}
               </Button>
-            ) : null}
+            ) : (
+              <Button
+                variant='outline'
+                asChild
+                className='mt-4'
+                disabled={!_activity.has_edit_access}
+              >
+                {_activity.has_edit_access ? (
+                  <Link
+                    href={addQueryParams(
+                      `/ustadz/santri/${_activity.student_id}`,
+                      {
+                        draft: 'true',
+                        activity: `${_activity.id}`,
+                        from,
+                        id: addQueryParams(id || '', {
+                          activity: `${_activity.id}`
+                        })
+                      }
+                    )}
+                  >
+                    Jadikan Draft
+                  </Link>
+                ) : (
+                  <button type='button' disabled={!_activity.has_edit_access}>
+                    Afwan. Antum tidak punya hak edit.
+                  </button>
+                )}
+              </Button>
+            )}
           </div>
         ) : null}
       </DrawerContent>

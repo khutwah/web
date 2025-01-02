@@ -1,5 +1,6 @@
 import { AddActivityCta } from '@/components/AddActivityCta/AddActivityCta'
 import { StateMessage } from '@/components/StateMessage/StateMessage'
+import { ActivityType } from '@/models/activities'
 
 interface Student {
   id: number
@@ -8,14 +9,22 @@ interface Student {
   } | null
 }
 
+interface Activity {
+  id: number
+  type: ActivityType | null
+  status: string
+}
+
 interface ActivityCtaSectionProps {
   student: Student | null
   searchStringRecords?: Record<string, string>
+  activitiesForToday: Activity[]
 }
 
 export default function ActivityCtaSection({
   student,
-  searchStringRecords
+  searchStringRecords,
+  activitiesForToday
 }: ActivityCtaSectionProps) {
   if (!student || !student.circles) {
     return (
@@ -41,6 +50,9 @@ export default function ActivityCtaSection({
           size='sm'
           studentId={student.id}
           searchStringRecords={searchStringRecords}
+          activityForToday={activitiesForToday.find(
+            ({ type }) => ActivityType.Sabaq === type
+          )}
         />
         <AddActivityCta
           activityType='Sabqi'
@@ -49,6 +61,9 @@ export default function ActivityCtaSection({
           size='sm'
           studentId={student.id}
           searchStringRecords={searchStringRecords}
+          activityForToday={activitiesForToday.find(
+            ({ type }) => ActivityType.Sabqi === type
+          )}
         />
         <AddActivityCta
           activityType='Manzil'
@@ -57,6 +72,9 @@ export default function ActivityCtaSection({
           size='sm'
           studentId={student.id}
           searchStringRecords={searchStringRecords}
+          activityForToday={activitiesForToday.find(
+            ({ type }) => ActivityType.Manzil === type
+          )}
         />
       </div>
     </section>
