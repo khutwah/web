@@ -51,7 +51,7 @@ jobs:
         env:
           SUPABASE_API_URL: ${{ secrets.REVIEW_SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.REVIEW_SUPABASE_ANON_KEY }}
-          DATABASE_URL: ${{ secrets.REVIEW_DATABASE_URL }}
+          SEED_DATABASE_URL: ${{ secrets.REVIEW_DATABASE_URL }}
 
   deploy:
     needs: check-database
@@ -63,7 +63,7 @@ jobs:
         with:
           name: khutwah-review-${{ github.event.number }}
           config: deployments/review/fly.toml
-          secrets: SUPABASE_API_URL=${{ secrets.REVIEW_SUPABASE_URL }} SUPABASE_ANON_KEY=${{ secrets.REVIEW_SUPABASE_ANON_KEY }} DEFAULT_STUDENT_PASSWORD=${{ secrets.DEFAULT_STUDENT_PASSWORD }} DATABASE_URL=${{ secrets.REVIEW_DATABASE_URL }}
+          secrets: SUPABASE_API_URL=${{ secrets.REVIEW_SUPABASE_URL }} SUPABASE_ANON_KEY=${{ secrets.REVIEW_SUPABASE_ANON_KEY }}
           build_args: |
             NEXT_PUBLIC_APP_VERSION=pr-${{ github.event.number }}@${{ github.sha }}
             NEXT_PUBLIC_CACHE_BUSTER=${{ github.sha }}

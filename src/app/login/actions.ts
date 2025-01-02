@@ -49,7 +49,7 @@ export async function login(_prevState: unknown, formData: FormData) {
       }
     } else {
       // IF it ends with .mh, we complete the email address.
-      const dotNamespace = `.${process.env.NEXT_PUBLIC_NAMESPACE || 'mh'}`
+      const dotNamespace = `.${process.env.NEXT_PUBLIC_APP_NAMESPACE || 'mh'}`
       if (data.username.endsWith(dotNamespace)) {
         data.username = data.username.replace(
           dotNamespace,

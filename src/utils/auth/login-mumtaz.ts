@@ -59,7 +59,7 @@ export async function successLoginStudentCallback(
     await registerStudent({
       email: mumtazResponse.email,
       name: mumtazResponse.name,
-      password: process.env.DEFAULT_STUDENT_PASSWORD!,
+      password: process.env.STUDENTS_DEFAULT_PASSWORD!,
       virtual_account: mumtazResponse.virtual_account
     })
     cookie.set(PIN_IS_SUBMMITTED, 'false', {
@@ -73,7 +73,7 @@ export async function successLoginStudentCallback(
   const emailStudent = user.users?.email ?? ''
   await loginSupabase({
     email: emailStudent,
-    password: process.env.DEFAULT_STUDENT_PASSWORD!
+    password: process.env.STUDENTS_DEFAULT_PASSWORD!
   })
 
   const isPinSubmitted = await student.isPinSubmitted(
