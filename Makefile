@@ -19,6 +19,6 @@ image:
 		--platform linux/amd64 \
 		--build-arg NEXT_PUBLIC_APP_VERSION=$(VERSION) \
 		--build-arg NEXT_PUBLIC_APP_NAMESPACE=$(NAMESPACE) \
-		--build-arg NEXT_PUBLIC_APP_TITLE=$(TITLE) \
-		--build-arg NEXT_PUBLIC_APP_DESCRIPTION=$(DESCRIPTION) \
+		--build-arg NEXT_PUBLIC_APP_TITLE="$(TITLE)" \
+		--build-arg NEXT_PUBLIC_APP_DESCRIPTION="$(DESCRIPTION)" \
 		-t $(IMG) .
