@@ -30,7 +30,7 @@ export async function login(_prevState: unknown, formData: FormData) {
 
     await loginSupabase({
       email: email.value,
-      password: process.env.DEFAULT_STUDENT_PASSWORD!
+      password: process.env.STUDENTS_DEFAULT_PASSWORD!
     })
 
     _cookies.delete(TEMPORARY_PIN_PAGE_ID_COOKIE)

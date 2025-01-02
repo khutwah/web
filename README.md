@@ -17,11 +17,11 @@ Three basic env key you can obtain by yourself
 ```
 SUPABASE_API_URL=
 SUPABASE_ANON_KEY=
-DEFAULT_STUDENT_PASSWORD=
-DATABASE_URL=postgresql://postgres:postgres@localhost:54322/postgres
+STUDENTS_DEFAULT_PASSWORD=
+SEED_DATABASE_URL=postgresql://postgres:postgres@localhost:54322/postgres
 ```
 
-You can come up with your own DEFAULT_STUDENT_PASSWORD that only work on your local. This is for system used only, student will be authenticated using mumtaz API, and session will be created in our system using this password. More Detail: https://github.com/khutwah/khutwah-web/tree/main/src/app/login
+You can come up with your own STUDENTS_DEFAULT_PASSWORD that only work on your local. This is for system used only, student will be authenticated using mumtaz API, and session will be created in our system using this password. More Detail: https://github.com/khutwah/khutwah-web/tree/main/src/app/login
 
 Then, run local supabase application:
 
