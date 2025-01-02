@@ -11,7 +11,7 @@ IMG ?= $(REG)/$(NAM)-${ENV}-khutwah-id-$(REF):$(TAG)
 VERSION     ?= $(PRE)-$(VER)
 NAMESPACE   ?= $(NAM)
 TITLE       ?= Minhajul Haq
-DESCRIPTION ?= Minhajul Haq Pusat Studi Islam dan Bahasa Arab
+DESCRIPTION ?= Minhajul Haq - Studi Islam dan Bahasa Arab
 
 image:
 	docker build \
