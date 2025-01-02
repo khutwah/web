@@ -1,10 +1,6 @@
 import { PaginationFilter, RoleFilter } from '@/models/supabase/models/filter'
 import { Base } from './base'
-import {
-  ActivityStatus,
-  ActivityType,
-  ActivityTypeKey
-} from '@/models/activities'
+import { ActivityStatus, ActivityType } from '@/models/activities'
 import surahs from '@/data/mushaf/surahs.json'
 import { getUserId } from '../get-user-id'
 import { ApiError } from '@/utils/api-error'

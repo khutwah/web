@@ -50,8 +50,6 @@ export function AddActivityCta({
 }: AddActivityCtaProps) {
   const { label, className } = ACTIVITY_TYPE_TO_BUTTON_PROPS[activityType]
 
-  const action = activityForToday ? 'edit' : 'add'
-
   return (
     <Button
       {...buttonProps}
@@ -61,7 +59,7 @@ export function AddActivityCta({
       <Link
         href={{
           pathname: activityForToday
-            ? `${MENU_USTADZ_PATH_RECORDS.santri}/${studentId}`
+            ? `${MENU_USTADZ_PATH_RECORDS.santri}/${studentId}` // FIXME(dio): We need to keep on the current page.
             : `${MENU_USTADZ_PATH_RECORDS.santri}/${studentId}/aktivitas/add`,
           query: {
             activity_type: activityType,
