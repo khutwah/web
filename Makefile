@@ -10,11 +10,11 @@ IMG ?= $(REG)/$(NAM)-${ENV}-khutwah-id-$(REF):$(TAG)
 # NEXT_PUBLIC_APP_*
 VERSION     ?= $(PRE)-$(VER)
 NAMESPACE   ?= $(NAM)
-TITLE       ?= "Minhajul Haq"
-DESCRIPTION ?= "Minhajul Haq Pusat Studi Islam dan Bahasa Arab"
+TITLE       ?= Minhajul Haq
+DESCRIPTION ?= Minhajul Haq Pusat Studi Islam dan Bahasa Arab
 
 image:
-	@docker build \
+	docker build \
 		--push \
 		--platform linux/amd64 \
 		--build-arg NEXT_PUBLIC_APP_VERSION=$(VERSION) \
