@@ -60,10 +60,10 @@ export default async function DetailHalaqah({
           returnTo={`${MENU_USTADZ_PATH_RECORDS.home}${returnTo}`}
         />
 
-        <div className='bg-mtmh-red-base w-full p-4'>
-          <Card className='bg-mtmh-neutral-white text-mtmh-grey-base shadow-md'>
+        <div className='bg-khutwah-red-base w-full p-4'>
+          <Card className='bg-khutwah-neutral-white text-khutwah-grey-base shadow-md'>
             <CardContent className='flex flex-col p-4 gap-y-3'>
-              <dl className='grid grid-cols-3 text-mtmh-m-regular gap-y-2'>
+              <dl className='grid grid-cols-3 text-khutwah-m-regular gap-y-2'>
                 <dt className='font-semibold col-span-1'>Wali halaqah</dt>
                 <dd className='col-span-2'>{circleInfo.data.ustadz?.name}</dd>
 

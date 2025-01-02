@@ -5,17 +5,17 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/utils/classnames'
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-semibold ring-mtmh-primary-40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
+  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-semibold ring-khutwah-primary-40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
   {
     variants: {
       variant: {
         primary:
-          'bg-mtmh-red-base text-white hover:bg-mtmh-red-dark active:bg-mtmh-red-darker disabled:bg-mtmh-snow-base disabled:text-mtmh-grey-lightest',
+          'bg-khutwah-red-base text-white hover:bg-khutwah-red-dark active:bg-khutwah-red-darker disabled:bg-khutwah-snow-base disabled:text-khutwah-grey-lightest',
         outline:
-          'bg-white text-mtmh-grey-base border border-mtmh-snow-lighter hover:bg-mtmh-snow-lighter active:bg-mtmh-snow-base disabled:text-mtmh-grey-lightest',
-        text: 'text-mtmh-sm-semibold text-mtmh-red-light hover:bg-mtmh-snow-lighter active:bg-mtmh-snow-base disabled:text-mtmh-grey-lightest',
+          'bg-white text-khutwah-grey-base border border-khutwah-snow-lighter hover:bg-khutwah-snow-lighter active:bg-khutwah-snow-base disabled:text-khutwah-grey-lightest',
+        text: 'text-khutwah-sm-semibold text-khutwah-red-light hover:bg-khutwah-snow-lighter active:bg-khutwah-snow-base disabled:text-khutwah-grey-lightest',
         text2:
-          'text-mtmh-red-light hover:bg-mtmh-neutral-white active:bg-mtmh-snow-base disabled:text-mtmh-grey-lightest'
+          'text-khutwah-red-light hover:bg-khutwah-neutral-white active:bg-khutwah-snow-base disabled:text-khutwah-grey-lightest'
       },
       size: {
         xs: 'h-8 rounded-md px-1',

@@ -96,15 +96,15 @@ export function ProgressGrid({
   return (
     <div
       className={cn(
-        'w-full flex flex-col border border-mtmh-snow-lighter rounded-lg',
+        'w-full flex flex-col border border-khutwah-snow-lighter rounded-lg',
         className
       )}
     >
       <div className='w-full flex flex-col gap-y-3 p-3'>
         <table className='[&>*>*>td]:p-1 [&>*>*>td]:text-center w-full table-fixed'>
           <thead>
-            <tr className='text-mtmh-xs-regular h-[28px]'>
-              <td className='text-mtmh-xs-semibold text-mtmh-red-light w-[51px]'>
+            <tr className='text-khutwah-xs-regular h-[28px]'>
+              <td className='text-khutwah-xs-semibold text-khutwah-red-light w-[51px]'>
                 {dayjsClientSideLocal(currentDate.toISOString()).format(
                   'MMM YY'
                 )}
@@ -121,7 +121,7 @@ export function ProgressGrid({
           <tbody>
             {gridKeys.map((activityName) => (
               <tr key={activityName}>
-                <td className='text-mtmh-sm-semibold'>{activityName}</td>
+                <td className='text-khutwah-sm-semibold'>{activityName}</td>
                 {headers.map((header) => {
                   const headerKey = getGridIdentifier(new Date(header))
                   const { pageCount, isStudentPresent, status } =
@@ -247,7 +247,7 @@ function TableHeaderDate({ dateString }: { dateString: string }) {
       dateTime={dayjsObject.format('YYYY-MM-DD')}
       className={
         isActive
-          ? 'rounded-full w-5 h-5 mx-auto flex items-center justify-center bg-mtmh-red-light text-mtmh-neutral-white'
+          ? 'rounded-full w-5 h-5 mx-auto flex items-center justify-center bg-khutwah-red-light text-khutwah-neutral-white'
           : undefined
       }
     >

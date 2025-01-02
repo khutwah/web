@@ -29,7 +29,7 @@ export function HalaqahList({ items }: HalaqahListProps) {
 
   if (resolvedItems.length === 0) {
     return (
-      <p className='text-mtmh-body-small text-mtmh-neutral-70'>{`Hasil pencarian "${searchContext.searchQuery}" tidak ditemukan`}</p>
+      <p className='text-khutwah-body-small text-khutwah-neutral-70'>{`Hasil pencarian "${searchContext.searchQuery}" tidak ditemukan`}</p>
     )
   }
 

@@ -36,7 +36,7 @@ export default function PinPage() {
 
   return (
     <div className='flex flex-col items-center justify-center h-full space-y-8'>
-      <h2 className='text-mtmh-m-semibold'>
+      <h2 className='text-khutwah-m-semibold'>
         {step === 'initial'
           ? 'Amankan akun Anda dengan PIN'
           : 'Konfirmasi PIN Anda'}

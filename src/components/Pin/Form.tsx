@@ -43,7 +43,7 @@ export function PinForm({ buttonText, action, isConfirmationStep }: PinForm) {
         </div>
       ),
       duration: 5000,
-      className: 'p-4 bg-mtmh-error-error text-mtmh-neutral-white'
+      className: 'p-4 bg-khutwah-error-error text-khutwah-neutral-white'
     })
   }, [toast, state?.message, isTransitioning])
 

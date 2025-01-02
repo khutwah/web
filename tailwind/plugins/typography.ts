@@ -2,7 +2,7 @@ import plugin from 'tailwindcss/plugin'
 
 export const typographyPlugin = plugin(function ({ addUtilities }) {
   addUtilities({
-    '.text-mtmh-display-large': {
+    '.text-khutwah-display-large': {
       'font-size': '36px',
       'font-weight': '700',
       'line-height': '44px',
@@ -10,7 +10,7 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       'text-underline-position': 'from-font',
       'text-decoration-skip-ink': 'none'
     },
-    '.text-mtmh-display-medium': {
+    '.text-khutwah-display-medium': {
       'font-size': '32px',
       'font-weight': '700',
       'line-height': '40px',
@@ -18,7 +18,7 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       'text-underline-position': 'from-font',
       'text-decoration-skip-ink': 'none'
     },
-    '.text-mtmh-display-small': {
+    '.text-khutwah-display-small': {
       'font-size': '28px',
       'font-weight': '600',
       'line-height': '36px',
@@ -26,7 +26,7 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       'text-underline-position': 'from-font',
       'text-decoration-skip-ink': 'none'
     },
-    '.text-mtmh-heading-h1': {
+    '.text-khutwah-heading-h1': {
       'font-size': '28px',
       'font-weight': '700',
       'line-height': '36px',
@@ -34,7 +34,7 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       'text-underline-position': 'from-font',
       'text-decoration-skip-ink': 'none'
     },
-    '.text-mtmh-heading-h2': {
+    '.text-khutwah-heading-h2': {
       'font-size': '24px',
       'font-weight': '600',
       'line-height': '32px',
@@ -42,7 +42,7 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       'text-underline-position': 'from-font',
       'text-decoration-skip-ink': 'none'
     },
-    '.text-mtmh-heading-h3': {
+    '.text-khutwah-heading-h3': {
       'font-size': '20px',
       'font-weight': '500',
       'line-height': '28px',
@@ -50,7 +50,7 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       'text-underline-position': 'from-font',
       'text-decoration-skip-ink': 'none'
     },
-    '.text-mtmh-title-large': {
+    '.text-khutwah-title-large': {
       'font-size': '18px',
       'font-weight': '700',
       'line-height': '24px',
@@ -58,7 +58,7 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       'text-underline-position': 'from-font',
       'text-decoration-skip-ink': 'none'
     },
-    '.text-mtmh-title-medium': {
+    '.text-khutwah-title-medium': {
       'font-size': '16px',
       'font-weight': '600',
       'line-height': '24px',
@@ -66,7 +66,7 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       'text-underline-position': 'from-font',
       'text-decoration-skip-ink': 'none'
     },
-    '.text-mtmh-title-small': {
+    '.text-khutwah-title-small': {
       'font-size': '14px',
       'font-weight': '500',
       'line-height': '20px',
@@ -74,7 +74,7 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       'text-underline-position': 'from-font',
       'text-decoration-skip-ink': 'none'
     },
-    '.text-mtmh-body-large': {
+    '.text-khutwah-body-large': {
       'font-size': '20px',
       'font-weight': '400',
       'line-height': '28px',
@@ -82,7 +82,7 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       'text-underline-position': 'from-font',
       'text-decoration-skip-ink': 'none'
     },
-    '.text-mtmh-body-medium': {
+    '.text-khutwah-body-medium': {
       'font-size': '16px',
       'font-weight': '400',
       'line-height': '24px',
@@ -90,7 +90,7 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       'text-underline-position': 'from-font',
       'text-decoration-skip-ink': 'none'
     },
-    '.text-mtmh-body-small': {
+    '.text-khutwah-body-small': {
       'font-size': '14px',
       'font-weight': '400',
       'line-height': '20px',
@@ -98,7 +98,7 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       'text-underline-position': 'from-font',
       'text-decoration-skip-ink': 'none'
     },
-    '.text-mtmh-button-large': {
+    '.text-khutwah-button-large': {
       'font-size': '16px',
       'font-weight': '600',
       'line-height': '24px',
@@ -106,7 +106,7 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       'text-underline-position': 'from-font',
       'text-decoration-skip-ink': 'none'
     },
-    '.text-mtmh-button-medium': {
+    '.text-khutwah-button-medium': {
       'font-size': '14px',
       'font-weight': '600',
       'line-height': '20px',
@@ -114,7 +114,7 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       'text-underline-position': 'from-font',
       'text-decoration-skip-ink': 'none'
     },
-    '.text-mtmh-button-small': {
+    '.text-khutwah-button-small': {
       'font-size': '12px',
       'font-weight': '600',
       'line-height': '16px',
@@ -122,7 +122,7 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       'text-underline-position': 'from-font',
       'text-decoration-skip-ink': 'none'
     },
-    '.text-mtmh-label': {
+    '.text-khutwah-label': {
       'font-size': '12px',
       'font-weight': '500',
       'line-height': '16px',
@@ -130,7 +130,7 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       'text-underline-position': 'from-font',
       'text-decoration-skip-ink': 'none'
     },
-    '.text-mtmh-caption': {
+    '.text-khutwah-caption': {
       'font-size': '12px',
       'font-weight': '400',
       'line-height': '16px',
@@ -139,7 +139,7 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       'text-decoration-skip-ink': 'none'
     },
     // TODO(imballinst): these are also manually added.
-    '.text-mtmh-xl-semibold': {
+    '.text-khutwah-xl-semibold': {
       'font-size': '24px',
       'font-weight': '600',
       'line-height': '32px',
@@ -147,7 +147,7 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       'text-underline-position': 'from-font',
       'text-decoration-skip-ink': 'none'
     },
-    '.text-mtmh-l-semibold': {
+    '.text-khutwah-l-semibold': {
       'font-size': '16px',
       'font-weight': '600',
       'line-height': '24px',
@@ -155,7 +155,7 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       'text-underline-position': 'from-font',
       'text-decoration-skip-ink': 'none'
     },
-    '.text-mtmh-m-semibold': {
+    '.text-khutwah-m-semibold': {
       'font-size': '14px',
       'font-weight': '600',
       'line-height': '20px',
@@ -163,7 +163,7 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       'text-underline-position': 'from-font',
       'text-decoration-skip-ink': 'none'
     },
-    '.text-mtmh-m-regular': {
+    '.text-khutwah-m-regular': {
       'font-size': '14px',
       'font-weight': '400',
       'line-height': '20px',
@@ -171,7 +171,7 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       'text-underline-position': 'from-font',
       'text-decoration-skip-ink': 'none'
     },
-    '.text-mtmh-sm-semibold': {
+    '.text-khutwah-sm-semibold': {
       'font-size': '12px',
       'font-weight': '600',
       'line-height': '16px',
@@ -179,7 +179,7 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       'text-underline-position': 'from-font',
       'text-decoration-skip-ink': 'none'
     },
-    '.text-mtmh-sm-regular': {
+    '.text-khutwah-sm-regular': {
       'font-size': '12px',
       'font-weight': '400',
       'line-height': '16px',
@@ -187,7 +187,7 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       'text-underline-position': 'from-font',
       'text-decoration-skip-ink': 'none'
     },
-    '.text-mtmh-xs-semibold': {
+    '.text-khutwah-xs-semibold': {
       'font-size': '11px',
       'font-weight': '600',
       'line-height': '16px',
@@ -195,7 +195,7 @@ export const typographyPlugin = plugin(function ({ addUtilities }) {
       'text-underline-position': 'from-font',
       'text-decoration-skip-ink': 'none'
     },
-    '.text-mtmh-xs-regular': {
+    '.text-khutwah-xs-regular': {
       'font-size': '11px',
       'font-weight': '400',
       'line-height': '16px',

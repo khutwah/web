@@ -14,7 +14,7 @@ const TabsList = React.forwardRef<
   <TabsPrimitive.List
     ref={ref}
     className={cn(
-      'inline-flex items-center justify-center rounded-lg p-1 border border-mtmh-snow-lighter bg-[#F5F5F5]',
+      'inline-flex items-center justify-center rounded-lg p-1 border border-khutwah-snow-lighter bg-[#F5F5F5]',
       className
     )}
     {...props}
@@ -29,7 +29,7 @@ const TabsTrigger = React.forwardRef<
   <TabsPrimitive.Trigger
     ref={ref}
     className={cn(
-      'inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-2 ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-mtmh-grey-light data-[state=active]:text-mtmh-grey-base text-mtmh-xs-regular data-[state=active]:text-mtmh-xs-semibold data-[state=active]:border data-[state-active]:border-mtmh-snow-lighter data-[state=active]:bg-white data-[state=active]:shadow-sm',
+      'inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-2 ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-khutwah-grey-light data-[state=active]:text-khutwah-grey-base text-khutwah-xs-regular data-[state=active]:text-khutwah-xs-semibold data-[state=active]:border data-[state-active]:border-khutwah-snow-lighter data-[state=active]:bg-white data-[state=active]:shadow-sm',
       className
     )}
     {...props}

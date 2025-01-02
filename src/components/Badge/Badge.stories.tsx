@@ -5,7 +5,7 @@ import { ActivityBadge } from './ActivityBadge'
 export function BadgeStory() {
   return (
     <>
-      <div className='flex gap-4 bg-mtmh-red-base p-4'>
+      <div className='flex gap-4 bg-khutwah-red-base p-4'>
         <Badge color='blue' text='Sabaq' />
         <Badge color='green' text='Sabqi' />
         <Badge color='tamarind' text='Manzil' />

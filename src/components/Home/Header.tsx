@@ -31,7 +31,7 @@ export function HomeHeader({ displayName, ustadz }: Props) {
         salahPrayerTimes={alAdhanInfo?.timings}
       >
         {errorMessage && (
-          <div className='flex gap-x-2 text-mtmh-sm-regular text-mtmh-red-light'>
+          <div className='flex gap-x-2 text-khutwah-sm-regular text-khutwah-red-light'>
             <div className='flex flex-col justify-center'>
               <CircleAlert aria-hidden size={16} />
             </div>

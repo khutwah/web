@@ -30,17 +30,17 @@ export function GreetingsCard({
   return (
     <Card
       className={cn(
-        'w-full bg-mtmh-neutral-white text-mtmh-grey-base shadow-md',
+        'w-full bg-khutwah-neutral-white text-khutwah-grey-base shadow-md',
         className
       )}
     >
       <CardHeader className='rounded-t-xl p-5 pb-3'>
         <CardTitle className='flex justify-between'>
           <div className='flex-col'>
-            <div className='text-mtmh-m-regular text-mtmh-grey-lightest'>
+            <div className='text-khutwah-m-regular text-khutwah-grey-lightest'>
               Assalamu&apos;alaikum,
             </div>
-            <div className='text-mtmh-l-semibold'>{name}</div>
+            <div className='text-khutwah-l-semibold'>{name}</div>
           </div>
 
           <Image
@@ -77,11 +77,11 @@ function SalahTimebox({
       <ol className='flex justify-between gap-x-1'>
         {['Shubuh', 'Dzuhur', 'Ashr', 'Maghrib', 'Isya'].map((name) => (
           <li key={name} className='flex flex-1'>
-            <div className='flex flex-col bg-mtmh-neutral-10 px-1 py-2 rounded items-center w-full'>
-              <div className='text-mtmh-grey-lightest text-mtmh-sm-regular'>
+            <div className='flex flex-col bg-khutwah-neutral-10 px-1 py-2 rounded items-center w-full'>
+              <div className='text-khutwah-grey-lightest text-khutwah-sm-regular'>
                 {name}
               </div>
-              <div className='bg-mtmh-grey-lightest h-4 w-12 rounded animate-pulse mt-1'></div>
+              <div className='bg-khutwah-grey-lightest h-4 w-12 rounded animate-pulse mt-1'></div>
             </div>
           </li>
         ))}
@@ -134,21 +134,21 @@ function SalahTimebox({
           <li key={timing.name} className='flex flex-1'>
             <div
               className={cn(
-                'flex flex-col bg-mtmh-neutral-10 px-1 py-2 rounded items-center w-full',
+                'flex flex-col bg-khutwah-neutral-10 px-1 py-2 rounded items-center w-full',
                 {
-                  'bg-mtmh-tamarind-lighter': isActive
+                  'bg-khutwah-tamarind-lighter': isActive
                 }
               )}
             >
               <div
-                className={clsx('text-mtmh-sm-regular', {
-                  'text-mtmh-tamarind-dark': isActive,
-                  'text-mtmh-grey-lightest': !isActive
+                className={clsx('text-khutwah-sm-regular', {
+                  'text-khutwah-tamarind-dark': isActive,
+                  'text-khutwah-grey-lightest': !isActive
                 })}
               >
                 {timing.name}
               </div>
-              <div className='text-mtmh-grey-base text-mtmh-m-semibold'>
+              <div className='text-khutwah-grey-base text-khutwah-m-semibold'>
                 {timing.start.format('HH:mm')}
               </div>
             </div>

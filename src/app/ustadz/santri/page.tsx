@@ -52,7 +52,7 @@ export default async function Santri({
   return (
     <Layout>
       <SearchProvider>
-        <header className='sticky top-0 bg-mtmh-red-base'>
+        <header className='sticky top-0 bg-khutwah-red-base'>
           <Navbar text='Santri' returnTo={MENU_USTADZ_PATH_RECORDS.home} />
           <SearchSection
             id='search-santri'

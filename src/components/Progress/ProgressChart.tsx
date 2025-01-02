@@ -127,7 +127,7 @@ function Subchart({
   return (
     <div className='flex flex-col gap-y-3'>
       {withTitle && (
-        <div className='text-mtmh-sm-regular mx-auto'>
+        <div className='text-khutwah-sm-regular mx-auto'>
           Menampilkan pencapaian dari{' '}
           <label className='underline decoration-dashed'>
             {formatChartTimerange(currentDatetime, datePeriod)}
@@ -151,7 +151,7 @@ function Subchart({
             dataKey='created_at'
             tickMargin={8}
             tick={{
-              // fill-mtmh-grey-lightest
+              // fill-khutwah-grey-lightest
               fill: '#A2A2A2'
             }}
             tickFormatter={(value) => dayjsClientSideLocal(value).format('D/M')}
@@ -169,7 +169,7 @@ function Subchart({
               style: { textAnchor: 'middle' }
             }}
             tick={{
-              // fill-mtmh-grey-lightest
+              // fill-khutwah-grey-lightest
               fill: '#A2A2A2'
             }}
             stroke='transparent'
@@ -177,7 +177,7 @@ function Subchart({
 
           <ReferenceLine
             x={formatChartXAxis()}
-            // stroke-mtmh-red-base
+            // stroke-khutwah-red-base
             stroke='#7F270F'
           />
 
@@ -196,7 +196,7 @@ function Subchart({
             label={{
               value: 'Target',
               position: 'top',
-              // fill-mtmh-grey-lightest
+              // fill-khutwah-grey-lightest
               fill: '#A2A2A2',
               offset: -5
             }}
@@ -212,7 +212,7 @@ function Subchart({
           <Area
             dataKey='page_count'
             name='Jumlah halaman'
-            // stroke-mtmh-primary-base
+            // stroke-khutwah-primary-base
             stroke='#0065FF'
             strokeWidth={2}
             dot={false}
@@ -221,7 +221,7 @@ function Subchart({
           <Area
             dataKey='target_page_count'
             name='Target halaman'
-            // stroke-mtmh-grey-lightest
+            // stroke-khutwah-grey-lightest
             stroke='#A2A2A2'
             strokeWidth={2}
             // Expected to repeat, if we only put single entry it will not render the dashes after animation finishes.

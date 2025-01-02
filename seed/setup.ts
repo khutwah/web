@@ -10,7 +10,7 @@ const availableSetups: string[] = fs
   const desiredSetup = availableSetups.includes(arg!) ? arg : 'default'
   const setup = await import(`./setups/${desiredSetup}`)
   console.log(
-    `Running "${desiredSetup}" setup on ${process.env.NEXT_PUBLIC_SUPABASE_URL}...`
+    `Running "${desiredSetup}" setup on ${process.env.SUPABASE_API_URL}...`
   )
   await setup.default
 })()

@@ -56,14 +56,14 @@ export default async function AsesemenPage({
       <Navbar text={`Asesmen ${rootAssessment.session_name!}`} />
 
       <div className='p-6'>
-        <Card className='bg-mtmh-neutral-white text-mtmh-grey-base shadow-sm border border-mtmh-snow-lighter rounded-md sticky top-0 z-10'>
+        <Card className='bg-khutwah-neutral-white text-khutwah-grey-base shadow-sm border border-khutwah-snow-lighter rounded-md sticky top-0 z-10'>
           <CardHeader className='rounded-t-xl p-5 pb-3'>
             <CardTitle className='flex justify-between'>
               <div className='flex-col'>
-                <div className='text-mtmh-m-regular text-mtmh-grey-lightest'>
+                <div className='text-khutwah-m-regular text-khutwah-grey-lightest'>
                   Asesmen {assessmentTypeFormatted}
                 </div>
-                <div className='text-mtmh-l-semibold'>
+                <div className='text-khutwah-l-semibold'>
                   {rootAssessment.student?.name}
                 </div>
               </div>
@@ -82,7 +82,7 @@ export default async function AsesemenPage({
               <div className='space-y-3 inline-block'>
                 <Badge color='tamarind' text='Selesai' />
 
-                <p className='text-mtmh-m-regular text-mtmh-grey-light italic'>
+                <p className='text-khutwah-m-regular text-khutwah-grey-light italic'>
                   {rootAssessment.final_mark}
                 </p>
               </div>

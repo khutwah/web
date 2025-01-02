@@ -21,11 +21,11 @@ interface HalaqahCardProps {
 function HalaqahCard(props: HalaqahCardProps) {
   const { date, tz, activityType, studentName, ustadName, lastSurah } = props
   return (
-    <Card className='w-full bg-mtmh-neutral-10 text-mtmh-grey-base'>
+    <Card className='w-full bg-khutwah-neutral-10 text-khutwah-grey-base'>
       <CardHeader className='rounded-t-xl p-5 pb-3'>
         <CardTitle className='flex justify-between items-start'>
           <div className='flex flex-col gap-y-1'>
-            <div className='text-xs text-mtmh-neutral-50'>
+            <div className='text-xs text-khutwah-neutral-50'>
               {dayjs.utc(date).tz(tz).format('DD MMM YYYY HH:mm')}
             </div>
             <div className='font-semibold'>{studentName}</div>
@@ -37,7 +37,7 @@ function HalaqahCard(props: HalaqahCardProps) {
       <CardContent className='flex flex-col p-5 pt-0 gap-y-2'>
         <div className='flex items-center gap-x-2 text-sm'>
           <div className='pt-1'>
-            <BookOpen className='size-4 text-mtmh-grey-lightest' />
+            <BookOpen className='size-4 text-khutwah-grey-lightest' />
           </div>
 
           <div className='flex items-center gap-x-2'>
@@ -48,7 +48,7 @@ function HalaqahCard(props: HalaqahCardProps) {
         {lastSurah ? (
           <div className='flex items-start gap-x-2 text-sm'>
             <div className='pt-1'>
-              <Bookmark className='size-4 text-mtmh-grey-lightest' />
+              <Bookmark className='size-4 text-khutwah-grey-lightest' />
             </div>
 
             <div className='w-full text-ellipsis line-clamp-2'>
@@ -63,7 +63,7 @@ function HalaqahCard(props: HalaqahCardProps) {
 
 export function Halaqah(props: HalaqahCardProps) {
   return (
-    <div className='p-6 bg-mtmh-red-base'>
+    <div className='p-6 bg-khutwah-red-base'>
       <HalaqahCard {...props} />
     </div>
   )

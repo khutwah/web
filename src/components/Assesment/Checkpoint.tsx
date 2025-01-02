@@ -24,17 +24,18 @@ export async function AssessmentCheckpoint({
         className={cn(
           `absolute left-4 top-2 h-${type === 'submitted' ? 4 : 6} w-${type === 'submitted' ? 4 : 6} -translate-x-1/2 -translate-y-1/2`,
           {
-            'fill-mtmh-tamarind-base stroke-mtmh-tamarind-base':
+            'fill-khutwah-tamarind-base stroke-khutwah-tamarind-base':
               type === 'started' || type === 'submitted' || type === 'finished',
-            'fill-white stroke-mtmh-tamarind-base stroke': type === 'upcoming'
+            'fill-white stroke-khutwah-tamarind-base stroke':
+              type === 'upcoming'
           }
         )}
       />
       <div className='text-left'>
-        <div className='text-mtmh-sm-regular text-mtmh-neutral-50'>
+        <div className='text-khutwah-sm-regular text-khutwah-neutral-50'>
           {dayjs.utc(checkpoint.timestamp).tz(tz).format('DD MMM YYYY HH:mm')}
         </div>
-        <div className='mt-1 text-mtmh-l-regular flex items-center gap-1'>
+        <div className='mt-1 text-khutwah-l-regular flex items-center gap-1'>
           {type === 'started' && (
             <>
               {checkpoint.startSurah}: {checkpoint.startVerse}
@@ -72,14 +73,14 @@ export async function AssessmentCheckpoint({
           </div>
         )}
         {type == 'submitted' && (
-          <div className='mt-2 flex gap-2 text-mtmh-neutral-white'>
-            <div className='h-6 w-6 rounded-full flex items-center justify-center text-mtmh-sm-regular text-mtmh-warning-70 border border-mtmh-warning-70'>
+          <div className='mt-2 flex gap-2 text-khutwah-neutral-white'>
+            <div className='h-6 w-6 rounded-full flex items-center justify-center text-khutwah-sm-regular text-khutwah-warning-70 border border-khutwah-warning-70'>
               {checkpoint.mistakes?.low || 0}
             </div>
-            <div className='h-6 w-6 rounded-full flex items-center justify-center text-mtmh-sm-regular text-mtmh-warning-70 border border-mtmh-warning-70'>
+            <div className='h-6 w-6 rounded-full flex items-center justify-center text-khutwah-sm-regular text-khutwah-warning-70 border border-khutwah-warning-70'>
               {checkpoint.mistakes?.medium || 0}
             </div>
-            <div className='h-6 w-6 rounded-full flex items-center justify-center text-mtmh-sm-regular text-mtmh-warning-70 border border-mtmh-warning-70'>
+            <div className='h-6 w-6 rounded-full flex items-center justify-center text-khutwah-sm-regular text-khutwah-warning-70 border border-khutwah-warning-70'>
               {checkpoint.mistakes?.high || 0}
             </div>
           </div>

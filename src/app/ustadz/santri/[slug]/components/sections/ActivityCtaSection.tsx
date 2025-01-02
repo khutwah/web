@@ -30,7 +30,7 @@ export default function ActivityCtaSection({
 
   return (
     <section className='mx-6 mb-6'>
-      <h2 className='text-mtmh-grey-base mb-3 font-semibold text-sm'>
+      <h2 className='text-khutwah-grey-base mb-3 font-semibold text-sm'>
         Tambah Input
       </h2>
       <div className='flex gap-1.5'>

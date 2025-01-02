@@ -20,7 +20,7 @@ export function DateHeader({ hijriDate, isDateClickable = false }: Props) {
   }, [])
 
   return (
-    <div className='flex gap-x-[6.5px] text-mtmh-m-regular text-mtmh-neutral-white'>
+    <div className='flex gap-x-[6.5px] text-khutwah-m-regular text-khutwah-neutral-white'>
       {hijriDate && <HijriDate date={hijriDate} />}
 
       <label

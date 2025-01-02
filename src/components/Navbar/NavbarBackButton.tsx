@@ -19,7 +19,7 @@ export function NavbarBackButton({ returnTo }: NavbarBackButtonProps) {
       aria-label='Go back'
       disabled={isTransitioning}
     >
-      <ChevronLeft className='size-6 text-mtmh-neutral-white' />
+      <ChevronLeft className='size-6 text-khutwah-neutral-white' />
     </button>
   )
 }

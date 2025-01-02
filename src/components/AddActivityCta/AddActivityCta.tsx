@@ -19,17 +19,17 @@ const ACTIVITY_TYPE_TO_BUTTON_PROPS: Record<
   Sabaq: {
     label: 'Sabaq',
     className:
-      'bg-mtmh-blue-base hover:bg-mtmh-blue-dark active:bg-mtmh-blue-darker'
+      'bg-khutwah-blue-base hover:bg-khutwah-blue-dark active:bg-khutwah-blue-darker'
   },
   Sabqi: {
     label: 'Sabqi',
     className:
-      'bg-mtmh-green-dark hover:bg-mtmh-green-darker active:bg-mtmh-green-darkest'
+      'bg-khutwah-green-dark hover:bg-khutwah-green-darker active:bg-khutwah-green-darkest'
   },
   Manzil: {
     label: 'Manzil',
     className:
-      'bg-mtmh-warning-70 hover:bg-mtmh-warning-80 active:bg-mtmh-warning-90'
+      'bg-khutwah-warning-70 hover:bg-khutwah-warning-80 active:bg-khutwah-warning-90'
   }
 }
 

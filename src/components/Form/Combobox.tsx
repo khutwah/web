@@ -208,7 +208,7 @@ export function Combobox({
                 >
                   <CircleX size={8} />{' '}
                   {
-                    <label className='text-mtmh-sm-regular block w-full truncate'>
+                    <label className='text-khutwah-sm-regular block w-full truncate'>
                       {_items.find((item) => item.value === value)?.label}
                     </label>
                   }

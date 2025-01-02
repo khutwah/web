@@ -5,8 +5,8 @@ import classNames from 'clsx'
 
 function activeStyle(active: boolean) {
   return {
-    'text-mtmh-red-light': active,
-    'text-mtmh-grey-lighter': !active
+    'text-khutwah-red-light': active,
+    'text-khutwah-grey-lighter': !active
   }
 }
 
@@ -25,7 +25,7 @@ export function BottomNavbar(props: BottomNavbarProps) {
             className={classNames(
               'flex-1 flex flex-col py-3 gap-1 items-center justify-center border-b-[3px]',
               {
-                'border-mtmh-red-light': link.active,
+                'border-khutwah-red-light': link.active,
                 'border-transparent': !link.active
               }
             )}
@@ -38,7 +38,7 @@ export function BottomNavbar(props: BottomNavbarProps) {
             />
             <span
               className={classNames(
-                'text-mtmh-xs-regular',
+                'text-khutwah-xs-regular',
                 activeStyle(link.active)
               )}
             >

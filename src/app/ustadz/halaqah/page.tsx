@@ -20,7 +20,7 @@ export default async function HalaqahListPage() {
   return (
     <Layout>
       <SearchProvider>
-        <header className='sticky top-0 bg-mtmh-red-base'>
+        <header className='sticky top-0 bg-khutwah-red-base'>
           <Navbar text='Halaqah' returnTo={MENU_USTADZ_PATH_RECORDS.home} />
           <SearchSection
             id='search-halaqah'
@@ -51,14 +51,14 @@ export default async function HalaqahListPage() {
               </AlertDescription>
             </Alert>
             <section>
-              <h2 className='mb-3 text-mtmh-m-semibold'>Halaqah Antum</h2>
+              <h2 className='mb-3 text-khutwah-m-semibold'>Halaqah Antum</h2>
               <Suspense fallback={<HalaqahListSkeleton />}>
                 <YourHalaqahList />
               </Suspense>
             </section>
 
             <section>
-              <h2 className='mb-3 text-mtmh-m-semibold'>Semua Halaqah</h2>
+              <h2 className='mb-3 text-khutwah-m-semibold'>Semua Halaqah</h2>
               <Suspense fallback={<HalaqahListSkeleton />}>
                 <AllHalaqahList />
               </Suspense>

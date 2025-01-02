@@ -54,7 +54,7 @@ export function ActivityPopup({ activities, from, id }: Props) {
         {_activity ? (
           <div className='overflow-y-scroll max-h-[500px] flex flex-col p-5 gap-4'>
             <div className='flex flex-row items-start justify-between'>
-              <div className='text-xs text-mtmh-neutral-50'>
+              <div className='text-xs text-khutwah-neutral-50'>
                 {/* WARNING: _activity.created_at is in UTC */}
                 {dayjsClientSideLocal(_activity.created_at ?? '').format(
                   'dddd, DD MMM YYYY. HH:mm'
@@ -67,7 +67,7 @@ export function ActivityPopup({ activities, from, id }: Props) {
               />
             </div>
             <div className='flex flex-col gap-1'>
-              <div className='text-xs text-mtmh-neutral-50'>Setoran</div>
+              <div className='text-xs text-khutwah-neutral-50'>Setoran</div>
               <div className='flex flex-row items-center space-x-4 text-sm'>
                 <div>
                   {_activity.start_surah}: {_activity.start_verse}
@@ -84,7 +84,7 @@ export function ActivityPopup({ activities, from, id }: Props) {
             </div>
 
             <div className='flex flex-col gap-1'>
-              <div className='text-xs text-mtmh-neutral-50'>Jumlah</div>
+              <div className='text-xs text-khutwah-neutral-50'>Jumlah</div>
               <div className='text-sm'>{_activity.page_count} Halaman</div>
             </div>
 
@@ -93,7 +93,7 @@ export function ActivityPopup({ activities, from, id }: Props) {
             )}
 
             <div className='flex flex-col gap-1'>
-              <div className='text-xs text-mtmh-neutral-50'>Catatan</div>
+              <div className='text-xs text-khutwah-neutral-50'>Catatan</div>
               <div className='text-sm'>{_activity.notes}</div>
             </div>
 
