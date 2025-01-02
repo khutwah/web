@@ -53,17 +53,14 @@ Run this if you want to use seed data so you dont have to manually create one.
 
 ```bash
 supabase migration up # Only if there are migrations not yet synchronized to local database.
+npm run dbtypes:gen
 npm run seed:sync
 npm run seed
 ```
 
 ### Available Seeded Ustadz Users for Login
 
-Password: `testakun123`
-| Users |
-| -------- |
-| iram@ustadz.mtmh.com |
-| latief@ustadz.mtmh.com |
+Please check [circles](./seed/fixtures/circles.ts) data.
 
 ## Folder Structure
 

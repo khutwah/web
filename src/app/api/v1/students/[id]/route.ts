@@ -8,13 +8,13 @@ import {
 import { errorTranslator } from '@/utils/supabase/error-translator'
 import { getUserId } from '@/utils/supabase/get-user-id'
 import { Students } from '@/utils/supabase/models/students'
-import { validate } from '@/utils/validation/id'
+import isValidId from '@/utils/is-valid-id'
 
 interface ParamsType {
   params: Promise<{ id: string }>
 }
 export async function GET(_request: Request, { params }: ParamsType) {
-  const id = await validate(await params)
+  const id = await isValidId(await params)
 
   if (!id) {
     return Response.json(

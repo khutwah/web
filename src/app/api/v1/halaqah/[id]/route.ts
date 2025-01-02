@@ -10,14 +10,14 @@ import { halaqahFilterSchema } from '@/utils/schemas/halaqah'
 import { errorTranslator } from '@/utils/supabase/error-translator'
 import { getUserId } from '@/utils/supabase/get-user-id'
 import { Circles } from '@/utils/supabase/models/circles'
-import { validate } from '@/utils/validation/id'
+import isValidId from '@/utils/is-valid-id'
 import { NextRequest } from 'next/server'
 
 interface ParamsType {
   params: Promise<{ id: string }>
 }
 export async function GET(request: NextRequest, { params }: ParamsType) {
-  const id = await validate(await params)
+  const id = await isValidId(await params)
 
   if (!id) {
     return Response.json(

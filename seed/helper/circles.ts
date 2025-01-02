@@ -23,7 +23,7 @@ export async function registerCircles(
     })
   )
 
-  const password = process.env.DEFAULT_STUDENT_PASSWORD || 'testakun123'
+  const password = process.env.DEFAULT_STUDENT_PASSWORD || 'test123'
   for (const { name, owner, members } of circles) {
     const registeredOwner = await supabase.registerUser(
       owner.name,

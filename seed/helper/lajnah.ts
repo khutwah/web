@@ -6,7 +6,7 @@ export async function registerLajnahMembers(
   seed: SeedClient,
   members: { name: string; email: string }[]
 ) {
-  const password = process.env.DEFAULT_STUDENT_PASSWORD || 'testakun123'
+  const password = process.env.DEFAULT_STUDENT_PASSWORD || 'test123'
   for (const { name, email } of members) {
     const registeredMember = await supabase.registerUser(name, email, password)
     await seed.public_users(
