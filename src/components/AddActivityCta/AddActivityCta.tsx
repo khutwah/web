@@ -4,7 +4,6 @@ import { Button, ButtonProps } from '@/components/Button/Button'
 import { ActivityTypeKey } from '@/models/activities'
 import { cn } from '@/utils/classnames'
 import Link from 'next/link'
-import { act } from 'react'
 import { MENU_USTADZ_PATH_RECORDS } from '@/utils/menus/ustadz'
 
 interface Activity {
