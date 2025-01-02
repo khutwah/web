@@ -7,5 +7,4 @@ image:
 		--push \
 		--platform linux/amd64 \
 		--build-arg NEXT_PUBLIC_APP_VERSION=$(PRE)-$(VER) \
-		--build-arg NEXT_PUBLIC_CACHE_BUSTER=$(VER) \
 		-t ttl.sh/mh-mtmh-id-$(SHA):1h .
