@@ -6,12 +6,12 @@ interface LogoProps {
 
 const images = {
   main: {
-    src: 'https://images.khutwah.id/minhajulhaq/logo/main-min.png',
+    src: `https://images.khutwah.id/${process.env.NEXT_PUBLIC_APP_NAMESPACE || 'mh'}/logo/main-min.png`,
     width: 227,
     height: 66
   },
   white: {
-    src: 'https://images.khutwah.id/minhajulhaq/logo/white-min.png',
+    src: `https://images.khutwah.id/${process.env.NEXT_PUBLIC_APP_NAMESPACE || 'mh'}/logo/white-min.png`,
     width: 121,
     height: 46
   }

@@ -71,7 +71,7 @@ export function PinInput({ onChange, value }: PinInputProps) {
         />
         <label
           htmlFor='showPin'
-          className='text-mtmh-label peer-disabled:cursor-not-allowed peer-disabled:opacity-70 hover:cursor-pointer'
+          className='text-khutwah-label peer-disabled:cursor-not-allowed peer-disabled:opacity-70 hover:cursor-pointer'
         >
           Tampilkan PIN
         </label>

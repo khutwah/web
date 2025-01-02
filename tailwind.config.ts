@@ -1,6 +1,6 @@
 import type { Config } from 'tailwindcss'
 import { typographyPlugin } from './tailwind/plugins/typography'
-import { mtmhColors } from './tailwind/colors'
+import { khutwahColors } from './tailwind/colors'
 
 const config: Config = {
   content: [
@@ -14,7 +14,7 @@ const config: Config = {
         'flat-top': '0px 1px 0px 0px #E7E7E7 inset'
       },
       colors: {
-        mtmh: mtmhColors
+        khutwah: khutwahColors
       }
     }
   },

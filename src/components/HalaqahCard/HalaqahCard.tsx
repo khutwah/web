@@ -35,9 +35,9 @@ export function HalaqahCard({
     >
       <Card
         className={cn(
-          'w-full bg-mtmh-neutral-10 text-mtmh-grey-base rounded-lg ',
+          'w-full bg-khutwah-neutral-10 text-khutwah-grey-base rounded-lg ',
           {
-            'border-l-[3px] border-l-mtmh-tamarind-base rounded-l-none':
+            'border-l-[3px] border-l-khutwah-tamarind-base rounded-l-none':
               hasGutter
           }
         )}
@@ -45,15 +45,15 @@ export function HalaqahCard({
         <CardContent className='flex flex-col p-4 gap-y-3'>
           <div className='flex gap-x-3'>
             <div>
-              <HalaqahIcon className='fill-mtmh-grey-lighter' />
+              <HalaqahIcon className='fill-khutwah-grey-lighter' />
             </div>
 
             <div className='flex flex-col gap-y-1'>
-              <div className='flex flex-col text-mtmh-grey-base text-mtmh-m-regular'>
+              <div className='flex flex-col text-khutwah-grey-base text-khutwah-m-regular'>
                 {name}
               </div>
 
-              <div className='text-mtmh-sm-regular text-mtmh-grey-lighter'>
+              <div className='text-khutwah-sm-regular text-khutwah-grey-lighter'>
                 {venue}
               </div>
             </div>
@@ -61,10 +61,10 @@ export function HalaqahCard({
 
           {substituteeName && (
             <div className='flex justify-end'>
-              <div className='flex gap-x-1 text-mtmh-grey-base py-0.5 px-2 bg-mtmh-neutral-white rounded-md'>
-                <StickyNote className='fill-mtmh-grey-base' />
+              <div className='flex gap-x-1 text-khutwah-grey-base py-0.5 px-2 bg-khutwah-neutral-white rounded-md'>
+                <StickyNote className='fill-khutwah-grey-base' />
 
-                <div className='text-mtmh-sm-regular'>
+                <div className='text-khutwah-sm-regular'>
                   {isOwner ? 'Diwakilkan' : 'Mewakilkan'} {substituteeName}
                 </div>
               </div>

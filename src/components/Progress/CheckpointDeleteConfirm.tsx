@@ -24,9 +24,9 @@ export function CheckpointDeleteConfirm({
           <TrashIcon size={16} />
         </Button>
       </DialogTrigger>
-      <DialogContent className='bg-mtmh-neutral-white bottom-0 top-auto !translate-y-0'>
+      <DialogContent className='bg-khutwah-neutral-white bottom-0 top-auto !translate-y-0'>
         <DialogHeader>
-          <DialogTitle className='flex justify-between border-b border-mtmh-neutral-30 pb-2'>
+          <DialogTitle className='flex justify-between border-b border-khutwah-neutral-30 pb-2'>
             Antum yakin ingin melanjutkan?
           </DialogTitle>
           <DialogDescription className='!mt-3'>

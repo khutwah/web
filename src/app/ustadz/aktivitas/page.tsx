@@ -15,9 +15,9 @@ export default async function Aktivitas(props: Readonly<AktivitasPageProps>) {
   })
   return (
     <div className='relative'>
-      <header className='sticky top-0 bg-mtmh-red-base z-10'>
+      <header className='sticky top-0 bg-khutwah-red-base z-10'>
         <Navbar text='Aktivitas' returnTo={returnTo} />
-        <div className='p-4 pt-0 bg-mtmh-red-base'>
+        <div className='p-4 pt-0 bg-khutwah-red-base'>
           <Suspense fallback={<Skeleton className='h-10 w-full' />}>
             <Filter />
           </Suspense>

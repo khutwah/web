@@ -47,7 +47,7 @@ export function ProgressGridStatus({
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
         <button
-          className='group flex p-3 gap-x-2 bg-mtmh-tamarind-lightest border-t border-mtmh-snow-lighter rounded-b-md'
+          className='group flex p-3 gap-x-2 bg-khutwah-tamarind-lightest border-t border-khutwah-snow-lighter rounded-b-md'
           aria-label={`Status: ${resolvedStatus.text}`}
           aria-live='polite'
           disabled={!editable}
@@ -61,13 +61,13 @@ export function ProgressGridStatus({
             />
           </div>
 
-          <div className='flex flex-1 flex-col gap-y-1 text-mtmh-tamarind-darkest'>
+          <div className='flex flex-1 flex-col gap-y-1 text-khutwah-tamarind-darkest'>
             <div className='flex justify-between items-center'>
               <div>
-                <div className='text-mtmh-m-semibold'>
+                <div className='text-khutwah-m-semibold'>
                   {resolvedStatus.text}
                 </div>
-                <div className='text-mtmh-sm-regular'>
+                <div className='text-khutwah-sm-regular'>
                   {resolvedStatus.description}
                 </div>
               </div>

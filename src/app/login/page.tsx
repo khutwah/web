@@ -89,7 +89,7 @@ export default function LoginPage() {
             <div className='grid gap-1.5 leading-none'>
               <label
                 htmlFor='isPasswordShown'
-                className='text-mtmh-label peer-disabled:cursor-not-allowed peer-disabled:opacity-70 hover:cursor-pointer'
+                className='text-khutwah-label peer-disabled:cursor-not-allowed peer-disabled:opacity-70 hover:cursor-pointer'
               >
                 Tampilkan sandi
               </label>
@@ -121,14 +121,14 @@ export default function LoginPage() {
           <DialogTrigger asChild>
             <Link
               href=''
-              className='text-mtmh-tamarind-base text-mtmh-body-small underline'
+              className='text-khutwah-tamarind-base text-khutwah-body-small underline'
             >
               Lupa sandi?
             </Link>
           </DialogTrigger>
-          <DialogContent className='bg-mtmh-neutral-white bottom-0 top-auto !translate-y-0'>
+          <DialogContent className='bg-khutwah-neutral-white bottom-0 top-auto !translate-y-0'>
             <DialogHeader>
-              <DialogTitle className='flex justify-between border-b border-mtmh-neutral-30 pb-2'>
+              <DialogTitle className='flex justify-between border-b border-khutwah-neutral-30 pb-2'>
                 Perubahan sandi
               </DialogTitle>
               <DialogDescription className='mt-3'>
@@ -147,7 +147,7 @@ export default function LoginPage() {
             </DialogFooter>
           </DialogContent>
         </Dialog>
-        <label className='text-mtmh-grey-lighter text-mtmh-body-small mt-4'>
+        <label className='text-khutwah-grey-lighter text-khutwah-body-small mt-4'>
           {process.env.NEXT_PUBLIC_APP_VERSION || 'dev'}
         </label>
       </div>

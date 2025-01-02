@@ -65,11 +65,11 @@ export function ActivityCard({
         query: params.toString()
       }}
     >
-      <Card className='w-full bg-mtmh-neutral-10 text-mtmh-grey-base relative h-full flex flex-col'>
+      <Card className='w-full bg-khutwah-neutral-10 text-khutwah-grey-base relative h-full flex flex-col'>
         <CardHeader className='rounded-t-xl p-5 pb-3'>
           <CardTitle className='flex justify-between items-start'>
             <div className='flex flex-col gap-y-1'>
-              <div className='text-xs text-mtmh-neutral-50'>
+              <div className='text-xs text-khutwah-neutral-50'>
                 {dayjs.utc(timestamp).tz(tz).format('DD MMM YYYY HH:mm')}
               </div>
               {studentName && (
@@ -90,13 +90,16 @@ export function ActivityCard({
           })}
         >
           {halaqahName && (
-            <div className='text-xs text-mtmh-grey-light'>{halaqahName}</div>
+            <div className='text-xs text-khutwah-grey-light'>{halaqahName}</div>
           )}
 
           {surahStart && surahEnd ? (
             <div className='flex items-center gap-x-2 text-sm'>
               <div className='pt-1'>
-                <ActivityRecord className='text-mtmh-grey-lightest' size={16} />
+                <ActivityRecord
+                  className='text-khutwah-grey-lightest'
+                  size={16}
+                />
               </div>
 
               <div className='flex items-center gap-x-2'>
@@ -117,7 +120,7 @@ export function ActivityCard({
 
           <div className='flex items-start gap-x-2 text-sm'>
             <div className='pt-1'>
-              <Notes className='text-mtmh-grey-lightest' size={16} />
+              <Notes className='text-khutwah-grey-lightest' size={16} />
             </div>
 
             <div className='w-full text-ellipsis line-clamp-2'>
@@ -144,11 +147,11 @@ export function ActivityCard({
 
 export function Labels({ labels }: { labels: string[] }) {
   return (
-    <ul className='flex gap-1 text-mtmh-xs-regular flex-wrap'>
+    <ul className='flex gap-1 text-khutwah-xs-regular flex-wrap'>
       {labels.map((tag, index) => (
         <li
           key={`${tag}-${index}`}
-          className='py-0.5 px-2 rounded-lg border border-mtmh-snow-base'
+          className='py-0.5 px-2 rounded-lg border border-khutwah-snow-base'
         >
           {tag}
         </li>

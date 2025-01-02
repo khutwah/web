@@ -59,7 +59,7 @@ export default async function ProgressViewCard({
   day
 }: ProgressViewCardProps) {
   return (
-    <Card className='bg-mtmh-neutral-white text-mtmh-grey-base shadow-md border border-mtmh-snow-lighter rounded-md mb-2'>
+    <Card className='bg-khutwah-neutral-white text-khutwah-grey-base shadow-md border border-khutwah-snow-lighter rounded-md mb-2'>
       <ProgressViewCardHeader student={student} />
       <ProgressViewCardContent
         student={student}
@@ -86,12 +86,12 @@ function ProgressViewCardHeader({ student }: ProgressViewCardHeaderProps) {
   }
 
   return (
-    <CardHeader className='flex flex-row justify-between items-center border-b border-b-mtmh-snow-lighter'>
+    <CardHeader className='flex flex-row justify-between items-center border-b border-b-khutwah-snow-lighter'>
       <div>
-        <div className='text-mtmh-l-semibold text-mtmh-grey-base'>
+        <div className='text-khutwah-l-semibold text-khutwah-grey-base'>
           {student?.name}
         </div>
-        <div className='text-mtmh-m-regular text-mtmh-grey-lighter'>
+        <div className='text-khutwah-m-regular text-khutwah-grey-lighter'>
           {student?.circles?.name}
         </div>
       </div>

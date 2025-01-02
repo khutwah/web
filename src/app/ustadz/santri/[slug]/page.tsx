@@ -91,10 +91,10 @@ export default async function DetailSantri({
         }
         returnTo={`${MENU_USTADZ_PATH_RECORDS.home}${convertSearchParamsToPath(searchParams)}`}
       />
-      <div className='bg-mtmh-red-base w-full p-4 h-[225px] absolute -z-10' />
+      <div className='bg-khutwah-red-base w-full p-4 h-[225px] absolute -z-10' />
 
       <div className='flex flex-col p-6 gap-y-4'>
-        <div className='flex justify-center gap-x-[6.5px] text-mtmh-neutral-white text-mtmh-m-regular'>
+        <div className='flex justify-center gap-x-[6.5px] text-khutwah-neutral-white text-khutwah-m-regular'>
           <SantriActivityHeader
             hasJumpToTodayLink={!isCurrentWeek && !isChartView}
           />

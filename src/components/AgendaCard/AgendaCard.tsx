@@ -45,7 +45,7 @@ export default function AgendaCard({
               <Badge color='outline' text={category} />
             </div>
           </CardContent>
-          <CardFooter className='bg-mtmh-red-base/70 p-4 text-white'>
+          <CardFooter className='bg-khutwah-red-base/70 p-4 text-white'>
             <p className='text-xs'>{description}</p>
           </CardFooter>
         </div>

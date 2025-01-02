@@ -5,9 +5,9 @@ import { PropsWithChildren } from 'react'
 export function SettingsSharedContent({ children }: PropsWithChildren) {
   return (
     <>
-      <div className='w-full h-[218px] bg-mtmh-red-base absolute -z-10' />
+      <div className='w-full h-[218px] bg-khutwah-red-base absolute -z-10' />
 
-      <div className='p-4 text-mtmh-neutral-white text-mtmh-l-semibold'>
+      <div className='p-4 text-khutwah-neutral-white text-khutwah-l-semibold'>
         Pengaturan
       </div>
 
@@ -15,7 +15,7 @@ export function SettingsSharedContent({ children }: PropsWithChildren) {
         <div className='flex flex-col gap-y-4 items-center'>
           <Logo variant='white' />
 
-          <div className='text-mtmh-neutral-white text-mtmh-sm-regular'>
+          <div className='text-khutwah-neutral-white text-khutwah-sm-regular'>
             App version: {process.env.NEXT_PUBLIC_APP_VERSION}
           </div>
         </div>

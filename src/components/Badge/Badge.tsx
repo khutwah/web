@@ -16,18 +16,18 @@ interface BadgeProps {
 }
 
 const COLOR_TO_CLASSNAME_RECORD: Record<BadgeProps['color'], string> = {
-  blue: 'bg-mtmh-blue-base',
-  green: 'bg-mtmh-green-dark',
-  tamarind: 'bg-mtmh-warning-70', // FIXME: We should have a color-naming pattern for this.
+  blue: 'bg-khutwah-blue-base',
+  green: 'bg-khutwah-green-dark',
+  tamarind: 'bg-khutwah-warning-70', // FIXME: We should have a color-naming pattern for this.
 
   'blue-dashed':
-    'bg-mtmh-neutral-white text-mtmh-blue-base border border-dashed border-mtmh-blue-base',
+    'bg-khutwah-neutral-white text-khutwah-blue-base border border-dashed border-khutwah-blue-base',
   'green-dashed':
-    'bg-mtmh-neutral-white text-mtmh-green-base border border-dashed border-mtmh-green-base',
+    'bg-khutwah-neutral-white text-khutwah-green-base border border-dashed border-khutwah-green-base',
   'tamarind-dashed':
-    'bg-mtmh-neutral-white text-mtmh-warning-70 border border-dashed border-mtmh-warning-70', // FIXME: We should have a color-naming pattern for this.
+    'bg-khutwah-neutral-white text-khutwah-warning-70 border border-dashed border-khutwah-warning-70', // FIXME: We should have a color-naming pattern for this.
 
-  mute: 'bg-mtmh-snow-base',
+  mute: 'bg-khutwah-snow-base',
   outline: 'bg-none'
 }
 
@@ -36,10 +36,10 @@ export function Badge({ color, text, icon, dashed }: BadgeProps) {
   return (
     <div
       className={cn(
-        'text-xs text-mtmh-neutral-white py-0.5 px-2 rounded-md flex justify-center items-center gap-1',
+        'text-xs text-khutwah-neutral-white py-0.5 px-2 rounded-md flex justify-center items-center gap-1',
         {
           border: color === 'outline',
-          'bg-mtmh-snow-base': color !== 'outline',
+          'bg-khutwah-snow-base': color !== 'outline',
           // When there is a border, we "subtract" the padding by the border size to ensure that all badges have the same size.
           'py-[1px]': dashed
         },

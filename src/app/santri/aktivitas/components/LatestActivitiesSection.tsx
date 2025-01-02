@@ -25,7 +25,7 @@ import { ActivityBriefCard } from '@/components/ActivityCard/ActivityBriefCard'
 export function LatestActivitiesSection() {
   return (
     <section className='space-y-3'>
-      <h2 className='text-mtmh-m-semibold'>Aktivitas Terakhir</h2>
+      <h2 className='text-khutwah-m-semibold'>Aktivitas Terakhir</h2>
       <Tabs defaultValue='sabaq' className='w-full space-y-3'>
         <TabsList className='flex w-full'>
           <TabsTrigger

@@ -37,7 +37,7 @@ export function CheckpointStatusFilter() {
                       field.onChange(newValues)
                     }}
                   />
-                  <label htmlFor={checkboxId} className='text-mtmh-label'>
+                  <label htmlFor={checkboxId} className='text-khutwah-label'>
                     {status.label}
                   </label>
                 </div>

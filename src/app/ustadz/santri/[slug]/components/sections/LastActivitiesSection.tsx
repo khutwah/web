@@ -35,9 +35,9 @@ export default async function LastActivitiesSection({
             activities={lastActivities?.data ?? DEFAULT_EMPTY_ARRAY}
           />
           <div className='flex flex-row items-center justify-between px-6'>
-            <h2 className='text-mtmh-m-semibold'>Input Terakhir</h2>
+            <h2 className='text-khutwah-m-semibold'>Input Terakhir</h2>
             <Link
-              className='text-mtmh-sm-semibold text-mtmh-tamarind-base'
+              className='text-khutwah-sm-semibold text-khutwah-tamarind-base'
               href={addQueryParams(
                 `${MENU_USTADZ_PATH_RECORDS.home}/aktivitas`,
                 {

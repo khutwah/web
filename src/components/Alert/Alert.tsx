@@ -10,10 +10,10 @@ const alertVariants = cva(
     variants: {
       variant: {
         success:
-          'bg-mtmh-lightgreen-lightest text-mtmh-green-darkest [&>svg]:text-mtmh-green-darkest',
+          'bg-khutwah-lightgreen-lightest text-khutwah-green-darkest [&>svg]:text-khutwah-green-darkest',
         warning:
-          'bg-mtmh-tamarind-lighter text-mtmh-tamarind-darkest [&>svg]:text-mtmh-tamarind-darkest',
-        info: 'bg-mtmh-blue-lightest text-mtmh-blue-darkest [&>svg]:text-mtmh-blue-darkest'
+          'bg-khutwah-tamarind-lighter text-khutwah-tamarind-darkest [&>svg]:text-khutwah-tamarind-darkest',
+        info: 'bg-khutwah-blue-lightest text-khutwah-blue-darkest [&>svg]:text-khutwah-blue-darkest'
       }
     },
     defaultVariants: {
@@ -41,7 +41,7 @@ const AlertTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <h5
     ref={ref}
-    className={cn('mb-1 text-mtmh-sm-semibold', className)}
+    className={cn('mb-1 text-khutwah-sm-semibold', className)}
     {...props}
   />
 ))
@@ -51,7 +51,11 @@ const AlertDescription = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn('text-mtmh-sm-regular', className)} {...props} />
+  <div
+    ref={ref}
+    className={cn('text-khutwah-sm-regular', className)}
+    {...props}
+  />
 ))
 AlertDescription.displayName = 'AlertDescription'
 

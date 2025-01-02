@@ -23,16 +23,16 @@ function TagPicker({ tags, onClick }: TagsProps) {
     <div className='overflow-y-scroll max-h-[500px] py-3 px-4 flex flex-col gap-4'>
       {Object.entries(_tags).map(([key, value]) => (
         <div key={key} className='flex flex-col gap-2'>
-          <span className='text-mtmh-sm-regular'>{key}</span>
+          <span className='text-khutwah-sm-regular'>{key}</span>
           <div className='flex flex-row flex-wrap gap-2'>
             {value.map((tag) => (
               <label
                 key={tag}
                 data-active={tags.includes(tag)}
-                className={`py-1 px-2 rounded-lg text-mtmh-sm-regular flex flex-row gap-1 cursor-pointer ${
+                className={`py-1 px-2 rounded-lg text-khutwah-sm-regular flex flex-row gap-1 cursor-pointer ${
                   tags.includes(tag)
-                    ? 'bg-mtmh-primary-lightest text-mtmh-blue-base'
-                    : 'bg-mtmh-snow-lighter text-mtmh-grey-base'
+                    ? 'bg-khutwah-primary-lightest text-khutwah-blue-base'
+                    : 'bg-khutwah-snow-lighter text-khutwah-grey-base'
                 }`}
               >
                 <input
@@ -59,7 +59,7 @@ function TagsDrawer(props: TagsProps) {
       <DrawerTrigger asChild>
         <button
           aria-expanded={open}
-          className='rounded-lg py-1 px-2 bg-mtmh-snow-lightest flex flex-row items-center gap-1 text-mtmh-grey-base text-mtmh-sm-regular'
+          className='rounded-lg py-1 px-2 bg-khutwah-snow-lightest flex flex-row items-center gap-1 text-khutwah-grey-base text-khutwah-sm-regular'
         >
           <PlusIcon size={12} />
           Tambah
@@ -86,7 +86,7 @@ export function Tags(props: TagsProps) {
         .map((tag) => (
           <div
             key={tag}
-            className='py-1 px-2 bg-mtmh-primary-lightest text-mtmh-blue-base flex flex-row gap-1 rounded-lg text-mtmh-sm-regular'
+            className='py-1 px-2 bg-khutwah-primary-lightest text-khutwah-blue-base flex flex-row gap-1 rounded-lg text-khutwah-sm-regular'
           >
             {tag}
             <button onClick={() => onClick(tag)}>

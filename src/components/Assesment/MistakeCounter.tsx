@@ -29,11 +29,11 @@ export function MistakeCounter({
 
   return (
     <div className='flex flex-col items-center gap-2'>
-      <label className='py-0.5 px-2 rounded-lg border border-dashed border-mtmh-neutral-20 text-mtmh-sm-regular'>
+      <label className='py-0.5 px-2 rounded-lg border border-dashed border-khutwah-neutral-20 text-khutwah-sm-regular'>
         {label}
       </label>
       <Button
-        className={`h-20 w-20 rounded-full text-mtmh-xl-semibold border-2 border-mtmh-neutral-white shadow-md ${getButtonColor()}`}
+        className={`h-20 w-20 rounded-full text-khutwah-xl-semibold border-2 border-khutwah-neutral-white shadow-md ${getButtonColor()}`}
         variant='outline'
         onClick={() => onChange(type, count + 1)}
       >
@@ -43,7 +43,7 @@ export function MistakeCounter({
       </Button>
       <Button
         variant='outline'
-        className='h-8 w-8 rounded-full p-0 bg-gray-50 border-2 border-mtmh-neutral-white shadow-md'
+        className='h-8 w-8 rounded-full p-0 bg-gray-50 border-2 border-khutwah-neutral-white shadow-md'
         disabled={count === 0}
         onClick={() => onChange(type, count - 1)}
       >

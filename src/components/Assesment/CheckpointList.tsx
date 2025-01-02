@@ -15,7 +15,7 @@ export function AssessmentCheckpointList({
     <div className='relative mt-8'>
       <div
         className={cn(
-          'absolute left-4 top-0 bottom-16 w-px bg-mtmh-tamarind-base',
+          'absolute left-4 top-0 bottom-16 w-px bg-khutwah-tamarind-base',
           {
             'bottom-0': !isFinished
           }

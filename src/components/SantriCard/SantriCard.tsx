@@ -46,14 +46,14 @@ export function SantriCard({
         nameAndHalaqahElement={
           <div className='min-w-0'>
             <div
-              className='font-normal text-sm text-mtmh-grey-base line-clamp-2 break-words'
+              className='font-normal text-sm text-khutwah-grey-base line-clamp-2 break-words'
               id={`mtmh-santri-card${labelId}`}
             >
               {name}
             </div>
             {halaqahName && (
               <div
-                className='text-mtmh-neutral-60 text-xs'
+                className='text-khutwah-neutral-60 text-xs'
                 id={`mtmh-santri-card${descriptionId}`}
               >
                 {halaqahName}
@@ -63,7 +63,7 @@ export function SantriCard({
         }
         activitiesElement={
           <>
-            <div className='text-sm grow min-w-0 text-mtmh-neutral-60'>
+            <div className='text-sm grow min-w-0 text-khutwah-neutral-60'>
               Hari ini:
             </div>
             <div className='flex flex-wrap gap-1'>
@@ -119,12 +119,12 @@ function SantriCardStructure({
 }) {
   return (
     <>
-      <div className='flex gap-3 items-center p-3 rounded-t-lg bg-mtmh-neutral-10'>
+      <div className='flex gap-3 items-center p-3 rounded-t-lg bg-khutwah-neutral-10'>
         {imageElement}
 
         {nameAndHalaqahElement}
       </div>
-      <div className='flex flex-wrap py-2 pr-2 pl-3 gap-1 bg-mtmh-snow-lighter rounded-b-lg'>
+      <div className='flex flex-wrap py-2 pr-2 pl-3 gap-1 bg-khutwah-snow-lighter rounded-b-lg'>
         {activitiesElement}
       </div>
     </>

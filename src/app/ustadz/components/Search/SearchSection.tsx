@@ -10,18 +10,18 @@ const CLASSES_BY_COLOR = {
   red: {
     // Dev's note: this is required so that the input is seen as "integrated" with the header.
     // Alternatively, what we can do is adding <HeaderBackground /> (which is absolutely positioned), so we don't have to add an outer container.
-    outerContainer: 'pb-4 px-4 bg-mtmh-red-base flex gap-3',
+    outerContainer: 'pb-4 px-4 bg-khutwah-red-base flex gap-3',
     innerContainer:
-      'bg-mtmh-red-darker text-mtmh-red-lightest focus-within:text-white',
+      'bg-khutwah-red-darker text-khutwah-red-lightest focus-within:text-white',
     input:
-      'placeholder-mtmh-red-lightest border-mtmh-red-darker focus:placeholder-white ring-mtmh-red-lightest'
+      'placeholder-khutwah-red-lightest border-khutwah-red-darker focus:placeholder-white ring-khutwah-red-lightest'
   },
   white: {
     outerContainer: '',
     innerContainer:
-      'text-mtmh-grey-lighter focus-within:text-mtmh-grey-lighter',
+      'text-khutwah-grey-lighter focus-within:text-khutwah-grey-lighter',
     input:
-      'placeholder-mtmh-grey-lighter border-mtmh-grey-darker ring-mtmh-grey-lighter'
+      'placeholder-khutwah-grey-lighter border-khutwah-grey-darker ring-khutwah-grey-lighter'
   }
 } as const
 

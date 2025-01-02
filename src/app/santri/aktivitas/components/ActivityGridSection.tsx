@@ -50,13 +50,13 @@ export async function ActivityGridSection({
 
   return (
     <section className='flex flex-col gap-y-4'>
-      <div className='flex justify-center gap-x-[6.5px] text-mtmh-neutral-white text-mtmh-m-regular'>
+      <div className='flex justify-center gap-x-[6.5px] text-khutwah-neutral-white text-khutwah-m-regular'>
         <SantriActivityHeader
           hasJumpToTodayLink={!isChartView && !isCurrentWeek}
         />
       </div>
 
-      <Card className='bg-mtmh-neutral-white text-mtmh-grey-base shadow-md border border-mtmh-snow-lighter rounded-md'>
+      <Card className='bg-khutwah-neutral-white text-khutwah-grey-base shadow-md border border-khutwah-snow-lighter rounded-md'>
         <CardContent className='flex flex-col p-0 gap-y-3'>
           <ErrorBoundary
             fallback={

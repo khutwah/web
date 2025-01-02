@@ -15,7 +15,7 @@ import { ActivityBriefCard } from '@/components/ActivityCard/ActivityBriefCard'
 export function NoteListSection({ period }: { period: 'week' | 'month' }) {
   return (
     <section className='space-y-3'>
-      <h2 className='text-mtmh-m-semibold'>Catatan</h2>
+      <h2 className='text-khutwah-m-semibold'>Catatan</h2>
       <ErrorBoundary
         fallback={
           <StateMessage

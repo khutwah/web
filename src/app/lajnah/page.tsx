@@ -40,7 +40,7 @@ export default async function Home() {
         <section className='flex flex-col gap-y-3 px-6'>
           {/* FIXME(dio-khutwah): Add empty state component for halaqah list. */}
           {circles.data.length > 0 && (
-            <h2 className='text-mtmh-m-semibold'>Halaqah Hari Ini</h2>
+            <h2 className='text-khutwah-m-semibold'>Halaqah Hari Ini</h2>
           )}
 
           {circles?.kind === 'ustadz' && (
@@ -84,9 +84,9 @@ export default async function Home() {
           {/* FIXME(dio-khutwah): Add empty state component for activity list. */}
           {activityList.data && activityList.data.length > 0 && (
             <div className='flex flex-row items-center justify-between px-6'>
-              <h2 className='text-mtmh-m-semibold'>Input Terakhir</h2>
+              <h2 className='text-khutwah-m-semibold'>Input Terakhir</h2>
               <Link
-                className='text-mtmh-sm-semibold text-mtmh-tamarind-base'
+                className='text-khutwah-sm-semibold text-khutwah-tamarind-base'
                 href='/ustadz/aktivitas'
               >
                 Lihat semua

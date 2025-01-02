@@ -205,7 +205,7 @@ function useErrorToast(message: string | undefined, isTransitioning: boolean) {
         </div>
       ),
       duration: 5000,
-      className: 'p-4 bg-mtmh-error-error text-mtmh-neutral-white'
+      className: 'p-4 bg-khutwah-error-error text-khutwah-neutral-white'
     })
   }, [toast, message, isTransitioning])
 }

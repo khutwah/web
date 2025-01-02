@@ -36,7 +36,7 @@ export function ActivityBriefCard({
         query: params.toString()
       }}
     >
-      <Card className='w-full bg-mtmh-neutral-10 text-mtmh-grey-base relative flex flex-col'>
+      <Card className='w-full bg-khutwah-neutral-10 text-khutwah-grey-base relative flex flex-col'>
         <CardHeader
           className={cn('rounded-t-xl p-5 pb-2', {
             'pb-1': !studentName
@@ -44,12 +44,12 @@ export function ActivityBriefCard({
         >
           <CardTitle className='flex justify-between items-start'>
             <div className='flex flex-col gap-y-1'>
-              <div className='text-mtmh-sm-regular text-mtmh-neutral-50'>
+              <div className='text-khutwah-sm-regular text-khutwah-neutral-50'>
                 {dayjs.utc(timestamp).tz(tz).format('DD MMM YYYY HH:mm')}
                 {halaqahName && <span> • {halaqahName}</span>}
               </div>
               {studentName && (
-                <div className='text-mtmh-m-semibold'>{studentName}</div>
+                <div className='text-khutwah-m-semibold'>{studentName}</div>
               )}
             </div>
 
@@ -63,13 +63,16 @@ export function ActivityBriefCard({
         <CardContent className='flex flex-col gap-y-2'>
           {surahStart && surahEnd ? (
             <div
-              className={cn('flex items-center gap-x-2 text-mtmh-sm-regular', {
-                'text-mtmh-m-regular': !studentName
-              })}
+              className={cn(
+                'flex items-center gap-x-2 text-khutwah-sm-regular',
+                {
+                  'text-khutwah-m-regular': !studentName
+                }
+              )}
             >
               <div>
                 <ActivityRecord
-                  className='text-mtmh-grey-lightest'
+                  className='text-khutwah-grey-lightest'
                   size={studentName ? 14 : 16}
                 />
               </div>
@@ -92,13 +95,16 @@ export function ActivityBriefCard({
 
           {notes && (
             <div
-              className={cn('flex items-center gap-x-2 text-mtmh-sm-regular', {
-                'text-mtmh-m-regular': !studentName
-              })}
+              className={cn(
+                'flex items-center gap-x-2 text-khutwah-sm-regular',
+                {
+                  'text-khutwah-m-regular': !studentName
+                }
+              )}
             >
               <div>
                 <Notes
-                  className='text-mtmh-grey-lightest'
+                  className='text-khutwah-grey-lightest'
                   size={studentName ? 14 : 16}
                 />
               </div>
