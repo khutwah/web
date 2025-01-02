@@ -3,7 +3,7 @@ name: preview-deploy
 on:
   push:
     branches:
-      - preview
+      - main
 
 jobs:
   build:
