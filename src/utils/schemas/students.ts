@@ -1,5 +1,5 @@
 import { object, mixed } from 'yup'
-import { parseComaSeparatedNumbers } from '../validation/is-comma-separated-number'
+import { parseComaSeparatedNumbers } from '../is-comma-separated-number'
 
 export const studentsFilterSchema = object({
   circle_ids: mixed().transform(

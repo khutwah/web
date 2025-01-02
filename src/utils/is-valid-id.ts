@@ -1,6 +1,6 @@
 import { number } from 'yup'
 
-export async function validate({ id }: { id: string }) {
+export default async function isValidId({ id }: { id: string }) {
   const schema = number().required()
 
   try {

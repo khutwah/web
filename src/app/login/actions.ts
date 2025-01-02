@@ -21,10 +21,7 @@ export async function login(_prevState: unknown, formData: FormData) {
   }
 
   try {
-    const isMumtazNeeded = isMumtazLoginNeeded(data.username)
-    console.log('isMumtazNeeded', isMumtazNeeded)
-
-    if (isMumtazNeeded) {
+    if (isMumtazLoginNeeded(data.username)) {
       let status = -1,
         mumtazResponse = undefined
 
@@ -51,6 +48,15 @@ export async function login(_prevState: unknown, formData: FormData) {
         redirectUri = await loginUsingPinPrep(data.username)
       }
     } else {
+      // IF it ends with .mh, we complete the email address.
+      const dotNamespace = `.${process.env.NEXT_PUBLIC_NAMESPACE || 'mh'}`
+      if (data.username.endsWith(dotNamespace)) {
+        data.username = data.username.replace(
+          dotNamespace,
+          `${dotNamespace}.khutwah.id`
+        )
+      }
+
       /**
        * Other than users who need mumtaz login. For example: admin, ustadz, lajnah.
        */

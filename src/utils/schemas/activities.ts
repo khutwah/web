@@ -1,7 +1,7 @@
 import { string, number, object, array, boolean, mixed } from 'yup'
 import { testTimestamp } from '../is-valid-date'
 import { ActivityStatus } from '@/models/activities'
-import { parseComaSeparatedNumbers } from '../validation/is-comma-separated-number'
+import { parseComaSeparatedNumbers } from '../is-comma-separated-number'
 
 export const activityFilterSchema = object({
   start_date: string().test(

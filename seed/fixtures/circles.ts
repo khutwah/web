@@ -4,7 +4,7 @@ export const lajnah = {
   members: [
     {
       name: 'Galih Sekarmeda',
-      email: 'galih@lajnah.mtmh.com'
+      email: 'galih@lajnah.mh.khutwah.id'
     }
   ]
 }
@@ -17,16 +17,16 @@ export const circles: Cicle[] = [
     grade: '7',
     owner: {
       name: 'Najjalloh Alfaz',
-      email: 'alfaz@ustadz.mtmh.com'
+      email: 'alfaz@ustadz.mh.khutwah.id'
     },
     members: [
       {
         name: 'Iskandar Hakim',
-        email: 'iskandar@santri.mtmh.com'
+        email: 'iskandar@santri.mh.khutwah.id'
       },
       {
         name: 'Budi Abdullah',
-        email: 'budi@santri.mtmh.com'
+        email: 'budi@santri.mh.khutwah.id'
       }
     ]
   },
@@ -37,16 +37,16 @@ export const circles: Cicle[] = [
     location: 'Saung Umar bin Khattab',
     owner: {
       name: 'Muhammad Ardi Nurfattah',
-      email: 'ardi@ustadz.mtmh.com'
+      email: 'ardi@ustadz.mh.khutwah.id'
     },
     members: [
       {
         name: 'Azka Fatah',
-        email: 'azka@santri.mtmh.com'
+        email: 'azka@santri.mh.khutwah.id'
       },
       {
         name: 'Hamid Abdullah',
-        email: 'hamid@santri.mtmh.com'
+        email: 'hamid@santri.mh.khutwah.id'
       }
     ]
   },
@@ -57,16 +57,16 @@ export const circles: Cicle[] = [
     location: 'Saung Umar bin Khattab',
     owner: {
       name: 'Muhammad Iram',
-      email: 'iram@ustadz.mtmh.com'
+      email: 'iram@ustadz.mh.khutwah.id'
     },
     members: [
       {
         name: 'Abdul Hakim',
-        email: 'abdul@santri.mtmh.com'
+        email: 'abdul@santri.mh.khutwah.id'
       },
       {
         name: 'Usman Hakim',
-        email: 'usman@santri.mtmh.com'
+        email: 'usman@santri.mh.khutwah.id'
       }
     ]
   }
