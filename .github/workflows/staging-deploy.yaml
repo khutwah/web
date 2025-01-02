@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - run: make
         env:
-          SHA: ${{ github.sha }}
+          REF: ${{ github.sha }}
       - uses: mikefarah/yq@f73c862cc555c0d98d3ac3120a79ec25fdda9837 # master@27-12-2024
         with:
           cmd: yq -i '.services.staging.image = env(IMAGE)' deployments/staging/stack.yaml
