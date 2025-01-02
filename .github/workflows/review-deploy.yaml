@@ -52,6 +52,9 @@ jobs:
           SUPABASE_API_URL: ${{ secrets.REVIEW_SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.REVIEW_SUPABASE_ANON_KEY }}
           SEED_DATABASE_URL: ${{ secrets.REVIEW_DATABASE_URL }}
+          # For previewer, this is not a secret. It's a test password.
+          # Please sync the  value with the one in deployments/review/fly.toml.
+          STUDENTS_DEFAULT_PASSWORD: test123
 
   deploy:
     needs: check-database
