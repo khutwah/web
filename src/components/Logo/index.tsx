@@ -21,7 +21,7 @@ export default function Logo({ variant }: LogoProps) {
   const { src, width, height } = images[variant]
   return (
     <Image
-      alt='Minhajul Haq'
+      alt={`${process.env.NEXT_PUBLIC_APP_TITLE || 'Minhajul Haq'} Logo`}
       src={src}
       width={width}
       height={height}
