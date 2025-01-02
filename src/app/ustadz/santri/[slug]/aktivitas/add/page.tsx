@@ -56,20 +56,21 @@ export default async function AddActivity(props: AddActivityProps) {
   const activityKey = ActivityType[activityType]
 
   const circlesInstance = new Circles()
-  const circleInfo = await circlesInstance.get(searchParams.halaqah_id)
-
   const studentsInstance = new Students()
-  const studentInfo = await studentsInstance.get(params.slug)
-
   const activitiesInstance = new Activities()
-  const activities = await activitiesInstance.list({
-    student_id: Number(params.slug),
-    student_attendance: 'present',
-    type: activityType === 'Sabqi' ? ActivityType.Sabaq : activityKey,
-    order_by: [['id', 'desc']],
-    status: ActivityStatus.completed,
-    limit: 1
-  })
+
+  const [circleInfo, studentInfo, activities] = await Promise.all([
+    circlesInstance.get(searchParams.halaqah_id),
+    studentsInstance.get(params.slug),
+    activitiesInstance.list({
+      student_id: Number(params.slug),
+      student_attendance: 'present',
+      type: activityType === 'Sabqi' ? ActivityType.Sabaq : activityKey,
+      order_by: [['id', 'desc']],
+      status: ActivityStatus.completed,
+      limit: 1
+    })
+  ])
 
   const lastActivity = activities?.data?.[0]
 

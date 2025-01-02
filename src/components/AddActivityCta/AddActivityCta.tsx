@@ -4,12 +4,18 @@ import { Button, ButtonProps } from '@/components/Button/Button'
 import { ActivityTypeKey } from '@/models/activities'
 import { cn } from '@/utils/classnames'
 import Link from 'next/link'
+import { MENU_USTADZ_PATH_RECORDS } from '@/utils/menus/ustadz'
+
+interface Activity {
+  id: number
+}
 
 interface AddActivityCtaProps extends ButtonProps {
   activityType: ActivityTypeKey
   halaqahId: number
   studentId: number
   searchStringRecords?: Record<string, string>
+  activityForToday?: Activity
 }
 
 const ACTIVITY_TYPE_TO_BUTTON_PROPS: Record<
@@ -38,6 +44,7 @@ export function AddActivityCta({
   halaqahId,
   studentId,
   searchStringRecords,
+  activityForToday,
   ...buttonProps
 }: AddActivityCtaProps) {
   const { label, className } = ACTIVITY_TYPE_TO_BUTTON_PROPS[activityType]
@@ -50,10 +57,13 @@ export function AddActivityCta({
     >
       <Link
         href={{
-          pathname: `/ustadz/santri/${studentId}/aktivitas/add`,
+          pathname: activityForToday
+            ? `${MENU_USTADZ_PATH_RECORDS.santri}/${studentId}` // FIXME(dio): We need to keep on the current page.
+            : `${MENU_USTADZ_PATH_RECORDS.santri}/${studentId}/aktivitas/add`,
           query: {
             activity_type: activityType,
             halaqah_id: halaqahId,
+            activity: activityForToday?.id,
             ...searchStringRecords
           }
         }}

@@ -191,6 +191,19 @@ export class Activities extends Base {
       .maybeSingle()
   }
 
+  async listForDay(id: number, types: ActivityType[], day: dayjs.Dayjs) {
+    const startOfDay = day.startOf('day').toISOString()
+    const endOfDay = day.endOf('day').toISOString()
+
+    return (await this.supabase)
+      .from('activities')
+      .select(selectQuery)
+      .eq('student_id', id)
+      .in('type', types)
+      .gte('created_at', startOfDay)
+      .lte('created_at', endOfDay)
+  }
+
   async count(args: GetFilter) {
     return (await this.list(args)).data?.length
   }
@@ -211,6 +224,13 @@ export class Activities extends Base {
     }
 
     return await (await this.supabase).from('activities').insert(_payload)
+  }
+
+  async convertToDraft(id: number) {
+    return (await this.supabase)
+      .from('activities')
+      .update({ status: ActivityStatus.draft })
+      .eq('id', id)
   }
 
   async update(id: number, payload: ActivitiesPayload) {
