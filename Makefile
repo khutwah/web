@@ -2,9 +2,10 @@ PRE ?= stag
 SHA ?= $(shell git rev-parse HEAD)
 VER := $(shell git rev-parse --short $(SHA))
 NAM ?= mh
+ENV ?= development
 REG ?= ttl.sh
 TAG ?= 1h
-IMG ?= $(REG)/$(NAM)-khutwah-id-$(SHA):$(TAG)
+IMG ?= $(REG)/$(NAM)-${ENV}-khutwah-id-$(SHA):$(TAG)
 
 image:
 	@docker build \
