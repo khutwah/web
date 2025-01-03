@@ -12,6 +12,7 @@ export default async function Home() {
   const activitiesInstance = new Activities()
   const [activities, halaqahCount] = await Promise.all([
     activitiesInstance.list({
+      current_user_id: user.data?.id,
       parent_id: user.data?.id,
       type: ActivityType.Sabaq,
       limit: 1,
@@ -19,11 +20,9 @@ export default async function Home() {
       status: ActivityStatus.completed,
       student_attendance: 'present'
     }),
-    // TODO(dio-khutwah): Build a proper query for this.
     activitiesInstance.count({
       parent_id: user.data?.id,
       type: ActivityType.Sabaq,
-      limit: Number.MAX_SAFE_INTEGER,
       status: ActivityStatus.completed,
       student_attendance: 'present'
     })

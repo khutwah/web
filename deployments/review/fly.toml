@@ -21,7 +21,6 @@ primary_region = 'sin'
   X-Powered-By = false
 
 [env]
-  NEXT_PUBLIC_SKIP_MUMTAZ_LOGIN = 'true'
   STUDENTS_DEFAULT_PASSWORD = 'test123'
 
 [[vm]]

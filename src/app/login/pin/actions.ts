@@ -22,6 +22,15 @@ export async function login(_prevState: unknown, formData: FormData) {
     const email = _cookies.get(TEMPORARY_PIN_PAGE_ID_COOKIE)
     if (!email) throw new Error('Antum semestinya tidak berada di halaman ini')
 
+    // IF it ends with .mh, we complete the email address.
+    const dotNamespace = `.${process.env.NEXT_PUBLIC_APP_NAMESPACE || 'mh'}`
+    if (email.value.endsWith(dotNamespace)) {
+      email.value = email.value.replace(
+        dotNamespace,
+        `${dotNamespace}.khutwah.id`
+      )
+    }
+
     const student = new Students()
     const result = await student.list({ pin: data.pin, email: email.value })
     if (!result.data?.length) {

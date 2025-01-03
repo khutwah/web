@@ -1,6 +1,9 @@
 import { Card, CardContent } from '@/components/Card/Card'
-import { Tabs, TabsList, TabsTrigger } from '@/components/Tabs/Tabs'
-import { BookOpenText, AlignJustify, Clock } from 'lucide-react'
+import {
+  BookOpenText as HalamanCount,
+  AlignJustify as AyatCount,
+  Clock as HalaqahCount
+} from 'lucide-react'
 import { getAyahLocationSummary } from '@/utils/mushaf'
 
 interface StatsCardProps {
@@ -14,14 +17,6 @@ export function StatsCard({ surah, ayah, halaqahCount }: StatsCardProps) {
 
   return (
     <div className='w-full'>
-      <Tabs defaultValue='all-time' className='w-full'>
-        <TabsList className='grid w-full grid-cols-3 mb-4'>
-          <TabsTrigger value='all-time' className='text-sm'>
-            ALL-TIME
-          </TabsTrigger>
-        </TabsList>
-      </Tabs>
-
       <Card className='border'>
         <CardContent className='p-6'>
           <h2 className='text-lg text-khutwah-l-semibold mb-2 text-khutwah-tamarind-dark'>
@@ -42,7 +37,7 @@ export function StatsCard({ surah, ayah, halaqahCount }: StatsCardProps) {
             </div>
             <div>
               <h3 className='text-khutwah-m-regular text-khutwah-grey-lightest mb-1'>
-                Lajnah
+                Asesmen Lajnah
               </h3>
               <div className='text-3xl font-bold'>
                 {summary?.lajnah.previous && summary?.lajnah.previous > 0
@@ -58,7 +53,7 @@ export function StatsCard({ surah, ayah, halaqahCount }: StatsCardProps) {
 
           <div className='grid grid-cols-3 gap-4'>
             <div className='flex items-center gap-2'>
-              <BookOpenText className='w-4 h-4 text-khutwah-tamarind-dark' />
+              <HalamanCount className='w-4 h-4 text-khutwah-tamarind-dark' />
               <div>
                 <div className='font-medium'>{summary?.pages || 0}</div>
                 <div className='text-xs text-khutwah-grey-lightest'>
@@ -67,14 +62,14 @@ export function StatsCard({ surah, ayah, halaqahCount }: StatsCardProps) {
               </div>
             </div>
             <div className='flex items-center gap-2'>
-              <AlignJustify className='w-4 h-4 text-khutwah-tamarind-dark' />
+              <AyatCount className='w-4 h-4 text-khutwah-tamarind-dark' />
               <div>
                 <div className='font-medium'>{summary?.ayahs || 0}</div>
                 <div className='text-xs text-khutwah-grey-lightest'>Ayat</div>
               </div>
             </div>
             <div className='flex items-center gap-2'>
-              <Clock className='w-4 h-4 text-khutwah-tamarind-dark' />
+              <HalaqahCount className='w-4 h-4 text-khutwah-tamarind-dark' />
               <div>
                 <div className='font-medium'>{halaqahCount || 0}x</div>
                 <div className='text-xs text-khutwah-grey-lightest'>
