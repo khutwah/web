@@ -8,7 +8,7 @@ import { Button } from '@/components/Button/Button'
 import {
   ActivityFormValues,
   ActivityStatus,
-  GLOBAL_TARGET_PAGE
+  GLOBAL_TARGET_PAGE_COUNT
 } from '@/models/activities'
 import { activityCreateSchema } from '@/utils/schemas/activities'
 import { FormProps } from '@/models/activity-form'
@@ -38,7 +38,7 @@ export function FormAbsent(props: Omit<FormProps, 'lastSurah' | 'lastVerse'>) {
       type: activityType,
       shift_id: shiftId,
       student_id: studentId,
-      target_page_count: GLOBAL_TARGET_PAGE,
+      target_page_count: GLOBAL_TARGET_PAGE_COUNT,
       ...defaultValues
     }
   })

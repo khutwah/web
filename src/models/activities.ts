@@ -32,7 +32,8 @@ export interface ActivityFormValues {
   student_id: number
 }
 
-export const GLOBAL_TARGET_PAGE = 4
+export const GLOBAL_TARGET_PAGE_COUNT =
+  Number(process.env.NEXT_PUBLIC_GLOBAL_TARGET_PAGE_COUNT) || 2
 
 export type ActivityEntry = NonNullable<
   Awaited<ReturnType<Activities['list']>>['data']

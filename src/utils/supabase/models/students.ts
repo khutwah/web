@@ -18,7 +18,11 @@ interface CreatePayload {
   name: string
 }
 
-const COLUMNS = `id, name, users (id, email), circles (id, name)`
+interface UpdatePayload {
+  target_page_count?: number
+}
+
+const COLUMNS = `id, name, target_page_count, users (id, email), circles (id, name, target_page_count)`
 export class Students extends Base {
   async list(args: ListFilter) {
     const { virtual_account, pin, email, student_id, ustadz_id, circle_ids } =
@@ -178,10 +182,14 @@ export class Students extends Base {
     return (await this.supabase).from('students').insert(payload)
   }
 
-  async update(userId: number, payload: Partial<CreatePayload>) {
+  async updateByParentId(parentId: number, payload: Partial<CreatePayload>) {
     return (await this.supabase)
       .from('students')
       .update(payload)
-      .eq('parent_id', userId)
+      .eq('parent_id', parentId)
+  }
+
+  async update(id: number, payload: Partial<UpdatePayload>) {
+    return (await this.supabase).from('students').update(payload).eq('id', id)
   }
 }

@@ -1,4 +1,7 @@
-import { ActivityFormValues, GLOBAL_TARGET_PAGE } from '@/models/activities'
+import {
+  ActivityFormValues,
+  GLOBAL_TARGET_PAGE_COUNT
+} from '@/models/activities'
 import { Control, UseFormSetValue, useWatch } from 'react-hook-form'
 import { useSecondEffect } from '@/hooks/useSecondEffect'
 import { getPageCount } from '@/utils/mushaf'
@@ -7,12 +10,14 @@ interface UseActivityControlledValueArgs {
   control: Control<ActivityFormValues>
   setValue: UseFormSetValue<ActivityFormValues>
   autofillSurah?: boolean
+  targetPageCount?: number
 }
 
 export function useActivityControlledValue({
   control,
   setValue,
-  autofillSurah = true
+  autofillSurah = true,
+  targetPageCount = GLOBAL_TARGET_PAGE_COUNT
 }: UseActivityControlledValueArgs) {
   const [startSurah, endSurah, startVerse, endVerse, tags, isTargetAchieved] =
     useWatch({
@@ -48,7 +53,7 @@ export function useActivityControlledValue({
           endSurah,
           endVerse
         )
-        if (pageCount >= GLOBAL_TARGET_PAGE) {
+        if (pageCount >= targetPageCount) {
           setValue('is_target_achieved', true)
         } else {
           setValue('is_target_achieved', false)

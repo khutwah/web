@@ -10,7 +10,7 @@ import { Button } from '@/components/Button/Button'
 import {
   ActivityFormValues,
   ActivityStatus,
-  GLOBAL_TARGET_PAGE
+  GLOBAL_TARGET_PAGE_COUNT
 } from '@/models/activities'
 import { activityCreateSchema } from '@/utils/schemas/activities'
 import { useActivityControlledValue } from '../../hooks/useActivityControlledValue'
@@ -53,10 +53,10 @@ export function FormPresent(props: FormProps) {
       is_target_achieved: false,
       student_attendance: 'present',
       page_count: 0,
-      target_page_count: GLOBAL_TARGET_PAGE,
       type: activityType,
       shift_id: shiftId,
       student_id: studentId,
+      target_page_count: GLOBAL_TARGET_PAGE_COUNT,
       ...defaultValues
     }
   })
@@ -69,7 +69,8 @@ export function FormPresent(props: FormProps) {
     useActivityControlledValue({
       control,
       setValue,
-      autofillSurah: !activityId
+      autofillSurah: !activityId,
+      targetPageCount: defaultValues?.target_page_count
     })
 
   const startVerseItems = getVerseItems(startSurah)
