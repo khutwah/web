@@ -8,6 +8,10 @@ interface GetFilter extends RoleFilter {
   end_date?: string
 }
 
+interface UpdatePayload {
+  target_page_count?: number
+}
+
 export class Circles extends Base {
   async list(filter: GetFilter = {}) {
     const tz = await getTimezoneInfo()
@@ -161,6 +165,7 @@ export class Circles extends Base {
           name,
           label,
           grade,
+          target_page_count,
           shifts(id, location, ustadz_id, users(name, id), start_date),
           students(id, name, parent_id)
         `
@@ -210,10 +215,15 @@ export class Circles extends Base {
         location: data?.shifts?.[0]?.location ?? '',
         shift_id: data?.shifts?.[0]?.id,
         ustadz: ustadz,
+        target_page_count: data?.target_page_count,
         can_manage: Boolean(filter?.ustadz_id)
           ? ustadz?.id === filter?.ustadz_id
           : false
       }
     }
+  }
+
+  async update(id: number, payload: Partial<UpdatePayload>) {
+    return (await this.supabase).from('circles').update(payload).eq('id', id)
   }
 }

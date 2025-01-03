@@ -16,7 +16,7 @@ create table "public"."activities" (
   "status" character varying not null default 'draft'::character varying,
   "student_attendance" character varying not null default 'present'::character varying,
   "page_count" real,
-  "target_page_count" smallint
+  "target_page_count" smallint not null default 0
 );
 
 create table "public"."assessments" (
