@@ -14,11 +14,16 @@ import { useState } from 'react'
 import { TargetPageCountDrawer } from './TargetPageCountDrawer'
 
 interface TargetPageCountProps {
-  id: number
+  id?: number
+  circleId?: number
   targetPageCount: number
 }
 
-export function TargetPageCount({ id, targetPageCount }: TargetPageCountProps) {
+export function TargetPageCount({
+  id,
+  circleId,
+  targetPageCount
+}: TargetPageCountProps) {
   const [open, setOpen] = useState(false)
   return (
     <Drawer open={open} onOpenChange={setOpen}>
@@ -40,6 +45,7 @@ export function TargetPageCount({ id, targetPageCount }: TargetPageCountProps) {
         </DrawerHeader>
         <TargetPageCountDrawer
           id={id}
+          circleId={circleId}
           targetPageCount={targetPageCount}
           onFinish={() => setOpen(false)}
         />

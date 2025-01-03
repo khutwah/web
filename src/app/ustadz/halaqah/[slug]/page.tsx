@@ -13,6 +13,8 @@ import { Alert, AlertDescription } from '@/components/Alert/Alert'
 import { CircleAlert } from 'lucide-react'
 import { MENU_USTADZ_PATH_RECORDS } from '@/utils/menus/ustadz'
 import { convertSearchParamsToPath } from '@/utils/url'
+import { GLOBAL_TARGET_PAGE_COUNT } from '@/models/activities'
+import { TargetPageCount } from '@/components/TargetPageCount/TargetPageCount'
 
 export default async function DetailHalaqah({
   params: paramsPromise,
@@ -69,6 +71,17 @@ export default async function DetailHalaqah({
 
                 <dt className='font-semibold col-span-1'>Lokasi</dt>
                 <dd className='col-span-2'>{circleInfo.data.location}</dd>
+
+                <dt className='font-semibold col-span-1'>Target</dt>
+                <dd className='col-span-2'>
+                  <TargetPageCount
+                    circleId={circleInfo.data.id}
+                    targetPageCount={
+                      circleInfo.data.target_page_count ||
+                      GLOBAL_TARGET_PAGE_COUNT
+                    }
+                  />
+                </dd>
               </dl>
             </CardContent>
           </Card>
