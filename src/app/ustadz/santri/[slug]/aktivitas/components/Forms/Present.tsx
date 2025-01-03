@@ -69,7 +69,8 @@ export function FormPresent(props: FormProps) {
     useActivityControlledValue({
       control,
       setValue,
-      autofillSurah: !activityId
+      autofillSurah: !activityId,
+      targetPageCount: defaultValues?.target_page_count
     })
 
   const startVerseItems = getVerseItems(startSurah)
