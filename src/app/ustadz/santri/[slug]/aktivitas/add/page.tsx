@@ -8,7 +8,8 @@ import { Circles } from '@/utils/supabase/models/circles'
 import {
   ActivityStatus,
   ActivityType,
-  ActivityTypeKey
+  ActivityTypeKey,
+  GLOBAL_TARGET_PAGE_COUNT
 } from '@/models/activities'
 import { Students } from '@/utils/supabase/models/students'
 import { Activities } from '@/utils/supabase/models/activities'
@@ -97,6 +98,11 @@ export default async function AddActivity(props: AddActivityProps) {
     })
   }
 
+  const targetPageCount =
+    studentInfo.data?.target_page_count ??
+    studentInfo.data?.circles?.target_page_count ??
+    GLOBAL_TARGET_PAGE_COUNT
+
   return (
     <div>
       <Navbar
@@ -131,7 +137,10 @@ export default async function AddActivity(props: AddActivityProps) {
               studentId={params.slug}
               activityType={activityKey}
               santriPageUri={santriPage}
-              defaultValues={defaultValues}
+              defaultValues={{
+                ...defaultValues,
+                target_page_count: targetPageCount
+              }}
               {...optionalProps}
             />
           </TabsContent>
@@ -141,7 +150,10 @@ export default async function AddActivity(props: AddActivityProps) {
               studentId={params.slug}
               activityType={activityKey}
               santriPageUri={santriPage}
-              defaultValues={defaultValues}
+              defaultValues={{
+                ...defaultValues,
+                target_page_count: targetPageCount
+              }}
             />
           </TabsContent>
         </Tabs>

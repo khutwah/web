@@ -1,4 +1,7 @@
-import { ActivityFormValues, GLOBAL_TARGET_PAGE } from '@/models/activities'
+import {
+  ActivityFormValues,
+  GLOBAL_TARGET_PAGE_COUNT
+} from '@/models/activities'
 import { Control, UseFormSetValue, useWatch } from 'react-hook-form'
 import { useSecondEffect } from '@/hooks/useSecondEffect'
 import { getPageCount } from '@/utils/mushaf'
@@ -48,7 +51,7 @@ export function useActivityControlledValue({
           endSurah,
           endVerse
         )
-        if (pageCount >= GLOBAL_TARGET_PAGE) {
+        if (pageCount >= GLOBAL_TARGET_PAGE_COUNT) {
           setValue('is_target_achieved', true)
         } else {
           setValue('is_target_achieved', false)

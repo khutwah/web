@@ -1,7 +1,7 @@
 import { ProgressChart, ProgressChartPeriod } from './ProgressChart'
 import { ComponentProps, useState } from 'react'
 import dayjsClientSideLocal from '@/utils/dayjs-client-side-local'
-import { GLOBAL_TARGET_PAGE } from '@/models/activities'
+import { GLOBAL_TARGET_PAGE_COUNT } from '@/models/activities'
 
 export function ProgressChartStory() {
   return (
@@ -50,7 +50,7 @@ function generateData(
     activities.push({
       page_count:
         idx === 0 ? 0 : idx > numberOfActivities ? null : pageCount + idx,
-      target_page_count: GLOBAL_TARGET_PAGE * (idx + 1),
+      target_page_count: GLOBAL_TARGET_PAGE_COUNT * (idx + 1),
       created_at: startDatetime.add(idx, 'day').toISOString(),
       student_attendance: idx % 7 === 0 ? 'absent' : 'present',
       id: idx

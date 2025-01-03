@@ -6,7 +6,8 @@ import { cn } from '@/utils/classnames'
 import { Activities } from '@/utils/supabase/models/activities'
 import {
   ACTIVITY_PERIOD_QUERY_PARAMETER,
-  ACTIVITY_VIEW_QUERY_PARAMETER
+  ACTIVITY_VIEW_QUERY_PARAMETER,
+  GLOBAL_TARGET_PAGE_COUNT
 } from '@/models/activities'
 import { Dayjs } from '@/utils/dayjs'
 import { ProgressChartWithNavigation } from '@/components/Progress/ProgressChart'
@@ -14,6 +15,7 @@ import { Checkpoints } from '@/utils/supabase/models/checkpoints'
 import { ProgressGridWithNavigation } from '@/components/Progress/ProgressGrid'
 import { CheckpointStatus } from '@/models/checkpoints'
 import { parseParameter } from '@/utils/parse-parameter'
+import { TargetPageCount } from '@/components/TargetPageCount/TargetPageCount'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const DEFAULT_EMPTY_ARRAY: any[] = []
@@ -21,9 +23,11 @@ const DEFAULT_EMPTY_ARRAY: any[] = []
 interface Student {
   id: number
   name: string | null
+  target_page_count: number
   circles: {
     id: number | null
     name: string | null
+    target_page_count: number
   } | null
 }
 
@@ -50,7 +54,7 @@ type ProgressViewCardHeaderProps = Omit<
 >
 type ProgressViewCardContentProps = ProgressViewCardProps
 
-export default async function ProgressViewCard({
+export default function ProgressViewCard({
   student,
   latestCheckpoint,
   isStudentManagedByUser,
@@ -91,8 +95,18 @@ function ProgressViewCardHeader({ student }: ProgressViewCardHeaderProps) {
         <div className='text-khutwah-l-semibold text-khutwah-grey-base'>
           {student?.name}
         </div>
-        <div className='text-khutwah-m-regular text-khutwah-grey-lighter'>
+        <div className='text-khutwah-m-regular text-khutwah-grey-lighter mb-2'>
           {student?.circles?.name}
+        </div>
+        <div className='flex w-fit'>
+          <TargetPageCount
+            id={student.id}
+            targetPageCount={
+              student?.target_page_count ??
+              student?.circles?.target_page_count ??
+              GLOBAL_TARGET_PAGE_COUNT
+            }
+          />
         </div>
       </div>
 

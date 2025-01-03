@@ -1,12 +1,12 @@
 import { Layout } from '@/components/Layout/Ustadz'
 import { Navbar } from '@/components/Navbar/Navbar'
 import { SantriActivityHeader } from '@/components/SantriActivity/Header'
-import ProgressViewCard from './components/ProgressView/Card'
+import ProgressViewCard from './components/ProgressView/ProgressViewCard'
 import { Students } from '@/utils/supabase/models/students'
 import {
   ProgressViewToggle,
   ProgressViewToggleProps
-} from './components/ProgressView/Toggle'
+} from './components/ProgressView/PorgressViewToggle'
 import {
   ACTIVITY_VIEW_QUERY_PARAMETER,
   ACTIVITY_CURRENT_DATE_QUERY_PARAMETER,

@@ -20,7 +20,7 @@ import {
 import {
   ACTIVITY_PERIOD_QUERY_PARAMETER,
   ActivityChartEntry,
-  GLOBAL_TARGET_PAGE
+  GLOBAL_TARGET_PAGE_COUNT
 } from '@/models/activities'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../Tabs/Tabs'
 import dayjsClientSideLocal from '@/utils/dayjs-client-side-local'
@@ -190,8 +190,8 @@ function Subchart({
             }
             y={
               datePeriod === 'week'
-                ? GLOBAL_TARGET_PAGE * 7
-                : GLOBAL_TARGET_PAGE * currentDatetime.daysInMonth()
+                ? GLOBAL_TARGET_PAGE_COUNT * 7
+                : GLOBAL_TARGET_PAGE_COUNT * currentDatetime.daysInMonth()
             }
             label={{
               value: 'Target',

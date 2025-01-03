@@ -26,8 +26,10 @@ export async function action(_prev: unknown, formData: FormData) {
     const response = await user.get({ sb_user_id: authId })
     const userId = response.data?.id
 
-    const student = new Students()
-    const update = await student.update(userId ?? -1, { pin: data.pin })
+    const studentsInstance = new Students()
+    const update = await studentsInstance.updateByParentId(userId ?? -1, {
+      pin: data.pin
+    })
     if (update.error) {
       throw new Error('Penyimpanan PIN belum berhasil. Silakan coba lagi.')
     }
