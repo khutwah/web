@@ -5,7 +5,6 @@ import {
 import { Control, UseFormSetValue, useWatch } from 'react-hook-form'
 import { useSecondEffect } from '@/hooks/useSecondEffect'
 import { getPageCount } from '@/utils/mushaf'
-import { Target } from 'lucide-react'
 
 interface UseActivityControlledValueArgs {
   control: Control<ActivityFormValues>
