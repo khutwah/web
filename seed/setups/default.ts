@@ -16,7 +16,7 @@ export default (async function () {
   await Promise.all([
     registerTags(seed),
     registerLajnahMembers(supabase, seed, lajnah.members),
-    registerCircles(supabase, seed, circles, new Date().getFullYear())
+    registerCircles(supabase, seed, circles, '2024/2025')
   ])
 
   // Generate activities for each student in each halaqah.
