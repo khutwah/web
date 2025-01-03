@@ -2,21 +2,21 @@ import dayjs from '@/utils/dayjs'
 import { copycat } from '@snaplet/copycat'
 import { SeedClient } from '@snaplet/seed'
 import Supabase from './supabase'
-import { Cicle } from './types'
+import { Circle } from './types'
 
 export async function registerCircles(
   supabase: Supabase,
   seed: SeedClient,
-  circles: Cicle[],
-  year: number
+  circles: Circle[],
+  academicYear: string
 ) {
   await seed.circles((x) =>
     x(circles.length, (ctx) => {
       const halaqah = circles[ctx.index]
       return {
         name: halaqah.name,
-        academic_year: year,
-        class: halaqah.grade,
+        academic_year: academicYear,
+        grade: halaqah.grade,
         label: halaqah.label,
         location: halaqah.location
       }

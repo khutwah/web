@@ -8,11 +8,11 @@ type Owner = {
   email: string
 }
 
-export type Cicle = {
+export type Circle = {
   name: string
   label: string
   location: string
-  grade: string
+  grade: number
   owner: Owner
   members: Member[]
 }

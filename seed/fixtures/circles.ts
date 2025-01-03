@@ -1,4 +1,4 @@
-import { Cicle } from '../helper/types'
+import { Circle } from '../helper/types'
 
 export const lajnah = {
   members: [
@@ -9,12 +9,12 @@ export const lajnah = {
   ]
 }
 
-export const circles: Cicle[] = [
+export const circles: Circle[] = [
   {
     name: 'Halaqah 7.1',
     label: 'Halaqah 7.1',
     location: 'Saung Umar bin Khattab',
-    grade: '7',
+    grade: 7,
     owner: {
       name: 'Najjalloh Alfaz',
       email: 'alfaz@ustadz.mh.khutwah.id'
@@ -33,7 +33,7 @@ export const circles: Cicle[] = [
   {
     name: 'Halaqah 8.1',
     label: 'Halaqah 8.1',
-    grade: '8',
+    grade: 8,
     location: 'Saung Umar bin Khattab',
     owner: {
       name: 'Muhammad Ardi Nurfattah',
@@ -53,7 +53,7 @@ export const circles: Cicle[] = [
   {
     name: 'Halaqah 9.1',
     label: 'Halaqah 9.1',
-    grade: '9',
+    grade: 9,
     location: 'Saung Umar bin Khattab',
     owner: {
       name: 'Muhammad Iram',

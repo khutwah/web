@@ -58,9 +58,9 @@ create table "public"."circles" (
   "name" character varying,
   "created_at" timestamp without time zone default now(),
   "updated_at" timestamp without time zone default now(),
-  "academic_year" smallint,
+  "academic_year" character varying(9) not null, -- e.g. 2021/2022
   "label" character varying(50),
-  "grade" character varying,
+  "grade" smallint not null default 7,
   "target_page_count" real not null default 0
 );
 
