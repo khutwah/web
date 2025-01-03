@@ -95,7 +95,8 @@ export class Activities extends Base {
       current_user_id
     } = args
 
-    const limiting = !options || !options.count
+    // We skip limiting when count is requested && limit === undefined.
+    const limiting = !options || (!options.count && limit !== undefined)
 
     let query = (await this.supabase)
       .from('activities')
@@ -215,7 +216,8 @@ export class Activities extends Base {
   }
 
   async count(args: GetFilter) {
-    return (await this.list(args, { head: true, count: 'exact' })).count
+    const countArgs = { ...args, limit: undefined, offset: undefined }
+    return (await this.list(countArgs, { head: true, count: 'exact' })).count
   }
 
   async create(payload: ActivitiesPayload) {
