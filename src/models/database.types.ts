@@ -51,7 +51,7 @@ export type Database = {
           student_attendance: string
           student_id: number | null
           tags: Json | null
-          target_page_count: number
+          target_page_count: number | null
           type: number | null
           updated_at: string | null
         }
@@ -71,7 +71,7 @@ export type Database = {
           student_attendance?: string
           student_id?: number | null
           tags?: Json | null
-          target_page_count?: number
+          target_page_count?: number | null
           type?: number | null
           updated_at?: string | null
         }
@@ -91,7 +91,7 @@ export type Database = {
           student_attendance?: string
           student_id?: number | null
           tags?: Json | null
-          target_page_count?: number
+          target_page_count?: number | null
           type?: number | null
           updated_at?: string | null
         }
@@ -260,33 +260,33 @@ export type Database = {
       }
       circles: {
         Row: {
-          academic_year: number | null
+          academic_year: string
           created_at: string | null
-          grade: string | null
+          grade: number
           id: number
           label: string | null
           name: string | null
-          target_page_count: number
+          target_page_count: number | null
           updated_at: string | null
         }
         Insert: {
-          academic_year?: number | null
+          academic_year: string
           created_at?: string | null
-          grade?: string | null
+          grade?: number
           id?: never
           label?: string | null
           name?: string | null
-          target_page_count?: number
+          target_page_count?: number | null
           updated_at?: string | null
         }
         Update: {
-          academic_year?: number | null
+          academic_year?: string
           created_at?: string | null
-          grade?: string | null
+          grade?: number
           id?: never
           label?: string | null
           name?: string | null
-          target_page_count?: number
+          target_page_count?: number | null
           updated_at?: string | null
         }
         Relationships: []
@@ -349,7 +349,7 @@ export type Database = {
           nisn: string | null
           parent_id: number | null
           pin: string | null
-          target_page_count: number
+          target_page_count: number | null
           updated_at: string | null
           virtual_account: string | null
         }
@@ -362,7 +362,7 @@ export type Database = {
           nisn?: string | null
           parent_id?: number | null
           pin?: string | null
-          target_page_count?: number
+          target_page_count?: number | null
           updated_at?: string | null
           virtual_account?: string | null
         }
@@ -375,7 +375,7 @@ export type Database = {
           nisn?: string | null
           parent_id?: number | null
           pin?: string | null
-          target_page_count?: number
+          target_page_count?: number | null
           updated_at?: string | null
           virtual_account?: string | null
         }

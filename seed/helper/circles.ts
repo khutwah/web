@@ -18,7 +18,8 @@ export async function registerCircles(
         academic_year: academicYear,
         grade: halaqah.grade,
         label: halaqah.label,
-        location: halaqah.location
+        location: halaqah.location,
+        target_page_count: null
       }
     })
   )
@@ -101,7 +102,8 @@ export async function registerCircles(
           return {
             parent_id: user?.id,
             name: user?.name,
-            circle_id: halaqah?.id
+            circle_id: halaqah?.id,
+            target_page_count: null
           }
         }),
       {

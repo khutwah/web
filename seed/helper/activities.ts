@@ -1,7 +1,7 @@
 import dayjs from '@/utils/dayjs'
 import { SeedClient } from '@snaplet/seed'
 import { getShift, getStudent } from './circles'
-import { ActivityStatus } from '@/models/activities'
+import { ActivityStatus, GLOBAL_TARGET_PAGE_COUNT } from '@/models/activities'
 import { getEndSurahAndAyah, getNextPage } from '@/utils/mushaf'
 import { copycat } from '@snaplet/copycat'
 import { Database } from '@/models/database.types'
@@ -39,7 +39,7 @@ export async function generateActivities(
     numberOfDays,
     startPoint,
     maxPageCount = 5,
-    targetPageCount = 2,
+    targetPageCount = GLOBAL_TARGET_PAGE_COUNT,
     includeToday = false,
     includeWeekend = false
   }: GenerateActivitiesOptions

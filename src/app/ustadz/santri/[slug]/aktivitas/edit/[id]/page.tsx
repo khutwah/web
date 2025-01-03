@@ -7,7 +7,8 @@ import { Halaqah as HalaqahComponent } from '../../components/Halaqah'
 import {
   ActivityStatus,
   ActivityType,
-  ActivityTypeKey
+  ActivityTypeKey,
+  GLOBAL_TARGET_PAGE_COUNT
 } from '@/models/activities'
 import { Activities } from '@/utils/supabase/models/activities'
 import {
@@ -123,7 +124,8 @@ export default async function EditActivity(props: EditActivityProps) {
                 notes: activity.data.notes || undefined,
                 is_target_achieved: Boolean(activity.data.is_target_achieved),
                 page_count: activity.data.page_count ?? 0,
-                target_page_count: activity.data.target_page_count,
+                target_page_count:
+                  activity.data.target_page_count || GLOBAL_TARGET_PAGE_COUNT,
                 created_at: activity.data.created_at!
               }}
             />
@@ -137,7 +139,8 @@ export default async function EditActivity(props: EditActivityProps) {
               activityId={activity.data.id}
               defaultValues={{
                 notes: activity.data.notes!,
-                target_page_count: activity.data.target_page_count,
+                target_page_count:
+                  activity.data.target_page_count || GLOBAL_TARGET_PAGE_COUNT,
                 created_at: activity.data.created_at!
               }}
             />

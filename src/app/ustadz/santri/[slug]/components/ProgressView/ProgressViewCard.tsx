@@ -23,11 +23,11 @@ const DEFAULT_EMPTY_ARRAY: any[] = []
 interface Student {
   id: number
   name: string | null
-  target_page_count: number
+  target_page_count: number | null
   circles: {
     id: number | null
     name: string | null
-    target_page_count: number
+    target_page_count: number | null
   } | null
 }
 

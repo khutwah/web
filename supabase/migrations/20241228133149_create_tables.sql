@@ -16,7 +16,7 @@ create table "public"."activities" (
   "status" character varying not null default 'draft'::character varying,
   "student_attendance" character varying not null default 'present'::character varying,
   "page_count" real,
-  "target_page_count" real not null default 0
+  "target_page_count" smallint
 );
 
 create table "public"."assessments" (
@@ -61,7 +61,7 @@ create table "public"."circles" (
   "academic_year" character varying(9) not null, -- e.g. 2021/2022
   "label" character varying(50),
   "grade" smallint not null default 7,
-  "target_page_count" real not null default 0
+  "target_page_count" smallint
 );
 
 create table "public"."shifts" (
@@ -86,7 +86,7 @@ create table "public"."students" (
   "nis" character varying,
   "virtual_account" character varying(50),
   "pin" character(6),
-  "target_page_count" real not null default 0
+  "target_page_count" smallint
 );
 
 create table "public"."tags" (
