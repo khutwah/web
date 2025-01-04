@@ -15,7 +15,7 @@ export const IDENTIFIER_BY_ROLE = {
 export const PAGE_BY_ROLE = {
   [ROLE.STUDENT]: '/santri',
   [ROLE.USTADZ]: '/ustadz',
-  [ROLE.LAJNAH]: '/lajnah'
+  [ROLE.LAJNAH]: '/ustadz'
 }
 
 export const DEFAULT_EMAIL_DOMAIN = 'app.minhajulhaq.sch.id'

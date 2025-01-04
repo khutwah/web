@@ -18,12 +18,14 @@ import { dayjs } from '@/utils/dayjs'
 import getTimezoneInfo from '@/utils/get-timezone-info'
 import { MENU_USTADZ_PATH_RECORDS } from '@/utils/menus/ustadz'
 import { parseSearchParams } from '@/utils/url'
-import { CheckpointStatus } from '@/models/checkpoints'
+import { CheckpointStatus, STATUS_LIST } from '@/models/checkpoints'
 import {
   CHECKPOINT_STATUS_SEARCH_PARAMS_KEY,
   USTADZ_ID_SEARCH_PARAMS_KEY
 } from '@/app/ustadz/santri/constants'
 import { getUser } from '@/utils/supabase/get-user'
+import { getUserRole } from '@/utils/supabase/get-user-role'
+import { ROLE } from '@/models/auth'
 
 export default async function Santri({
   searchParams: searchParamsPromise
@@ -34,6 +36,7 @@ export default async function Santri({
   const day = dayjs().tz(tz)
 
   const currentUser = await getUser()
+  const currentUserRole = await getUserRole()
 
   const searchParams = await searchParamsPromise
   const parsedSearchParams = parseSearchParams(searchParams, {
@@ -45,7 +48,11 @@ export default async function Santri({
     CHECKPOINT_STATUS_SEARCH_PARAMS_KEY
   ] as Array<CheckpointStatus>
   const ustadzId =
-    parsedSearchParams[USTADZ_ID_SEARCH_PARAMS_KEY] || currentUser.id || null
+    currentUserRole === ROLE.LAJNAH
+      ? 'ALL'
+      : parsedSearchParams[USTADZ_ID_SEARCH_PARAMS_KEY] ||
+        currentUser.id ||
+        null
 
   return (
     <Layout>
@@ -58,7 +65,7 @@ export default async function Santri({
             placeholder='Cari santri...'
             trailingComponent={
               <FilterDrawer
-                ustadzId={ustadzId === 'ALL' ? null : Number(ustadzId)}
+                ustadzId={ustadzId === 'ALL' ? 'ALL' : Number(ustadzId)}
                 checkpointStatuses={checkpointStatuses}
               />
             }

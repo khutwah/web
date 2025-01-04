@@ -50,7 +50,7 @@ interface ProgressViewCardProps {
 
 type ProgressViewCardHeaderProps = Omit<
   ProgressViewCardProps,
-  'latestCheckpoint' | 'isStudentManagedByUser' | 'searchParams' | 'tz' | 'day'
+  'latestCheckpoint' | 'searchParams' | 'tz' | 'day'
 >
 type ProgressViewCardContentProps = ProgressViewCardProps
 
@@ -64,7 +64,10 @@ export default function ProgressViewCard({
 }: ProgressViewCardProps) {
   return (
     <Card className='bg-khutwah-neutral-white text-khutwah-grey-base shadow-md border border-khutwah-snow-lighter rounded-md mb-2'>
-      <ProgressViewCardHeader student={student} />
+      <ProgressViewCardHeader
+        student={student}
+        isStudentManagedByUser={isStudentManagedByUser}
+      />
       <ProgressViewCardContent
         student={student}
         latestCheckpoint={latestCheckpoint}
@@ -77,7 +80,10 @@ export default function ProgressViewCard({
   )
 }
 
-function ProgressViewCardHeader({ student }: ProgressViewCardHeaderProps) {
+function ProgressViewCardHeader({
+  student,
+  isStudentManagedByUser
+}: ProgressViewCardHeaderProps) {
   if (!student || !student.circles) {
     return (
       <StateMessage
@@ -101,6 +107,7 @@ function ProgressViewCardHeader({ student }: ProgressViewCardHeaderProps) {
         <div className='flex w-fit'>
           <TargetPageCount
             id={student.id}
+            editable={isStudentManagedByUser}
             targetPageCount={
               student?.target_page_count ??
               student?.circles?.target_page_count ??

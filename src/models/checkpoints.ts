@@ -15,7 +15,7 @@ export const STATUS_LIST: Array<{ label: string; value: CheckpointStatus }> = [
     value: 'lajnah-assessment-approaching'
   },
   {
-    label: 'Persiapan Asesmen Lajnah',
+    label: 'Siap Mengikuti Asesmen Lajnah',
     value: 'lajnah-assessment-ready'
   },
   {

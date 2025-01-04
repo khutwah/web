@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation'
 interface TargetPageCountDrawerProps {
   id?: number
   circleId?: number
+  editable?: boolean
   targetPageCount: number
   onFinish: () => void
 }
@@ -15,6 +16,7 @@ interface TargetPageCountDrawerProps {
 export function TargetPageCountDrawer({
   id,
   circleId,
+  editable,
   targetPageCount,
   onFinish
 }: TargetPageCountDrawerProps) {
@@ -62,7 +64,7 @@ export function TargetPageCountDrawer({
           variant='primary'
           type='submit'
           className='basis-4/5 flex-1'
-          disabled={isPending}
+          disabled={!editable || isPending}
         >
           Simpan
         </Button>

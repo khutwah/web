@@ -14,10 +14,11 @@ import { BottomNavbarLink } from '@/models/bottom-navbar'
 import { Menu } from '@/models/menus'
 
 export const MENU_LAJNAH_PATH_RECORDS = {
-  home: '/lajnah',
-  santri: '/lajnah/santri',
-  asesmen: '/lajnah/asesmen',
-  settings: '/lajnah/pengaturan'
+  home: '/ustadz',
+  santri:
+    '/ustadz/santri?ustadz_id=ALL&checkpoint_status=lajnah-assessment-ready',
+  asesmen: '/ustadz/asesmen',
+  settings: '/ustadz/pengaturan'
 } as const
 
 export const ACTIVE_ICONS: Record<string, BottomNavbarLink['icon']> = {
@@ -32,28 +33,28 @@ export const MENUS: Menu[] = [
     icon: Beranda,
     text: 'Beranda',
     href: MENU_LAJNAH_PATH_RECORDS.home,
-    pattern: /^\/lajnah$/,
+    pattern: /^\/ustadz$/,
     active: false
   },
   {
     icon: Santri,
     text: 'Santri',
     href: MENU_LAJNAH_PATH_RECORDS.santri,
-    pattern: /^\/lajnah\/santri(\/.*)?$/,
+    pattern: /^\/ustadz\/santri(\/.*)?$/,
     active: false
   },
   {
     icon: Asesmen,
     text: 'Asesmen',
     href: MENU_LAJNAH_PATH_RECORDS.asesmen,
-    pattern: /^\/lajnah\/asesmen(\/.*)?$/,
+    pattern: /^\/ustadz\/asesmen(\/.*)?$/,
     active: false
   },
   {
     icon: Pengaturan,
     text: 'Pengaturan',
     href: MENU_LAJNAH_PATH_RECORDS.settings,
-    pattern: /^\/lajnah\/pengaturan$/,
+    pattern: /^\/ustadz\/pengaturan$/,
     active: false
   }
 ]

@@ -12,7 +12,7 @@ export default async function Home() {
   // FIXME(dio): When user is not found, redirect to login page.
   const activitiesInstance = new Activities()
   const [lastSabaq, halaqahCount] = await Promise.all([
-    activitiesInstance.getLastSabaq(user.id),
+    activitiesInstance.getLatestSabaq({ parentId: user.id }),
     activitiesInstance.count({
       parent_id: user.id,
       type: ActivityType.Sabaq,

@@ -8,10 +8,14 @@ import { LogIn } from 'lucide-react'
 
 interface AssessmentSectionProps {
   studentId: number
+  role: number
+  sessionRangeId?: number
 }
 
 export default async function AssessmentSection({
-  studentId
+  studentId,
+  role,
+  sessionRangeId
 }: AssessmentSectionProps) {
   const assessmentsInstance = new Assessments()
   const assessments = await assessmentsInstance.list({
@@ -46,7 +50,7 @@ export default async function AssessmentSection({
           </Button>
         </Link>
       ) : (
-        <AddAsesmen />
+        <AddAsesmen role={role} sessionRangeId={sessionRangeId} />
       )}
     </section>
   )

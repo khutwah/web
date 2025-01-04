@@ -37,6 +37,7 @@ export interface ComboboxProps {
   withSearch?: boolean
   mustSelect?: boolean
   startFrom?: number // this is only for "value" that have type number so we can disable the value below defined
+  disabled?: boolean
 }
 
 interface ComboboxButtonProps {
@@ -126,7 +127,8 @@ export function Combobox({
   searchPlaceholder = 'Cari',
   withSearch = true,
   mustSelect,
-  startFrom
+  startFrom,
+  disabled
 }: ComboboxProps) {
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState('')
@@ -167,6 +169,7 @@ export function Combobox({
         <Button
           variant='outline'
           aria-expanded={open}
+          disabled={disabled || isTransitioning}
           className='w-full flex items-center justify-between'
         >
           <span className='flex-grow text-left'>

@@ -17,22 +17,24 @@ interface TargetPageCountProps {
   id?: number
   circleId?: number
   targetPageCount: number
+  editable?: boolean
 }
 
 export function TargetPageCount({
   id,
   circleId,
-  targetPageCount
+  targetPageCount,
+  editable
 }: TargetPageCountProps) {
   const [open, setOpen] = useState(false)
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
-        <button>
+        <button disabled={!editable}>
           <Badge
             color='blue-outline'
             text={`${targetPageCount} halaman`}
-            icon={<Pencil size={12} />}
+            icon={editable && <Pencil size={12} />}
           />
         </button>
       </DrawerTrigger>
@@ -46,6 +48,7 @@ export function TargetPageCount({
         <TargetPageCountDrawer
           id={id}
           circleId={circleId}
+          editable={editable}
           targetPageCount={targetPageCount}
           onFinish={() => setOpen(false)}
         />

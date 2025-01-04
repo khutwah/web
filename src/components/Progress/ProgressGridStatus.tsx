@@ -117,7 +117,7 @@ function resolveStatus(
   switch (status) {
     case 'lajnah-assessment-approaching':
       return {
-        text: 'Siap-siap Asesmen Lajnah...',
+        text: `Siap-siap Asesmen Lajnah ${parameter} juz...`,
         description: `Alhamdulillah, hafalan ananda sudah mendekati ${parameter} juz.`,
         image: {
           alt: 'Jempol arah ke atas',
@@ -127,8 +127,8 @@ function resolveStatus(
 
     case 'lajnah-assessment-ready':
       return {
-        text: 'Sedang persiapan Asesmen Lajnah...',
-        description: `Bismillah, ananda sedang persiapan untuk Asesmen Lajnah ${parameter} juz.`,
+        text: `Sedang persiapan Asesmen Lajnah ${parameter} juz...`,
+        description: `Bismillah. Ananda dinyatakan siap untuk mengikuti Asesmen Lajnah ${parameter} juz. Dan sedang melakukan persiapan sambil menunggu jadwal asesmen. Semoga Allah ridhai`,
         image: {
           alt: 'Bendera berkibar berwarna merah',
           src: StatusLajnahAssessmentReady
@@ -137,8 +137,8 @@ function resolveStatus(
 
     case 'lajnah-assessment-ongoing':
       return {
-        text: 'Sedang mengikuti Asesmen lajnah...',
-        description: `Bi'idznillah, ananda sedang mengikuti Asesmen Lajnah ${parameter} juz.`,
+        text: `Sedang mengikuti Asesmen lajnah ${parameter} juz...`,
+        description: `Bi'idznillah, ananda sedang mengikuti Asesmen Lajnah ${parameter} juz. Semoga Allah mudahkan.`,
         image: {
           alt: 'Api menyala',
           src: StatusLajnahAssessmentOngoing

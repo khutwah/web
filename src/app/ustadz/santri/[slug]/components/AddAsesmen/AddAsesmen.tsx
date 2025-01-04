@@ -12,8 +12,14 @@ import {
 import { Flame } from 'lucide-react'
 import { useState } from 'react'
 import { AddAsesmenForm } from '../AddAsesmenForm/AddAsesmenForm'
+import { ROLE } from '@/models/auth'
 
-export function AddAsesmen() {
+interface AddAsesmenProps {
+  role: number
+  sessionRangeId?: number
+}
+
+export function AddAsesmen({ role, sessionRangeId }: AddAsesmenProps) {
   const [open, setOpen] = useState(false)
 
   return (
@@ -25,12 +31,17 @@ export function AddAsesmen() {
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
-          <DrawerTitle>Mulai Asesmen</DrawerTitle>
+          <DrawerTitle>
+            Mulai Asesmen{' '}
+            {role === ROLE.LAJNAH && sessionRangeId
+              ? `${sessionRangeId} Juz`
+              : ''}
+          </DrawerTitle>
           <DrawerDescription>
             Tentukan jenis dan materi untuk memulai asesmen.
           </DrawerDescription>
         </DrawerHeader>
-        <AddAsesmenForm />
+        <AddAsesmenForm role={role} sessionRangeId={sessionRangeId} />
       </DrawerContent>
     </Drawer>
   )

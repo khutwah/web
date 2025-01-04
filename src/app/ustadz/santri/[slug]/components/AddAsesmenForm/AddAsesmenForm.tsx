@@ -13,7 +13,7 @@ import { useForm, UseFormSetValue, useWatch } from 'react-hook-form'
 import { getVerseItems } from '../../aktivitas/utils/form'
 import { ErrorField } from '@/components/Form/ErrorField'
 import { Button } from '@/components/Button/Button'
-import { useActionState, startTransition } from 'react'
+import { useActionState, startTransition, useEffect } from 'react'
 import { createAssessment } from '../../actions'
 import { useParams } from 'next/navigation'
 import {
@@ -24,19 +24,56 @@ import {
   customSurahRangeSessionName
 } from '@/utils/assessments'
 import { InferType } from 'yup'
+import { ROLE } from '@/models/auth'
 
-export function AddAsesmenForm() {
+interface AddAsesmenProps {
+  role: number
+  sessionRangeId?: number
+}
+
+export function AddAsesmenForm({ role, sessionRangeId }: AddAsesmenProps) {
   const [state, formAction, isPending] = useActionState(
     createAssessment,
     undefined
   )
   const { slug: studentId } = useParams<{ slug: string }>()
-
   const form = useForm({
     resolver: yupResolver(assessmentSchema),
     defaultValues: {
       start_date: new Date().toISOString(),
-      student_id: Number(studentId)
+      student_id: Number(studentId),
+
+      // The following are complicated setup.
+      // FIXME(dio): Refactor this to be more readable.
+      session_name:
+        role == ROLE.LAJNAH
+          ? (() => {
+              const { data } = ASSESSMENT_TYPES[AssessmentType.lajnah]
+              const assessment = data.find(
+                (range) => range.id === sessionRangeId
+              )
+              return assessment?.ranges
+                .map((range) =>
+                  range.start.juz != range.end.juz
+                    ? 'Juz ' + range.start.juz + ' - Juz ' + range.end.juz
+                    : 'Juz ' + range.start.juz
+                )
+                .join(' dan ')
+            })()
+          : undefined,
+      session_type: role === ROLE.LAJNAH ? AssessmentType.lajnah : undefined,
+      session_range_id: role === ROLE.LAJNAH ? sessionRangeId : undefined,
+      surah_range:
+        role == ROLE.LAJNAH && sessionRangeId
+          ? (() => {
+              const { data } = ASSESSMENT_TYPES[AssessmentType.lajnah]
+              const assessment = data.find(
+                (range) => range.id === sessionRangeId
+              )
+              if (!assessment) return undefined
+              return parseRangeValue(assessment.ranges)
+            })()
+          : undefined
     }
   })
 
@@ -67,6 +104,14 @@ export function AddAsesmenForm() {
     })
   })
 
+  useEffect(() => {
+    if (role === ROLE.LAJNAH && sessionRangeId) {
+      setValue('session_range_id', sessionRangeId)
+    } else {
+      resetField('session_range_id')
+    }
+  }, [role, sessionRangeId, setValue, resetField])
+
   return (
     <form
       onSubmit={onSubmit}
@@ -78,7 +123,13 @@ export function AddAsesmenForm() {
         <Label>Jenis Asesmen</Label>
         <Combobox
           withSearch={false}
-          items={AssessmentTypeOptions}
+          mustSelect={role === ROLE.LAJNAH}
+          disabled={role === ROLE.LAJNAH}
+          items={AssessmentTypeOptions.filter((typeOption) =>
+            ROLE.LAJNAH === role
+              ? typeOption.value === AssessmentType.lajnah
+              : true
+          )}
           value={session_type || ''}
           onChange={(value) => {
             setValue('session_type', value as AssessmentType)
@@ -88,7 +139,7 @@ export function AddAsesmenForm() {
             resetField('surah_range')
             resetField('session_name')
           }}
-          placeholder='Pilih jenis asesmen'
+          placeholder='Pilih Jenis Asesmen'
         />
       </div>
 
@@ -126,7 +177,7 @@ export function AddAsesmenForm() {
           !session_name
         }
       >
-        {isPending ? 'Memulai Asesmen...' : 'Mulai Asesmen'}
+        {isPending ? 'Memulai Asesmen...' : `Mulai Asesmen`}
       </Button>
     </form>
   )
@@ -150,6 +201,7 @@ function PredefinedAssessmentRange({
       <Label>Materi Asesmen</Label>
       <Combobox
         withSearch={id.type === 'surah'}
+        mustSelect={true}
         items={getAssessmentRangeItems(data, id.type)}
         value={`${sessionRangeId || ''}`}
         onChange={(value) => {

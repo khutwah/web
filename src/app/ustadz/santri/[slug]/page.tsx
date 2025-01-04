@@ -29,6 +29,9 @@ import AssessmentSection from './components/sections/AssessmentSection'
 import LastActivitiesSection from './components/sections/LastActivitiesSection'
 import { MENU_USTADZ_PATH_RECORDS } from '@/utils/menus/ustadz'
 import { dayjs } from '@/utils/dayjs'
+import { getUserRole } from '@/utils/supabase/get-user-role'
+import { ROLE } from '@/models/auth'
+import { getNextLajanahAssessment } from '@/utils/assessments'
 
 interface DetailSantriProps {
   params: Promise<{ slug: string }>
@@ -41,6 +44,7 @@ export default async function DetailSantri({
 }: DetailSantriProps) {
   // This gets the current day in the client's timezone.
   const tz = await getTimezoneInfo()
+  const role = await getUserRole()
 
   const params = await paramsPromise
   const searchParams = await searchParamsPromise
@@ -74,6 +78,7 @@ export default async function DetailSantri({
     student,
     isStudentManagedByUser,
     latestCheckpoint,
+    latestSabaq,
     activitiesForToday
   ] = await Promise.all([
     studentsInstance.get(studentId),
@@ -81,13 +86,17 @@ export default async function DetailSantri({
     activitiesInstance.checkpoint({
       student_id: studentId
     }),
+    activitiesInstance.getLatestSabaq({ studentId }),
     activitiesInstance.listForDay(
       studentId,
       [ActivityType.Sabaq, ActivityType.Sabqi, ActivityType.Manzil],
       day
     )
   ])
-  const isActive = (latestCheckpoint?.status as CheckpointStatus) !== 'inactive'
+  const isStudentActive =
+    (latestCheckpoint?.status as CheckpointStatus) !== 'inactive'
+  const isAllowedToStartAssessment =
+    isStudentActive && (isStudentManagedByUser || role === ROLE.LAJNAH)
 
   if (convertToDraftQueryParameter === 'true' && activityIdQueryParameter) {
     await activitiesInstance.convertToDraft(Number(activityIdQueryParameter))
@@ -127,9 +136,18 @@ export default async function DetailSantri({
         />
       </div>
 
-      {isActive && <AssessmentSection studentId={studentId} />}
+      {isAllowedToStartAssessment && (
+        <AssessmentSection
+          studentId={studentId}
+          role={role}
+          sessionRangeId={getNextLajanahAssessment(
+            latestSabaq?.end_surah,
+            latestSabaq?.end_verse
+          )}
+        />
+      )}
 
-      {isActive && isStudentManagedByUser && (
+      {isStudentActive && isStudentManagedByUser && (
         <ActivityCtaSection
           searchStringRecords={searchStringRecords}
           student={student.data}
