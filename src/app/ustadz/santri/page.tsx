@@ -45,9 +45,7 @@ export default async function Santri({
     CHECKPOINT_STATUS_SEARCH_PARAMS_KEY
   ] as Array<CheckpointStatus>
   const ustadzId =
-    parsedSearchParams[USTADZ_ID_SEARCH_PARAMS_KEY] ||
-    currentUser.data?.id ||
-    null
+    parsedSearchParams[USTADZ_ID_SEARCH_PARAMS_KEY] || currentUser.id || null
 
   return (
     <Layout>

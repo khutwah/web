@@ -47,7 +47,7 @@ async function NoteList({ period }: NoteListProps) {
 
   const activitiesInstance = new Activities()
   const activities = await activitiesInstance.list({
-    parent_id: user.data!.id,
+    parent_id: user.id,
     start_date: day.startOf(period).toISOString(),
     end_date: day.endOf(period).toISOString(),
     status: ActivityStatus.completed

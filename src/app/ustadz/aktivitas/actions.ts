@@ -20,7 +20,7 @@ export async function getActivities({
     const activitiesInstance = new Activities()
     const activities = await activitiesInstance.list({
       student_id: studentId,
-      ustadz_id: user.data?.id,
+      ustadz_id: user.id,
       offset: offset,
       limit: limit,
       order_by: [
@@ -53,7 +53,7 @@ export async function getStudents() {
     const user = await getUser()
     const studentInstance = new Students()
     const students = await studentInstance.list({
-      ustadz_id: user.data?.id
+      ustadz_id: user.id
     })
 
     if (students.error) {

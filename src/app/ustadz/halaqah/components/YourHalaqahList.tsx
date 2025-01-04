@@ -5,7 +5,7 @@ import { type HalaqahItem, HalaqahList } from './HalaqahList'
 export async function YourHalaqahList() {
   const user = await getUser()
   const circlesInstance = new Circles()
-  const circles = await circlesInstance.list({ ustadz_id: user.data?.id })
+  const circles = await circlesInstance.list({ ustadz_id: user.id })
 
   let items: Array<HalaqahItem> = []
 
@@ -19,7 +19,7 @@ export async function YourHalaqahList() {
 
       const substituteeName = replacementShift?.user.name ?? undefined
 
-      const isOwner = defaultShift?.user.id === user.data?.id
+      const isOwner = defaultShift?.user.id === user.id
 
       return {
         id: item.id,

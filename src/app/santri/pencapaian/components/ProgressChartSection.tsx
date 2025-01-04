@@ -21,7 +21,7 @@ export default async function ProgressChartSection({
   const day = dayjs().tz(tz)
   const studentInstance = new Students()
   const parent = await getUser()
-  const student = await studentInstance.getByParentId(parent.data!.id)
+  const student = await studentInstance.getByParentId(parent.id)
 
   const activitiesInstance = new Activities()
   const activities = await activitiesInstance.chart({

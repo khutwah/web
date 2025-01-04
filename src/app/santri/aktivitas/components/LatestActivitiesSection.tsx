@@ -152,7 +152,7 @@ async function LatestActivitiesByType({ type }: { type: ActivityType }) {
   const activitiesInstance = new Activities()
 
   const activities = await activitiesInstance.list({
-    parent_id: user.data?.id,
+    parent_id: user.id,
     type,
     limit: 10,
     order_by: [['id', 'desc']],

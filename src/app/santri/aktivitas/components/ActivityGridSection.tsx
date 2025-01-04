@@ -85,7 +85,7 @@ async function ActivityGrid({
 }) {
   const parent = await getUser()
   const studentsInstance = new Students()
-  const student = await studentsInstance.getByParentId(parent.data!.id)
+  const student = await studentsInstance.getByParentId(parent.id)
 
   const { [ACTIVITY_CURRENT_DATE_QUERY_PARAMETER]: currentDateQueryParameter } =
     convertSearchParamsToStringRecords(searchParams)
@@ -104,7 +104,7 @@ async function ActivityGrid({
 
   const [activities, latestCheckpoint, checkpoints] = await Promise.all([
     activitiesInstance.list({
-      parent_id: parent.data?.id,
+      parent_id: parent.id,
       start_date: day.startOf('week').toISOString(),
       end_date: day.endOf('week').toISOString(),
       limit: 21
