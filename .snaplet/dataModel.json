@@ -2318,6 +2318,20 @@
         }
       ]
     },
+    "request_status": {
+      "schemaName": "net",
+      "values": [
+        {
+          "name": "ERROR"
+        },
+        {
+          "name": "PENDING"
+        },
+        {
+          "name": "SUCCESS"
+        }
+      ]
+    },
     "key_status": {
       "schemaName": "pgsodium",
       "values": [
