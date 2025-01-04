@@ -8,7 +8,6 @@ services:
         order: start-first
     environment:
       DOTENV: /run/secrets/preview-secret
-      NEXT_PUBLIC_SKIP_MUMTAZ_LOGIN: 'true'
     hostname: '{{.Node.Hostname}}'
     image: ${IMAGE}
     labels:

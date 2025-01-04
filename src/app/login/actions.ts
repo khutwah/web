@@ -12,6 +12,7 @@ import { INVALID_CREDENTIALS } from '@/models/copywriting/auth'
 import { loginSupabase } from '@/utils/auth/login-supabase'
 import { isMumtazLoginNeeded } from '@/utils/is-mumtaz-login-needed'
 
+// FIXME(dio): Allow to override this function.
 export async function login(_prevState: unknown, formData: FormData) {
   let redirectUri = ''
 
@@ -25,20 +26,15 @@ export async function login(_prevState: unknown, formData: FormData) {
       let status = -1,
         mumtazResponse = undefined
 
-      // Skip mumtaz login when testing.
-      if (
-        process.env.NEXT_PUBLIC_SKIP_MUMTAZ_LOGIN !== 'true' ||
-        /@santri\./.test(data.username)
-      ) {
+      if (!/@santri\./.test(data.username)) {
+        // Skip mumtaz login when using test users.
         ;({ status, data: mumtazResponse } = await loginMumtaz({
           username: data.username,
           password: data.password
         }))
       }
 
-      /**
-       * Logged in via mumtaz API
-       */
+      // Logged in using mumtaz.
       if (mumtazResponse) {
         redirectUri = await successLoginStudentCallback(mumtazResponse)
       } else if (status === 401) {
@@ -57,9 +53,7 @@ export async function login(_prevState: unknown, formData: FormData) {
         )
       }
 
-      /**
-       * Other than users who need mumtaz login. For example: admin, ustadz, lajnah.
-       */
+      // Otherwise, login using Supabase for admin, ustadz, and lajnah.
       await loginSupabase({
         email: data.username,
         password: data.password

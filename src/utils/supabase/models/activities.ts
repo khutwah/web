@@ -1,4 +1,8 @@
-import { PaginationFilter, RoleFilter } from '@/models/supabase/models/filter'
+import {
+  PaginationFilter,
+  RoleFilter,
+  QueryOptions
+} from '@/models/supabase/models/filter'
 import { Base } from './base'
 import { ActivityStatus, ActivityType } from '@/models/activities'
 import surahs from '@/data/mushaf/surahs.json'
@@ -19,6 +23,7 @@ export interface GetFilter extends RoleFilter, PaginationFilter {
   student_attendance?: StudentAttendance
   order_by?: Array<[string, 'asc' | 'desc']>
   limit?: number
+  current_user_id?: number
 }
 
 interface ActivitiesPayload {
@@ -73,7 +78,7 @@ export class Activities extends Base {
     return userId
   }
 
-  async list(args: GetFilter) {
+  async list(args: GetFilter, options?: QueryOptions) {
     const {
       student_id,
       parent_id,
@@ -86,10 +91,16 @@ export class Activities extends Base {
       end_date,
       student_attendance,
       order_by,
-      status
+      status,
+      current_user_id
     } = args
 
-    let query = (await this.supabase).from('activities').select(selectQuery)
+    // We skip limiting when count is requested && limit === undefined.
+    const limiting = !options || (!options.count && limit !== undefined)
+
+    let query = (await this.supabase)
+      .from('activities')
+      .select(selectQuery, options)
 
     if (student_id) {
       query = query.eq('students.id', student_id).not('students', 'is', null)
@@ -135,13 +146,21 @@ export class Activities extends Base {
       })
     }
 
-    if (limit) {
+    if (limiting && limit) {
       query = query.limit(limit)
+      query.range(offset, offset + limit - 1)
     }
 
-    const result = await query.range(offset, offset + limit - 1)
+    const result = await query
+    if (result.error) {
+      throw new ApiError({
+        message: result.error.message,
+        code: result.error.code,
+        status: result.status
+      })
+    }
 
-    const userId = await this._getUserId()
+    const userId = current_user_id ?? (await this._getUserId())
 
     const data = result.data
       ? result.data.map((item) => ({
@@ -166,15 +185,7 @@ export class Activities extends Base {
           created_by: item.created_by,
           has_edit_access: item.created_by === userId
         }))
-      : result.data
-
-    if (result.error) {
-      throw new ApiError({
-        message: result.error.message,
-        code: result.error.code,
-        status: result.status
-      })
-    }
+      : []
 
     return {
       ...result,
@@ -205,7 +216,8 @@ export class Activities extends Base {
   }
 
   async count(args: GetFilter) {
-    return (await this.list(args)).data?.length
+    const countArgs = { ...args, limit: undefined, offset: undefined }
+    return (await this.list(countArgs, { head: true, count: 'exact' })).count
   }
 
   async create(payload: ActivitiesPayload) {
