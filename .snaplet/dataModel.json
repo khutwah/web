@@ -832,7 +832,7 @@
       ],
       "uniqueConstraints": [
         {
-          "name": "checkpoint_pkey",
+          "name": "checkpoints_pkey",
           "fields": ["id"],
           "nullNotDistinct": false
         }
@@ -1404,12 +1404,12 @@
       ],
       "uniqueConstraints": [
         {
-          "name": "students_nis_unique",
+          "name": "students_nis_key",
           "fields": ["nis"],
           "nullNotDistinct": false
         },
         {
-          "name": "students_nisn_unique",
+          "name": "students_nisn_key",
           "fields": ["nisn"],
           "nullNotDistinct": false
         },
@@ -1419,7 +1419,7 @@
           "nullNotDistinct": false
         },
         {
-          "name": "students_virtual_account_unique",
+          "name": "students_virtual_account_key",
           "fields": ["virtual_account"],
           "nullNotDistinct": false
         }
@@ -2058,6 +2058,24 @@
       "tableName": "users",
       "fields": [
         {
+          "id": "public.users.id",
+          "name": "id",
+          "columnName": "id",
+          "type": "int8",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": true,
+          "sequence": {
+            "identifier": "\"public\".\"users_id_seq\"",
+            "increment": 1,
+            "start": 1
+          },
+          "hasDefaultValue": false,
+          "isId": true,
+          "maxLength": null
+        },
+        {
           "id": "public.users.email",
           "name": "email",
           "columnName": "email",
@@ -2128,24 +2146,6 @@
           "maxLength": null
         },
         {
-          "id": "public.users.id",
-          "name": "id",
-          "columnName": "id",
-          "type": "int8",
-          "isRequired": true,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": true,
-          "sequence": {
-            "identifier": "\"public\".\"users_id_seq\"",
-            "increment": 1,
-            "start": 1
-          },
-          "hasDefaultValue": false,
-          "isId": true,
-          "maxLength": null
-        },
-        {
           "id": "public.users.sb_user_id",
           "name": "sb_user_id",
           "columnName": "sb_user_id",
@@ -2156,6 +2156,20 @@
           "isGenerated": false,
           "sequence": false,
           "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "public.users.is_active",
+          "name": "is_active",
+          "columnName": "is_active",
+          "type": "bool",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
           "isId": false,
           "maxLength": null
         },
@@ -2218,7 +2232,7 @@
       ],
       "uniqueConstraints": [
         {
-          "name": "users_email_unique",
+          "name": "users_email_key",
           "fields": ["email"],
           "nullNotDistinct": false
         },
@@ -2301,20 +2315,6 @@
         },
         {
           "name": "recovery_token"
-        }
-      ]
-    },
-    "request_status": {
-      "schemaName": "net",
-      "values": [
-        {
-          "name": "ERROR"
-        },
-        {
-          "name": "PENDING"
-        },
-        {
-          "name": "SUCCESS"
         }
       ]
     },

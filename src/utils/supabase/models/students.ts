@@ -164,7 +164,7 @@ export class Students extends Base {
 
   async isStudentManagedByUser(id: number, userId?: number) {
     const circleIds = await this.getCircleByUstadz({
-      ustadz_id: userId || ((await getUser()).data?.id ?? 0)
+      ustadz_id: userId || ((await getUser()).id ?? 0)
     })
 
     const query = await (await this.supabase)

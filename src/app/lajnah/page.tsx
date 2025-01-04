@@ -14,15 +14,14 @@ import getTimezoneInfo from '@/utils/get-timezone-info'
 
 export default async function Home() {
   const user = await getUser()
-  const userId = user.data?.id
   const tz = await getTimezoneInfo()
 
   const circlesInstance = new Circles()
-  const circles = await circlesInstance.list({ ustadz_id: userId })
+  const circles = await circlesInstance.list({ ustadz_id: user.id })
 
   const activities = new Activities()
   const activityList = await activities.list({
-    ustadz_id: userId,
+    ustadz_id: user.id,
     order_by: [['id', 'desc']],
     limit: 10
   })
@@ -34,7 +33,7 @@ export default async function Home() {
 
       <div className='flex flex-col gap-y-6 mt-4 py-6'>
         <section className='px-6 gap-y-6 flex flex-col'>
-          <HomeHeader displayName={user.data?.name ?? ''} ustadz />
+          <HomeHeader displayName={user.name ?? ''} ustadz />
         </section>
 
         <section className='flex flex-col gap-y-3 px-6'>
@@ -56,7 +55,7 @@ export default async function Home() {
 
                 const substituteeName = replacementShift?.user.name ?? undefined
 
-                const isOwner = defaultShift?.user.id === user.data?.id
+                const isOwner = defaultShift?.user.id === user.id
 
                 return (
                   <li key={item.id}>

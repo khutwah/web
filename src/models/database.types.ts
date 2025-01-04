@@ -97,7 +97,7 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'activities_created_by_fk'
+            foreignKeyName: 'activities_created_by_fkey'
             columns: ['created_by']
             isOneToOne: false
             referencedRelation: 'users'
@@ -243,14 +243,21 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'checkpoint_last_activity_id_fkey'
+            foreignKeyName: 'checkpoints_last_activity_id_fkey'
             columns: ['last_activity_id']
             isOneToOne: false
             referencedRelation: 'activities'
             referencedColumns: ['id']
           },
           {
-            foreignKeyName: 'checkpoint_student_id_fkey'
+            foreignKeyName: 'checkpoints_last_activity_id_fkey'
+            columns: ['last_activity_id']
+            isOneToOne: false
+            referencedRelation: 'zzz_view_latest_student_sabaq_activities'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'checkpoints_student_id_fkey'
             columns: ['student_id']
             isOneToOne: false
             referencedRelation: 'students'
@@ -331,7 +338,7 @@ export type Database = {
             referencedColumns: ['id']
           },
           {
-            foreignKeyName: 'shifts_ustadz_id_fk'
+            foreignKeyName: 'shifts_ustadz_id_fkey'
             columns: ['ustadz_id']
             isOneToOne: false
             referencedRelation: 'users'
@@ -388,7 +395,7 @@ export type Database = {
             referencedColumns: ['id']
           },
           {
-            foreignKeyName: 'students_parent_id_fk'
+            foreignKeyName: 'students_parent_id_fkey'
             columns: ['parent_id']
             isOneToOne: false
             referencedRelation: 'users'
@@ -425,6 +432,7 @@ export type Database = {
           created_at: string | null
           email: string
           id: number
+          is_active: boolean
           name: string | null
           role: number | null
           sb_user_id: string | null
@@ -434,6 +442,7 @@ export type Database = {
           created_at?: string | null
           email: string
           id?: never
+          is_active?: boolean
           name?: string | null
           role?: number | null
           sb_user_id?: string | null
@@ -443,6 +452,7 @@ export type Database = {
           created_at?: string | null
           email?: string
           id?: never
+          is_active?: boolean
           name?: string | null
           role?: number | null
           sb_user_id?: string | null
@@ -452,7 +462,59 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      zzz_view_latest_student_sabaq_activities: {
+        Row: {
+          created_at: string | null
+          created_by: number | null
+          end_surah: number | null
+          end_verse: number | null
+          id: number | null
+          is_target_achieved: boolean | null
+          notes: string | null
+          page_count: number | null
+          parent_id: number | null
+          shift_id: number | null
+          start_surah: number | null
+          start_verse: number | null
+          status: string | null
+          student_attendance: string | null
+          student_id: number | null
+          tags: Json | null
+          target_page_count: number | null
+          type: number | null
+          updated_at: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'activities_created_by_fkey'
+            columns: ['created_by']
+            isOneToOne: false
+            referencedRelation: 'users'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'activities_shift_id_fkey'
+            columns: ['shift_id']
+            isOneToOne: false
+            referencedRelation: 'shifts'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'activities_student_id_fkey'
+            columns: ['student_id']
+            isOneToOne: false
+            referencedRelation: 'students'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'students_parent_id_fkey'
+            columns: ['parent_id']
+            isOneToOne: false
+            referencedRelation: 'users'
+            referencedColumns: ['id']
+          }
+        ]
+      }
     }
     Functions: {
       [_ in never]: never

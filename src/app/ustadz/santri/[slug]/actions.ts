@@ -25,14 +25,7 @@ export async function createAssessment(_prev: unknown, formData: FormData) {
   }
 
   const user = await getUser()
-
-  if (!user.data) {
-    return {
-      message: 'Maaf, anda tidak punya akses, silakan login kembali'
-    }
-  }
-
-  const data = { ...payload, ustadz_id: user.data.id }
+  const data = { ...payload, ustadz_id: user.id }
 
   const assessmentsInstance = new Assessments()
   try {

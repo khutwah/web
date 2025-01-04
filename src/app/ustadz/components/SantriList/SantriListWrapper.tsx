@@ -42,10 +42,25 @@ export async function SantriListWrapper({
   ])
 
   if ('data' in students && 'data' in activities) {
+    const studentIds = students.data?.map(({ id }) => id)
+    const lastSabaqList = studentIds
+      ? await activitiesInstance.listLastSabaq(studentIds)
+      : []
     const studentsData = students.data?.map(({ id, name }) => ({
       id,
-      name: name || ''
+      name: name || '',
+      lastSabaq: (() => {
+        const sabaq = lastSabaqList.find((sabaq) => sabaq.student_id === id)
+        return {
+          id: sabaq?.id ?? undefined,
+          student_id: sabaq?.student_id,
+          end_surah: sabaq?.end_surah,
+          end_verse: sabaq?.end_verse,
+          targetPageCount: sabaq?.target_page_count ?? undefined
+        }
+      })()
     }))
+
     return (
       <SantriList
         students={studentsData || []}

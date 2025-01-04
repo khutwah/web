@@ -20,7 +20,17 @@ import SampleSantriAvatar from '@/assets/sample-santri-photo.png'
 const DEFAULT_EMPTY_ARRAY: any[] = []
 
 export interface SantriListProps {
-  students: Array<{ id: number; name: string }> | null
+  students: Array<{
+    id: number
+    name: string
+    lastSabaq: {
+      id: number | undefined
+      student_id: number | null | undefined
+      end_surah: number | null | undefined
+      end_verse: number | null | undefined
+      targetPageCount: number | undefined
+    }
+  }> | null
   activities: Awaited<ReturnType<Activities['list']>>['data']
   from: FromQueryParams
   emptyState?: React.ReactNode
@@ -79,6 +89,10 @@ export function SantriList({
       {filteredStudents.map((student) => (
         <li key={student.id}>
           <SantriCard
+            lastSabaq={{
+              end_surah: student.lastSabaq.end_surah || 0,
+              end_verse: student.lastSabaq.end_verse || 0
+            }}
             activities={student.activities}
             avatarUrl={SampleSantriAvatar}
             href={`${MENU_USTADZ_PATH_RECORDS.santri}/${student.id}${addFromQueryString(from)}`}

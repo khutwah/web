@@ -5,6 +5,7 @@ import { useId } from 'react'
 import { ActivityTypeKey, MappedActivityStatus } from '@/models/activities'
 import { ActivityBadge } from '@/components/Badge/ActivityBadge'
 import { Skeleton } from '../Skeleton/Skeleton'
+import { getAyahLocationSummary } from '@/utils/mushaf'
 
 interface SantriCardProps {
   activities: Array<MappedActivityStatus>
@@ -12,6 +13,10 @@ interface SantriCardProps {
   halaqahName?: string
   href: string
   name: string
+  lastSabaq?: {
+    end_surah: number
+    end_verse: number
+  }
 }
 
 const ACTIVITY_TYPES: Array<ActivityTypeKey> = ['Sabaq', 'Sabqi', 'Manzil']
@@ -20,6 +25,7 @@ export function SantriCard({
   activities,
   avatarUrl,
   halaqahName,
+  lastSabaq,
   href,
   name
 }: SantriCardProps) {
@@ -59,12 +65,29 @@ export function SantriCard({
                 {halaqahName}
               </div>
             )}
+            {lastSabaq && (
+              <div
+                className='text-khutwah-neutral-60 text-xs'
+                id={`mtmh-santri-card${descriptionId}`}
+              >
+                {(() => {
+                  const summary = getAyahLocationSummary(
+                    lastSabaq.end_surah,
+                    lastSabaq.end_verse
+                  )
+                  if (summary) {
+                    return `${summary?.juz.total.toFixed(2) || 0} Juz`
+                  }
+                  return <></>
+                })()}
+              </div>
+            )}
           </div>
         }
         activitiesElement={
           <>
-            <div className='text-sm grow min-w-0 text-khutwah-neutral-60'>
-              Hari ini:
+            <div className='text-khutwah-sm-regular grow min-w-0 text-khutwah-neutral-60'>
+              Aktivitas Hari Ini:
             </div>
             <div className='flex flex-wrap gap-1'>
               {ACTIVITY_TYPES.map((activityKey) => {

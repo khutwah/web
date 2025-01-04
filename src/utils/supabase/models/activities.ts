@@ -24,6 +24,7 @@ export interface GetFilter extends RoleFilter, PaginationFilter {
   order_by?: Array<[string, 'asc' | 'desc']>
   limit?: number
   current_user_id?: number
+  student_ids?: number[]
 }
 
 interface ActivitiesPayload {
@@ -92,7 +93,8 @@ export class Activities extends Base {
       student_attendance,
       order_by,
       status,
-      current_user_id
+      current_user_id,
+      student_ids
     } = args
 
     // We skip limiting when count is requested && limit === undefined.
@@ -104,6 +106,10 @@ export class Activities extends Base {
 
     if (student_id) {
       query = query.eq('students.id', student_id).not('students', 'is', null)
+    }
+
+    if (Array.isArray(student_ids) && student_ids.length > 0) {
+      query = query.in('students.id', student_ids).not('students', 'is', null)
     }
 
     if (parent_id) {
@@ -236,6 +242,35 @@ export class Activities extends Base {
     }
 
     return await (await this.supabase).from('activities').insert(_payload)
+  }
+
+  async getLastSabaq(parentId: number) {
+    const query = (await this.supabase)
+      .from('zzz_view_latest_student_sabaq_activities')
+      .select('id, student_id, target_page_count, end_surah, end_verse')
+      .eq('parent_id', parentId)
+      .maybeSingle()
+
+    const { data, error } = await query
+    if (error) {
+      // We simply ignore any errors for now.
+      return null
+    }
+    return data
+  }
+
+  async listLastSabaq(studentIds: number[]) {
+    const query = (await this.supabase)
+      .from('zzz_view_latest_student_sabaq_activities')
+      .select('id, student_id, target_page_count, end_surah, end_verse')
+      .in('student_id', studentIds)
+
+    const { data, error } = await query
+    if (error) {
+      // We simply ignore any errors for now.
+      return []
+    }
+    return data
   }
 
   async convertToDraft(id: number) {

@@ -9,37 +9,29 @@ import { ActivityStatus, ActivityType } from '@/models/activities'
 export default async function Home() {
   const user = await getUser()
 
+  // FIXME(dio): When user is not found, redirect to login page.
   const activitiesInstance = new Activities()
-  const [activities, halaqahCount] = await Promise.all([
-    activitiesInstance.list({
-      current_user_id: user.data?.id,
-      parent_id: user.data?.id,
-      type: ActivityType.Sabaq,
-      limit: 1,
-      order_by: [['id', 'desc']],
-      status: ActivityStatus.completed,
-      student_attendance: 'present'
-    }),
+  const [lastSabaq, halaqahCount] = await Promise.all([
+    activitiesInstance.getLastSabaq(user.id),
     activitiesInstance.count({
-      parent_id: user.data?.id,
+      parent_id: user.id,
       type: ActivityType.Sabaq,
       status: ActivityStatus.completed,
       student_attendance: 'present'
     })
   ])
-  const latestActivity = activities.data?.at(0)
 
   return (
     <Layout>
       <HeaderBackground />
       <div className='flex flex-col gap-y-6 mt-4 py-6'>
         <section className='px-6 gap-y-6 flex flex-col'>
-          <HomeHeader displayName={user.data?.name ?? ''} />
+          <HomeHeader displayName={user.name ?? ''} />
         </section>
         <section className='flex flex-col gap-y-3 px-6'>
           <StatsCard
-            surah={latestActivity?.start_surah_id || 0}
-            ayah={latestActivity?.start_verse || 0}
+            surah={lastSabaq?.end_surah || 0}
+            ayah={lastSabaq?.end_verse || 0}
             halaqahCount={halaqahCount || 0}
           />
         </section>

@@ -14,7 +14,7 @@ import getTimezoneInfo from '@/utils/get-timezone-info'
 
 export default async function Home() {
   const user = await getUser()
-  const userId = user.data?.id
+  const userId = user.id
   const tz = await getTimezoneInfo()
 
   const circlesInstance = new Circles()
@@ -34,7 +34,7 @@ export default async function Home() {
 
       <div className='flex flex-col gap-y-6 mt-4 py-6'>
         <section className='px-6 gap-y-6 flex flex-col'>
-          <HomeHeader displayName={user.data?.name ?? ''} ustadz />
+          <HomeHeader displayName={user.name ?? ''} ustadz />
         </section>
 
         <section className='flex flex-col gap-y-3 px-6'>
@@ -56,7 +56,7 @@ export default async function Home() {
 
                 const substituteeName = replacementShift?.user.name ?? undefined
 
-                const isOwner = defaultShift?.user.id === user.data?.id
+                const isOwner = defaultShift?.user.id === user.id
 
                 return (
                   <li key={item.id}>

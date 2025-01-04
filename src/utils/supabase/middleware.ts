@@ -52,6 +52,8 @@ export async function updateSession(request: NextRequest) {
     url.pathname = '/login'
     return NextResponse.redirect(url)
   } else if (user) {
+    // FIXME: Save the userId somewhere in the request object
+
     // When PIN is not submitted, redirect to get-started page.
     const cookies = request.cookies.getAll()
     const pin = cookies.find(({ name }) => name === PIN_IS_SUBMMITTED)
