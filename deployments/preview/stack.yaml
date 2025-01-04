@@ -12,9 +12,9 @@ services:
     image: ${IMAGE}
     labels:
       traefik.enable: 'true'
-      traefik.http.routers.mh-production.entrypoints: websecure
-      traefik.http.routers.mh-production.rule: Host(`preview.khutwah.id`) || Host(`pre.khutwah.id`)
-      traefik.http.routers.mh-production.tls.certresolver: acmeresolver
+      traefik.http.routers.preview.entrypoints: websecure
+      traefik.http.routers.preview.rule: Host(`preview.khutwah.id`) || Host(`pre.khutwah.id`)
+      traefik.http.routers.preview.tls.certresolver: acmeresolver
     secrets:
       - source: preview-secret
   reverse-proxy:
