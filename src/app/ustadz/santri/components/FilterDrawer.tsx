@@ -110,7 +110,9 @@ export function FilterDrawer({
           >
             <div className='space-y-3'>
               <UstadzFilter />
-              <CheckpointStatusFilter />
+              <CheckpointStatusFilter
+                excludes={['lajnah-assessment-completed']}
+              />
             </div>
             <div className='flex space-x-3'>
               <Button

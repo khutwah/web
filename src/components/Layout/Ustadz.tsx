@@ -1,13 +1,15 @@
-'use client'
+'use server'
 
-import { generateMenus } from '@/utils/menus'
-import { ACTIVE_ICONS, MENUS } from '@/utils/menus/ustadz'
-import { usePathname } from 'next/navigation'
+import { Layout as UstadzLayout } from './Roles/Ustadz'
+import { Layout as LajnahLayout } from './Roles/Lajnah'
 import { PropsWithChildren } from 'react'
-import { BaseLayout } from './Base'
+import { ROLE } from '@/models/auth'
+import { getUserRole } from '@/utils/supabase/get-user-role'
 
-export function Layout({ children }: PropsWithChildren) {
-  const pathname = usePathname()
-  const menus = generateMenus(MENUS, ACTIVE_ICONS, pathname)
-  return <BaseLayout menus={menus}>{children}</BaseLayout>
+export async function Layout({ children }: PropsWithChildren) {
+  return (await getUserRole()) === ROLE.USTADZ ? (
+    <UstadzLayout>{children}</UstadzLayout>
+  ) : (
+    <LajnahLayout>{children}</LajnahLayout>
+  )
 }

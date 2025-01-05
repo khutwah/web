@@ -94,7 +94,10 @@ export const assessmentSchema = object({
       'Tanggal harus dalam format ISO yang valid',
       testTimestamp
     )
-    .when(...requiredForFinalizingAssessment)
+    .when(...requiredForFinalizingAssessment),
+  checkpoint_id: number()
+    .integer()
+    .when(...requiredForInitialAssessment)
 })
 
 export const UpdateAssessmentCheckpointSchema = object({
@@ -110,5 +113,6 @@ export const UpdateAssessmentCheckpointSchema = object({
   end_surah: number().required().min(1),
   end_verse: number().required().min(1),
   // Only sent for the final mark.
-  final_mark: string()
+  final_mark: string(),
+  status_checkpoint_id: number().required()
 })

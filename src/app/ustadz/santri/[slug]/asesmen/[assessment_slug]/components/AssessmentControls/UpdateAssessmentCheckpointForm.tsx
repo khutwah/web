@@ -11,6 +11,7 @@ import { Label } from '@/components/Form/Label'
 import { getVerseItems } from '../../../../aktivitas/utils/form'
 import { Json } from '@/models/database.types'
 import { Button } from '@/components/Button/Button'
+import { StatusCheckpoint } from '@/models/checkpoints'
 
 interface Props {
   lastCheckpoint: NonNullable<
@@ -21,6 +22,7 @@ interface Props {
   isPending?: boolean
   additionalFormFields?: ReactNode
   submitButton?: ReactNode
+  statusCheckpoint?: StatusCheckpoint
 }
 
 export function UpdateAssessmentCheckpointForm({
@@ -29,7 +31,8 @@ export function UpdateAssessmentCheckpointForm({
   formAction,
   additionalFormFields,
   isPending,
-  submitButton
+  submitButton,
+  statusCheckpoint
 }: Props) {
   const [start] = lastCheckpoint.surah_range as [[string], [string] | undefined]
   const [startSurah, startVerse] = start[0].split(':')
@@ -47,7 +50,8 @@ export function UpdateAssessmentCheckpointForm({
       start_verse: Number(startVerse),
       end_surah: Number(startSurah),
       end_verse: Number(startVerse),
-      final_mark: ''
+      final_mark: '',
+      status_checkpoint_id: statusCheckpoint?.id
     }
   })
 
@@ -65,15 +69,36 @@ export function UpdateAssessmentCheckpointForm({
   const finalMark = form.watch('final_mark')
 
   const range = surahRange as [[string, string | undefined]]
-  const rangeStartSurah = Number(range[0][0].split(':')[0])
-  const rangeStartVerse = Number(range[0][0].split(':')[1])
-  const rangeEndSurahString = range[0][1] ?? '114:6'
-  const rangeEndSurah = Number(rangeEndSurahString.split(':')[0])
-  const rangeEndVerse = Number(rangeEndSurahString.split(':')[1])
+  const includedItems: {
+    startSurah: number
+    startVerse: number
+    endSurah: number
+    endVerse: number
+  }[] = []
+  for (const entry of range) {
+    const rangeStartSurah = Number(entry[0].split(':')[0])
+    const rangeStartVerse = Number(entry[0].split(':')[1])
+
+    const rangeEndSurahString = entry[1] ?? '114:6'
+    const rangeEndSurah = Number(rangeEndSurahString.split(':')[0])
+    const rangeEndVerse = Number(rangeEndSurahString.split(':')[1])
+
+    includedItems.push({
+      startSurah: rangeStartSurah,
+      startVerse: rangeStartVerse,
+      endSurah: rangeEndSurah,
+      endVerse: rangeEndVerse
+    })
+  }
+
+  const rangeStartSurah = includedItems[0].startSurah
+  const rangeStartVerse = includedItems[0].startVerse
+  const rangeEndSurah = includedItems[includedItems.length - 1].endSurah
+  const rangeEndVerse = includedItems[includedItems.length - 1].endVerse
   const endVerseItems = getVerseItems(
     end_surah,
     end_surah === rangeStartSurah ? rangeStartVerse : 0,
-    end_surah === rangeEndVerse ? rangeEndVerse : undefined
+    end_surah === rangeEndSurah ? rangeEndVerse : undefined
   )
 
   const onSubmit = handleSubmit((payload) => {
@@ -101,6 +126,7 @@ export function UpdateAssessmentCheckpointForm({
         <input type='hidden' {...register('parent_assessment_id')} />
         <input type='hidden' {...register('start_surah')} />
         <input type='hidden' {...register('start_verse')} />
+        <input type='hidden' {...register('status_checkpoint_id')} />
 
         <div className='flex flex-col gap-4'>
           <div className='flex flex-row gap-4 items-end'>
@@ -110,9 +136,14 @@ export function UpdateAssessmentCheckpointForm({
                 mustSelect={true}
                 items={SURAH_ITEMS.filter((item) => {
                   const itemValue = Number(item.value)
-                  return (
-                    itemValue >= rangeStartSurah && itemValue <= rangeEndSurah
-                  )
+                  for (const includedItem of includedItems) {
+                    if (
+                      itemValue >= includedItem.startSurah &&
+                      itemValue <= includedItem.endSurah
+                    ) {
+                      return true
+                    }
+                  }
                 })}
                 value={`${end_surah || ''}`}
                 onChange={(value) => {

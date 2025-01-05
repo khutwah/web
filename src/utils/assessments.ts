@@ -1,5 +1,7 @@
 import { SURAH_ITEMS } from '@/models/activity-form'
 import { AssessmentRange } from '@/models/assessments'
+import lajnahAssessments from '@/data/assessments/lajnah.json'
+import { getAyahLocationSummary } from './mushaf'
 
 export interface SurahDetail {
   start_surah: string[]
@@ -141,4 +143,25 @@ export function getSurahDetailFromSurahRange(surahRange?: string): SurahDetail {
       end_verse: []
     }
   )
+}
+
+const lajnahJuzCheckpoints = lajnahAssessments.map(({ id }) => id)
+export function getNextLajnahAssessment(
+  surah?: number | null,
+  verse?: number | null
+) {
+  if (!surah || !verse) return undefined
+
+  const summary = getAyahLocationSummary(surah, verse)
+  if (!summary) return undefined
+
+  const currentCheckpoint = summary.juz.total
+
+  // Find the next checkpoint that is greater than the current one
+  const nextCheckpoint = lajnahJuzCheckpoints.find(
+    (checkpoint) => checkpoint > currentCheckpoint
+  )
+
+  // If no next checkpoint, return the last one
+  return nextCheckpoint ?? lajnahJuzCheckpoints[lajnahJuzCheckpoints.length - 1]
 }

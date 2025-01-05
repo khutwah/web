@@ -57,7 +57,7 @@ export default async function DetailHalaqah({
     // The following is the same as seen in: src/app/ustadz/components/SantriList/SantriListWrapper.tsx.
     const studentIds = students.data?.map(({ id }) => id)
     const lastSabaqList = studentIds
-      ? await activitiesInstance.listLastSabaq(studentIds)
+      ? await activitiesInstance.listLatestSabaq(studentIds)
       : []
     const studentsData = students.data?.map(({ id, name }) => ({
       id,

@@ -44,7 +44,7 @@ export async function SantriListWrapper({
   if ('data' in students && 'data' in activities) {
     const studentIds = students.data?.map(({ id }) => id)
     const lastSabaqList = studentIds
-      ? await activitiesInstance.listLastSabaq(studentIds)
+      ? await activitiesInstance.listLatestSabaq(studentIds)
       : []
     const studentsData = students.data?.map(({ id, name }) => ({
       id,

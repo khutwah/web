@@ -3,15 +3,15 @@
     "id": 5,
     "ranges": [
       {
-        "end": {
-          "juz": 30,
-          "surah": 78,
-          "verse": 1
-        },
         "start": {
           "juz": 26,
-          "surah": 50,
-          "verse": 45
+          "surah": 46,
+          "verse": 1
+        },
+        "end": {
+          "juz": 30,
+          "surah": 114,
+          "verse": 6
         }
       }
     ]
@@ -20,15 +20,15 @@
     "id": 10,
     "ranges": [
       {
-        "end": {
-          "juz": 30,
-          "surah": 78,
-          "verse": 1
-        },
         "start": {
           "juz": 21,
-          "surah": 32,
-          "verse": 30
+          "surah": 30,
+          "verse": 1
+        },
+        "end": {
+          "juz": 30,
+          "surah": 114,
+          "verse": 6
         }
       }
     ]
@@ -37,15 +37,15 @@
     "id": 15,
     "ranges": [
       {
-        "end": {
-          "juz": 30,
-          "surah": 78,
-          "verse": 1
-        },
         "start": {
           "juz": 16,
-          "surah": 20,
-          "verse": 135
+          "surah": 18,
+          "verse": 1
+        },
+        "end": {
+          "juz": 30,
+          "surah": 114,
+          "verse": 6
         }
       }
     ]
@@ -66,15 +66,15 @@
         }
       },
       {
-        "end": {
-          "juz": 30,
-          "surah": 78,
-          "verse": 1
-        },
         "start": {
           "juz": 16,
-          "surah": 20,
-          "verse": 135
+          "surah": 18,
+          "verse": 1
+        },
+        "end": {
+          "juz": 30,
+          "surah": 114,
+          "verse": 6
         }
       }
     ]
@@ -95,15 +95,15 @@
         }
       },
       {
-        "end": {
-          "juz": 30,
-          "surah": 78,
+        "start": {
+          "juz": 18,
+          "surah": 20,
           "verse": 1
         },
-        "start": {
-          "juz": 16,
-          "surah": 20,
-          "verse": 135
+        "end": {
+          "juz": 30,
+          "surah": 114,
+          "verse": 6
         }
       }
     ]
@@ -119,8 +119,8 @@
         },
         "end": {
           "juz": 30,
-          "surah": 78,
-          "verse": 40
+          "surah": 114,
+          "verse": 6
         }
       }
     ]

@@ -18,20 +18,27 @@ import { parseSurahNameAndAyahFromRangeSegment } from '@/utils/mushaf'
 import { AddAssessmentCheckpoint } from './components/AssessmentControls/AddAssessmentCheckpoint'
 import { FinalizeAssessment } from './components/AssessmentControls/FinalizeAssessment'
 import { Button } from '@/components/Button/Button'
+import { Checkpoints as StatusCheckpoints } from '@/utils/supabase/models/checkpoints'
 
 interface AsesmenPageProps {
-  params: Promise<{ assessment_slug: number }>
+  params: Promise<{ assessment_slug: number; slug: number }>
 }
 
 export default async function AsesemenPage({
   params: paramsPromise
 }: Readonly<AsesmenPageProps>) {
-  const { assessment_slug: slug } = await paramsPromise
+  const { assessment_slug: slug, slug: studentId } = await paramsPromise
 
   const assessmentsInstance = new Assessments()
-  const assessments = await assessmentsInstance.list({
-    parent_assessment_id: slug
-  })
+  const statusChecpointsInstance = new StatusCheckpoints()
+
+  const [assessments, statusCheckpoints] = await Promise.all([
+    assessmentsInstance.list({
+      parent_assessment_id: slug
+    }),
+    statusChecpointsInstance.list({ student_id: studentId })
+  ])
+  const statusCheckpoint = statusCheckpoints.data?.[0]
 
   if (assessments.error) {
     return (
@@ -135,6 +142,7 @@ export default async function AsesemenPage({
               />
 
               <FinalizeAssessment
+                statusCheckpoint={statusCheckpoint}
                 lastCheckpoint={lastAssessment}
                 surahRange={rootAssessment.surah_range}
               />

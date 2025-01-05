@@ -244,14 +244,27 @@ export class Activities extends Base {
     return await (await this.supabase).from('activities').insert(_payload)
   }
 
-  async getLastSabaq(parentId: number) {
-    const query = (await this.supabase)
+  async getLatestSabaq({
+    parentId,
+    studentId
+  }: {
+    parentId?: number
+    studentId?: number
+  }) {
+    if (!parentId && !studentId) {
+      throw new Error('parentId or studentId is required')
+    }
+    let query = (await this.supabase)
       .from('zzz_view_latest_student_sabaq_activities')
       .select('id, student_id, target_page_count, end_surah, end_verse')
-      .eq('parent_id', parentId)
-      .maybeSingle()
+    if (parentId) {
+      query = query.eq('parent_id', parentId)
+    }
+    if (studentId) {
+      query = query.eq('student_id', studentId)
+    }
 
-    const { data, error } = await query
+    const { data, error } = await query.maybeSingle()
     if (error) {
       // We simply ignore any errors for now.
       return null
@@ -259,7 +272,7 @@ export class Activities extends Base {
     return data
   }
 
-  async listLastSabaq(studentIds: number[]) {
+  async listLatestSabaq(studentIds: number[]) {
     const query = (await this.supabase)
       .from('zzz_view_latest_student_sabaq_activities')
       .select('id, student_id, target_page_count, end_surah, end_verse')

@@ -11,11 +11,11 @@ import {
 } from '@/models/activities'
 import { Dayjs } from '@/utils/dayjs'
 import { ProgressChartWithNavigation } from '@/components/Progress/ProgressChart'
-import { Checkpoints } from '@/utils/supabase/models/checkpoints'
 import { ProgressGridWithNavigation } from '@/components/Progress/ProgressGrid'
 import { CheckpointStatus } from '@/models/checkpoints'
 import { parseParameter } from '@/utils/parse-parameter'
 import { TargetPageCount } from '@/components/TargetPageCount/TargetPageCount'
+import { StatusCheckpoint, LatestStatusCheckpoint } from '@/models/checkpoints'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const DEFAULT_EMPTY_ARRAY: any[] = []
@@ -31,17 +31,11 @@ interface Student {
   } | null
 }
 
-interface Checkpoint {
-  last_activity_id: number | undefined | null
-  page_count_accumulation: number | undefined | null
-  part_count: number | undefined | null
-  notes: string | undefined | null
-  status: string | undefined
-}
-
 interface ProgressViewCardProps {
   student: Student | null
-  latestCheckpoint: Checkpoint | null
+  sessionRangeId?: number
+  latestCheckpoint: LatestStatusCheckpoint | null
+  checkpoint?: StatusCheckpoint
   isStudentManagedByUser: boolean
   searchParams: { [key: string]: string | string[] | undefined }
   tz: string
@@ -50,13 +44,15 @@ interface ProgressViewCardProps {
 
 type ProgressViewCardHeaderProps = Omit<
   ProgressViewCardProps,
-  'latestCheckpoint' | 'isStudentManagedByUser' | 'searchParams' | 'tz' | 'day'
+  'latestCheckpoint' | 'checkpoint' | 'searchParams' | 'tz' | 'day'
 >
 type ProgressViewCardContentProps = ProgressViewCardProps
 
 export default function ProgressViewCard({
   student,
+  sessionRangeId,
   latestCheckpoint,
+  checkpoint,
   isStudentManagedByUser,
   searchParams,
   tz,
@@ -64,10 +60,15 @@ export default function ProgressViewCard({
 }: ProgressViewCardProps) {
   return (
     <Card className='bg-khutwah-neutral-white text-khutwah-grey-base shadow-md border border-khutwah-snow-lighter rounded-md mb-2'>
-      <ProgressViewCardHeader student={student} />
+      <ProgressViewCardHeader
+        student={student}
+        isStudentManagedByUser={isStudentManagedByUser}
+      />
       <ProgressViewCardContent
         student={student}
+        sessionRangeId={sessionRangeId}
         latestCheckpoint={latestCheckpoint}
+        checkpoint={checkpoint}
         isStudentManagedByUser={isStudentManagedByUser}
         searchParams={searchParams}
         tz={tz}
@@ -77,7 +78,10 @@ export default function ProgressViewCard({
   )
 }
 
-function ProgressViewCardHeader({ student }: ProgressViewCardHeaderProps) {
+function ProgressViewCardHeader({
+  student,
+  isStudentManagedByUser
+}: ProgressViewCardHeaderProps) {
   if (!student || !student.circles) {
     return (
       <StateMessage
@@ -101,6 +105,7 @@ function ProgressViewCardHeader({ student }: ProgressViewCardHeaderProps) {
         <div className='flex w-fit'>
           <TargetPageCount
             id={student.id}
+            editable={isStudentManagedByUser}
             targetPageCount={
               student?.target_page_count ??
               student?.circles?.target_page_count ??
@@ -124,8 +129,10 @@ function ProgressViewCardHeader({ student }: ProgressViewCardHeaderProps) {
 async function ProgressViewCardContent({
   student,
   latestCheckpoint,
+  checkpoint,
   isStudentManagedByUser,
   searchParams,
+  sessionRangeId,
   tz,
   day
 }: ProgressViewCardContentProps) {
@@ -146,9 +153,8 @@ async function ProgressViewCardContent({
   const isChartView = viewQueryParameter === 'chart'
 
   const activitiesInstance = new Activities()
-  const checkpointsInstance = new Checkpoints()
 
-  const [activitiesChart, activities, checkpoints] = await Promise.all([
+  const [activitiesChart, activities] = await Promise.all([
     activitiesInstance.chart({
       student_id: student.id,
       start_date: day.startOf(chartPeriod).toISOString(),
@@ -160,10 +166,8 @@ async function ProgressViewCardContent({
       start_date: day.startOf(isChartView ? chartPeriod : 'week').toISOString(),
       end_date: day.endOf(isChartView ? chartPeriod : 'week').toISOString(),
       limit: 21
-    }),
-    checkpointsInstance.list({ student_id: student.id })
+    })
   ])
-  const checkpoint = checkpoints.data?.at(0)
 
   return (
     <CardContent
@@ -193,7 +197,7 @@ async function ProgressViewCardContent({
             pageCountAccumulation: latestCheckpoint?.page_count_accumulation,
             studentId: student.id,
             notes: latestCheckpoint?.notes,
-            partCount: latestCheckpoint?.part_count
+            partCount: latestCheckpoint?.part_count || sessionRangeId
           }}
         />
       )}

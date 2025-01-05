@@ -1,4 +1,6 @@
-FROM node@sha256:18379ee656cbc1d4d740ecd9da1c81c0609ce58d48fbe771e103bf6ad0028605 AS base
+# node:23.5.0-slim
+# 05-01-2025
+FROM node@sha256:7fdf54a2a5dc734af5b447021fdcc8c1c38a82c021a5c338efa0a38abb535a56 AS base
 
 # Stage 1: Install dependencies
 FROM base AS deps
@@ -17,10 +19,13 @@ ENV NEXT_TELEMETRY_DISABLED=1
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+RUN apt-get update -y && apt-get install -y openssl
+RUN npm run prisma:gen
 RUN npm run build
 RUN echo 'const fs = require("fs"); process.env.DOTENV && fs.copyFileSync(process.env.DOTENV, ".env");' | cat - .next/standalone/server.js > temp.server.js && mv temp.server.js .next/standalone/server.js
 
 FROM base AS runner
+RUN apt-get update -y && apt-get install -y openssl
 WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1

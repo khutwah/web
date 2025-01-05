@@ -4,7 +4,7 @@ import { generateMenus } from '@/utils/menus'
 import { ACTIVE_ICONS, MENUS } from '@/utils/menus/lajnah'
 import { usePathname } from 'next/navigation'
 import { PropsWithChildren } from 'react'
-import { BaseLayout } from './Base'
+import { BaseLayout } from '@/components/Layout/Base'
 
 export function Layout({ children }: PropsWithChildren) {
   const pathname = usePathname()

@@ -29,6 +29,10 @@ import AssessmentSection from './components/sections/AssessmentSection'
 import LastActivitiesSection from './components/sections/LastActivitiesSection'
 import { MENU_USTADZ_PATH_RECORDS } from '@/utils/menus/ustadz'
 import { dayjs } from '@/utils/dayjs'
+import { getUserRole } from '@/utils/supabase/get-user-role'
+import { ROLE } from '@/models/auth'
+import { getNextLajnahAssessment } from '@/utils/assessments'
+import { Checkpoints } from '@/utils/supabase/models/checkpoints'
 
 interface DetailSantriProps {
   params: Promise<{ slug: string }>
@@ -41,6 +45,7 @@ export default async function DetailSantri({
 }: DetailSantriProps) {
   // This gets the current day in the client's timezone.
   const tz = await getTimezoneInfo()
+  const role = await getUserRole()
 
   const params = await paramsPromise
   const searchParams = await searchParamsPromise
@@ -70,28 +75,42 @@ export default async function DetailSantri({
   const studentId = Number(params.slug)
   const studentsInstance = new Students()
   const activitiesInstance = new Activities()
+  const checkpointsInstance = new Checkpoints()
   const [
     student,
     isStudentManagedByUser,
     latestCheckpoint,
-    activitiesForToday
+    latestSabaq,
+    activitiesForToday,
+    checkpoints
   ] = await Promise.all([
     studentsInstance.get(studentId),
     studentsInstance.isStudentManagedByUser(studentId),
     activitiesInstance.checkpoint({
       student_id: studentId
     }),
+    activitiesInstance.getLatestSabaq({ studentId }),
     activitiesInstance.listForDay(
       studentId,
       [ActivityType.Sabaq, ActivityType.Sabqi, ActivityType.Manzil],
       day
-    )
+    ),
+    checkpointsInstance.list({ student_id: studentId })
   ])
-  const isActive = (latestCheckpoint?.status as CheckpointStatus) !== 'inactive'
+  const checkpoint = checkpoints.data?.[0]
+  const isStudentActive =
+    (latestCheckpoint?.status as CheckpointStatus) !== 'inactive'
+  const isAllowedToStartAssessment =
+    isStudentActive && (isStudentManagedByUser || role === ROLE.LAJNAH)
 
   if (convertToDraftQueryParameter === 'true' && activityIdQueryParameter) {
     await activitiesInstance.convertToDraft(Number(activityIdQueryParameter))
   }
+
+  const sessionRangeId = getNextLajnahAssessment(
+    latestSabaq?.end_surah,
+    latestSabaq?.end_verse
+  )
 
   return (
     <Layout>
@@ -118,8 +137,10 @@ export default async function DetailSantri({
         </div>
 
         <ProgressViewCard
+          sessionRangeId={sessionRangeId}
           student={student.data}
           latestCheckpoint={latestCheckpoint}
+          checkpoint={checkpoint}
           isStudentManagedByUser={isStudentManagedByUser}
           searchParams={searchParams}
           tz={tz}
@@ -127,9 +148,16 @@ export default async function DetailSantri({
         />
       </div>
 
-      {isActive && <AssessmentSection studentId={studentId} />}
+      {isAllowedToStartAssessment && (
+        <AssessmentSection
+          studentId={studentId}
+          role={role}
+          sessionRangeId={sessionRangeId}
+          checkpoint={checkpoint}
+        />
+      )}
 
-      {isActive && isStudentManagedByUser && (
+      {isStudentActive && isStudentManagedByUser && (
         <ActivityCtaSection
           searchStringRecords={searchStringRecords}
           student={student.data}

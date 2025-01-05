@@ -1,8 +1,8 @@
 import { ROLE } from '@/models/auth'
-import { isAllowedRole } from '@/utils/auth/is-allowed-role'
+import { isAllowedRoles } from '@/utils/auth/is-allowed-roles'
 import { PropsWithChildren } from 'react'
 
 export default async function UstadzLayout({ children }: PropsWithChildren) {
-  await isAllowedRole(ROLE.USTADZ)
+  await isAllowedRoles([ROLE.USTADZ, ROLE.LAJNAH])
   return <main>{children}</main>
 }
