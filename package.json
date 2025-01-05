@@ -13,6 +13,7 @@
     "seed:sync": "snaplet-seed sync",
     "seed": "tsx seed/setup.ts",
     "dbtypes:gen": "supabase gen types --lang=typescript --local > src/models/database.types.ts && prisma generate",
+    "prisma:gen": "prisma generate",
     "prepare": "husky",
     "format": "prettier . --write",
     "sql:format": "find . -type f -name \"*.sql\" -exec sql-formatter -l postgresql --fix {} ';'",
