@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { bool, number, object, string } from 'yup'
+import { number, object, string } from 'yup'
 import { testTimestamp } from '../is-valid-date'
 import { AssessmentFinalMark, AssessmentType } from '@/models/assessments'
 
@@ -97,25 +97,7 @@ export const assessmentSchema = object({
     .when(...requiredForFinalizingAssessment),
   checkpoint_id: number()
     .integer()
-    .when(...requiredForInitialAssessment),
-  checkpoint_last_activity_id: number()
-    .integer()
-    .when(...requiredForInitialAssessment),
-  checkpoint_status: string()
-    .oneOf([
-      'lajnah-assessment-ongoing',
-      'lajnah-assessment-completed',
-      'assessment-ongoing',
-      'assessment-completed'
-    ])
-    .when(...requiredForInitialAssessment),
-  checkpoint_page_count_accumulation: number().when(
-    ...requiredForInitialAssessment
-  ),
-  checkpoint_part_count: number()
-    .integer()
-    .when(...requiredForInitialAssessment),
-  is_lajnah_assessment: bool().when(...requiredForInitialAssessment)
+    .when(...requiredForInitialAssessment)
 })
 
 export const UpdateAssessmentCheckpointSchema = object({
@@ -131,5 +113,6 @@ export const UpdateAssessmentCheckpointSchema = object({
   end_surah: number().required().min(1),
   end_verse: number().required().min(1),
   // Only sent for the final mark.
-  final_mark: string()
+  final_mark: string(),
+  status_checkpoint_id: number().required()
 })

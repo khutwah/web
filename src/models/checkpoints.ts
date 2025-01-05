@@ -86,7 +86,7 @@ export type FormState =
 
 export const TAG_LAJNAH_ASSESSMENT_ONGOING = 'Sedang Asesmen Lajnah'
 
-export interface Checkpoint {
+export interface StatusCheckpoint {
   id: number
   status: string
   start_date: string
@@ -96,7 +96,7 @@ export interface Checkpoint {
   notes: string | null
 }
 
-export interface LatestCheckpoint {
+export interface LatestStatusCheckpoint {
   last_activity_id: number | undefined | null
   page_count_accumulation: number | undefined | null
   part_count: number | undefined | null

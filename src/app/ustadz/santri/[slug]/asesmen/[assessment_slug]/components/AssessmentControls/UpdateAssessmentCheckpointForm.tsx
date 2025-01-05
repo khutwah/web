@@ -11,6 +11,7 @@ import { Label } from '@/components/Form/Label'
 import { getVerseItems } from '../../../../aktivitas/utils/form'
 import { Json } from '@/models/database.types'
 import { Button } from '@/components/Button/Button'
+import { StatusCheckpoint } from '@/models/checkpoints'
 
 interface Props {
   lastCheckpoint: NonNullable<
@@ -21,6 +22,7 @@ interface Props {
   isPending?: boolean
   additionalFormFields?: ReactNode
   submitButton?: ReactNode
+  statusCheckpoint?: StatusCheckpoint
 }
 
 export function UpdateAssessmentCheckpointForm({
@@ -29,7 +31,8 @@ export function UpdateAssessmentCheckpointForm({
   formAction,
   additionalFormFields,
   isPending,
-  submitButton
+  submitButton,
+  statusCheckpoint
 }: Props) {
   const [start] = lastCheckpoint.surah_range as [[string], [string] | undefined]
   const [startSurah, startVerse] = start[0].split(':')
@@ -47,7 +50,8 @@ export function UpdateAssessmentCheckpointForm({
       start_verse: Number(startVerse),
       end_surah: Number(startSurah),
       end_verse: Number(startVerse),
-      final_mark: ''
+      final_mark: '',
+      status_checkpoint_id: statusCheckpoint?.id
     }
   })
 
@@ -122,6 +126,7 @@ export function UpdateAssessmentCheckpointForm({
         <input type='hidden' {...register('parent_assessment_id')} />
         <input type='hidden' {...register('start_surah')} />
         <input type='hidden' {...register('start_verse')} />
+        <input type='hidden' {...register('status_checkpoint_id')} />
 
         <div className='flex flex-col gap-4'>
           <div className='flex flex-row gap-4 items-end'>

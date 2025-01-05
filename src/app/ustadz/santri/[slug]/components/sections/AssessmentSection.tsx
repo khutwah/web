@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { MENU_USTADZ_PATH_RECORDS } from '@/utils/menus/ustadz'
 import { Button } from '@/components/Button/Button'
 import { LogIn } from 'lucide-react'
-import { Checkpoint, LatestCheckpoint } from '@/models/checkpoints'
+import { StatusCheckpoint } from '@/models/checkpoints'
 
 interface AssessmentSectionProps {
   studentId: number
@@ -13,15 +13,13 @@ interface AssessmentSectionProps {
   sessionRangeId?: number
 
   // Props for updating status
-  latestCheckpoint?: LatestCheckpoint
-  checkpoint?: Checkpoint
+  checkpoint?: StatusCheckpoint
 }
 
 export default async function AssessmentSection({
   studentId,
   role,
   sessionRangeId,
-  latestCheckpoint,
   checkpoint
 }: AssessmentSectionProps) {
   const assessmentsInstance = new Assessments()
@@ -60,7 +58,6 @@ export default async function AssessmentSection({
         <AddAsesmen
           role={role}
           sessionRangeId={sessionRangeId}
-          latestCheckpoint={latestCheckpoint}
           checkpoint={checkpoint}
         />
       )}

@@ -146,20 +146,22 @@ export function getSurahDetailFromSurahRange(surahRange?: string): SurahDetail {
 }
 
 const lajnahJuzCheckpoints = lajnahAssessments.map(({ id }) => id)
-export function getNextLajanahAssessment(
+export function getNextLajnahAssessment(
   surah?: number | null,
   verse?: number | null
 ) {
   if (!surah || !verse) return undefined
+
   const summary = getAyahLocationSummary(surah, verse)
   if (!summary) return undefined
+
   const currentCheckpoint = summary.juz.total
-  const checkpoints = lajnahJuzCheckpoints.filter(
-    (checkpoint) => checkpoint >= currentCheckpoint
+
+  // Find the next checkpoint that is greater than the current one
+  const nextCheckpoint = lajnahJuzCheckpoints.find(
+    (checkpoint) => checkpoint > currentCheckpoint
   )
-  return checkpoints.reduce((prev, curr) =>
-    Math.abs(curr - currentCheckpoint) < Math.abs(prev - currentCheckpoint)
-      ? curr
-      : prev
-  )
+
+  // If no next checkpoint, return the last one
+  return nextCheckpoint ?? lajnahJuzCheckpoints[lajnahJuzCheckpoints.length - 1]
 }

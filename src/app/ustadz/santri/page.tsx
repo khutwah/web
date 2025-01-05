@@ -18,7 +18,7 @@ import { dayjs } from '@/utils/dayjs'
 import getTimezoneInfo from '@/utils/get-timezone-info'
 import { MENU_USTADZ_PATH_RECORDS } from '@/utils/menus/ustadz'
 import { parseSearchParams } from '@/utils/url'
-import { CheckpointStatus, STATUS_LIST } from '@/models/checkpoints'
+import { CheckpointStatus } from '@/models/checkpoints'
 import {
   CHECKPOINT_STATUS_SEARCH_PARAMS_KEY,
   USTADZ_ID_SEARCH_PARAMS_KEY

@@ -31,7 +31,7 @@ import { MENU_USTADZ_PATH_RECORDS } from '@/utils/menus/ustadz'
 import { dayjs } from '@/utils/dayjs'
 import { getUserRole } from '@/utils/supabase/get-user-role'
 import { ROLE } from '@/models/auth'
-import { getNextLajanahAssessment } from '@/utils/assessments'
+import { getNextLajnahAssessment } from '@/utils/assessments'
 import { Checkpoints } from '@/utils/supabase/models/checkpoints'
 
 interface DetailSantriProps {
@@ -95,7 +95,7 @@ export default async function DetailSantri({
       [ActivityType.Sabaq, ActivityType.Sabqi, ActivityType.Manzil],
       day
     ),
-    checkpointsInstance.list({ student_id: studentId, limit: 1 })
+    checkpointsInstance.list({ student_id: studentId })
   ])
   const checkpoint = checkpoints.data?.[0]
   const isStudentActive =
@@ -106,6 +106,11 @@ export default async function DetailSantri({
   if (convertToDraftQueryParameter === 'true' && activityIdQueryParameter) {
     await activitiesInstance.convertToDraft(Number(activityIdQueryParameter))
   }
+
+  const sessionRangeId = getNextLajnahAssessment(
+    latestSabaq?.end_surah,
+    latestSabaq?.end_verse
+  )
 
   return (
     <Layout>
@@ -132,6 +137,7 @@ export default async function DetailSantri({
         </div>
 
         <ProgressViewCard
+          sessionRangeId={sessionRangeId}
           student={student.data}
           latestCheckpoint={latestCheckpoint}
           checkpoint={checkpoint}
@@ -146,12 +152,7 @@ export default async function DetailSantri({
         <AssessmentSection
           studentId={studentId}
           role={role}
-          sessionRangeId={getNextLajanahAssessment(
-            latestSabaq?.end_surah,
-            latestSabaq?.end_verse
-          )}
-          // Props for updating status
-          latestCheckpoint={latestCheckpoint}
+          sessionRangeId={sessionRangeId}
           checkpoint={checkpoint}
         />
       )}

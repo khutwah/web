@@ -25,19 +25,17 @@ import {
 } from '@/utils/assessments'
 import { InferType } from 'yup'
 import { ROLE } from '@/models/auth'
-import { Checkpoint, LatestCheckpoint } from '@/models/checkpoints'
+import { StatusCheckpoint } from '@/models/checkpoints'
 
 interface AddAsesmenProps {
   role: number
   sessionRangeId?: number
-  latestCheckpoint?: LatestCheckpoint
-  checkpoint?: Checkpoint
+  checkpoint?: StatusCheckpoint
 }
 
 export function AddAsesmenForm({
   role,
   sessionRangeId,
-  latestCheckpoint,
   checkpoint
 }: AddAsesmenProps) {
   const [state, formAction, isPending] = useActionState(
@@ -82,17 +80,7 @@ export function AddAsesmenForm({
               return parseRangeValue(assessment.ranges)
             })()
           : undefined,
-      checkpoint_id: checkpoint?.id,
-      checkpoint_last_activity_id:
-        latestCheckpoint?.last_activity_id || undefined,
-      checkpoint_page_count_accumulation:
-        latestCheckpoint?.page_count_accumulation || undefined,
-      checkpoint_part_count: latestCheckpoint?.part_count || undefined,
-      checkpoint_status:
-        role === ROLE.LAJNAH
-          ? 'lajnah-assessment-ongoing'
-          : 'assessment-ongoing',
-      is_lajnah_assessment: role === ROLE.LAJNAH
+      checkpoint_id: checkpoint?.id || -1 // set to -1 if checkpoint is not available
     }
   })
 
@@ -139,14 +127,6 @@ export function AddAsesmenForm({
       <input type='hidden' {...register('student_id')} />
       <input type='hidden' {...register('start_date')} />
       <input type='hidden' {...register('checkpoint_id')} />
-      <input type='hidden' {...register('checkpoint_last_activity_id')} />
-      <input type='hidden' {...register('checkpoint_status')} />
-      <input
-        type='hidden'
-        {...register('checkpoint_page_count_accumulation')}
-      />
-      <input type='hidden' {...register('checkpoint_part_count')} />
-      <input type='hidden' {...register('is_lajnah_assessment')} />
       <div className='flex flex-col gap-2'>
         <Label>Jenis Asesmen</Label>
         <Combobox

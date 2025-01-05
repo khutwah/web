@@ -15,7 +15,7 @@ import { ProgressGridWithNavigation } from '@/components/Progress/ProgressGrid'
 import { CheckpointStatus } from '@/models/checkpoints'
 import { parseParameter } from '@/utils/parse-parameter'
 import { TargetPageCount } from '@/components/TargetPageCount/TargetPageCount'
-import { Checkpoint, LatestCheckpoint } from '@/models/checkpoints'
+import { StatusCheckpoint, LatestStatusCheckpoint } from '@/models/checkpoints'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const DEFAULT_EMPTY_ARRAY: any[] = []
@@ -33,8 +33,9 @@ interface Student {
 
 interface ProgressViewCardProps {
   student: Student | null
-  latestCheckpoint: LatestCheckpoint | null
-  checkpoint?: Checkpoint
+  sessionRangeId?: number
+  latestCheckpoint: LatestStatusCheckpoint | null
+  checkpoint?: StatusCheckpoint
   isStudentManagedByUser: boolean
   searchParams: { [key: string]: string | string[] | undefined }
   tz: string
@@ -49,6 +50,7 @@ type ProgressViewCardContentProps = ProgressViewCardProps
 
 export default function ProgressViewCard({
   student,
+  sessionRangeId,
   latestCheckpoint,
   checkpoint,
   isStudentManagedByUser,
@@ -64,6 +66,7 @@ export default function ProgressViewCard({
       />
       <ProgressViewCardContent
         student={student}
+        sessionRangeId={sessionRangeId}
         latestCheckpoint={latestCheckpoint}
         checkpoint={checkpoint}
         isStudentManagedByUser={isStudentManagedByUser}
@@ -129,6 +132,7 @@ async function ProgressViewCardContent({
   checkpoint,
   isStudentManagedByUser,
   searchParams,
+  sessionRangeId,
   tz,
   day
 }: ProgressViewCardContentProps) {
@@ -193,7 +197,7 @@ async function ProgressViewCardContent({
             pageCountAccumulation: latestCheckpoint?.page_count_accumulation,
             studentId: student.id,
             notes: latestCheckpoint?.notes,
-            partCount: latestCheckpoint?.part_count
+            partCount: latestCheckpoint?.part_count || sessionRangeId
           }}
         />
       )}

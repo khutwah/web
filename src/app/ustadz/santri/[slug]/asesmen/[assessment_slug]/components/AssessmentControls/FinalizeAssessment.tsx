@@ -22,15 +22,21 @@ import { useRouter } from 'next/navigation'
 import { UpdateAssessmentCheckpointForm } from './UpdateAssessmentCheckpointForm'
 import { InferType } from 'yup'
 import { Json } from '@/models/database.types'
+import { StatusCheckpoint } from '@/models/checkpoints'
 
 interface Props {
   lastCheckpoint: NonNullable<
     Awaited<ReturnType<Assessments['list']>>['data']
   >[number]
   surahRange: Json
+  statusCheckpoint?: StatusCheckpoint
 }
 
-export function FinalizeAssessment({ lastCheckpoint, surahRange }: Props) {
+export function FinalizeAssessment({
+  lastCheckpoint,
+  surahRange,
+  statusCheckpoint
+}: Props) {
   const [open, setOpen] = useState(false)
 
   return (
@@ -49,6 +55,7 @@ export function FinalizeAssessment({ lastCheckpoint, surahRange }: Props) {
         </DrawerHeader>
 
         <AddAssessmentCheckpointForm
+          statusCheckpoint={statusCheckpoint}
           lastCheckpoint={lastCheckpoint}
           surahRange={surahRange}
           setOpen={setOpen}
@@ -63,6 +70,7 @@ type ActionState = { message?: string; isInitialLoad?: true } | undefined
 function AddAssessmentCheckpointForm({
   lastCheckpoint,
   surahRange,
+  statusCheckpoint,
   setOpen
 }: Props & { setOpen: (isOpen: boolean) => void }) {
   const [state, formAction, isPending] = useActionState<ActionState, FormData>(
@@ -86,6 +94,7 @@ function AddAssessmentCheckpointForm({
 
   return (
     <UpdateAssessmentCheckpointForm
+      statusCheckpoint={statusCheckpoint}
       formAction={formAction}
       lastCheckpoint={lastCheckpoint}
       surahRange={surahRange}

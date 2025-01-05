@@ -1,8 +1,166 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["views"]
 }
 
 datasource db {
-  provider          = "postgresql"
-  url               = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model activities {
+  id                 BigInt        @id @default(autoincrement())
+  student_id         BigInt?
+  type               Int?          @db.SmallInt
+  notes              String?
+  is_target_achieved Boolean?
+  tags               Json?
+  created_at         DateTime?     @default(now()) @db.Timestamp(6)
+  updated_at         DateTime?     @default(now()) @db.Timestamp(6)
+  shift_id           BigInt?
+  created_by         BigInt?
+  start_surah        Int?          @db.SmallInt
+  end_surah          Int?          @db.SmallInt
+  start_verse        Int?          @db.SmallInt
+  end_verse          Int?          @db.SmallInt
+  status             String        @default("draft") @db.VarChar
+  student_attendance String        @default("present") @db.VarChar
+  page_count         Float?        @db.Real
+  target_page_count  Int           @default(0) @db.SmallInt
+  users              users?        @relation(fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  shifts             shifts?       @relation(fields: [shift_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  students           students?     @relation(fields: [student_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  checkpoints        checkpoints[]
+}
+
+model assessments {
+  id                   BigInt        @id @default(autoincrement())
+  student_id           BigInt
+  ustadz_id            BigInt
+  start_date           DateTime      @db.Timestamp(6)
+  end_date             DateTime?     @db.Timestamp(6)
+  session_type         String?       @db.VarChar(255)
+  session_name         String?       @db.VarChar(255)
+  session_range_id     Int?          @db.SmallInt
+  notes                String?
+  low_mistake_count    Int           @default(0) @db.SmallInt
+  medium_mistake_count Int           @default(0) @db.SmallInt
+  high_mistake_count   Int           @default(0) @db.SmallInt
+  parent_assessment_id BigInt?
+  final_mark           String?       @db.VarChar
+  created_at           DateTime?     @default(now()) @db.Timestamp(6)
+  updated_at           DateTime?     @default(now()) @db.Timestamp(6)
+  surah_range          Json?
+  assessments          assessments?  @relation("assessmentsToassessments", fields: [parent_assessment_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  other_assessments    assessments[] @relation("assessmentsToassessments")
+  students             students      @relation(fields: [student_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users                users         @relation(fields: [ustadz_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model checkpoints {
+  id                      BigInt      @id @default(autoincrement())
+  student_id              BigInt
+  start_date              DateTime    @db.Timestamp(6)
+  end_date                DateTime?   @db.Timestamp(6)
+  page_count_accumulation Float?      @db.Real
+  last_activity_id        BigInt?
+  part_count              Float?      @db.Real
+  status                  String      @db.VarChar
+  created_at              DateTime?   @default(now()) @db.Timestamp(6)
+  updated_at              DateTime?   @default(now()) @db.Timestamp(6)
+  notes                   String?     @db.VarChar
+  activities              activities? @relation(fields: [last_activity_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  students                students    @relation(fields: [student_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model circles {
+  id                BigInt     @id @default(autoincrement())
+  name              String?    @db.VarChar
+  created_at        DateTime?  @default(now()) @db.Timestamp(6)
+  updated_at        DateTime?  @default(now()) @db.Timestamp(6)
+  academic_year     String     @db.VarChar(9)
+  label             String?    @db.VarChar(50)
+  grade             Int        @default(7) @db.SmallInt
+  target_page_count Int?       @db.SmallInt
+  shifts            shifts[]
+  students          students[]
+}
+
+model shifts {
+  id         BigInt       @id @default(autoincrement())
+  circle_id  BigInt?
+  start_date DateTime     @db.Timestamp(6)
+  end_date   DateTime?    @db.Timestamp(6)
+  created_at DateTime?    @default(now()) @db.Timestamp(6)
+  updated_at DateTime?    @default(now()) @db.Timestamp(6)
+  ustadz_id  BigInt?
+  location   String?      @db.VarChar
+  activities activities[]
+  circles    circles?     @relation(fields: [circle_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users      users?       @relation(fields: [ustadz_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model students {
+  id                BigInt        @id @default(autoincrement())
+  name              String?       @db.VarChar
+  circle_id         BigInt?
+  created_at        DateTime?     @default(now()) @db.Timestamp(6)
+  updated_at        DateTime?     @default(now()) @db.Timestamp(6)
+  parent_id         BigInt?
+  nisn              String?       @unique @db.VarChar
+  nis               String?       @unique @db.VarChar
+  virtual_account   String?       @unique @db.VarChar(50)
+  pin               String?       @db.Char(6)
+  target_page_count Int?          @db.SmallInt
+  activities        activities[]
+  assessments       assessments[]
+  checkpoints       checkpoints[]
+  circles           circles?      @relation(fields: [circle_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users             users?        @relation(fields: [parent_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model tags {
+  id         BigInt    @id @default(autoincrement())
+  name       String?   @db.VarChar
+  category   String?   @db.VarChar
+  created_at DateTime? @default(now()) @db.Timestamp(6)
+  updated_at DateTime? @default(now()) @db.Timestamp(6)
+}
+
+model users {
+  id          BigInt        @id @default(autoincrement())
+  email       String        @unique @db.VarChar
+  name        String?       @db.VarChar
+  role        Int?          @db.SmallInt
+  created_at  DateTime?     @default(now()) @db.Timestamp(6)
+  updated_at  DateTime?     @default(now()) @db.Timestamp(6)
+  sb_user_id  String?       @db.Uuid
+  is_active   Boolean       @default(true)
+  activities  activities[]
+  assessments assessments[]
+  shifts      shifts[]
+  students    students[]
+}
+
+view zzz_view_latest_student_sabaq_activities {
+  id                 BigInt    @id
+  student_id         BigInt    @unique
+  type               Int?      @db.SmallInt
+  notes              String?
+  is_target_achieved Boolean?
+  tags               Json?
+  created_at         DateTime? @db.Timestamp(6)
+  updated_at         DateTime? @db.Timestamp(6)
+  shift_id           BigInt?
+  created_by         BigInt?
+  start_surah        Int?      @db.SmallInt
+  end_surah          Int?      @db.SmallInt
+  start_verse        Int?      @db.SmallInt
+  end_verse          Int?      @db.SmallInt
+  status             String?   @db.VarChar
+  student_attendance String?   @db.VarChar
+  page_count         Float?    @db.Real
+  target_page_count  Int?      @db.SmallInt
+  parent_id          BigInt?
 }
