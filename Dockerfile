@@ -7,7 +7,6 @@ FROM base AS deps
 WORKDIR /app
 COPY package.json package-lock.json .npmrc ./
 RUN npm ci
-RUN npm run prisma:gen
 
 # Stage 2: Build the application
 FROM base AS builder
@@ -20,6 +19,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+RUN npm run prisma:gen
 RUN npm run build
 RUN echo 'const fs = require("fs"); process.env.DOTENV && fs.copyFileSync(process.env.DOTENV, ".env");' | cat - .next/standalone/server.js > temp.server.js && mv temp.server.js .next/standalone/server.js
 
