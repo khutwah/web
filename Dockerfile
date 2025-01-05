@@ -1,4 +1,6 @@
-FROM node@sha256:18379ee656cbc1d4d740ecd9da1c81c0609ce58d48fbe771e103bf6ad0028605 AS base
+# node:23.5.0-slim
+# 05-01-2025
+FROM node@sha256:7fdf54a2a5dc734af5b447021fdcc8c1c38a82c021a5c338efa0a38abb535a56 AS base
 
 # Stage 1: Install dependencies
 FROM base AS deps

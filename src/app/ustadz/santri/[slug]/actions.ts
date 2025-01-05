@@ -50,7 +50,7 @@ export async function createAssessment(_prev: unknown, formData: FormData) {
   }
 
   const { assessmentPayload, checkpoint, is_lajnah_assessment } =
-    getAssessmentPayload(payload)
+    destructurePayloads(payload)
 
   const user = await getUser()
   const data = { ...assessmentPayload, ustadz_id: user.id }
@@ -91,7 +91,7 @@ export async function createAssessment(_prev: unknown, formData: FormData) {
   }
 }
 
-function getAssessmentPayload(payload: CreateSchema): AssessmentReturn {
+function destructurePayloads(payload: CreateSchema): AssessmentReturn {
   const {
     checkpoint_id,
     checkpoint_last_activity_id,
