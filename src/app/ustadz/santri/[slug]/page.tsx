@@ -32,6 +32,7 @@ import { dayjs } from '@/utils/dayjs'
 import { getUserRole } from '@/utils/supabase/get-user-role'
 import { ROLE } from '@/models/auth'
 import { getNextLajanahAssessment } from '@/utils/assessments'
+import { Checkpoints } from '@/utils/supabase/models/checkpoints'
 
 interface DetailSantriProps {
   params: Promise<{ slug: string }>
@@ -74,12 +75,14 @@ export default async function DetailSantri({
   const studentId = Number(params.slug)
   const studentsInstance = new Students()
   const activitiesInstance = new Activities()
+  const checkpointsInstance = new Checkpoints()
   const [
     student,
     isStudentManagedByUser,
     latestCheckpoint,
     latestSabaq,
-    activitiesForToday
+    activitiesForToday,
+    checkpoints
   ] = await Promise.all([
     studentsInstance.get(studentId),
     studentsInstance.isStudentManagedByUser(studentId),
@@ -91,8 +94,10 @@ export default async function DetailSantri({
       studentId,
       [ActivityType.Sabaq, ActivityType.Sabqi, ActivityType.Manzil],
       day
-    )
+    ),
+    checkpointsInstance.list({ student_id: studentId, limit: 1 })
   ])
+  const checkpoint = checkpoints.data?.[0]
   const isStudentActive =
     (latestCheckpoint?.status as CheckpointStatus) !== 'inactive'
   const isAllowedToStartAssessment =
@@ -129,6 +134,7 @@ export default async function DetailSantri({
         <ProgressViewCard
           student={student.data}
           latestCheckpoint={latestCheckpoint}
+          checkpoint={checkpoint}
           isStudentManagedByUser={isStudentManagedByUser}
           searchParams={searchParams}
           tz={tz}
@@ -144,6 +150,9 @@ export default async function DetailSantri({
             latestSabaq?.end_surah,
             latestSabaq?.end_verse
           )}
+          // Props for updating status
+          latestCheckpoint={latestCheckpoint}
+          checkpoint={checkpoint}
         />
       )}
 

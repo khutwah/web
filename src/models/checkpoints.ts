@@ -33,6 +33,8 @@ export type CheckpointStatus =
   | 'lajnah-assessment-ready'
   | 'lajnah-assessment-ongoing'
   | 'lajnah-assessment-completed'
+  | 'assessment-ongoing'
+  | 'assessment-completed'
   | 'inactive'
 
 export interface InsertPayload {
@@ -83,3 +85,21 @@ export type FormState =
     }
 
 export const TAG_LAJNAH_ASSESSMENT_ONGOING = 'Sedang Asesmen Lajnah'
+
+export interface Checkpoint {
+  id: number
+  status: string
+  start_date: string
+  end_date: string | null
+  page_count_accumulation: number | null
+  part_count: number | null
+  notes: string | null
+}
+
+export interface LatestCheckpoint {
+  last_activity_id: number | undefined | null
+  page_count_accumulation: number | undefined | null
+  part_count: number | undefined | null
+  notes: string | undefined | null
+  status: string | undefined
+}

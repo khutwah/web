@@ -11,11 +11,11 @@ import {
 } from '@/models/activities'
 import { Dayjs } from '@/utils/dayjs'
 import { ProgressChartWithNavigation } from '@/components/Progress/ProgressChart'
-import { Checkpoints } from '@/utils/supabase/models/checkpoints'
 import { ProgressGridWithNavigation } from '@/components/Progress/ProgressGrid'
 import { CheckpointStatus } from '@/models/checkpoints'
 import { parseParameter } from '@/utils/parse-parameter'
 import { TargetPageCount } from '@/components/TargetPageCount/TargetPageCount'
+import { Checkpoint, LatestCheckpoint } from '@/models/checkpoints'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const DEFAULT_EMPTY_ARRAY: any[] = []
@@ -31,17 +31,10 @@ interface Student {
   } | null
 }
 
-interface Checkpoint {
-  last_activity_id: number | undefined | null
-  page_count_accumulation: number | undefined | null
-  part_count: number | undefined | null
-  notes: string | undefined | null
-  status: string | undefined
-}
-
 interface ProgressViewCardProps {
   student: Student | null
-  latestCheckpoint: Checkpoint | null
+  latestCheckpoint: LatestCheckpoint | null
+  checkpoint?: Checkpoint
   isStudentManagedByUser: boolean
   searchParams: { [key: string]: string | string[] | undefined }
   tz: string
@@ -50,13 +43,14 @@ interface ProgressViewCardProps {
 
 type ProgressViewCardHeaderProps = Omit<
   ProgressViewCardProps,
-  'latestCheckpoint' | 'searchParams' | 'tz' | 'day'
+  'latestCheckpoint' | 'checkpoint' | 'searchParams' | 'tz' | 'day'
 >
 type ProgressViewCardContentProps = ProgressViewCardProps
 
 export default function ProgressViewCard({
   student,
   latestCheckpoint,
+  checkpoint,
   isStudentManagedByUser,
   searchParams,
   tz,
@@ -71,6 +65,7 @@ export default function ProgressViewCard({
       <ProgressViewCardContent
         student={student}
         latestCheckpoint={latestCheckpoint}
+        checkpoint={checkpoint}
         isStudentManagedByUser={isStudentManagedByUser}
         searchParams={searchParams}
         tz={tz}
@@ -131,6 +126,7 @@ function ProgressViewCardHeader({
 async function ProgressViewCardContent({
   student,
   latestCheckpoint,
+  checkpoint,
   isStudentManagedByUser,
   searchParams,
   tz,
@@ -153,9 +149,8 @@ async function ProgressViewCardContent({
   const isChartView = viewQueryParameter === 'chart'
 
   const activitiesInstance = new Activities()
-  const checkpointsInstance = new Checkpoints()
 
-  const [activitiesChart, activities, checkpoints] = await Promise.all([
+  const [activitiesChart, activities] = await Promise.all([
     activitiesInstance.chart({
       student_id: student.id,
       start_date: day.startOf(chartPeriod).toISOString(),
@@ -167,10 +162,8 @@ async function ProgressViewCardContent({
       start_date: day.startOf(isChartView ? chartPeriod : 'week').toISOString(),
       end_date: day.endOf(isChartView ? chartPeriod : 'week').toISOString(),
       limit: 21
-    }),
-    checkpointsInstance.list({ student_id: student.id })
+    })
   ])
-  const checkpoint = checkpoints.data?.at(0)
 
   return (
     <CardContent

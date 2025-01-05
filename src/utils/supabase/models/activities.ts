@@ -272,7 +272,7 @@ export class Activities extends Base {
     return data
   }
 
-  async listLastSabaq(studentIds: number[]) {
+  async listLatestSabaq(studentIds: number[]) {
     const query = (await this.supabase)
       .from('zzz_view_latest_student_sabaq_activities')
       .select('id, student_id, target_page_count, end_surah, end_verse')

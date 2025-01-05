@@ -105,21 +105,27 @@ export function CheckpointDrawer({
 
       <div className='flex flex-col gap-2'>
         {STATUS_LIST.filter(
-          (status) => lastActivityId ?? status.value === 'inactive'
-        ).map((item) => (
-          <ComboboxButton
-            key={item.value}
-            label={item.label}
-            checked={item.value === payload.status}
-            inputProps={{ value: item.value, name: 'status' }}
-            onClick={() =>
-              setPayload((p) => ({
-                ...p,
-                status: item.value
-              }))
-            }
-          />
-        ))}
+          (status) =>
+            ![
+              'lajnah-assessment-ongoing',
+              'lajnah-assessment-completed'
+            ].includes(status.value)
+        )
+          .filter((status) => lastActivityId ?? status.value === 'inactive')
+          .map((item) => (
+            <ComboboxButton
+              key={item.value}
+              label={item.label}
+              checked={item.value === payload.status}
+              inputProps={{ value: item.value, name: 'status' }}
+              onClick={() =>
+                setPayload((p) => ({
+                  ...p,
+                  status: item.value
+                }))
+              }
+            />
+          ))}
       </div>
 
       {payload.status === 'inactive' ? (

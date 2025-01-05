@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { number, object, string } from 'yup'
+import { bool, number, object, string } from 'yup'
 import { testTimestamp } from '../is-valid-date'
 import { AssessmentFinalMark, AssessmentType } from '@/models/assessments'
 
@@ -94,7 +94,28 @@ export const assessmentSchema = object({
       'Tanggal harus dalam format ISO yang valid',
       testTimestamp
     )
-    .when(...requiredForFinalizingAssessment)
+    .when(...requiredForFinalizingAssessment),
+  checkpoint_id: number()
+    .integer()
+    .when(...requiredForInitialAssessment),
+  checkpoint_last_activity_id: number()
+    .integer()
+    .when(...requiredForInitialAssessment),
+  checkpoint_status: string()
+    .oneOf([
+      'lajnah-assessment-ongoing',
+      'lajnah-assessment-completed',
+      'assessment-ongoing',
+      'assessment-completed'
+    ])
+    .when(...requiredForInitialAssessment),
+  checkpoint_page_count_accumulation: number().when(
+    ...requiredForInitialAssessment
+  ),
+  checkpoint_part_count: number()
+    .integer()
+    .when(...requiredForInitialAssessment),
+  is_lajnah_assessment: bool().when(...requiredForInitialAssessment)
 })
 
 export const UpdateAssessmentCheckpointSchema = object({

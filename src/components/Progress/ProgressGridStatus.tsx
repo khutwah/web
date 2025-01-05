@@ -128,7 +128,7 @@ function resolveStatus(
     case 'lajnah-assessment-ready':
       return {
         text: `Sedang persiapan Asesmen Lajnah ${parameter} juz...`,
-        description: `Bismillah. Ananda dinyatakan siap untuk mengikuti Asesmen Lajnah ${parameter} juz. Dan sedang melakukan persiapan sambil menunggu jadwal asesmen. Semoga Allah ridhai`,
+        description: `Bismillah. Ananda dinyatakan siap untuk mengikuti Asesmen Lajnah ${parameter} juz. Dan sedang melakukan persiapan sambil menunggu jadwal asesmen. Semoga Allah ridhai.`,
         image: {
           alt: 'Bendera berkibar berwarna merah',
           src: StatusLajnahAssessmentReady

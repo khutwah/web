@@ -13,13 +13,21 @@ import { Flame } from 'lucide-react'
 import { useState } from 'react'
 import { AddAsesmenForm } from '../AddAsesmenForm/AddAsesmenForm'
 import { ROLE } from '@/models/auth'
+import { Checkpoint, LatestCheckpoint } from '@/models/checkpoints'
 
 interface AddAsesmenProps {
   role: number
   sessionRangeId?: number
+  latestCheckpoint?: LatestCheckpoint
+  checkpoint?: Checkpoint
 }
 
-export function AddAsesmen({ role, sessionRangeId }: AddAsesmenProps) {
+export function AddAsesmen({
+  role,
+  sessionRangeId,
+  latestCheckpoint,
+  checkpoint
+}: AddAsesmenProps) {
   const [open, setOpen] = useState(false)
 
   return (
@@ -41,7 +49,12 @@ export function AddAsesmen({ role, sessionRangeId }: AddAsesmenProps) {
             Tentukan jenis dan materi untuk memulai asesmen.
           </DrawerDescription>
         </DrawerHeader>
-        <AddAsesmenForm role={role} sessionRangeId={sessionRangeId} />
+        <AddAsesmenForm
+          role={role}
+          sessionRangeId={sessionRangeId}
+          latestCheckpoint={latestCheckpoint}
+          checkpoint={checkpoint}
+        />
       </DrawerContent>
     </Drawer>
   )

@@ -5,17 +5,24 @@ import Link from 'next/link'
 import { MENU_USTADZ_PATH_RECORDS } from '@/utils/menus/ustadz'
 import { Button } from '@/components/Button/Button'
 import { LogIn } from 'lucide-react'
+import { Checkpoint, LatestCheckpoint } from '@/models/checkpoints'
 
 interface AssessmentSectionProps {
   studentId: number
   role: number
   sessionRangeId?: number
+
+  // Props for updating status
+  latestCheckpoint?: LatestCheckpoint
+  checkpoint?: Checkpoint
 }
 
 export default async function AssessmentSection({
   studentId,
   role,
-  sessionRangeId
+  sessionRangeId,
+  latestCheckpoint,
+  checkpoint
 }: AssessmentSectionProps) {
   const assessmentsInstance = new Assessments()
   const assessments = await assessmentsInstance.list({
@@ -50,7 +57,12 @@ export default async function AssessmentSection({
           </Button>
         </Link>
       ) : (
-        <AddAsesmen role={role} sessionRangeId={sessionRangeId} />
+        <AddAsesmen
+          role={role}
+          sessionRangeId={sessionRangeId}
+          latestCheckpoint={latestCheckpoint}
+          checkpoint={checkpoint}
+        />
       )}
     </section>
   )
