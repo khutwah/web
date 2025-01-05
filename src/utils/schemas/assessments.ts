@@ -114,5 +114,5 @@ export const UpdateAssessmentCheckpointSchema = object({
   end_verse: number().required().min(1),
   // Only sent for the final mark.
   final_mark: string(),
-  status_checkpoint_id: number().required()
+  status_checkpoint_id: number()
 })

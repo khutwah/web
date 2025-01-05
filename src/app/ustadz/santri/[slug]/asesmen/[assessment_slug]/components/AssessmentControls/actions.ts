@@ -98,6 +98,8 @@ export async function addAssessmentCheckpoint(
           }
         })
 
+        if (!status_checkpoint_id) return
+
         const role = await getUserRole()
         await tx.checkpoints.update({
           where: { id: status_checkpoint_id },

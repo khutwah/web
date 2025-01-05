@@ -126,7 +126,6 @@ export function UpdateAssessmentCheckpointForm({
         <input type='hidden' {...register('parent_assessment_id')} />
         <input type='hidden' {...register('start_surah')} />
         <input type='hidden' {...register('start_verse')} />
-        <input type='hidden' {...register('status_checkpoint_id')} />
 
         <div className='flex flex-col gap-4'>
           <div className='flex flex-row gap-4 items-end'>
