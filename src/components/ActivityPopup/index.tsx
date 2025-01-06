@@ -23,9 +23,10 @@ interface Props {
   activities: Awaited<ReturnType<Activities['list']>>['data']
   from?: string
   id?: string
+  isEditable?: boolean
 }
 
-export function ActivityPopup({ activities, from, id }: Props) {
+export function ActivityPopup({ activities, from, id, isEditable }: Props) {
   const query = useSearchParams()
   const router = useRouter()
 
@@ -51,7 +52,7 @@ export function ActivityPopup({ activities, from, id }: Props) {
           <DrawerTitle>Activity Drawer</DrawerTitle>
           <DrawerDescription>Activity Drawer</DrawerDescription>
         </DrawerHeader>
-        {_activity ? (
+        {_activity && (
           <div className='overflow-y-scroll max-h-[500px] flex flex-col p-5 gap-4'>
             <div className='flex flex-row items-start justify-between'>
               <div className='text-xs text-khutwah-neutral-50'>
@@ -97,65 +98,75 @@ export function ActivityPopup({ activities, from, id }: Props) {
               <div className='text-sm'>{_activity.notes}</div>
             </div>
 
-            {_activity.status === ActivityStatus.draft ? (
-              <Button
-                variant='primary'
-                asChild
-                className='mt-4'
-                disabled={!_activity.has_edit_access}
-              >
-                {_activity.has_edit_access ? (
-                  <Link
-                    href={addQueryParams(
-                      `/ustadz/santri/${_activity.student_id}/aktivitas/edit/${_activity.id}`,
-                      {
-                        from,
-                        id: addQueryParams(id || '', {
-                          activity: `${_activity.id}`
-                        })
-                      }
-                    )}
+            {isEditable && (
+              <>
+                {_activity.status === ActivityStatus.draft ? (
+                  <Button
+                    variant='primary'
+                    asChild
+                    className='mt-4'
+                    disabled={!_activity.has_edit_access}
                   >
-                    Lanjutkan Melengkapi
-                  </Link>
-                ) : (
-                  <button type='button' disabled={!_activity.has_edit_access}>
-                    Afwan. Antum tidak punya hak edit.
-                  </button>
-                )}
-              </Button>
-            ) : (
-              <Button
-                variant='outline'
-                asChild
-                className='mt-4'
-                disabled={!_activity.has_edit_access}
-              >
-                {_activity.has_edit_access ? (
-                  <Link
-                    href={addQueryParams(
-                      `/ustadz/santri/${_activity.student_id}`,
-                      {
-                        draft: 'true',
-                        activity: `${_activity.id}`,
-                        from,
-                        id: addQueryParams(id || '', {
-                          activity: `${_activity.id}`
-                        })
-                      }
+                    {_activity.has_edit_access ? (
+                      <Link
+                        href={addQueryParams(
+                          `/ustadz/santri/${_activity.student_id}/aktivitas/edit/${_activity.id}`,
+                          {
+                            from,
+                            id: addQueryParams(id || '', {
+                              activity: `${_activity.id}`
+                            })
+                          }
+                        )}
+                      >
+                        Lanjutkan Melengkapi
+                      </Link>
+                    ) : (
+                      <button
+                        type='button'
+                        disabled={!_activity.has_edit_access}
+                      >
+                        Afwan. Antum tidak punya hak edit.
+                      </button>
                     )}
-                  >
-                    Jadikan Draft
-                  </Link>
+                  </Button>
                 ) : (
-                  <button type='button' disabled={!_activity.has_edit_access}>
-                    Afwan. Antum tidak punya hak edit.
-                  </button>
+                  <Button
+                    variant='outline'
+                    asChild
+                    className='mt-4'
+                    disabled={!_activity.has_edit_access}
+                  >
+                    {_activity.has_edit_access ? (
+                      <Link
+                        href={addQueryParams(
+                          `/ustadz/santri/${_activity.student_id}`,
+                          {
+                            draft: 'true',
+                            activity: `${_activity.id}`,
+                            from,
+                            id: addQueryParams(id || '', {
+                              activity: `${_activity.id}`
+                            })
+                          }
+                        )}
+                      >
+                        Jadikan Draft
+                      </Link>
+                    ) : (
+                      <button
+                        type='button'
+                        disabled={!_activity.has_edit_access}
+                      >
+                        Afwan. Antum tidak punya hak edit.
+                      </button>
+                    )}
+                  </Button>
                 )}
-              </Button>
+              </>
             )}
           </div>
-        ) : null}
+        )}
       </DrawerContent>
     </Drawer>
   )

@@ -116,6 +116,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: 'students'
             referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'activities_student_id_fkey'
+            columns: ['student_id']
+            isOneToOne: false
+            referencedRelation: 'zzz_view_latest_student_checkpoints'
+            referencedColumns: ['student_id']
           }
         ]
       }
@@ -193,6 +200,13 @@ export type Database = {
             referencedColumns: ['id']
           },
           {
+            foreignKeyName: 'assessments_student_id_fkey'
+            columns: ['student_id']
+            isOneToOne: false
+            referencedRelation: 'zzz_view_latest_student_checkpoints'
+            referencedColumns: ['student_id']
+          },
+          {
             foreignKeyName: 'assessments_ustadz_id_fkey'
             columns: ['ustadz_id']
             isOneToOne: false
@@ -203,6 +217,7 @@ export type Database = {
       }
       checkpoints: {
         Row: {
+          assessment_id: number | null
           created_at: string | null
           end_date: string | null
           id: number
@@ -216,6 +231,7 @@ export type Database = {
           updated_at: string | null
         }
         Insert: {
+          assessment_id?: number | null
           created_at?: string | null
           end_date?: string | null
           id?: never
@@ -229,6 +245,7 @@ export type Database = {
           updated_at?: string | null
         }
         Update: {
+          assessment_id?: number | null
           created_at?: string | null
           end_date?: string | null
           id?: never
@@ -242,6 +259,13 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: 'checkpoints_assessment_id_fkey'
+            columns: ['assessment_id']
+            isOneToOne: false
+            referencedRelation: 'assessments'
+            referencedColumns: ['id']
+          },
           {
             foreignKeyName: 'checkpoints_last_activity_id_fkey'
             columns: ['last_activity_id']
@@ -262,6 +286,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: 'students'
             referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'checkpoints_student_id_fkey'
+            columns: ['student_id']
+            isOneToOne: false
+            referencedRelation: 'zzz_view_latest_student_checkpoints'
+            referencedColumns: ['student_id']
           }
         ]
       }
@@ -338,6 +369,13 @@ export type Database = {
             referencedColumns: ['id']
           },
           {
+            foreignKeyName: 'shifts_circle_id_fkey'
+            columns: ['circle_id']
+            isOneToOne: false
+            referencedRelation: 'zzz_view_latest_student_checkpoints'
+            referencedColumns: ['circle_id']
+          },
+          {
             foreignKeyName: 'shifts_ustadz_id_fkey'
             columns: ['ustadz_id']
             isOneToOne: false
@@ -393,6 +431,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: 'circles'
             referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'students_circle_id_fkey'
+            columns: ['circle_id']
+            isOneToOne: false
+            referencedRelation: 'zzz_view_latest_student_checkpoints'
+            referencedColumns: ['circle_id']
           },
           {
             foreignKeyName: 'students_parent_id_fkey'
@@ -462,6 +507,17 @@ export type Database = {
       }
     }
     Views: {
+      zzz_view_latest_student_checkpoints: {
+        Row: {
+          checkpoint_id: number | null
+          checkpoint_status: string | null
+          circle_id: number | null
+          circle_name: string | null
+          student_id: number | null
+          student_name: string | null
+        }
+        Relationships: []
+      }
       zzz_view_latest_student_sabaq_activities: {
         Row: {
           created_at: string | null
@@ -505,6 +561,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: 'students'
             referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'activities_student_id_fkey'
+            columns: ['student_id']
+            isOneToOne: false
+            referencedRelation: 'zzz_view_latest_student_checkpoints'
+            referencedColumns: ['student_id']
           },
           {
             foreignKeyName: 'students_parent_id_fkey'

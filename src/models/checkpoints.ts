@@ -5,6 +5,8 @@ export const CHECKPOINT_STATUS: CheckpointStatus[] = [
   'lajnah-assessment-ready',
   'lajnah-assessment-ongoing',
   'lajnah-assessment-completed',
+  'assessment-ongoing',
+  'assessment-completed',
   'inactive'
 ]
 
@@ -21,10 +23,6 @@ export const STATUS_LIST: Array<{ label: string; value: CheckpointStatus }> = [
   {
     label: 'Sedang Asesmen Lajnah',
     value: 'lajnah-assessment-ongoing'
-  },
-  {
-    label: 'Asesmen Lajnah Selesai',
-    value: 'lajnah-assessment-completed'
   }
 ]
 

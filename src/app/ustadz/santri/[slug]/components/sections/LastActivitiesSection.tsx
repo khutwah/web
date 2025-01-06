@@ -13,12 +13,14 @@ interface LastActivitiesSectionProps {
   studentId: string
   searchParams: { [key: string]: string | string[] | undefined }
   tz: string
+  isEditable: boolean
 }
 
 export default async function LastActivitiesSection({
   studentId,
   searchParams,
-  tz
+  tz,
+  isEditable
 }: LastActivitiesSectionProps) {
   const activitiesInstance = new Activities()
   const lastActivities = await activitiesInstance.list({
@@ -32,6 +34,7 @@ export default async function LastActivitiesSection({
       {lastActivities.data && lastActivities.data?.length > 0 && (
         <section className='flex flex-col gap-3 mb-8'>
           <ActivityPopup
+            isEditable={isEditable}
             activities={lastActivities?.data ?? DEFAULT_EMPTY_ARRAY}
           />
           <div className='flex flex-row items-center justify-between px-6'>

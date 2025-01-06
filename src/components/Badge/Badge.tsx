@@ -6,10 +6,13 @@ interface BadgeProps {
     | 'green'
     | 'blue'
     | 'tamarind'
+    | 'red'
     | 'green-dashed'
     | 'blue-dashed'
     | 'tamarind-dashed'
+    | 'red-dashed'
     | 'blue-outline'
+    | 'green-outline'
     | 'mute'
     | 'outline'
   dashed?: boolean
@@ -21,6 +24,7 @@ const COLOR_TO_CLASSNAME_RECORD: Record<BadgeProps['color'], string> = {
   blue: 'bg-khutwah-blue-base',
   green: 'bg-khutwah-green-dark',
   tamarind: 'bg-khutwah-warning-70', // FIXME: We should have a color-naming pattern for this.
+  red: 'bg-khutwah-red-base',
 
   'blue-dashed':
     'bg-khutwah-neutral-white text-khutwah-blue-base border border-dashed border-khutwah-blue-base',
@@ -28,8 +32,12 @@ const COLOR_TO_CLASSNAME_RECORD: Record<BadgeProps['color'], string> = {
     'bg-khutwah-neutral-white text-khutwah-green-base border border-dashed border-khutwah-green-base',
   'tamarind-dashed':
     'bg-khutwah-neutral-white text-khutwah-warning-70 border border-dashed border-khutwah-warning-70', // FIXME: We should have a color-naming pattern for this.
+  'red-dashed':
+    'bg-khutwah-neutral-white text-khutwah-red-base border border-dashed border-khutwah-red-base',
   'blue-outline':
     'bg-khutwah-neutral-white text-khutwah-blue-base border border border-khutwah-blue-base',
+  'green-outline':
+    'bg-khutwah-neutral-white text-khutwah-green-base border border border-khutwah-green-base',
   mute: 'bg-khutwah-snow-base',
   outline: 'bg-none'
 }

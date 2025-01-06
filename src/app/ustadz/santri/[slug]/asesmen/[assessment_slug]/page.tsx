@@ -17,7 +17,6 @@ import { AssessmentCheckpointList } from '@/components/Assesment/CheckpointList'
 import { parseSurahNameAndAyahFromRangeSegment } from '@/utils/mushaf'
 import { AddAssessmentCheckpoint } from './components/AssessmentControls/AddAssessmentCheckpoint'
 import { FinalizeAssessment } from './components/AssessmentControls/FinalizeAssessment'
-import { Button } from '@/components/Button/Button'
 import { Checkpoints as StatusCheckpoints } from '@/utils/supabase/models/checkpoints'
 
 interface AsesmenPageProps {
@@ -148,13 +147,13 @@ export default async function AsesemenPage({
               />
             </div>
 
-            <hr />
+            {/* <hr /> */}
 
             <div>
               {/* TODO: implement this one. */}
-              <Button className='w-full' variant='text'>
+              {/* <Button className='w-full' variant='text'>
                 Tunda asesmen
-              </Button>
+              </Button> */}
             </div>
           </div>
         )}

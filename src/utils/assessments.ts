@@ -2,6 +2,7 @@ import { SURAH_ITEMS } from '@/models/activity-form'
 import { AssessmentRange } from '@/models/assessments'
 import lajnahAssessments from '@/data/assessments/lajnah.json'
 import { getAyahLocationSummary } from './mushaf'
+import { CheckpointStatus } from '@/models/checkpoints'
 
 export interface SurahDetail {
   start_surah: string[]
@@ -164,4 +165,19 @@ export function getNextLajnahAssessment(
 
   // If no next checkpoint, return the last one
   return nextCheckpoint ?? lajnahJuzCheckpoints[lajnahJuzCheckpoints.length - 1]
+}
+
+export function getStatusText(status: CheckpointStatus) {
+  switch (status) {
+    case 'inactive':
+      return 'Berhalangan'
+    case 'assessment-ongoing':
+      return 'Sedang Asesmen'
+    case 'lajnah-assessment-ongoing':
+      return 'Sedang Asesmen Lajnah'
+    case 'lajnah-assessment-ready':
+      return 'Siap Asesmen Lajnah'
+    default:
+      return undefined
+  }
 }

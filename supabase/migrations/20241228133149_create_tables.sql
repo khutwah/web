@@ -118,6 +118,7 @@ CREATE TABLE "public"."checkpoints" (
   "end_date" TIMESTAMP WITHOUT TIME ZONE,
   "page_count_accumulation" REAL,
   "last_activity_id" BIGINT,
+  "assessment_id" BIGINT,
   "part_count" REAL,
   "status" CHARACTER VARYING NOT NULL,
   "created_at" TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
@@ -125,5 +126,6 @@ CREATE TABLE "public"."checkpoints" (
   "notes" CHARACTER VARYING,
   PRIMARY KEY (id),
   FOREIGN KEY (last_activity_id) REFERENCES activities (id),
+  FOREIGN KEY (assessment_id) REFERENCES assessments (id),
   FOREIGN KEY (student_id) REFERENCES students (id)
 );

@@ -13,18 +13,17 @@ import { Flame } from 'lucide-react'
 import { useState } from 'react'
 import { AddAsesmenForm } from '../AddAsesmenForm/AddAsesmenForm'
 import { ROLE } from '@/models/auth'
-import { StatusCheckpoint } from '@/models/checkpoints'
 
 interface AddAsesmenProps {
   role: number
   sessionRangeId?: number
-  checkpoint?: StatusCheckpoint
+  statusCheckpointId?: number
 }
 
 export function AddAsesmen({
   role,
   sessionRangeId,
-  checkpoint
+  statusCheckpointId
 }: AddAsesmenProps) {
   const [open, setOpen] = useState(false)
 
@@ -50,7 +49,7 @@ export function AddAsesmen({
         <AddAsesmenForm
           role={role}
           sessionRangeId={sessionRangeId}
-          checkpoint={checkpoint}
+          statusCheckpointId={statusCheckpointId}
         />
       </DrawerContent>
     </Drawer>

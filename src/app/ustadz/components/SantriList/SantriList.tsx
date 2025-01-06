@@ -15,14 +15,17 @@ import { addFromQueryString, FromQueryParams } from '@/utils/url'
 import { MappedActivityStatus } from '@/models/activities'
 
 import SampleSantriAvatar from '@/assets/sample-santri-photo.png'
+import { CheckpointStatus } from '@/models/checkpoints'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const DEFAULT_EMPTY_ARRAY: any[] = []
 
 export interface SantriListProps {
   students: Array<{
-    id: number
+    id: number | null
     name: string
+    status: string | null
+    circle_name?: string
     lastSabaq: {
       id: number | undefined
       student_id: number | null | undefined
@@ -72,8 +75,8 @@ export function SantriList({
     throw new Error('SearchSection must be used within a SearchContext')
   }
 
-  const filteredStudents = defaultStudentsWithActivities.filter((student) =>
-    student.name?.toLowerCase().includes(searchContext.searchQuery)
+  const filteredStudents = defaultStudentsWithActivities.filter(({ name }) =>
+    name?.toLowerCase().includes(searchContext.searchQuery.toLowerCase())
   )
 
   if (filteredStudents.length <= 0) {
@@ -89,14 +92,16 @@ export function SantriList({
       {filteredStudents.map((student) => (
         <li key={student.id}>
           <SantriCard
+            status={student.status as CheckpointStatus}
             lastSabaq={{
               end_surah: student.lastSabaq.end_surah || 0,
               end_verse: student.lastSabaq.end_verse || 0
             }}
+            halaqahName={student.circle_name}
             activities={student.activities}
             avatarUrl={SampleSantriAvatar}
             href={`${MENU_USTADZ_PATH_RECORDS.santri}/${student.id}${addFromQueryString(from)}`}
-            name={student.name!}
+            name={student.name}
           />
         </li>
       ))}

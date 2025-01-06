@@ -56,22 +56,25 @@ model assessments {
   other_assessments    assessments[] @relation("assessmentsToassessments")
   students             students      @relation(fields: [student_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   users                users         @relation(fields: [ustadz_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  checkpoints          checkpoints[]
 }
 
 model checkpoints {
-  id                      BigInt      @id @default(autoincrement())
+  id                      BigInt       @id @default(autoincrement())
   student_id              BigInt
-  start_date              DateTime    @db.Timestamp(6)
-  end_date                DateTime?   @db.Timestamp(6)
-  page_count_accumulation Float?      @db.Real
+  start_date              DateTime     @db.Timestamp(6)
+  end_date                DateTime?    @db.Timestamp(6)
+  page_count_accumulation Float?       @db.Real
   last_activity_id        BigInt?
-  part_count              Float?      @db.Real
-  status                  String      @db.VarChar
-  created_at              DateTime?   @default(now()) @db.Timestamp(6)
-  updated_at              DateTime?   @default(now()) @db.Timestamp(6)
-  notes                   String?     @db.VarChar
-  activities              activities? @relation(fields: [last_activity_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  students                students    @relation(fields: [student_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  assessment_id           BigInt?
+  part_count              Float?       @db.Real
+  status                  String       @db.VarChar
+  created_at              DateTime?    @default(now()) @db.Timestamp(6)
+  updated_at              DateTime?    @default(now()) @db.Timestamp(6)
+  notes                   String?      @db.VarChar
+  assessments             assessments? @relation(fields: [assessment_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  activities              activities?  @relation(fields: [last_activity_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  students                students     @relation(fields: [student_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model circles {
@@ -163,4 +166,13 @@ view zzz_view_latest_student_sabaq_activities {
   page_count         Float?    @db.Real
   target_page_count  Int?      @db.SmallInt
   parent_id          BigInt?
+}
+
+view zzz_view_latest_student_checkpoints {
+  student_id        BigInt  @unique
+  student_name      String? @db.VarChar
+  circle_id         BigInt?
+  circle_name       String? @db.VarChar
+  checkpoint_id     BigInt  @id
+  checkpoint_status String? @db.VarChar
 }

@@ -42,7 +42,7 @@ export default async function DetailHalaqah({
     const day = dayjs().tz(tz)
 
     const [students, activities] = await Promise.all([
-      studentsInstance.list({
+      studentsInstance.listWithCheckpoints({
         circle_ids: [circleInfo.data.id]
       }),
       activitiesInstance.list({
@@ -55,24 +55,29 @@ export default async function DetailHalaqah({
     ])
 
     // The following is the same as seen in: src/app/ustadz/components/SantriList/SantriListWrapper.tsx.
-    const studentIds = students.data?.map(({ id }) => id)
+    const studentIds = students.data?.map(({ student_id }) => student_id ?? 0)
     const lastSabaqList = studentIds
       ? await activitiesInstance.listLatestSabaq(studentIds)
       : []
-    const studentsData = students.data?.map(({ id, name }) => ({
-      id,
-      name: name || '',
-      lastSabaq: (() => {
-        const sabaq = lastSabaqList.find((sabaq) => sabaq.student_id === id)
-        return {
-          id: sabaq?.id ?? undefined,
-          student_id: sabaq?.student_id,
-          end_surah: sabaq?.end_surah,
-          end_verse: sabaq?.end_verse,
-          targetPageCount: sabaq?.target_page_count ?? undefined
-        }
-      })()
-    }))
+    const studentsData = students.data?.map(
+      ({ student_id, student_name, checkpoint_status }) => ({
+        id: student_id,
+        status: checkpoint_status,
+        name: student_name || '',
+        lastSabaq: (() => {
+          const sabaq = lastSabaqList.find(
+            (sabaq) => sabaq.student_id === student_id
+          )
+          return {
+            id: sabaq?.id ?? undefined,
+            student_id: sabaq?.student_id,
+            end_surah: sabaq?.end_surah,
+            end_verse: sabaq?.end_verse,
+            targetPageCount: sabaq?.target_page_count ?? undefined
+          }
+        })()
+      })
+    )
 
     const returnTo = convertSearchParamsToPath(searchParams)
     pageContent = (

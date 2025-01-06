@@ -19,12 +19,14 @@ interface ActivityCtaSectionProps {
   student: Student | null
   searchStringRecords?: Record<string, string>
   activitiesForToday: Activity[]
+  isManzilOnly?: boolean
 }
 
 export default function ActivityCtaSection({
   student,
   searchStringRecords,
-  activitiesForToday
+  activitiesForToday,
+  isManzilOnly
 }: ActivityCtaSectionProps) {
   if (!student || !student.circles) {
     return (
@@ -43,28 +45,32 @@ export default function ActivityCtaSection({
         Tambah Input
       </h2>
       <div className='flex gap-1.5'>
-        <AddActivityCta
-          activityType='Sabaq'
-          className='w-full'
-          halaqahId={student.circles.id}
-          size='sm'
-          studentId={student.id}
-          searchStringRecords={searchStringRecords}
-          activityForToday={activitiesForToday.find(
-            ({ type }) => ActivityType.Sabaq === type
-          )}
-        />
-        <AddActivityCta
-          activityType='Sabqi'
-          className='w-full'
-          halaqahId={student.circles.id}
-          size='sm'
-          studentId={student.id}
-          searchStringRecords={searchStringRecords}
-          activityForToday={activitiesForToday.find(
-            ({ type }) => ActivityType.Sabqi === type
-          )}
-        />
+        {!isManzilOnly && (
+          <AddActivityCta
+            activityType='Sabaq'
+            className='w-full'
+            halaqahId={student.circles.id}
+            size='sm'
+            studentId={student.id}
+            searchStringRecords={searchStringRecords}
+            activityForToday={activitiesForToday.find(
+              ({ type }) => ActivityType.Sabaq === type
+            )}
+          />
+        )}
+        {!isManzilOnly && (
+          <AddActivityCta
+            activityType='Sabqi'
+            className='w-full'
+            halaqahId={student.circles.id}
+            size='sm'
+            studentId={student.id}
+            searchStringRecords={searchStringRecords}
+            activityForToday={activitiesForToday.find(
+              ({ type }) => ActivityType.Sabqi === type
+            )}
+          />
+        )}
         <AddActivityCta
           activityType='Manzil'
           className='w-full'

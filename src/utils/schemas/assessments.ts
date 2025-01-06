@@ -95,9 +95,7 @@ export const assessmentSchema = object({
       testTimestamp
     )
     .when(...requiredForFinalizingAssessment),
-  checkpoint_id: number()
-    .integer()
-    .when(...requiredForInitialAssessment)
+  status_checkpoint_id: number().integer()
 })
 
 export const UpdateAssessmentCheckpointSchema = object({

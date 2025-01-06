@@ -6,6 +6,10 @@ import { ActivityTypeKey, MappedActivityStatus } from '@/models/activities'
 import { ActivityBadge } from '@/components/Badge/ActivityBadge'
 import { Skeleton } from '../Skeleton/Skeleton'
 import { getAyahLocationSummary } from '@/utils/mushaf'
+import { CheckpointStatus } from '@/models/checkpoints'
+import { Badge } from '../Badge/Badge'
+import { getStatusText } from '@/utils/assessments'
+import { Circle, CircleOff, Clock } from 'lucide-react'
 
 interface SantriCardProps {
   activities: Array<MappedActivityStatus>
@@ -17,6 +21,7 @@ interface SantriCardProps {
     end_surah: number
     end_verse: number
   }
+  status?: CheckpointStatus | null
 }
 
 const ACTIVITY_TYPES: Array<ActivityTypeKey> = ['Sabaq', 'Sabqi', 'Manzil']
@@ -27,7 +32,8 @@ export function SantriCard({
   halaqahName,
   lastSabaq,
   href,
-  name
+  name,
+  status
 }: SantriCardProps) {
   const labelId = useId()
   const descriptionId = useId()
@@ -50,21 +56,23 @@ export function SantriCard({
           />
         }
         nameAndHalaqahElement={
-          <div className='min-w-0'>
-            <div
-              className='font-normal text-sm text-khutwah-grey-base line-clamp-2 break-words'
-              id={`mtmh-santri-card${labelId}`}
-            >
-              {name}
-            </div>
-            {halaqahName && (
+          <div className='min-w-0 '>
+            <div>
               <div
-                className='text-khutwah-neutral-60 text-xs'
-                id={`mtmh-santri-card${descriptionId}`}
+                className='font-normal text-sm text-khutwah-grey-base line-clamp-2 break-words'
+                id={`mtmh-santri-card${labelId}`}
               >
-                {halaqahName}
+                {name}
               </div>
-            )}
+              {halaqahName && (
+                <div
+                  className='text-khutwah-neutral-60 text-xs'
+                  id={`mtmh-santri-card${descriptionId}`}
+                >
+                  {halaqahName}
+                </div>
+              )}
+            </div>
             {lastSabaq && (
               <div
                 className='text-khutwah-neutral-60 text-xs'
@@ -78,7 +86,7 @@ export function SantriCard({
                   if (summary) {
                     return `${summary?.juz.total.toFixed(2) || 0} Juz`
                   }
-                  return <></>
+                  return ''
                 })()}
               </div>
             )}
@@ -86,10 +94,30 @@ export function SantriCard({
         }
         activitiesElement={
           <>
-            <div className='text-khutwah-sm-regular grow min-w-0 text-khutwah-neutral-60'>
-              Aktivitas Hari Ini:
-            </div>
+            <div className='grow min-w-0 text-khutwah-neutral-60'></div>
             <div className='flex flex-wrap gap-1'>
+              {status === 'inactive' ? (
+                <Badge
+                  color='red-dashed'
+                  text='Tidak Aktif'
+                  icon={<CircleOff size={12} />}
+                />
+              ) : (
+                <Badge
+                  color='green-outline'
+                  text='Aktif'
+                  icon={<Circle size={12} />}
+                />
+              )}
+
+              {status && getStatusText(status) && (
+                <Badge
+                  color='red-dashed'
+                  text={getStatusText(status) || ''}
+                  icon={<Clock size={12} />}
+                />
+              )}
+
               {ACTIVITY_TYPES.map((activityKey) => {
                 const selectedActivity = activities.find(
                   (activity) => activity[activityKey]

@@ -16,7 +16,7 @@ import { Menu } from '@/models/menus'
 export const MENU_LAJNAH_PATH_RECORDS = {
   home: '/ustadz',
   santri:
-    '/ustadz/santri?ustadz_id=ALL&checkpoint_status=lajnah-assessment-ready',
+    '/ustadz/santri?ustadz_id=ALL&checkpoint_status=lajnah-assessment-ready&checkpoint_status=lajnah-assessment-ongoing',
   asesmen: '/ustadz/asesmen',
   settings: '/ustadz/pengaturan'
 } as const

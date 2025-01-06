@@ -25,18 +25,17 @@ import {
 } from '@/utils/assessments'
 import { InferType } from 'yup'
 import { ROLE } from '@/models/auth'
-import { StatusCheckpoint } from '@/models/checkpoints'
 
 interface AddAsesmenProps {
   role: number
   sessionRangeId?: number
-  checkpoint?: StatusCheckpoint
+  statusCheckpointId?: number
 }
 
 export function AddAsesmenForm({
   role,
   sessionRangeId,
-  checkpoint
+  statusCheckpointId
 }: AddAsesmenProps) {
   const [state, formAction, isPending] = useActionState(
     createAssessment,
@@ -80,7 +79,7 @@ export function AddAsesmenForm({
               return parseRangeValue(assessment.ranges)
             })()
           : undefined,
-      checkpoint_id: checkpoint?.id || -1 // set to -1 if checkpoint is not available
+      status_checkpoint_id: statusCheckpointId
     }
   })
 
@@ -126,7 +125,7 @@ export function AddAsesmenForm({
     >
       <input type='hidden' {...register('student_id')} />
       <input type='hidden' {...register('start_date')} />
-      <input type='hidden' {...register('checkpoint_id')} />
+
       <div className='flex flex-col gap-2'>
         <Label>Jenis Asesmen</Label>
         <Combobox

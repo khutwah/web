@@ -2,9 +2,9 @@ import { Pencil } from 'lucide-react'
 import Image, { StaticImageData } from 'next/image'
 import StatusDefault from './statuses/default.png'
 import StatusInactive from './statuses/inactive.png'
-import StatusLajnahAssessmentApproaching from './statuses/lajnah-assessment-approaching.png'
-import StatusLajnahAssessmentReady from './statuses/lajnah-assessment-ready.png'
-import StatusLajnahAssessmentOngoing from './statuses/lajnah-assessment-ongoing.png'
+import StatusAssessmentApproaching from './statuses/lajnah-assessment-approaching.png'
+import StatusAssessmentReady from './statuses/lajnah-assessment-ready.png'
+import StatusAssessmentOngoing from './statuses/lajnah-assessment-ongoing.png'
 import { CheckpointStatus } from '@/models/checkpoints'
 import {
   Drawer,
@@ -121,7 +121,7 @@ function resolveStatus(
         description: `Alhamdulillah, hafalan ananda sudah mendekati ${parameter} juz.`,
         image: {
           alt: 'Jempol arah ke atas',
-          src: StatusLajnahAssessmentApproaching
+          src: StatusAssessmentApproaching
         }
       }
 
@@ -131,7 +131,7 @@ function resolveStatus(
         description: `Bismillah. Ananda telah dinyatakan siap Asesmen Lajnah ${parameter} juz.`,
         image: {
           alt: 'Bendera berkibar berwarna merah',
-          src: StatusLajnahAssessmentReady
+          src: StatusAssessmentReady
         }
       }
 
@@ -141,7 +141,17 @@ function resolveStatus(
         description: `Bi'idznillah, ananda sedang mengikuti Asesmen Lajnah ${parameter} juz.`,
         image: {
           alt: 'Api menyala',
-          src: StatusLajnahAssessmentOngoing
+          src: StatusAssessmentOngoing
+        }
+      }
+
+    case 'assessment-ongoing':
+      return {
+        text: 'Sedang mengikuti Asesmen',
+        description: `Bi'idznillah, ananda sedang mengikuti Asesmen.`,
+        image: {
+          alt: 'Api menyala',
+          src: StatusAssessmentOngoing
         }
       }
 

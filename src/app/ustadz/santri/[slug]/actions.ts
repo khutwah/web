@@ -11,11 +11,11 @@ import { redirect } from 'next/navigation'
 import { InferType } from 'yup'
 
 type CreateSchema = InferType<typeof assessmentSchema>
-type AssessmentPayload = Omit<CreateSchema, 'checkpoint_id'>
+type AssessmentPayload = Omit<CreateSchema, 'status_checkpoint_id'>
 
 type AssessmentReturn = {
   assessmentPayload: AssessmentPayload
-  checkpoint_id?: number
+  status_checkpoint_id?: number
 }
 
 export async function createAssessment(_prev: unknown, formData: FormData) {
@@ -32,7 +32,8 @@ export async function createAssessment(_prev: unknown, formData: FormData) {
     }
   }
 
-  const { assessmentPayload, checkpoint_id } = destructurePayloads(payload)
+  const { assessmentPayload, status_checkpoint_id } =
+    destructurePayloads(payload)
 
   const user = await getUser()
   const data = { ...assessmentPayload, ustadz_id: user.id }
@@ -50,7 +51,7 @@ export async function createAssessment(_prev: unknown, formData: FormData) {
         }
       })
 
-      await tx.assessments.create({
+      const createdAssessment = await tx.assessments.create({
         data: {
           ustadz_id: data.ustadz_id,
           student_id: data.student_id,
@@ -60,20 +61,31 @@ export async function createAssessment(_prev: unknown, formData: FormData) {
         }
       })
 
-      if (!checkpoint_id || checkpoint_id < 0) return { parent }
-
       const role = await getUserRole()
-      await tx.checkpoints.update({
-        where: {
-          id: checkpoint_id
-        },
-        data: {
-          status:
-            role === ROLE.LAJNAH
-              ? 'lajnah-assessment-ongoing'
-              : 'assessment-ongoing'
-        }
-      })
+      const status =
+        role === ROLE.LAJNAH
+          ? 'lajnah-assessment-ongoing'
+          : 'assessment-ongoing'
+
+      // When we have a status_checkpoint_id, we update the status of the checkpoint.
+      if (status_checkpoint_id) {
+        await tx.checkpoints.update({
+          where: {
+            id: status_checkpoint_id
+          },
+          data: { status }
+        })
+      } else {
+        await tx.checkpoints.create({
+          data: {
+            student_id: data.student_id,
+            start_date: new Date().toISOString(),
+            status,
+            assessment_id: createdAssessment.id
+          }
+        })
+      }
+
       return { parent }
     })
 
@@ -89,9 +101,9 @@ export async function createAssessment(_prev: unknown, formData: FormData) {
 }
 
 function destructurePayloads(payload: CreateSchema): AssessmentReturn {
-  const { checkpoint_id, ...assessmentPayload } = payload
+  const { status_checkpoint_id, ...assessmentPayload } = payload
   return {
     assessmentPayload,
-    checkpoint_id
+    status_checkpoint_id
   }
 }

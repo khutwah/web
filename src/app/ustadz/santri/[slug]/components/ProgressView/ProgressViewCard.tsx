@@ -35,8 +35,8 @@ interface ProgressViewCardProps {
   student: Student | null
   sessionRangeId?: number
   latestCheckpoint: LatestStatusCheckpoint | null
-  checkpoint?: StatusCheckpoint
-  isStudentManagedByUser: boolean
+  statusCheckpoint?: StatusCheckpoint
+  isEditable: boolean
   searchParams: { [key: string]: string | string[] | undefined }
   tz: string
   day: Dayjs
@@ -52,24 +52,21 @@ export default function ProgressViewCard({
   student,
   sessionRangeId,
   latestCheckpoint,
-  checkpoint,
-  isStudentManagedByUser,
+  statusCheckpoint,
+  isEditable,
   searchParams,
   tz,
   day
 }: ProgressViewCardProps) {
   return (
     <Card className='bg-khutwah-neutral-white text-khutwah-grey-base shadow-md border border-khutwah-snow-lighter rounded-md mb-2'>
-      <ProgressViewCardHeader
-        student={student}
-        isStudentManagedByUser={isStudentManagedByUser}
-      />
+      <ProgressViewCardHeader student={student} isEditable={isEditable} />
       <ProgressViewCardContent
         student={student}
         sessionRangeId={sessionRangeId}
         latestCheckpoint={latestCheckpoint}
-        checkpoint={checkpoint}
-        isStudentManagedByUser={isStudentManagedByUser}
+        statusCheckpoint={statusCheckpoint}
+        isEditable={isEditable}
         searchParams={searchParams}
         tz={tz}
         day={day}
@@ -80,7 +77,7 @@ export default function ProgressViewCard({
 
 function ProgressViewCardHeader({
   student,
-  isStudentManagedByUser
+  isEditable
 }: ProgressViewCardHeaderProps) {
   if (!student || !student.circles) {
     return (
@@ -105,7 +102,7 @@ function ProgressViewCardHeader({
         <div className='flex w-fit'>
           <TargetPageCount
             id={student.id}
-            editable={isStudentManagedByUser}
+            editable={isEditable}
             targetPageCount={
               student?.target_page_count ??
               student?.circles?.target_page_count ??
@@ -129,8 +126,8 @@ function ProgressViewCardHeader({
 async function ProgressViewCardContent({
   student,
   latestCheckpoint,
-  checkpoint,
-  isStudentManagedByUser,
+  statusCheckpoint,
+  isEditable,
   searchParams,
   sessionRangeId,
   tz,
@@ -189,10 +186,10 @@ async function ProgressViewCardContent({
           date={day.toDate()}
           className='border-none rounded-none'
           statusProps={{
-            editable: isStudentManagedByUser,
-            status: checkpoint?.status as CheckpointStatus,
-            parameter: parseParameter(checkpoint),
-            checkpointId: checkpoint?.id,
+            editable: isEditable,
+            status: statusCheckpoint?.status as CheckpointStatus,
+            parameter: parseParameter(statusCheckpoint),
+            checkpointId: statusCheckpoint?.id,
             lastActivityId: latestCheckpoint?.last_activity_id,
             pageCountAccumulation: latestCheckpoint?.page_count_accumulation,
             studentId: student.id,

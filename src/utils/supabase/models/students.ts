@@ -52,21 +52,20 @@ export class Students extends Base {
   async listWithCheckpoints(args: {
     checkpoint_statuses?: Array<CheckpointStatus>
     ustadz_id?: number
+    circle_ids?: number[]
   }) {
-    const { checkpoint_statuses, ustadz_id } = args
+    const { checkpoint_statuses, ustadz_id, circle_ids } = args
 
     const query = (await this.supabase)
-      .from('students')
-      .select(
-        `id, name, circles (id, name), last_checkpoint:checkpoints (id, status)`
-      )
-      .order('updated_at', {
-        ascending: false,
-        referencedTable: 'checkpoints'
+      .from('zzz_view_latest_student_checkpoints')
+      .select(`*`)
+      .order('student_id', {
+        ascending: false
       })
-      .limit(1, { foreignTable: 'checkpoints' })
 
-    if (ustadz_id) {
+    if (Array.isArray(circle_ids) && circle_ids?.length > 0) {
+      query.in('circle_id', circle_ids)
+    } else if (ustadz_id) {
       const halaqahIds = await this.getCircleByUstadz({
         ustadz_id: ustadz_id
       })
@@ -74,16 +73,7 @@ export class Students extends Base {
     }
 
     if (Array.isArray(checkpoint_statuses) && checkpoint_statuses.length > 0) {
-      const resultWithCheckpoints = await query.in(
-        'checkpoints.status',
-        checkpoint_statuses
-      )
-
-      // Only return the student that have checkpoints.
-      const data = resultWithCheckpoints.data?.filter(
-        (item) => item.last_checkpoint.length > 0
-      )
-      return { ...resultWithCheckpoints, data }
+      return query.in('checkpoint_status', checkpoint_statuses)
     }
 
     return query
