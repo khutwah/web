@@ -115,14 +115,32 @@ function Subchart({
       datePeriod === 'month' ? 'month' : 'week'
     )
   )
-  const activitiesWithLocalTime = useMemo(
-    () =>
-      activities.map((activity) => ({
-        ...activity,
-        created_at: dayjsClientSideLocal(activity.created_at).toISOString()
-      })),
-    [activities]
-  )
+
+  const activitiesWithLocalTime = useMemo(() => {
+    const mapped = activities.map((activity) => ({
+      ...activity,
+      created_at: dayjsClientSideLocal(activity.created_at).toISOString()
+    }))
+
+    const lastCreatedAt = mapped[mapped.length - 1]
+    const untilTodayDiff = dayjsClientSideLocal().diff(
+      lastCreatedAt.created_at,
+      'day'
+    )
+
+    // Add padding.
+    const padding = [...Array(untilTodayDiff + 1).keys()].map((id) => ({
+      id,
+      isFirstItem: false,
+      page_count: null,
+      target_page_count: null as unknown as number,
+      created_at: dayjsClientSideLocal(mapped[mapped.length - 1].created_at)
+        .add(id + 1, 'day')
+        .toISOString(),
+      student_attendance: 'present'
+    }))
+    return mapped.concat(padding)
+  }, [activities])
 
   return (
     <div className='flex flex-col gap-y-3'>

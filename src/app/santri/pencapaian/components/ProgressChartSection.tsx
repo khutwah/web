@@ -23,10 +23,17 @@ export default async function ProgressChartSection({
   const parent = await getUser()
   const student = await studentInstance.getByParentId(parent.id)
 
+  const initialStartDate = day.startOf(period)
+  let adjustedStartDate = initialStartDate
+  if (day.utc().diff(adjustedStartDate, 'day') < 3) {
+    // FIXME: An advance weekend check is needed.
+    adjustedStartDate = adjustedStartDate.subtract(5, 'day')
+  }
+
   const activitiesInstance = new Activities()
   const activities = await activitiesInstance.chart({
     student_id: student.data!.id,
-    start_date: day.startOf(period).toISOString(),
+    start_date: adjustedStartDate.toISOString(),
     end_date: day.endOf(period).toISOString(),
     tz
   })

@@ -26,7 +26,7 @@ FROM base AS runner
 RUN apt-get update -y && apt-get install -y openssl
 WORKDIR /app
 ENV NODE_ENV=production
-ENV NODE_OPTIONS="--max-old-space-size=1536 --no-warnings"
+ENV NODE_OPTIONS="--no-warnings"
 ENV NEXT_TELEMETRY_DISABLED=1
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
