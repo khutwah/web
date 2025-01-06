@@ -166,7 +166,7 @@ export class Circles extends Base {
           label,
           grade,
           target_page_count,
-          shifts(id, location, ustadz_id, users(name, id), start_date),
+          shifts(id, location, ustadz_id, users (name, id), start_date),
           students(id, name, parent_id)
         `
       )
@@ -175,6 +175,10 @@ export class Circles extends Base {
       .or(`end_date.lte.${end_date},end_date.is.null`, {
         referencedTable: 'shifts'
       })
+
+    if (filter?.ustadz_id) {
+      query = query.eq('shifts.ustadz_id', filter?.ustadz_id)
+    }
 
     if (filter?.student_id) {
       query = query.eq('students.parent_id', filter?.student_id)
@@ -216,7 +220,7 @@ export class Circles extends Base {
         shift_id: data?.shifts?.[0]?.id,
         ustadz: ustadz,
         target_page_count: data?.target_page_count,
-        can_manage: Boolean(filter?.ustadz_id)
+        is_circle_managed_by_user: Boolean(filter?.ustadz_id)
           ? ustadz?.id === filter?.ustadz_id
           : false
       }

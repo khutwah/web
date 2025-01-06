@@ -8,15 +8,11 @@ export async function updateStudent(
   _state: FormState,
   formData: FormData
 ): Promise<FormState> {
-  console.log('formData', formData)
-
   const id = Number(formData.get('id'))
   const studentsInstance = new Students()
   const { error } = await studentsInstance.update(id, {
     target_page_count: Number(formData.get('target_page_count'))
   })
-
-  console.log('error', error)
 
   if (error) {
     return {
@@ -34,15 +30,11 @@ export async function updateCircle(
   _state: FormState,
   formData: FormData
 ): Promise<FormState> {
-  console.log('formData', formData)
-
   const id = Number(formData.get('id'))
   const circleInstance = new Circles()
   const { error } = await circleInstance.update(id, {
     target_page_count: Number(formData.get('target_page_count'))
   })
-
-  console.log('error', error)
 
   if (error) {
     return {
