@@ -147,7 +147,7 @@ function resolveStatus(
 
     case 'assessment-ongoing':
       return {
-        text: 'Sedang mengikuti Asesmen',
+        text: 'Sedang mengikuti Asesmen...',
         description: `Bi'idznillah, ananda sedang mengikuti Asesmen.`,
         image: {
           alt: 'Api menyala',

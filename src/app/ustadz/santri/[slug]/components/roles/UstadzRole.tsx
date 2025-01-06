@@ -122,9 +122,11 @@ export default async function UstadzRole({
     assessments.data?.find((assessment) => !assessment.final_mark) || undefined
   const statusCheckpoint = checkpoints.data?.[0]
   const isLajnahAssessment =
-    statusCheckpoint && statusCheckpoint.status.startsWith('lajnah-assessment')
-  const isEditable =
-    isStudentActive && isStudentManagedByUser && !ongoingAssessment
+    statusCheckpoint &&
+    ['lajnah-assessment-ready', 'lajnah-assessment-ongoing'].includes(
+      statusCheckpoint.status
+    )
+  const isEditable = isStudentManagedByUser && !ongoingAssessment
 
   return (
     <Layout>
@@ -172,7 +174,7 @@ export default async function UstadzRole({
         />
       )}
 
-      {isEditable && (
+      {isEditable && isStudentActive && (
         <ActivityCtaSection
           isManzilOnly={isLajnahAssessment}
           searchStringRecords={searchStringRecords}
