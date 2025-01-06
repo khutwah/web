@@ -11,16 +11,14 @@ RUN npm ci
 # Stage 2: Build the application
 FROM base AS builder
 ARG NEXT_PUBLIC_APP_VERSION
-ARG NEXT_PUBLIC_CACHE_BUSTER
 ENV NEXT_PUBLIC_APP_VERSION=$NEXT_PUBLIC_APP_VERSION
-ENV NEXT_PUBLIC_CACHE_BUSTER=$NEXT_PUBLIC_CACHE_BUSTER
 ENV DOCKER_BUILD=true
 ENV NEXT_TELEMETRY_DISABLED=1
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN apt-get update -y && apt-get install -y openssl
-RUN npm run prisma:gen
+RUN npm run prisma:generate
 RUN npm run build
 RUN echo 'const fs = require("fs"); process.env.DOTENV && fs.copyFileSync(process.env.DOTENV, ".env");' | cat - .next/standalone/server.js > temp.server.js && mv temp.server.js .next/standalone/server.js
 
