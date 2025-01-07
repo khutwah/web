@@ -10,6 +10,7 @@ import { Button } from '@/components/Button/Button'
 import {
   ActivityFormValues,
   ActivityStatus,
+  ActivityType,
   GLOBAL_TARGET_PAGE_COUNT
 } from '@/models/activities'
 import { activityCreateSchema } from '@/utils/schemas/activities'
@@ -191,14 +192,14 @@ export function FormPresent(props: FormProps) {
       <input type='hidden' {...register('is_target_achieved')} />
 
       <div className='m-auto bottom-0 left-0 right-0 max-w-[500px] fixed w-full shadow-flat-top bg-white p-6 gap-4 flex flex-col'>
-        {isTargetAchieved ? (
+        {isTargetAchieved && activityType === ActivityType.Sabaq && (
           <Alert>
             <Trophy size={16} />
             <AlertDescription>
               Alhamdulillah, target hari ini tercapai
             </AlertDescription>
           </Alert>
-        ) : null}
+        )}
 
         <div className='flex flex-row gap-2'>
           <Submit

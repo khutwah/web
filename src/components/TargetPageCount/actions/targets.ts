@@ -1,6 +1,7 @@
 'use server'
 
 import { FormState } from '@/models/targets'
+import { Activities } from '@/utils/supabase/models/activities'
 import { Circles } from '@/utils/supabase/models/circles'
 import { Students } from '@/utils/supabase/models/students'
 
@@ -37,6 +38,30 @@ export async function updateCircle(
   })
 
   if (error) {
+    return {
+      message: error.message,
+      success: false
+    }
+  }
+
+  return {
+    success: true
+  }
+}
+
+export async function updateActivity(
+  _state: FormState,
+  formData: FormData
+): Promise<FormState> {
+  console.log(formData)
+  const activitiesInstance = new Activities()
+  const { error } = await activitiesInstance.updateTargetPageCount(
+    Number(formData.get('id')),
+    Number(formData.get('target_page_count'))
+  )
+
+  if (error) {
+    console.log(error)
     return {
       message: error.message,
       success: false

@@ -107,7 +107,7 @@ export default async function DetailHalaqah({
                     editable={circleInfo.data.is_circle_managed_by_user}
                     circleId={circleInfo.data.id}
                     targetPageCount={
-                      circleInfo.data.target_page_count ||
+                      circleInfo.data.target_page_count ??
                       GLOBAL_TARGET_PAGE_COUNT
                     }
                   />

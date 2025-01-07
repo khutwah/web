@@ -26,7 +26,10 @@ WITH
     SELECT
       student_id,
       id AS checkpoint_id,
-      status AS checkpoint_status
+      case
+        when checkpoints.end_date is not null then null
+        else checkpoints.status
+      end as checkpoint_status
     FROM
       checkpoints
     WHERE

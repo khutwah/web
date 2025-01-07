@@ -169,8 +169,6 @@ export function getNextLajnahAssessment(
 
 export function getStatusText(status: CheckpointStatus) {
   switch (status) {
-    case 'inactive':
-      return 'Berhalangan'
     case 'assessment-ongoing':
       return 'Sedang Asesmen'
     case 'lajnah-assessment-ongoing':
