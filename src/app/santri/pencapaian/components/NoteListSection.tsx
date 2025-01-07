@@ -50,7 +50,8 @@ async function NoteList({ period }: NoteListProps) {
     parent_id: user.id,
     start_date: day.startOf(period).toISOString(),
     end_date: day.endOf(period).toISOString(),
-    status: ActivityStatus.completed
+    status: ActivityStatus.completed,
+    order_by: [['id', 'desc']]
   })
 
   if (activities?.data?.length === 0) {
