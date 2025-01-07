@@ -21,34 +21,41 @@ function TagPicker({ tags, onClick }: TagsProps) {
 
   return (
     <div className='overflow-y-scroll max-h-[500px] py-3 px-4 flex flex-col gap-4'>
-      {Object.entries(_tags).map(([key, value]) => (
-        <div key={key} className='flex flex-col gap-2'>
-          <span className='text-khutwah-sm-regular'>{key}</span>
+      {Object.entries(_tags).map(([category, names]) => (
+        <div key={category} className='flex flex-col gap-2'>
+          <span className='text-khutwah-sm-regular'>{category}</span>
           <div className='flex flex-row flex-wrap gap-2'>
-            {value.map((tag) => (
-              <label
-                key={tag}
-                data-active={tags.includes(tag)}
-                className={`py-1 px-2 rounded-lg text-khutwah-sm-regular flex flex-row gap-1 cursor-pointer ${
-                  tags.includes(tag)
-                    ? 'bg-khutwah-primary-lightest text-khutwah-blue-base'
-                    : 'bg-khutwah-snow-lighter text-khutwah-grey-base'
-                }`}
-              >
-                <input
-                  type='checkbox'
-                  checked={tags.includes(tag)}
-                  onChange={() => onClick(tag)}
-                  className='sr-only' // Hidden for visuals, still accessible
-                />
-                {tag}
-              </label>
-            ))}
+            {names.map((name) => {
+              const tag = createTag(category, name)
+              return (
+                <label
+                  key={tag}
+                  data-active={tags.includes(tag)}
+                  className={`py-1 px-2 rounded-lg text-khutwah-sm-regular flex flex-row gap-1 cursor-pointer ${
+                    tags.includes(tag)
+                      ? 'bg-khutwah-primary-lightest text-khutwah-blue-base'
+                      : 'bg-khutwah-snow-lighter text-khutwah-grey-base'
+                  }`}
+                >
+                  <input
+                    type='checkbox'
+                    checked={tags.includes(tag)}
+                    onChange={() => onClick(tag)}
+                    className='sr-only' // Hidden for visuals, still accessible
+                  />
+                  {name}
+                </label>
+              )
+            })}
           </div>
         </div>
       ))}
     </div>
   )
+}
+
+function createTag(category: string, name: string) {
+  return `${category}: ${name}`
 }
 
 function TagsDrawer(props: TagsProps) {
