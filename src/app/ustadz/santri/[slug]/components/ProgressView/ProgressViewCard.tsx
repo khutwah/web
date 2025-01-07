@@ -150,11 +150,17 @@ async function ProgressViewCardContent({
   const isChartView = viewQueryParameter === 'chart'
 
   const activitiesInstance = new Activities()
+  const initialStartDate = day.startOf(chartPeriod)
+  let adjustedStartDate = initialStartDate
+  if (day.utc().diff(adjustedStartDate, 'day') < 3) {
+    // FIXME: An advance weekend check is needed.
+    adjustedStartDate = adjustedStartDate.subtract(5, 'day')
+  }
 
   const [activitiesChart, activities] = await Promise.all([
     activitiesInstance.chart({
       student_id: student.id,
-      start_date: day.startOf(chartPeriod).toISOString(),
+      start_date: adjustedStartDate.toISOString(),
       end_date: day.endOf(chartPeriod).toISOString(),
       tz
     }),

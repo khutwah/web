@@ -393,54 +393,55 @@ export class Activities extends Base {
 
   async chart({ student_id, start_date, end_date, tz }: ActivitiesForChart) {
     const supabase = await this.supabase
-
-    const checkpoints = await supabase
-      .from('checkpoints')
-      .select('last_activity_id, page_count_accumulation')
-      .order('id', { ascending: false })
-      .eq('student_id', student_id)
-      .lt('created_at', end_date)
-      .limit(1)
-      .maybeSingle()
-
-    const activities = await supabase
-      .from('activities')
-      .select(
-        'id, page_count, target_page_count, created_at, status, student_attendance'
-      )
-      .eq('student_id', student_id)
-      .eq('status', ActivityStatus.completed)
-      .eq('type', ActivityType.Sabaq)
-      .gte('created_at', start_date)
-      .lte('created_at', end_date)
-      .not('tags', 'cs', JSON.stringify([TAG_LAJNAH_ASSESSMENT_ONGOING]))
-      .order('id', { ascending: true })
-
-    let pageCountStart = checkpoints.data?.page_count_accumulation ?? 0
-
-    if (checkpoints.data?.last_activity_id) {
-      // Deduct pageCountStart if there is activity is found
-      // before reaching checkpoint
-      // because page_count_accumulation already include
-      // those page_count numbers
-      activities.data?.forEach((item) => {
-        if (item.id <= (checkpoints?.data?.last_activity_id ?? 0)) {
-          pageCountStart -= item.page_count || 0
+    const [initial, activities] = await Promise.all([
+      this.prisma.activities.aggregate({
+        _sum: {
+          page_count: true,
+          target_page_count: true
+        },
+        where: {
+          student_id,
+          status: ActivityStatus.completed,
+          type: ActivityType.Sabaq,
+          student_attendance: 'present',
+          tags: {
+            not: {
+              has: JSON.stringify([TAG_LAJNAH_ASSESSMENT_ONGOING])
+            }
+          },
+          created_at: {
+            lte: start_date
+          }
         }
-      })
-    }
+      }),
+      supabase
+        .from('activities')
+        .select(
+          'id, page_count, target_page_count, created_at, status, student_attendance'
+        )
+        .eq('student_id', student_id)
+        .eq('status', ActivityStatus.completed)
+        .eq('type', ActivityType.Sabaq)
+        .gte('created_at', start_date)
+        .lte('created_at', end_date)
+        .not('tags', 'cs', JSON.stringify([TAG_LAJNAH_ASSESSMENT_ONGOING]))
+        .order('id', { ascending: true })
+    ])
 
+    let pageCount = initial._sum.page_count || 0
+    let targetPageCount = initial._sum.target_page_count || 0
     const data =
-      activities.data?.map((item, index) => {
-        pageCountStart += item.page_count || 0
+      activities.data?.map((item) => {
+        pageCount += item.page_count || 0
+        targetPageCount += item.target_page_count
         return {
           id: item.id,
-          target_page_count: item.target_page_count * (index + 1),
+          target_page_count: targetPageCount,
           page_count:
             item.student_attendance !== 'present' ||
             item.status !== ActivityStatus.completed
               ? null
-              : pageCountStart,
+              : pageCount,
           // Note: this is intended so that every tick in X axis is always at the start of day.
           // Also this should consider the timezone of the user.
           // FIXME(dio-khutwah): Probably this should be handled at the caller site,

@@ -77,6 +77,7 @@ export default async function AddActivity(props: AddActivityProps) {
 
   const checkpointInstance = new Checkpoints()
   const activeCheckpoint = await checkpointInstance.list({
+    student_id: Number(params.slug),
     status: [
       'lajnah-assessment-approaching',
       'lajnah-assessment-ready',
