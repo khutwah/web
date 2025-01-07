@@ -101,7 +101,7 @@ function ProgressViewCardHeader({
         </div>
         <div className='flex w-fit'>
           <TargetPageCount
-            id={student.id}
+            studentId={student.id}
             editable={isEditable}
             targetPageCount={
               student?.target_page_count ??

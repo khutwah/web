@@ -5,21 +5,41 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/Card/Card'
-import { ActivityTypeKey } from '@/models/activities'
-import { Bookmark, BookOpen } from 'lucide-react'
+import { ActivityTypeKey, GLOBAL_TARGET_PAGE_COUNT } from '@/models/activities'
+import { Bookmark, BookOpen, Target } from 'lucide-react'
 import dayjs from '@/utils/dayjs'
+import { TargetPageCount } from '@/components/TargetPageCount/TargetPageCount'
 
 interface HalaqahCardProps {
   date: string
   tz: string
+  activityId?: number
+  studentId: number
   studentName: string
+  activityTargetPageCount?: number | null
+  studentTargetPageCount?: number | null
+  halaqahTargetPageCount?: number | null
   activityType: ActivityTypeKey
   ustadName: string
   lastSurah?: string
+  disallowEditingTargetPageCount?: boolean
 }
 
 function HalaqahCard(props: HalaqahCardProps) {
-  const { date, tz, activityType, studentName, ustadName, lastSurah } = props
+  const {
+    date,
+    tz,
+    activityType,
+    activityId,
+    studentId,
+    studentName,
+    activityTargetPageCount,
+    studentTargetPageCount,
+    halaqahTargetPageCount,
+    ustadName,
+    lastSurah,
+    disallowEditingTargetPageCount
+  } = props
   return (
     <Card className='w-full bg-khutwah-neutral-10 text-khutwah-grey-base'>
       <CardHeader className='rounded-t-xl p-5 pb-3'>
@@ -45,7 +65,7 @@ function HalaqahCard(props: HalaqahCardProps) {
           </div>
         </div>
 
-        {lastSurah ? (
+        {lastSurah && (
           <div className='flex items-start gap-x-2 text-sm'>
             <div className='pt-1'>
               <Bookmark className='size-4 text-khutwah-grey-lightest' />
@@ -55,7 +75,27 @@ function HalaqahCard(props: HalaqahCardProps) {
               {lastSurah || '-'}
             </div>
           </div>
-        ) : null}
+        )}
+
+        <div className='flex items-center gap-x-2 text-sm'>
+          <div className='pt-1'>
+            <Target className='size-4 text-khutwah-grey-lightest' />
+          </div>
+
+          <div className='flex items-center gap-x-2'>
+            <TargetPageCount
+              studentId={studentId}
+              activityId={activityId}
+              targetPageCount={
+                activityTargetPageCount ??
+                studentTargetPageCount ??
+                halaqahTargetPageCount ??
+                GLOBAL_TARGET_PAGE_COUNT
+              }
+              editable={!disallowEditingTargetPageCount}
+            />
+          </div>
+        </div>
       </CardContent>
     </Card>
   )

@@ -87,9 +87,12 @@ export default async function EditActivity(props: EditActivityProps) {
         }
       />
       <HalaqahComponent
+        studentId={activity.data.student_id!}
         date={activity.data.created_at!}
+        activityTargetPageCount={activity.data.target_page_count}
         tz={tz}
         studentName={activity.data.students?.name ?? ''}
+        activityId={activity.data.id}
         activityType={activityType}
         ustadName={activity.data.shift?.users?.name ?? ''}
       />

@@ -2,11 +2,12 @@ import { useActionState, useEffect, useState } from 'react'
 import { Button } from '../Button/Button'
 import { InputWithLabel } from '../Form/InputWithLabel'
 import { FormState } from '@/models/targets'
-import { updateStudent, updateCircle } from './actions/targets'
+import { updateActivity, updateCircle, updateStudent } from './actions/targets'
 import { useRouter } from 'next/navigation'
 
 interface TargetPageCountDrawerProps {
-  id?: number
+  activityId?: number
+  studentId?: number
   circleId?: number
   editable?: boolean
   targetPageCount: number
@@ -14,14 +15,15 @@ interface TargetPageCountDrawerProps {
 }
 
 export function TargetPageCountDrawer({
-  id,
+  activityId,
+  studentId,
   circleId,
   editable,
   targetPageCount,
   onFinish
 }: TargetPageCountDrawerProps) {
   const [state, formAction, isPending] = useActionState<FormState, FormData>(
-    circleId ? updateCircle : updateStudent,
+    activityId ? updateActivity : circleId ? updateCircle : updateStudent,
     undefined
   )
 
@@ -43,7 +45,11 @@ export function TargetPageCountDrawer({
       className='p-4 pt-2 flex flex-col gap-4 overflow-y-scroll max-h-[500px]'
       action={formAction}
     >
-      <input type='hidden' name='id' value={circleId || id} />
+      <input
+        type='hidden'
+        name='id'
+        value={activityId || circleId || studentId}
+      />
       <InputWithLabel
         label='Jumlah Halaman'
         inputProps={{

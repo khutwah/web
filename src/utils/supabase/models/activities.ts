@@ -293,6 +293,14 @@ export class Activities extends Base {
       .eq('id', id)
   }
 
+  async updateTargetPageCount(id: number, target_page_count: number) {
+    const supabase = await this.supabase
+    return supabase
+      .from('activities')
+      .update({ target_page_count })
+      .eq('id', id)
+  }
+
   async update(id: number, payload: ActivitiesPayload) {
     const userId = await this._getUserId()
     const supabase = await this.supabase

@@ -117,7 +117,10 @@ export default async function AddActivity(props: AddActivityProps) {
       <HalaqahComponent
         date={new Date().toISOString()}
         tz={tz}
+        studentId={params.slug}
         studentName={studentInfo.data?.name ?? ''}
+        studentTargetPageCount={studentInfo.data?.target_page_count}
+        halaqahTargetPageCount={circleInfo?.data?.target_page_count}
         activityType={activityType}
         ustadName={circleInfo?.data?.ustadz?.name ?? ''}
         lastSurah={
