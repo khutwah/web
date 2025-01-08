@@ -17,6 +17,7 @@ import {
 } from '@/models/activities'
 import getTimezoneInfo from '@/utils/get-timezone-info'
 import {
+  addQueryParams,
   convertSearchParamsToPath,
   convertSearchParamsToStringRecords
 } from '@/utils/url'
@@ -130,7 +131,16 @@ export default async function LajnahRole({
             }
           />
         }
-        returnTo={`${MENU_USTADZ_PATH_RECORDS.home}${convertSearchParamsToPath(searchParams)}`}
+        returnTo={addQueryParams(
+          `${MENU_USTADZ_PATH_RECORDS.home}${convertSearchParamsToPath(searchParams)}`,
+          {
+            ustadz_id: 'ALL',
+            checkpoint_status: [
+              'lajnah-assessment-ready',
+              'lajnah-assessment-ongoing'
+            ]
+          }
+        )}
       />
       <div className='bg-khutwah-red-base w-full p-4 h-[225px] absolute -z-10' />
 
