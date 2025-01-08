@@ -20,6 +20,7 @@ export async function login(_prevState: unknown, formData: FormData) {
     username: formData.get('username') as string,
     password: formData.get('password') as string
   }
+  data.username = data.username.toLowerCase()
 
   try {
     if (isMumtazLoginNeeded(data.username)) {

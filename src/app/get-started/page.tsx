@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from 'react'
 import { PinForm } from '@/components/Pin/Form'
-import { action } from './actions'
+import { validatePin } from './actions'
 
 export default function PinPage() {
   const [step, setStep] = useState<'initial' | 'confirmation'>('initial')
@@ -23,7 +23,7 @@ export default function PinPage() {
     async (_prev: unknown, formData: FormData) => {
       const confirmedPin = formData.get('pin') as string
       if (confirmedPin === initialPin) {
-        return action(_prev, formData)
+        return validatePin(_prev, formData)
       } else {
         return {
           message: 'PIN tidak cocok. Silakan coba lagi.',
