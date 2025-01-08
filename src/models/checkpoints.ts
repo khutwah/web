@@ -13,15 +13,15 @@ export const CHECKPOINT_STATUS: CheckpointStatus[] = [
 export const STATUS_LIST: Array<{ label: string; value: CheckpointStatus }> = [
   { label: 'Sedang Berhalangan', value: 'inactive' },
   {
-    label: 'Mendekati Asesmen Lajnah',
+    label: 'Mendekati Ikhtibar Lajnah',
     value: 'lajnah-assessment-approaching'
   },
   {
-    label: 'Siap Mengikuti Asesmen Lajnah',
+    label: 'Siap Mengikuti Ikhtibar Lajnah',
     value: 'lajnah-assessment-ready'
   },
   {
-    label: 'Sedang Asesmen Lajnah',
+    label: 'Sedang Ikhtibar Lajnah',
     value: 'lajnah-assessment-ongoing'
   }
 ]
@@ -82,7 +82,7 @@ export type FormState =
       success: boolean
     }
 
-export const TAG_LAJNAH_ASSESSMENT_ONGOING = 'Sedang Asesmen Lajnah'
+export const TAG_LAJNAH_ASSESSMENT_ONGOING = 'Sedang Ikhtibar Lajnah'
 
 export interface StatusCheckpoint {
   id: number

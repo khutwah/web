@@ -170,11 +170,11 @@ export function getNextLajnahAssessment(
 export function getStatusText(status: CheckpointStatus) {
   switch (status) {
     case 'assessment-ongoing':
-      return 'Sedang Asesmen'
+      return 'Sedang Ikhtibar'
     case 'lajnah-assessment-ongoing':
-      return 'Sedang Asesmen Lajnah'
+      return 'Sedang Ikhtibar Lajnah'
     case 'lajnah-assessment-ready':
-      return 'Siap Asesmen Lajnah'
+      return 'Siap Ikhtibar Lajnah'
     default:
       return undefined
   }

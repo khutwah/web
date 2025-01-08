@@ -197,7 +197,7 @@ export function UpdateAssessmentCheckpointForm({
             className='w-full mt-4'
             disabled={isPending || !finalMark}
           >
-            {isPending ? 'Menyelesaikan Asesmen...' : 'Selesaikan Asesmen'}
+            {isPending ? 'Menyelesaikan Ikhtibar...' : 'Selesaikan Ikhtibar'}
           </Button>
         )}
       </form>

@@ -117,7 +117,7 @@ function resolveStatus(
   switch (status) {
     case 'lajnah-assessment-approaching':
       return {
-        text: `Siap-siap Asesmen Lajnah ${parameter} juz...`,
+        text: `Siap-siap Ikhtibar Lajnah ${parameter} juz...`,
         description: `Alhamdulillah, hafalan ananda sudah mendekati ${parameter} juz.`,
         image: {
           alt: 'Jempol arah ke atas',
@@ -127,8 +127,8 @@ function resolveStatus(
 
     case 'lajnah-assessment-ready':
       return {
-        text: `Sedang persiapan Asesmen Lajnah ${parameter} juz...`,
-        description: `Bismillah. Ananda telah dinyatakan siap Asesmen Lajnah ${parameter} juz.`,
+        text: `Sedang persiapan Ikhtibar Lajnah ${parameter} juz...`,
+        description: `Bismillah. Ananda telah dinyatakan siap Ikhtibar Lajnah ${parameter} juz.`,
         image: {
           alt: 'Bendera berkibar berwarna merah',
           src: StatusAssessmentReady
@@ -137,8 +137,8 @@ function resolveStatus(
 
     case 'lajnah-assessment-ongoing':
       return {
-        text: `Sedang mengikuti Asesmen Lajnah ${parameter} juz...`,
-        description: `Bi'idznillah, ananda sedang mengikuti Asesmen Lajnah ${parameter} juz.`,
+        text: `Sedang mengikuti Ikhtibar Lajnah ${parameter} juz...`,
+        description: `Bi'idznillah, ananda sedang mengikuti Ikhtibar Lajnah ${parameter} juz.`,
         image: {
           alt: 'Api menyala',
           src: StatusAssessmentOngoing
@@ -147,8 +147,8 @@ function resolveStatus(
 
     case 'assessment-ongoing':
       return {
-        text: 'Sedang mengikuti Asesmen...',
-        description: `Bi'idznillah, ananda sedang mengikuti Asesmen.`,
+        text: 'Sedang mengikuti Ikhtibar...',
+        description: `Bi'idznillah, ananda sedang mengikuti Ikhtibar.`,
         image: {
           alt: 'Api menyala',
           src: StatusAssessmentOngoing

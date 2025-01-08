@@ -127,7 +127,7 @@ export function AddAsesmenForm({
       <input type='hidden' {...register('start_date')} />
 
       <div className='flex flex-col gap-2'>
-        <Label>Jenis Asesmen</Label>
+        <Label>Jenis Ikhtibar</Label>
         <Combobox
           withSearch={false}
           mustSelect={role === ROLE.LAJNAH}
@@ -146,7 +146,7 @@ export function AddAsesmenForm({
             resetField('surah_range')
             resetField('session_name')
           }}
-          placeholder='Pilih Jenis Asesmen'
+          placeholder='Pilih Jenis Ikhtibar'
         />
       </div>
 
@@ -184,7 +184,7 @@ export function AddAsesmenForm({
           !session_name
         }
       >
-        {isPending ? 'Memulai Asesmen...' : `Mulai Asesmen`}
+        {isPending ? 'Memulai Ikhtibar...' : `Mulai Ikhtibar`}
       </Button>
     </form>
   )
@@ -205,7 +205,7 @@ function PredefinedAssessmentRange({
 
   return (
     <div className='flex flex-col gap-4'>
-      <Label>Materi Asesmen</Label>
+      <Label>Materi Ikhtibar</Label>
       <Combobox
         withSearch={id.type === 'surah'}
         mustSelect={true}
@@ -264,7 +264,7 @@ function CustomAssessmentRange({
     <div className='flex flex-col gap-4'>
       <div className='flex flex-row gap-4 items-end'>
         <div className='basis-3/4 flex flex-col gap-2'>
-          <Label>Awal Materi Asesmen {surahDetail.start_verse[0]}</Label>
+          <Label>Awal Materi Ikhtibar {surahDetail.start_verse[0]}</Label>
           <Combobox
             items={SURAH_ITEMS}
             value={surahDetail.start_surah[0]}
@@ -352,7 +352,7 @@ function CustomAssessmentRange({
       </div>
       <div className='flex flex-row gap-4 items-end'>
         <div className='basis-3/4 flex flex-col gap-2'>
-          <Label>Akhir Materi Asesmen</Label>
+          <Label>Akhir Materi Ikhtibar</Label>
           <Combobox
             items={SURAH_ITEMS}
             value={surahDetail.end_surah[0]}
