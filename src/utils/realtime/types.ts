@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { RealtimeChannelSendResponse } from '@supabase/supabase-js'
-
 interface Subscription {
   event: string
   schema: string
