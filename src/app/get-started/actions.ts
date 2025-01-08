@@ -9,7 +9,7 @@ import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers'
 import { PIN_IS_SUBMMITTED } from '@/models/auth'
 
-export async function action(_prev: unknown, formData: FormData) {
+export async function validatePin(_prev: unknown, formData: FormData) {
   let redirectUri = ''
 
   const data = {

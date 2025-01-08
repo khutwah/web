@@ -197,11 +197,16 @@ export function getAyahLocationSummary(surah: number, ayah: number) {
     .reduce((acc, val) => acc + val, 0)
 
   return {
+    current: {
+      juz: location.juz
+    },
     lajnah: {
       upcoming: location.lajnah.id,
       previous: location.lajnah.id > 0 ? location.lajnah.id - 5 : 0
     },
     juz: {
+      juz,
+      pages: location.distanceFromJuzStart.page,
       total: juzTotal,
       progress: (juzTotal / 30) * 100
     },
@@ -252,4 +257,8 @@ export function parseSurahNameAndAyahFromRangeSegment(
     name: surahs[Number(surahNumber) - 1].name,
     verse: Number(verseNumber)
   }
+}
+
+export function getSurahName(surah: number) {
+  return surahs.find((entry) => entry.id === surah)?.name
 }

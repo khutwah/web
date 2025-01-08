@@ -1,10 +1,10 @@
 import { Card, CardContent } from '@/components/Card/Card'
 import {
   BookOpenText as HalamanCount,
-  AlignJustify as AyatCount,
+  Bookmark as JuzCount,
   Clock as HalaqahCount
 } from 'lucide-react'
-import { getAyahLocationSummary } from '@/utils/mushaf'
+import { getAyahLocationSummary, getSurahName } from '@/utils/mushaf'
 
 interface StatsCardProps {
   surah: number
@@ -23,16 +23,28 @@ export function StatsCard({ surah, ayah, halaqahCount }: StatsCardProps) {
             Menuju 30 Juz Mutqin
           </h2>
 
+          <div className='grid grid-cols-1 gap-8 mb-6'>
+            <div>
+              <div className='text-3xl font-bold'>
+                {summary?.juz.juz} Juz{' '}
+                {summary?.juz.pages &&
+                  summary?.juz.pages > 0 &&
+                  `dan ${summary?.juz.pages} halaman`}
+              </div>
+              <div className='text-khutwah-grey-lightest'>
+                {summary?.juz.progress.toFixed(2) || 0}% perjalanan
+              </div>
+            </div>
+          </div>
+
           <div className='grid grid-cols-2 gap-8 mb-6'>
             <div>
               <h3 className='text-khutwah-m-regular text-khutwah-grey-lightest mb-1'>
                 Juz
               </h3>
-              <div className='text-3xl font-bold'>
-                {summary?.juz.total.toFixed(2) || 0}
-              </div>
+              <div className='text-3xl font-bold'>{summary?.current.juz}</div>
               <div className='text-khutwah-grey-lightest'>
-                {summary?.juz.progress.toFixed(2) || 0}% perjalanan
+                QS. {getSurahName(surah)}: {ayah}
               </div>
             </div>
             <div>
@@ -53,19 +65,22 @@ export function StatsCard({ surah, ayah, halaqahCount }: StatsCardProps) {
 
           <div className='grid grid-cols-3 gap-4'>
             <div className='flex items-center gap-2'>
+              <JuzCount className='w-4 h-4 text-khutwah-tamarind-dark' />
+              <div>
+                <div className='font-medium'>
+                  {summary?.juz.juz || 0}{' '}
+                  {summary?.juz.pages && summary?.juz.pages > 0 && '+'}
+                </div>
+                <div className='text-xs text-khutwah-grey-lightest'>Juz</div>
+              </div>
+            </div>
+            <div className='flex items-center gap-2'>
               <HalamanCount className='w-4 h-4 text-khutwah-tamarind-dark' />
               <div>
                 <div className='font-medium'>{summary?.pages || 0}</div>
                 <div className='text-xs text-khutwah-grey-lightest'>
                   Halaman
                 </div>
-              </div>
-            </div>
-            <div className='flex items-center gap-2'>
-              <AyatCount className='w-4 h-4 text-khutwah-tamarind-dark' />
-              <div>
-                <div className='font-medium'>{summary?.ayahs || 0}</div>
-                <div className='text-xs text-khutwah-grey-lightest'>Ayat</div>
               </div>
             </div>
             <div className='flex items-center gap-2'>
