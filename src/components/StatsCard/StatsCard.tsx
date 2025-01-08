@@ -1,7 +1,7 @@
 import { Card, CardContent } from '@/components/Card/Card'
 import {
   BookOpenText as HalamanCount,
-  Bookmark as JuzCount,
+  Flame as LajnahCount,
   Clock as HalaqahCount
 } from 'lucide-react'
 import { getAyahLocationSummary, getSurahName } from '@/utils/mushaf'
@@ -25,7 +25,10 @@ export function StatsCard({ surah, ayah, halaqahCount }: StatsCardProps) {
 
           <div className='grid grid-cols-1 gap-8 mb-6'>
             <div>
-              <div className='text-3xl font-bold'>
+              <div className='text-xs text-khutwah-grey-lightest'>
+                Total setoran
+              </div>
+              <div className='text-xl font-bold'>
                 {summary?.juz.juz} Juz{' '}
                 {summary?.juz.pages &&
                   summary?.juz.pages > 0 &&
@@ -37,43 +40,21 @@ export function StatsCard({ surah, ayah, halaqahCount }: StatsCardProps) {
             </div>
           </div>
 
-          <div className='grid grid-cols-2 gap-8 mb-6'>
+          <div className='grid grid-cols-1 gap-8 mb-6'>
             <div>
-              <h3 className='text-khutwah-m-regular text-khutwah-grey-lightest mb-1'>
-                Juz
-              </h3>
-              <div className='text-3xl font-bold'>{summary?.current.juz}</div>
+              <div className='text-xs text-khutwah-grey-lightest'>
+                Posisi setoran terakhir
+              </div>
+              <div className='text-xl font-bold'>
+                Juz {summary?.current.juz}
+              </div>
               <div className='text-khutwah-grey-lightest'>
                 QS. {getSurahName(surah)}: {ayah}
-              </div>
-            </div>
-            <div>
-              <h3 className='text-khutwah-m-regular text-khutwah-grey-lightest mb-1'>
-                Asesmen Lajnah
-              </h3>
-              <div className='text-3xl font-bold'>
-                {summary?.lajnah.previous && summary?.lajnah.previous > 0
-                  ? summary?.lajnah.previous / 5
-                  : 0}
-                x
-              </div>
-              <div className='text-khutwah-grey-lightest'>
-                {summary?.lajnah.previous || 0} juz sekali duduk
               </div>
             </div>
           </div>
 
           <div className='grid grid-cols-3 gap-4'>
-            <div className='flex items-center gap-2'>
-              <JuzCount className='w-4 h-4 text-khutwah-tamarind-dark' />
-              <div>
-                <div className='font-medium'>
-                  {summary?.juz.juz || 0}{' '}
-                  {summary?.juz.pages && summary?.juz.pages > 0 && '+'}
-                </div>
-                <div className='text-xs text-khutwah-grey-lightest'>Juz</div>
-              </div>
-            </div>
             <div className='flex items-center gap-2'>
               <HalamanCount className='w-4 h-4 text-khutwah-tamarind-dark' />
               <div>
@@ -89,6 +70,21 @@ export function StatsCard({ surah, ayah, halaqahCount }: StatsCardProps) {
                 <div className='font-medium'>{halaqahCount || 0}x</div>
                 <div className='text-xs text-khutwah-grey-lightest'>
                   Halaqah
+                </div>
+              </div>
+            </div>
+
+            <div className='flex items-center gap-2'>
+              <LajnahCount className='w-4 h-4 text-khutwah-tamarind-dark' />
+              <div>
+                <div className='font-medium'>
+                  {summary?.lajnah.previous && summary?.lajnah.previous > 0
+                    ? summary?.lajnah.previous / 5
+                    : 0}
+                  x
+                </div>
+                <div className='text-xs text-khutwah-grey-lightest'>
+                  Ikhtibar
                 </div>
               </div>
             </div>

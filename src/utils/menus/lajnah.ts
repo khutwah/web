@@ -7,7 +7,7 @@ import {
 import {
   Armchair as Beranda,
   User as Santri,
-  Flame as Asesmen,
+  Flame as Ikhtibar,
   ToggleLeft as Pengaturan
 } from 'lucide-react'
 import { BottomNavbarLink } from '@/models/bottom-navbar'
@@ -44,8 +44,8 @@ export const MENUS: Menu[] = [
     active: false
   },
   {
-    icon: Asesmen,
-    text: 'Asesmen',
+    icon: Ikhtibar,
+    text: 'Ikhtibar',
     href: MENU_LAJNAH_PATH_RECORDS.asesmen,
     pattern: /^\/ustadz\/asesmen(\/.*)?$/,
     active: false

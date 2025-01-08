@@ -31,13 +31,13 @@ export function AddAsesmen({
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
         <Button variant='primary' className='w-full'>
-          <Flame size={16} /> Mulai Asesmen
+          <Flame size={16} /> Mulai Ikhtibar
         </Button>
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
           <DrawerTitle>
-            Mulai Asesmen{' '}
+            Mulai Ikhtibar{' '}
             {role === ROLE.LAJNAH && sessionRangeId
               ? `${sessionRangeId} Juz`
               : ''}
