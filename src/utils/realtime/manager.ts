@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { createClient } from '@/utils/supabase/server'
+import { RealtimeChannel } from '@supabase/supabase-js'
 import type { Channel } from './types'
 
 export default class SubscriptionManager {
   private static instance: SubscriptionManager
 
   private callbacks: Map<string, any> = new Map()
-  private channels: Map<string, any> = new Map()
+  private channels: Map<string, RealtimeChannel> = new Map()
   private supabase: any
 
   private constructor() {}
@@ -22,6 +23,11 @@ export default class SubscriptionManager {
     if (!this.supabase) {
       this.supabase = await createClient()
     }
+  }
+
+  public static getChannel(channelName: string) {
+    const instance = SubscriptionManager.getInstance()
+    return instance.channels.get(channelName)
   }
 
   public static registerChannel(
@@ -41,8 +47,13 @@ export default class SubscriptionManager {
             }
           }
         })
-      selectedChannel.subscribe() // TODO(dio): Logging.
-      instance.channels.set(channel.name, selectedChannel)
+
+      if (selectedChannel) {
+        selectedChannel.subscribe() // TODO(dio): Logging.
+        instance.channels.set(channel.name, selectedChannel)
+      } else {
+        throw new Error(`Failed to register channel: ${channel.name}`)
+      }
     }
     instance.registerCallback(channel.name, channel.id, channel.callback)
   }

@@ -12,3 +12,7 @@ export interface Channel {
   event: Subscription
   callback: (payload: any) => void
 }
+
+export interface Sender {
+  send: (data: string) => void
+}
