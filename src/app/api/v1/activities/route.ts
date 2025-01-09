@@ -5,6 +5,7 @@ import {
   createSuccessResponse
 } from '@/utils/api/response-generator'
 import { parseFilter } from '@/utils/parse-filter'
+import { broadcast } from '@/utils/realtime/generic'
 import {
   activityCreateSchema,
   activityFilterSchema
@@ -87,6 +88,8 @@ export async function POST(request: NextRequest) {
       status: 500
     })
   }
+
+  await broadcast()
 
   return Response.json(
     createSuccessResponse({
