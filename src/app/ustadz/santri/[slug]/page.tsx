@@ -11,7 +11,6 @@ export default async function DetailSantri(props: DetailSantriProps) {
 
   return (
     <>
-      <Refresher endpoint={`/api/v1/students/${id}/stream`} />
       {role === ROLE.USTADZ ? (
         <UstadzRole {...props} />
       ) : (

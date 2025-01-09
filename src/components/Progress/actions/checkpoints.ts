@@ -1,6 +1,7 @@
 'use server'
 
 import { FormState, UpdatePayload, InsertPayload } from '@/models/checkpoints'
+import { broadcast } from '@/utils/realtime/generic'
 import {
   createCheckpointSchema,
   updateCheckpointSchema
@@ -38,6 +39,8 @@ async function upsertOrFail(
         message: response.error.message
       }
     }
+
+    await broadcast()
 
     return {
       success: true

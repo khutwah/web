@@ -26,3 +26,9 @@ export interface Sender {
 export interface Supabase {
   channel: (channelName: string, options?: any) => RealtimeChannel
 }
+
+export interface GenericStreamPayload {
+  new?: {
+    id?: number
+  }
+}
