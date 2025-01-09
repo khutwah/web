@@ -1,83 +1,98 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { createClient } from '@/utils/supabase/server'
 import { RealtimeChannel } from '@supabase/supabase-js'
-import type { Channel } from './types'
+import type { Channel, Supabase } from './types'
 
-export default class SubscriptionManager {
-  private static instance: SubscriptionManager
+export class RealtimeManager {
+  private readonly supabase: any
+  private readonly callbacks: Map<string, Channel['callback']> = new Map()
+  private readonly channels: Map<string, RealtimeChannel> = new Map()
+  private readonly debounceTimers: Map<string, NodeJS.Timeout> = new Map()
+  private readonly debounceDelay: number
 
-  private callbacks: Map<string, any> = new Map()
-  private channels: Map<string, RealtimeChannel> = new Map()
-  private supabase: any
-
-  private constructor() {}
-
-  public static async initialize(): Promise<SubscriptionManager> {
-    const instance = SubscriptionManager.getInstance()
-    await instance.initializeSubscriptions()
-    return instance
-  }
-
-  private async initializeSubscriptions() {
-    if (!this.supabase) {
-      this.supabase = await createClient()
+  constructor(supabase: Supabase, debounceDelay = 300) {
+    if (!supabase) {
+      throw new Error('Supabase instance is required')
     }
+    this.supabase = supabase
+    this.debounceDelay = Math.max(0, debounceDelay)
   }
 
-  public static getChannel(channelName: string) {
-    const instance = SubscriptionManager.getInstance()
-    return instance.channels.get(channelName)
-  }
-
-  public static registerChannel(
-    channel: Channel,
-    onEvent: 'postgres_changes' | 'broadcast' = 'postgres_changes'
+  private debounce(
+    key: string,
+    callback: (...args: any[]) => void,
+    payload: any
   ) {
-    const instance = SubscriptionManager.getInstance()
-    let selectedChannel = instance.channels.get(channel.name)
+    // Clear existing timer for this key if it exists.
+    if (this.debounceTimers.has(key)) {
+      clearTimeout(this.debounceTimers.get(key))
+    }
+
+    // Set new timer.
+    const timer = setTimeout(() => {
+      callback(payload)
+      this.debounceTimers.delete(key)
+    }, this.debounceDelay)
+
+    this.debounceTimers.set(key, timer)
+  }
+
+  registerChannel(channel: Channel) {
+    let selectedChannel = this.channels.get(channel.name)
     if (!selectedChannel) {
-      instance.registerCallback(channel.name, channel.id, channel.callback)
-      selectedChannel = instance.supabase
-        .channel(channel.name)
-        .on(onEvent, channel.event, (payload: any) => {
-          for (const [key, callback] of instance.callbacks.entries()) {
+      selectedChannel = (this.supabase as Supabase).channel(channel.name, {
+        config: {
+          broadcast: {
+            self: true,
+            ack: true
+          }
+        }
+      })
+      selectedChannel
+        .on('broadcast', { event: channel.event as string }, (message) => {
+          for (const [key, callback] of this.callbacks.entries()) {
             if (key.startsWith(channel.name)) {
-              callback(payload)
+              // Debounce the callback execution.
+              this.debounce(key, callback, message)
             }
           }
         })
-
-      if (selectedChannel) {
-        selectedChannel.subscribe() // TODO(dio): Logging.
-        instance.channels.set(channel.name, selectedChannel)
-      } else {
-        throw new Error(`Failed to register channel: ${channel.name}`)
-      }
+        .subscribe((status) => {
+          if (status === 'SUBSCRIBED' && selectedChannel) {
+            this.channels.set(channel.name, selectedChannel)
+          }
+        })
     }
-    instance.registerCallback(channel.name, channel.id, channel.callback)
+    this.registerCallback(channel.name, channel.id, channel.callback)
   }
 
-  public static unregisterCallback(channelName: string, id: string) {
-    const instance = SubscriptionManager.getInstance()
-    const callbackId = `${channelName}:${id}`
-    if (instance.callbacks.has(callbackId)) {
-      instance.callbacks.delete(callbackId)
+  async broadcast(channelName: string, event: string, payload?: any) {
+    const channel = this.channels.get(channelName)
+    if (channel) {
+      return channel.send({
+        type: 'broadcast',
+        event,
+        payload
+      })
     }
   }
 
-  private registerCallback(channelName: string, id: string, callback: any) {
+  registerCallback(channelName: string, id: string, callback: any) {
     const callbackId = `${channelName}:${id}`
     if (!this.callbacks.has(callbackId)) {
       this.callbacks.set(callbackId, callback)
     }
   }
 
-  public static getInstance(): SubscriptionManager {
-    if (!SubscriptionManager.instance) {
-      SubscriptionManager.instance = new SubscriptionManager()
+  unregisterCallback(channelName: string, id: string) {
+    const callbackId = `${channelName}:${id}`
+    // Clear any pending debounced callbacks.
+    if (this.debounceTimers.has(callbackId)) {
+      clearTimeout(this.debounceTimers.get(callbackId))
+      this.debounceTimers.delete(callbackId)
     }
-
-    return SubscriptionManager.instance
+    if (this.callbacks.has(callbackId)) {
+      this.callbacks.delete(callbackId)
+    }
   }
 }
