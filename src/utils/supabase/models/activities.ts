@@ -241,7 +241,10 @@ export class Activities extends Base {
       }
     }
 
-    return await (await this.supabase).from('activities').insert(_payload)
+    return await (await this.supabase)
+      .from('activities')
+      .insert(_payload)
+      .select('id')
   }
 
   async getLatestSabaq({

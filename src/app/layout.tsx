@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description: `${process.env.NEXT_PUBLIC_APP_DESCRIPTION || 'Minhajul Haq - Pendidikan Islam dan Bahasa Arab'}`
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children
 }: Readonly<{
   children: React.ReactNode

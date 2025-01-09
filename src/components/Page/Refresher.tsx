@@ -8,7 +8,7 @@ interface RefresherProps {
   endpoint: string
 }
 
-export default function Refresher({ endpoint }: RefresherProps) {
+export function Refresher({ endpoint }: RefresherProps) {
   const router = useRouter()
   const debouncedRefresh = useDebouncedCallback(router.refresh, 200)
   useEffect(() => {

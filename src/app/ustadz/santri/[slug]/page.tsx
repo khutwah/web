@@ -3,7 +3,7 @@ import { ROLE } from '@/models/auth'
 import UstadzRole from './components/roles/UstadzRole'
 import LajnahRole from './components/roles/LajnahRole'
 import { DetailSantriProps } from '../models/detail-santri'
-import Refresher from '@/components/Refresher/Refresher'
+import { Refresher } from '@/components/Page/Refresher'
 
 export default async function DetailSantri(props: DetailSantriProps) {
   const role = await getUserRole()
@@ -11,7 +11,7 @@ export default async function DetailSantri(props: DetailSantriProps) {
 
   return (
     <>
-      <Refresher endpoint={`/api/v1/checkpoints/stream?student_id=${id}`} />
+      <Refresher endpoint={`/api/v1/students/${id}/stream`} />
       {role === ROLE.USTADZ ? (
         <UstadzRole {...props} />
       ) : (

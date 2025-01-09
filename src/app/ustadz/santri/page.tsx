@@ -26,7 +26,6 @@ import {
 import { getUser } from '@/utils/supabase/get-user'
 import { getUserRole } from '@/utils/supabase/get-user-role'
 import { ROLE } from '@/models/auth'
-import Refresher from '@/components/Refresher/Refresher'
 
 export default async function Santri({
   searchParams: searchParamsPromise
@@ -57,7 +56,6 @@ export default async function Santri({
 
   return (
     <Layout>
-      <Refresher endpoint='/api/v1/checkpoints/stream' />
       <SearchProvider>
         <header className='sticky top-0 bg-khutwah-red-base'>
           <Navbar text='Santri' returnTo={MENU_USTADZ_PATH_RECORDS.home} />

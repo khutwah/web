@@ -7,6 +7,7 @@ import { activityCreateSchema } from '@/utils/schemas/activities'
 import { Activities } from '@/utils/supabase/models/activities'
 import isValidId from '@/utils/is-valid-id'
 import { NextRequest } from 'next/server'
+import { Realtime } from '@/utils/realtime/instance'
 
 interface ParamsType {
   params: Promise<{ id: string }>
@@ -34,7 +35,18 @@ export async function PUT(request: NextRequest, { params }: ParamsType) {
 
   return await doApiAction<ReturnType<typeof createSuccessResponse>>(
     async () => {
+      const { student_id } = body
       await activity.update(id, body)
+      await Realtime.broadcast(
+        'student-update',
+        `student-update:${student_id}`,
+        {
+          new: {
+            student_id
+          }
+        }
+      )
+
       return {
         data: createSuccessResponse({
           data: null
