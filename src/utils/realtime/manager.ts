@@ -7,34 +7,41 @@ export class RealtimeManager {
   private readonly supabase: any
   private readonly callbacks: Map<string, Channel['callback']> = new Map()
   private readonly channels: Map<string, RealtimeChannel> = new Map()
-  private readonly debounceTimers: Map<string, NodeJS.Timeout> = new Map()
-  private readonly debounceDelay: number
+  private readonly timers: Map<string, NodeJS.Timeout> = new Map()
+  private readonly queues: Map<string, any[]> = new Map()
+  private readonly delay: number
 
-  constructor(supabase: Supabase, debounceDelay = 300) {
+  constructor(supabase: Supabase, delay = 300) {
     if (!supabase) {
       throw new Error('Supabase instance is required')
     }
     this.supabase = supabase
-    this.debounceDelay = Math.max(0, debounceDelay)
+    this.delay = Math.max(0, delay)
   }
 
-  private debounce(
+  private queueAndCoalesce(
     key: string,
     callback: (...args: any[]) => void,
     payload: any
   ) {
-    // Clear existing timer for this key if it exists.
-    if (this.debounceTimers.has(key)) {
-      clearTimeout(this.debounceTimers.get(key))
+    if (!this.queues.has(key)) {
+      this.queues.set(key, [])
     }
 
-    // Set new timer.
-    const timer = setTimeout(() => {
-      callback(payload)
-      this.debounceTimers.delete(key)
-    }, this.debounceDelay)
+    this.queues.get(key)?.push(payload)
 
-    this.debounceTimers.set(key, timer)
+    if (this.timers.has(key)) {
+      clearTimeout(this.timers.get(key))
+    }
+
+    const timer = setTimeout(() => {
+      const queue = this.queues.get(key) || []
+      callback(queue)
+      this.queues.delete(key)
+      this.timers.delete(key)
+    }, this.delay)
+
+    this.timers.set(key, timer)
   }
 
   registerChannel(channel: Channel) {
@@ -52,8 +59,7 @@ export class RealtimeManager {
         .on('broadcast', { event: channel.event as string }, (message) => {
           for (const [key, callback] of this.callbacks.entries()) {
             if (key.startsWith(channel.name)) {
-              // Debounce the callback execution.
-              this.debounce(key, callback, message)
+              this.queueAndCoalesce(key, callback, message)
             }
           }
         })
@@ -86,10 +92,12 @@ export class RealtimeManager {
 
   unregisterCallback(channelName: string, id: string) {
     const callbackId = `${channelName}:${id}`
-    // Clear any pending debounced callbacks.
-    if (this.debounceTimers.has(callbackId)) {
-      clearTimeout(this.debounceTimers.get(callbackId))
-      this.debounceTimers.delete(callbackId)
+    if (this.timers.has(callbackId)) {
+      clearTimeout(this.timers.get(callbackId))
+      this.timers.delete(callbackId)
+    }
+    if (this.queues.has(callbackId)) {
+      this.queues.delete(callbackId)
     }
     if (this.callbacks.has(callbackId)) {
       this.callbacks.delete(callbackId)
