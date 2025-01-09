@@ -1,9 +1,7 @@
 import { Suspense } from 'react'
 import { CircleAlert } from 'lucide-react'
-import Link from 'next/link'
 
 import { Alert, AlertDescription } from '@/components/Alert/Alert'
-import { Button } from '@/components/Button/Button'
 import { ErrorBoundary } from '@/components/ErrorBoundary/ErrorBoundary'
 import { Layout } from '@/components/Layout/Ustadz'
 import { Navbar } from '@/components/Navbar/Navbar'
@@ -24,8 +22,7 @@ import {
   USTADZ_ID_SEARCH_PARAMS_KEY
 } from '@/app/ustadz/santri/constants'
 import { getUser } from '@/utils/supabase/get-user'
-import { getUserRole } from '@/utils/supabase/get-user-role'
-import { ROLE } from '@/models/auth'
+import { ReloadButton } from './components/ReloadButton'
 
 export default async function Santri({
   searchParams: searchParamsPromise
@@ -36,7 +33,6 @@ export default async function Santri({
   const day = dayjs().tz(tz)
 
   const currentUser = await getUser()
-  const currentUserRole = await getUserRole()
 
   const searchParams = await searchParamsPromise
   const parsedSearchParams = parseSearchParams(searchParams, {
@@ -48,11 +44,7 @@ export default async function Santri({
     CHECKPOINT_STATUS_SEARCH_PARAMS_KEY
   ] as Array<CheckpointStatus>
   const ustadzId =
-    currentUserRole === ROLE.LAJNAH
-      ? 'ALL'
-      : parsedSearchParams[USTADZ_ID_SEARCH_PARAMS_KEY] ||
-        currentUser.id ||
-        null
+    parsedSearchParams[USTADZ_ID_SEARCH_PARAMS_KEY] || currentUser.id || 'ALL'
 
   return (
     <Layout>
@@ -108,13 +100,7 @@ export default async function Santri({
                     type='empty'
                     title='Tidak Menemukan Data Santri'
                     description='Silakan periksa kembali pencarian dan filter. Atau coba muat ulang halaman.'
-                    actionButton={
-                      <Link href='/ustadz/santri'>
-                        <Button type='button' size='sm'>
-                          Muat ulang
-                        </Button>
-                      </Link>
-                    }
+                    actionButton={<ReloadButton />}
                   />
                 }
               />

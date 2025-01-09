@@ -17,7 +17,7 @@ export function CheckpointStatusFilter({
 
   return (
     <div className='space-y-2'>
-      <Label>Status Checkpoint</Label>
+      <Label>Status</Label>
 
       <div className='space-y-3'>
         {STATUS_LIST.filter((status) => !excludes.includes(status.value)).map(
@@ -45,7 +45,10 @@ export function CheckpointStatusFilter({
                         field.onChange(newValues)
                       }}
                     />
-                    <label htmlFor={checkboxId} className='text-khutwah-label'>
+                    <label
+                      htmlFor={checkboxId}
+                      className='text-khutwah-label cursor-pointer'
+                    >
                       {status.label}
                     </label>
                   </div>

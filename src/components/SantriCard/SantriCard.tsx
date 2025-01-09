@@ -84,7 +84,7 @@ export function SantriCard({
                     lastSabaq.end_verse
                   )
                   if (summary) {
-                    return `${summary?.juz.total.toFixed(2) || 0} Juz`
+                    return `${summary?.juz.juz} Juz ${summary.juz.pages > 0 ? `dan ${summary.juz.pages} halaman` : ''}`
                   }
                   return ''
                 })()}

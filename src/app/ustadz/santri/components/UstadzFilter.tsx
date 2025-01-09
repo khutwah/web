@@ -29,7 +29,7 @@ export function UstadzFilter() {
         setOptions(
           result.data?.map((ustadz) => ({
             label: ustadz.name || '',
-            value: String(ustadz.id)
+            value: ustadz.id === 0 ? 'ALL' : String(ustadz.id)
           }))
         )
       }
@@ -39,32 +39,38 @@ export function UstadzFilter() {
   }, [])
 
   return (
-    <div className='space-y-2'>
-      <Label htmlFor='ustadzId'>Ustadz</Label>
+    <>
+      {options.length > 0 ? (
+        <div className='space-y-2'>
+          <Label htmlFor='ustadzId'>Ustadz</Label>
 
-      <Controller
-        control={control}
-        name='ustadzId'
-        render={({ field }) => {
-          return (
-            <Select
-              onValueChange={(val) => field.onChange(Number(val))}
-              value={field.value ? String(field.value) : undefined}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder='Pilih ustadz' />
-              </SelectTrigger>
-              <SelectContent>
-                {options?.map((option) => (
-                  <SelectItem value={option.value} key={option.value}>
-                    {option.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          )
-        }}
-      />
-    </div>
+          <Controller
+            control={control}
+            name='ustadzId'
+            render={({ field }) => {
+              return (
+                <Select
+                  onValueChange={(val) => field.onChange(Number(val))}
+                  value={field.value ? String(field.value) : undefined}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder='Pilih ustadz' />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {options?.map((option) => (
+                      <SelectItem value={option.value} key={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )
+            }}
+          />
+        </div>
+      ) : (
+        <Label>Memuat data Ustadz...</Label>
+      )}
+    </>
   )
 }

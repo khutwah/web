@@ -1,7 +1,7 @@
 'use client'
 
 import { Filter } from 'lucide-react'
-import { FormProvider, useForm } from 'react-hook-form'
+import { FormProvider, useForm, useWatch } from 'react-hook-form'
 import { useMemo, useState } from 'react'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/navigation'
@@ -39,22 +39,38 @@ export function FilterDrawer({
     let resolvedFilters = []
 
     if (ustadzId) {
-      resolvedFilters.push(ustadzId)
+      resolvedFilters.push(`ustadz_id:${ustadzId}`)
     }
     if (Array.isArray(checkpointStatuses)) {
-      resolvedFilters = resolvedFilters.concat(checkpointStatuses)
+      resolvedFilters = resolvedFilters.concat(
+        checkpointStatuses.map((status) => `checkpoint_status:${status}`)
+      )
     }
 
     return resolvedFilters
   }, [ustadzId, checkpointStatuses])
-  const hasFilter = filters.length > 0
 
   const formMethods = useForm<FilterFormData>({
     defaultValues: {
-      ustadzId: ustadzId === 'ALL' ? null : ustadzId,
+      ustadzId: ustadzId === 'ALL' || !ustadzId ? 'ALL' : ustadzId,
       checkpointStatuses
     }
   })
+
+  const watchedCheckpointStatuses = useWatch({
+    control: formMethods.control,
+    name: 'checkpointStatuses'
+  })
+
+  const watchedUstadzId = useWatch({
+    control: formMethods.control,
+    name: 'ustadzId'
+  })
+
+  const hasFilter =
+    (Array.isArray(watchedCheckpointStatuses) &&
+      watchedCheckpointStatuses.length > 0) ||
+    (watchedUstadzId && watchedUstadzId !== 'ALL')
 
   // Update search params based on form values
   const handleUpdateFilter = (data: FilterFormData) => {
@@ -74,8 +90,10 @@ export function FilterDrawer({
       })
     }
 
-    // Apply search params without reloading the page
+    // Apply search params without reloading the page.
     router.replace(`${pathname}?${params.toString()}`, { scroll: false })
+
+    setOpen(false)
   }
 
   // Reset filter to default value
@@ -95,7 +113,12 @@ export function FilterDrawer({
           size='sm'
           className='relative'
         >
-          <span>Filter{hasFilter ? ` (${filters.length})` : ''}</span>
+          <span>
+            Filter
+            {hasFilter
+              ? ` (${filters.filter((filter) => filter !== 'ustadz_id:ALL').length})`
+              : ''}
+          </span>
           <Filter />
         </Button>
       </DrawerTrigger>
@@ -119,9 +142,10 @@ export function FilterDrawer({
                 className='w-full block'
                 variant='outline'
                 type='button'
+                disabled={!hasFilter}
                 onClick={handleResetFilter}
               >
-                Reset
+                Hapus Filter
               </Button>
               <Button className='w-full block' type='submit'>
                 Terapkan
