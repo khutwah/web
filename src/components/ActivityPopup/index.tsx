@@ -70,13 +70,17 @@ export function ActivityPopup({ activities, from, id, isEditable }: Props) {
             <div className='flex flex-col gap-1'>
               <div className='text-xs text-khutwah-neutral-50'>Setoran</div>
               <div className='flex flex-row items-center space-x-4 text-sm'>
-                <div>
-                  {_activity.start_surah}: {_activity.start_verse}
-                </div>
+                {_activity.start_surah && _activity.start_verse ? (
+                  <>
+                    <div>
+                      {_activity.start_surah}: {_activity.start_verse}
+                    </div>
 
-                <div>
-                  <MoveRight size={16} />
-                </div>
+                    <div>
+                      <MoveRight size={16} />
+                    </div>
+                  </>
+                ) : null}
 
                 <div>
                   {_activity.end_surah}: {_activity.end_verse}

@@ -32,7 +32,6 @@ export async function login(_prevState: unknown, formData: FormData) {
       if (/^857393/.test(data.username)) {
         data.username = `${data.username}@santri.${process.env.NEXT_PUBLIC_APP_NAMESPACE || 'mh'}`
       }
-      console.log(data.username)
 
       if (!/@santri\./.test(data.username)) {
         // Skip mumtaz login when using test users.

@@ -122,11 +122,28 @@ function Subchart({
       created_at: dayjsClientSideLocal(activity.created_at).toISOString()
     }))
 
-    const lastCreatedAt = mapped[mapped.length - 1]
+    const lastCreatedAt =
+      mapped.length > 1 ? mapped[mapped.length - 1] : mapped[0]
     const untilTodayDiff = dayjsClientSideLocal().diff(
       lastCreatedAt.created_at,
       'day'
     )
+
+    if (mapped.length === 1) {
+      ;[...Array(1).keys()].forEach((id) => {
+        const pre = {
+          id,
+          isFirstItem: false,
+          page_count: null,
+          target_page_count: null as unknown as number,
+          created_at: dayjsClientSideLocal(mapped[mapped.length - 1].created_at)
+            .subtract(id + 1, 'day')
+            .toISOString(),
+          student_attendance: 'present'
+        }
+        mapped.unshift(pre)
+      })
+    }
 
     // Add padding.
     const padding = [...Array(untilTodayDiff + 1).keys()].map((id) => ({

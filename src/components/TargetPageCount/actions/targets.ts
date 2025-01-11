@@ -53,7 +53,6 @@ export async function updateActivity(
   _state: FormState,
   formData: FormData
 ): Promise<FormState> {
-  console.log(formData)
   const activitiesInstance = new Activities()
   const { error } = await activitiesInstance.updateTargetPageCount(
     Number(formData.get('id')),
@@ -61,7 +60,6 @@ export async function updateActivity(
   )
 
   if (error) {
-    console.log(error)
     return {
       message: error.message,
       success: false
