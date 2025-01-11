@@ -27,6 +27,13 @@ export async function login(_prevState: unknown, formData: FormData) {
       let status = -1,
         mumtazResponse = undefined
 
+      // A valid virtual account for MH is prefixed with 857393.
+      // TODO(dio): Put this in a config.
+      if (/^857393/.test(data.username)) {
+        data.username = `${data.username}@santri.${process.env.NEXT_PUBLIC_APP_NAMESPACE || 'mh'}`
+      }
+      console.log(data.username)
+
       if (!/@santri\./.test(data.username)) {
         // Skip mumtaz login when using test users.
         ;({ status, data: mumtazResponse } = await loginMumtaz({

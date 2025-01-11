@@ -157,6 +157,8 @@ export class Circles extends Base {
       end_date = day.endOf('day').utc().toISOString()
     } = filter ?? {}
 
+    console.log('start_date', start_date)
+
     let query = (await this.supabase)
       .from('circles')
       .select(
@@ -166,12 +168,12 @@ export class Circles extends Base {
           label,
           grade,
           target_page_count,
-          shifts(id, location, ustadz_id, users (name, id), start_date),
-          students(id, name, parent_id)
+          shifts (id, location, ustadz_id, users (name, id), start_date),
+          students (id, name, parent_id)
         `
       )
       .eq('id', id)
-      .lte('shifts.start_date', start_date)
+      // .lte('shifts.start_date', start_date)
       .or(`end_date.lte.${end_date},end_date.is.null`, {
         referencedTable: 'shifts'
       })

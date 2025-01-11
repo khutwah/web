@@ -20,8 +20,8 @@ import dayjs from '@/utils/dayjs'
 import { ReadonlyURLSearchParams } from 'next/navigation'
 
 interface SurahSubmissionInfo {
-  name: string
-  verse: string
+  name?: string
+  verse?: number
 }
 
 export interface ActivityCardProps {
@@ -103,13 +103,17 @@ export function ActivityCard({
               </div>
 
               <div className='flex items-center gap-x-2'>
-                <div>
-                  {surahStart.name}: {surahStart.verse}
-                </div>
+                {surahStart.name && surahStart.verse ? (
+                  <>
+                    <div>
+                      {surahStart.name}: {surahStart.verse}
+                    </div>
 
-                <div>
-                  <MoveRight size={16} />
-                </div>
+                    <div>
+                      <MoveRight size={16} />
+                    </div>
+                  </>
+                ) : null}
 
                 <div>
                   {surahEnd.name}: {surahEnd.verse}

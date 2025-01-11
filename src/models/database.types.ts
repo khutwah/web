@@ -38,8 +38,8 @@ export type Database = {
         Row: {
           created_at: string | null
           created_by: number | null
-          end_surah: number | null
-          end_verse: number | null
+          end_surah: number
+          end_verse: number
           id: number
           is_target_achieved: boolean | null
           notes: string | null
@@ -52,14 +52,14 @@ export type Database = {
           student_id: number | null
           tags: Json | null
           target_page_count: number
-          type: number | null
+          type: number
           updated_at: string | null
         }
         Insert: {
           created_at?: string | null
           created_by?: number | null
-          end_surah?: number | null
-          end_verse?: number | null
+          end_surah: number
+          end_verse: number
           id?: never
           is_target_achieved?: boolean | null
           notes?: string | null
@@ -72,14 +72,14 @@ export type Database = {
           student_id?: number | null
           tags?: Json | null
           target_page_count?: number
-          type?: number | null
+          type: number
           updated_at?: string | null
         }
         Update: {
           created_at?: string | null
           created_by?: number | null
-          end_surah?: number | null
-          end_verse?: number | null
+          end_surah?: number
+          end_verse?: number
           id?: never
           is_target_achieved?: boolean | null
           notes?: string | null
@@ -92,7 +92,7 @@ export type Database = {
           student_id?: number | null
           tags?: Json | null
           target_page_count?: number
-          type?: number | null
+          type?: number
           updated_at?: string | null
         }
         Relationships: [
@@ -303,7 +303,7 @@ export type Database = {
           grade: number
           id: number
           label: string | null
-          name: string | null
+          name: string
           target_page_count: number | null
           updated_at: string | null
         }
@@ -313,7 +313,7 @@ export type Database = {
           grade?: number
           id?: never
           label?: string | null
-          name?: string | null
+          name: string
           target_page_count?: number | null
           updated_at?: string | null
         }
@@ -323,7 +323,7 @@ export type Database = {
           grade?: number
           id?: never
           label?: string | null
-          name?: string | null
+          name?: string
           target_page_count?: number | null
           updated_at?: string | null
         }
@@ -384,12 +384,92 @@ export type Database = {
           }
         ]
       }
+      student_circles_history: {
+        Row: {
+          changed_at: string | null
+          changed_by: number | null
+          circle_id: number
+          id: number
+          previous_circle_id: number | null
+          reason: string | null
+          student_id: number
+        }
+        Insert: {
+          changed_at?: string | null
+          changed_by?: number | null
+          circle_id: number
+          id?: never
+          previous_circle_id?: number | null
+          reason?: string | null
+          student_id: number
+        }
+        Update: {
+          changed_at?: string | null
+          changed_by?: number | null
+          circle_id?: number
+          id?: never
+          previous_circle_id?: number | null
+          reason?: string | null
+          student_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'student_circles_history_changed_by_fkey'
+            columns: ['changed_by']
+            isOneToOne: false
+            referencedRelation: 'users'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'student_circles_history_circle_id_fkey'
+            columns: ['circle_id']
+            isOneToOne: false
+            referencedRelation: 'circles'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'student_circles_history_circle_id_fkey'
+            columns: ['circle_id']
+            isOneToOne: false
+            referencedRelation: 'zzz_view_latest_student_checkpoints'
+            referencedColumns: ['circle_id']
+          },
+          {
+            foreignKeyName: 'student_circles_history_previous_circle_id_fkey'
+            columns: ['previous_circle_id']
+            isOneToOne: false
+            referencedRelation: 'circles'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'student_circles_history_previous_circle_id_fkey'
+            columns: ['previous_circle_id']
+            isOneToOne: false
+            referencedRelation: 'zzz_view_latest_student_checkpoints'
+            referencedColumns: ['circle_id']
+          },
+          {
+            foreignKeyName: 'student_circles_history_student_id_fkey'
+            columns: ['student_id']
+            isOneToOne: false
+            referencedRelation: 'students'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'student_circles_history_student_id_fkey'
+            columns: ['student_id']
+            isOneToOne: false
+            referencedRelation: 'zzz_view_latest_student_checkpoints'
+            referencedColumns: ['student_id']
+          }
+        ]
+      }
       students: {
         Row: {
           circle_id: number | null
           created_at: string | null
           id: number
-          name: string | null
+          name: string
           nis: string | null
           nisn: string | null
           parent_id: number | null
@@ -402,7 +482,7 @@ export type Database = {
           circle_id?: number | null
           created_at?: string | null
           id?: never
-          name?: string | null
+          name: string
           nis?: string | null
           nisn?: string | null
           parent_id?: number | null
@@ -415,7 +495,7 @@ export type Database = {
           circle_id?: number | null
           created_at?: string | null
           id?: never
-          name?: string | null
+          name?: string
           nis?: string | null
           nisn?: string | null
           parent_id?: number | null
@@ -450,24 +530,24 @@ export type Database = {
       }
       tags: {
         Row: {
-          category: string | null
+          category: string
           created_at: string | null
           id: number
-          name: string | null
+          name: string
           updated_at: string | null
         }
         Insert: {
-          category?: string | null
+          category: string
           created_at?: string | null
           id?: never
-          name?: string | null
+          name: string
           updated_at?: string | null
         }
         Update: {
-          category?: string | null
+          category?: string
           created_at?: string | null
           id?: never
-          name?: string | null
+          name?: string
           updated_at?: string | null
         }
         Relationships: []
@@ -478,8 +558,8 @@ export type Database = {
           email: string
           id: number
           is_active: boolean
-          name: string | null
-          role: number | null
+          name: string
+          role: number
           sb_user_id: string | null
           updated_at: string | null
         }
@@ -488,8 +568,8 @@ export type Database = {
           email: string
           id?: never
           is_active?: boolean
-          name?: string | null
-          role?: number | null
+          name: string
+          role: number
           sb_user_id?: string | null
           updated_at?: string | null
         }
@@ -498,8 +578,8 @@ export type Database = {
           email?: string
           id?: never
           is_active?: boolean
-          name?: string | null
-          role?: number | null
+          name?: string
+          role?: number
           sb_user_id?: string | null
           updated_at?: string | null
         }

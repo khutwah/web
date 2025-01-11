@@ -42,7 +42,7 @@
           "name": "type",
           "columnName": "type",
           "type": "int2",
-          "isRequired": false,
+          "isRequired": true,
           "kind": "scalar",
           "isList": false,
           "isGenerated": false,
@@ -168,7 +168,7 @@
           "name": "end_surah",
           "columnName": "end_surah",
           "type": "int2",
-          "isRequired": false,
+          "isRequired": true,
           "kind": "scalar",
           "isList": false,
           "isGenerated": false,
@@ -196,7 +196,7 @@
           "name": "end_verse",
           "columnName": "end_verse",
           "type": "int2",
-          "isRequired": false,
+          "isRequired": true,
           "kind": "scalar",
           "isList": false,
           "isGenerated": false,
@@ -908,7 +908,7 @@
           "name": "name",
           "columnName": "name",
           "type": "varchar",
-          "isRequired": false,
+          "isRequired": true,
           "kind": "scalar",
           "isList": false,
           "isGenerated": false,
@@ -1016,6 +1016,34 @@
           "hasDefaultValue": false
         },
         {
+          "name": "student_circles_history_student_circles_history_circle_idTocircles",
+          "type": "student_circles_history",
+          "isRequired": false,
+          "kind": "object",
+          "relationName": "student_circles_history_circle_idTocircles",
+          "relationFromFields": [],
+          "relationToFields": [],
+          "isList": true,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
+          "name": "student_circles_history_student_circles_history_previous_circle_idTocircles",
+          "type": "student_circles_history",
+          "isRequired": false,
+          "kind": "object",
+          "relationName": "student_circles_history_previous_circle_idTocircles",
+          "relationFromFields": [],
+          "relationToFields": [],
+          "isList": true,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
           "name": "students",
           "type": "students",
           "isRequired": false,
@@ -1031,6 +1059,11 @@
         }
       ],
       "uniqueConstraints": [
+        {
+          "name": "circles_name_academic_year_key",
+          "fields": ["academic_year", "name"],
+          "nullNotDistinct": false
+        },
         {
           "name": "circles_pkey",
           "fields": ["id"],
@@ -1210,6 +1243,178 @@
         }
       ]
     },
+    "student_circles_history": {
+      "id": "public.student_circles_history",
+      "schemaName": "public",
+      "tableName": "student_circles_history",
+      "fields": [
+        {
+          "id": "public.student_circles_history.id",
+          "name": "id",
+          "columnName": "id",
+          "type": "int8",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": true,
+          "sequence": {
+            "identifier": "\"public\".\"student_circles_history_id_seq\"",
+            "increment": 1,
+            "start": 1
+          },
+          "hasDefaultValue": false,
+          "isId": true,
+          "maxLength": null
+        },
+        {
+          "id": "public.student_circles_history.student_id",
+          "name": "student_id",
+          "columnName": "student_id",
+          "type": "int8",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "public.student_circles_history.previous_circle_id",
+          "name": "previous_circle_id",
+          "columnName": "previous_circle_id",
+          "type": "int8",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "public.student_circles_history.circle_id",
+          "name": "circle_id",
+          "columnName": "circle_id",
+          "type": "int8",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "public.student_circles_history.changed_at",
+          "name": "changed_at",
+          "columnName": "changed_at",
+          "type": "timestamp",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "public.student_circles_history.changed_by",
+          "name": "changed_by",
+          "columnName": "changed_by",
+          "type": "int8",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "public.student_circles_history.reason",
+          "name": "reason",
+          "columnName": "reason",
+          "type": "varchar",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "name": "circles_student_circles_history_circle_idTocircles",
+          "type": "circles",
+          "isRequired": true,
+          "kind": "object",
+          "relationName": "student_circles_history_circle_idTocircles",
+          "relationFromFields": ["circle_id"],
+          "relationToFields": ["id"],
+          "isList": false,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
+          "name": "circles_student_circles_history_previous_circle_idTocircles",
+          "type": "circles",
+          "isRequired": false,
+          "kind": "object",
+          "relationName": "student_circles_history_previous_circle_idTocircles",
+          "relationFromFields": ["previous_circle_id"],
+          "relationToFields": ["id"],
+          "isList": false,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
+          "name": "students",
+          "type": "students",
+          "isRequired": true,
+          "kind": "object",
+          "relationName": "student_circles_historyTostudents",
+          "relationFromFields": ["student_id"],
+          "relationToFields": ["id"],
+          "isList": false,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
+          "name": "public_users",
+          "type": "public_users",
+          "isRequired": false,
+          "kind": "object",
+          "relationName": "student_circles_historyTopublic_users",
+          "relationFromFields": ["changed_by"],
+          "relationToFields": ["id"],
+          "isList": false,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        }
+      ],
+      "uniqueConstraints": [
+        {
+          "name": "student_circles_history_pkey",
+          "fields": ["id"],
+          "nullNotDistinct": false
+        }
+      ]
+    },
     "students": {
       "id": "public.students",
       "schemaName": "public",
@@ -1238,7 +1443,7 @@
           "name": "name",
           "columnName": "name",
           "type": "varchar",
-          "isRequired": false,
+          "isRequired": true,
           "kind": "scalar",
           "isList": false,
           "isGenerated": false,
@@ -1442,6 +1647,20 @@
           "isGenerated": false,
           "sequence": false,
           "hasDefaultValue": false
+        },
+        {
+          "name": "student_circles_history",
+          "type": "student_circles_history",
+          "isRequired": false,
+          "kind": "object",
+          "relationName": "student_circles_historyTostudents",
+          "relationFromFields": [],
+          "relationToFields": [],
+          "isList": true,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
         }
       ],
       "uniqueConstraints": [
@@ -1495,7 +1714,7 @@
           "name": "name",
           "columnName": "name",
           "type": "varchar",
-          "isRequired": false,
+          "isRequired": true,
           "kind": "scalar",
           "isList": false,
           "isGenerated": false,
@@ -1509,7 +1728,7 @@
           "name": "category",
           "columnName": "category",
           "type": "varchar",
-          "isRequired": false,
+          "isRequired": true,
           "kind": "scalar",
           "isList": false,
           "isGenerated": false,
@@ -1548,6 +1767,11 @@
         }
       ],
       "uniqueConstraints": [
+        {
+          "name": "tags_name_category_key",
+          "fields": ["category", "name"],
+          "nullNotDistinct": false
+        },
         {
           "name": "tags_pkey",
           "fields": ["id"],
@@ -2136,7 +2360,7 @@
           "name": "name",
           "columnName": "name",
           "type": "varchar",
-          "isRequired": false,
+          "isRequired": true,
           "kind": "scalar",
           "isList": false,
           "isGenerated": false,
@@ -2150,7 +2374,7 @@
           "name": "role",
           "columnName": "role",
           "type": "int2",
-          "isRequired": false,
+          "isRequired": true,
           "kind": "scalar",
           "isList": false,
           "isGenerated": false,
@@ -2249,6 +2473,20 @@
           "isRequired": false,
           "kind": "object",
           "relationName": "shiftsTopublic_users",
+          "relationFromFields": [],
+          "relationToFields": [],
+          "isList": true,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
+          "name": "student_circles_history",
+          "type": "student_circles_history",
+          "isRequired": false,
+          "kind": "object",
+          "relationName": "student_circles_historyTopublic_users",
           "relationFromFields": [],
           "relationToFields": [],
           "isList": true,

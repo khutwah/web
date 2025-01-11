@@ -63,16 +63,16 @@ export default async function LastActivitiesSection({
                     surahEnd={
                       item.student_attendance === 'present'
                         ? {
-                            name: String(item.end_surah),
-                            verse: String(item.end_verse)
+                            name: item.start_surah ?? String(item.end_surah),
+                            verse: item.start_verse ?? Number(item.end_verse)
                           }
                         : null
                     }
                     surahStart={
                       item.student_attendance === 'present'
                         ? {
-                            name: String(item.start_surah),
-                            verse: String(item.start_verse)
+                            name: item.start_surah ?? String(item.start_surah),
+                            verse: item.start_verse ?? Number(item.start_verse)
                           }
                         : null
                     }
