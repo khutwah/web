@@ -1,26 +1,27 @@
-WITH latestcheckpoint AS (
-  SELECT
-    checkpoints.student_id,
-    checkpoints.id AS checkpoint_id,
-    CASE
-      WHEN (checkpoints.end_date IS NOT NULL) THEN NULL :: character varying
-      ELSE checkpoints.status
-    END AS checkpoint_status
-  FROM
-    checkpoints
-  WHERE
-    (
-      (checkpoints.student_id, checkpoints.id) IN (
-        SELECT
-          checkpoints_1.student_id,
-          max(checkpoints_1.id) AS max
-        FROM
-          checkpoints checkpoints_1
-        GROUP BY
-          checkpoints_1.student_id
+WITH
+  latestcheckpoint AS (
+    SELECT
+      checkpoints.student_id,
+      checkpoints.id AS checkpoint_id,
+      CASE
+        WHEN (checkpoints.end_date IS NOT NULL) THEN NULL::character varying
+        ELSE checkpoints.status
+      END AS checkpoint_status
+    FROM
+      checkpoints
+    WHERE
+      (
+        (checkpoints.student_id, checkpoints.id) IN (
+          SELECT
+            checkpoints_1.student_id,
+            max(checkpoints_1.id) AS max
+          FROM
+            checkpoints checkpoints_1
+          GROUP BY
+            checkpoints_1.student_id
+        )
       )
-    )
-)
+  )
 SELECT
   s.id AS student_id,
   s.name AS student_name,
