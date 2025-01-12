@@ -74,6 +74,16 @@ test('getAyahLocationSummary', () => {
           page: 520
         }
       }
+    },
+    {
+      surah: 4,
+      ayah: 176,
+      result: {
+        current: {
+          juz: 6,
+          page: 106
+        }
+      }
     }
   ].forEach(({ surah, ayah, result }) => {
     const summary = getAyahLocationSummary(surah, ayah)

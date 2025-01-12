@@ -164,8 +164,7 @@ export function getAyahLocationInfo(
     page: page.page - foundJuz.start.page
   }
 
-  const lajnahTotalJuz =
-    foundLajnah.id - lajnahPartIndex + (distanceToJuzEnd.ayah > 0 ? 1 : 0)
+  const lajnahTotalJuz = foundLajnah.id - lajnahPartIndex
   return {
     juz: foundJuz.id,
     totalJuz: lajnahTotalJuz,
