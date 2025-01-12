@@ -178,16 +178,16 @@ async function LatestActivitiesByType({ type }: { type: ActivityType }) {
             surahEnd={
               activity.student_attendance === 'present'
                 ? {
-                    name: String(activity.end_surah),
-                    verse: String(activity.end_verse)
+                    name: activity.end_surah ?? String(activity.end_surah),
+                    verse: activity.end_verse ?? Number(activity.end_verse)
                   }
                 : null
             }
             surahStart={
               activity.student_attendance === 'present'
                 ? {
-                    name: String(activity.start_surah),
-                    verse: String(activity.start_verse)
+                    name: activity.start_surah ?? String(activity.start_surah),
+                    verse: activity.start_verse ?? Number(activity.start_verse)
                   }
                 : null
             }

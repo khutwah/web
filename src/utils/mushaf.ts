@@ -96,10 +96,19 @@ export function getAyahLocationInfo(
   if (!page) return undefined
 
   // Find the juz that contains the page. By comparing page with juz start and end pages.
-  const foundJuz = parts.juz.find(
+  const foundJuzIndex = parts.juz.findIndex(
     (j) => j.start.page <= page.page && page.page <= j.end.page
   )
-  if (!foundJuz) return undefined
+  if (!foundJuzIndex) return undefined
+
+  let foundJuz = parts.juz[foundJuzIndex]
+  if (
+    foundJuz.start.surah >= surah &&
+    foundJuz.start.ayah <= ayah &&
+    foundJuzIndex + 1 < parts.juz.length
+  ) {
+    foundJuz = parts.juz[foundJuzIndex + 1]
+  }
 
   const foundLajnah = lajnah.find(({ parts }) => {
     return parts.some((part) => part === foundJuz.id)
@@ -119,7 +128,7 @@ export function getAyahLocationInfo(
     foundJuz.end.surah,
     foundJuz.end.ayah
   )
-  if (!numberOfAyahsToEndJuz) return undefined
+  if (numberOfAyahsToEndJuz === undefined) return undefined
 
   // Calculate the distance to the end of the juz.
   const distanceToJuzEnd = {
@@ -134,7 +143,7 @@ export function getAyahLocationInfo(
     surah,
     ayah
   )
-  if (!numberOfAyahsFromStartJuz) return undefined
+  if (numberOfAyahsFromStartJuz === undefined) return undefined
 
   const distanceFromJuzStart = {
     surah: surah - foundJuz.start.surah,

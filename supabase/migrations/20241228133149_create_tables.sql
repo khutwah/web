@@ -1,8 +1,8 @@
 CREATE TABLE "public"."users" (
   "id" BIGINT GENERATED ALWAYS AS IDENTITY NOT NULL,
   "email" CHARACTER VARYING NOT NULL UNIQUE,
-  "name" CHARACTER VARYING,
-  "role" SMALLINT,
+  "name" CHARACTER VARYING NOT NULL,
+  "role" SMALLINT NOT NULL,
   "created_at" TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
   "updated_at" TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
   "sb_user_id" UUID,
@@ -12,28 +12,30 @@ CREATE TABLE "public"."users" (
 
 CREATE TABLE "public"."circles" (
   "id" BIGINT GENERATED ALWAYS AS IDENTITY NOT NULL,
-  "name" CHARACTER VARYING,
+  "name" CHARACTER VARYING NOT NULL,
   "created_at" TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
   "updated_at" TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
   "academic_year" CHARACTER VARYING(9) NOT NULL,
   "label" CHARACTER VARYING(50),
   "grade" SMALLINT NOT NULL DEFAULT 7,
   "target_page_count" SMALLINT,
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+  UNIQUE (name, academic_year)
 );
 
 CREATE TABLE "public"."tags" (
   "id" BIGINT GENERATED ALWAYS AS IDENTITY NOT NULL,
-  "name" CHARACTER VARYING,
-  "category" CHARACTER VARYING,
+  "name" CHARACTER VARYING NOT NULL,
+  "category" CHARACTER VARYING NOT NULL,
   "created_at" TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
   "updated_at" TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+  UNIQUE (name, category)
 );
 
 CREATE TABLE "public"."students" (
   "id" BIGINT GENERATED ALWAYS AS IDENTITY NOT NULL,
-  "name" CHARACTER VARYING,
+  "name" CHARACTER VARYING NOT NULL,
   "circle_id" BIGINT,
   "created_at" TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
   "updated_at" TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
@@ -65,7 +67,7 @@ CREATE TABLE "public"."shifts" (
 CREATE TABLE "public"."activities" (
   "id" BIGINT GENERATED ALWAYS AS IDENTITY NOT NULL,
   "student_id" BIGINT,
-  "type" SMALLINT,
+  "type" SMALLINT NOT NULL,
   "notes" TEXT,
   "is_target_achieved" BOOLEAN,
   "tags" JSONB,
@@ -74,9 +76,9 @@ CREATE TABLE "public"."activities" (
   "shift_id" BIGINT,
   "created_by" BIGINT,
   "start_surah" SMALLINT,
-  "end_surah" SMALLINT,
+  "end_surah" SMALLINT NOT NULL,
   "start_verse" SMALLINT,
-  "end_verse" SMALLINT,
+  "end_verse" SMALLINT NOT NULL,
   "status" CHARACTER VARYING NOT NULL DEFAULT 'draft',
   "student_attendance" CHARACTER VARYING NOT NULL DEFAULT 'present',
   "page_count" REAL,
@@ -128,4 +130,19 @@ CREATE TABLE "public"."checkpoints" (
   FOREIGN KEY (last_activity_id) REFERENCES activities (id),
   FOREIGN KEY (assessment_id) REFERENCES assessments (id),
   FOREIGN KEY (student_id) REFERENCES students (id)
+);
+
+CREATE TABLE "public"."student_circles_history" (
+  "id" BIGINT GENERATED ALWAYS AS IDENTITY,
+  "student_id" BIGINT NOT NULL,
+  "previous_circle_id" BIGINT,
+  "circle_id" BIGINT NOT NULL,
+  "changed_at" TIMESTAMP DEFAULT NOW(),
+  "changed_by" BIGINT,
+  "reason" CHARACTER VARYING,
+  PRIMARY KEY (id),
+  FOREIGN KEY (student_id) REFERENCES students (id),
+  FOREIGN KEY (previous_circle_id) REFERENCES circles (id),
+  FOREIGN KEY (circle_id) REFERENCES circles (id),
+  FOREIGN KEY (changed_by) REFERENCES users (id)
 );

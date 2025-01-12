@@ -380,7 +380,7 @@ export class Activities extends Base {
       .eq('student_id', student_id)
       .eq('type', ActivityType.Sabaq)
       .eq('status', ActivityStatus.completed)
-      .not('tags', 'cs', JSON.stringify([TAG_LAJNAH_ASSESSMENT_ONGOING]))
+      .or(`tags.is.null,tags.not.cs.["${TAG_LAJNAH_ASSESSMENT_ONGOING}"]`)
 
     if (lastActivityId) {
       activities = activities.gt('id', lastActivityId)
@@ -435,7 +435,7 @@ export class Activities extends Base {
         .eq('type', ActivityType.Sabaq)
         .gte('created_at', start_date)
         .lte('created_at', end_date)
-        .not('tags', 'cs', JSON.stringify([TAG_LAJNAH_ASSESSMENT_ONGOING]))
+        .or(`tags.is.null,tags.not.cs.["${TAG_LAJNAH_ASSESSMENT_ONGOING}"]`)
         .order('id', { ascending: true })
     ])
 

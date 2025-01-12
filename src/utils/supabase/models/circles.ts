@@ -166,8 +166,8 @@ export class Circles extends Base {
           label,
           grade,
           target_page_count,
-          shifts(id, location, ustadz_id, users (name, id), start_date),
-          students(id, name, parent_id)
+          shifts (id, location, ustadz_id, users (name, id), start_date),
+          students (id, name, parent_id)
         `
       )
       .eq('id', id)

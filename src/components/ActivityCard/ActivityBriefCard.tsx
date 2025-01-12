@@ -78,13 +78,17 @@ export function ActivityBriefCard({
               </div>
 
               <div className='flex items-center gap-x-2'>
-                <div>
-                  {surahStart.name}: {surahStart.verse}
-                </div>
+                {surahStart.name && surahStart.verse ? (
+                  <>
+                    <div>
+                      {surahStart.name}: {surahStart.verse}
+                    </div>
 
-                <div>
-                  <MoveRight size={14} />
-                </div>
+                    <div>
+                      <MoveRight size={16} />
+                    </div>
+                  </>
+                ) : null}
 
                 <div>
                   {surahEnd.name}: {surahEnd.verse}

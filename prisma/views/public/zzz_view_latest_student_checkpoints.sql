@@ -3,7 +3,10 @@ WITH
     SELECT
       checkpoints.student_id,
       checkpoints.id AS checkpoint_id,
-      checkpoints.status AS checkpoint_status
+      CASE
+        WHEN (checkpoints.end_date IS NOT NULL) THEN NULL::character varying
+        ELSE checkpoints.status
+      END AS checkpoint_status
     FROM
       checkpoints
     WHERE

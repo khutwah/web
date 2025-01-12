@@ -98,9 +98,6 @@ export default async function DetailHalaqah({
                 <dt className='font-semibold col-span-1'>Wali halaqah</dt>
                 <dd className='col-span-2'>{circleInfo.data.ustadz?.name}</dd>
 
-                <dt className='font-semibold col-span-1'>Lokasi</dt>
-                <dd className='col-span-2'>{circleInfo.data.location}</dd>
-
                 <dt className='font-semibold col-span-1'>Target</dt>
                 <dd className='col-span-2'>
                   <TargetPageCount

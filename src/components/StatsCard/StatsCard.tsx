@@ -30,9 +30,9 @@ export function StatsCard({ surah, ayah, halaqahCount }: StatsCardProps) {
               </div>
               <div className='text-xl font-bold'>
                 {summary?.juz.juz} Juz{' '}
-                {summary?.juz.pages &&
-                  summary?.juz.pages > 0 &&
-                  `dan ${summary?.juz.pages} halaman`}
+                {summary?.juz.pages && summary?.juz.pages > 0 ? (
+                  <>dan {summary?.juz.pages} halaman</>
+                ) : null}
               </div>
               <div className='text-khutwah-grey-lightest'>
                 {summary?.juz.progress.toFixed(2) || 0}% perjalanan

@@ -12,7 +12,7 @@ datasource db {
 model activities {
   id                 BigInt        @id @default(autoincrement())
   student_id         BigInt?
-  type               Int?          @db.SmallInt
+  type               Int           @db.SmallInt
   notes              String?
   is_target_achieved Boolean?
   tags               Json?
@@ -21,9 +21,9 @@ model activities {
   shift_id           BigInt?
   created_by         BigInt?
   start_surah        Int?          @db.SmallInt
-  end_surah          Int?          @db.SmallInt
+  end_surah          Int           @db.SmallInt
   start_verse        Int?          @db.SmallInt
-  end_verse          Int?          @db.SmallInt
+  end_verse          Int           @db.SmallInt
   status             String        @default("draft") @db.VarChar
   student_attendance String        @default("present") @db.VarChar
   page_count         Float?        @db.Real
@@ -78,16 +78,20 @@ model checkpoints {
 }
 
 model circles {
-  id                BigInt     @id @default(autoincrement())
-  name              String?    @db.VarChar
-  created_at        DateTime?  @default(now()) @db.Timestamp(6)
-  updated_at        DateTime?  @default(now()) @db.Timestamp(6)
-  academic_year     String     @db.VarChar(9)
-  label             String?    @db.VarChar(50)
-  grade             Int        @default(7) @db.SmallInt
-  target_page_count Int?       @db.SmallInt
-  shifts            shifts[]
-  students          students[]
+  id                                                                          BigInt                    @id @default(autoincrement())
+  name                                                                        String                    @db.VarChar
+  created_at                                                                  DateTime?                 @default(now()) @db.Timestamp(6)
+  updated_at                                                                  DateTime?                 @default(now()) @db.Timestamp(6)
+  academic_year                                                               String                    @db.VarChar(9)
+  label                                                                       String?                   @db.VarChar(50)
+  grade                                                                       Int                       @default(7) @db.SmallInt
+  target_page_count                                                           Int?                      @db.SmallInt
+  shifts                                                                      shifts[]
+  student_circles_history_student_circles_history_circle_idTocircles          student_circles_history[] @relation("student_circles_history_circle_idTocircles")
+  student_circles_history_student_circles_history_previous_circle_idTocircles student_circles_history[] @relation("student_circles_history_previous_circle_idTocircles")
+  students                                                                    students[]
+
+  @@unique([name, academic_year])
 }
 
 model shifts {
@@ -105,45 +109,63 @@ model shifts {
 }
 
 model students {
-  id                BigInt        @id @default(autoincrement())
-  name              String?       @db.VarChar
-  circle_id         BigInt?
-  created_at        DateTime?     @default(now()) @db.Timestamp(6)
-  updated_at        DateTime?     @default(now()) @db.Timestamp(6)
-  parent_id         BigInt?
-  nisn              String?       @unique @db.VarChar
-  nis               String?       @unique @db.VarChar
-  virtual_account   String?       @unique @db.VarChar(50)
-  pin               String?       @db.Char(6)
-  target_page_count Int?          @db.SmallInt
-  activities        activities[]
-  assessments       assessments[]
-  checkpoints       checkpoints[]
-  circles           circles?      @relation(fields: [circle_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  users             users?        @relation(fields: [parent_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id                      BigInt                    @id @default(autoincrement())
+  name                    String                    @db.VarChar
+  circle_id               BigInt?
+  created_at              DateTime?                 @default(now()) @db.Timestamp(6)
+  updated_at              DateTime?                 @default(now()) @db.Timestamp(6)
+  parent_id               BigInt?
+  nisn                    String?                   @unique @db.VarChar
+  nis                     String?                   @unique @db.VarChar
+  virtual_account         String?                   @unique @db.VarChar(50)
+  pin                     String?                   @db.Char(6)
+  target_page_count       Int?                      @db.SmallInt
+  activities              activities[]
+  assessments             assessments[]
+  checkpoints             checkpoints[]
+  student_circles_history student_circles_history[]
+  circles                 circles?                  @relation(fields: [circle_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users                   users?                    @relation(fields: [parent_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model tags {
   id         BigInt    @id @default(autoincrement())
-  name       String?   @db.VarChar
-  category   String?   @db.VarChar
+  name       String    @db.VarChar
+  category   String    @db.VarChar
   created_at DateTime? @default(now()) @db.Timestamp(6)
   updated_at DateTime? @default(now()) @db.Timestamp(6)
+
+  @@unique([name, category])
 }
 
 model users {
-  id          BigInt        @id @default(autoincrement())
-  email       String        @unique @db.VarChar
-  name        String?       @db.VarChar
-  role        Int?          @db.SmallInt
-  created_at  DateTime?     @default(now()) @db.Timestamp(6)
-  updated_at  DateTime?     @default(now()) @db.Timestamp(6)
-  sb_user_id  String?       @db.Uuid
-  is_active   Boolean       @default(true)
-  activities  activities[]
-  assessments assessments[]
-  shifts      shifts[]
-  students    students[]
+  id                      BigInt                    @id @default(autoincrement())
+  email                   String                    @unique @db.VarChar
+  name                    String                    @db.VarChar
+  role                    Int                       @db.SmallInt
+  created_at              DateTime?                 @default(now()) @db.Timestamp(6)
+  updated_at              DateTime?                 @default(now()) @db.Timestamp(6)
+  sb_user_id              String?                   @db.Uuid
+  is_active               Boolean                   @default(true)
+  activities              activities[]
+  assessments             assessments[]
+  shifts                  shifts[]
+  student_circles_history student_circles_history[]
+  students                students[]
+}
+
+model student_circles_history {
+  id                                                          BigInt    @id @default(autoincrement())
+  student_id                                                  BigInt
+  previous_circle_id                                          BigInt?
+  circle_id                                                   BigInt
+  changed_at                                                  DateTime? @default(now()) @db.Timestamp(6)
+  changed_by                                                  BigInt?
+  reason                                                      String?   @db.VarChar
+  users                                                       users?    @relation(fields: [changed_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  circles_student_circles_history_circle_idTocircles          circles   @relation("student_circles_history_circle_idTocircles", fields: [circle_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  circles_student_circles_history_previous_circle_idTocircles circles?  @relation("student_circles_history_previous_circle_idTocircles", fields: [previous_circle_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  students                                                    students  @relation(fields: [student_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 view zzz_view_latest_student_sabaq_activities {
