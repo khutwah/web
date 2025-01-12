@@ -15,7 +15,6 @@ import { MENU_USTADZ_PATH_RECORDS } from '@/utils/menus/ustadz'
 import { convertSearchParamsToPath } from '@/utils/url'
 import { GLOBAL_TARGET_PAGE_COUNT } from '@/models/activities'
 import { TargetPageCount } from '@/components/TargetPageCount/TargetPageCount'
-import { getUser } from '@/utils/supabase/get-user'
 
 export default async function DetailHalaqah({
   params: paramsPromise,
@@ -24,16 +23,13 @@ export default async function DetailHalaqah({
   params: Promise<{ slug: string }>
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
-  const user = await getUser()
   const params = await paramsPromise
   const searchParams = await searchParamsPromise
 
   const circlesInstance = new Circles()
-  const circleInfo = await circlesInstance.get(Number(params.slug), {
-    ustadz_id: user.id
-  })
-  let pageContent: JSX.Element
+  const circleInfo = await circlesInstance.get(Number(params.slug))
 
+  let pageContent: JSX.Element
   if (!circleInfo?.data) {
     // TODO: implement proper error handling.
     pageContent = <div>Unexpected error: {circleInfo?.error.message}</div>

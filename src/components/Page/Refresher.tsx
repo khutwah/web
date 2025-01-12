@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 
 interface RefresherProps {
   endpoint?: string
@@ -17,22 +17,25 @@ export function Refresher({
   const queueRef = useRef<string[]>([])
   const timerRef = useRef<NodeJS.Timeout | null>(null)
 
-  const handleEvent = (event: MessageEvent) => {
-    queueRef.current.push(event.data)
+  const handleEvent = useCallback(
+    (event: MessageEvent) => {
+      queueRef.current.push(event.data)
 
-    if (timerRef.current) {
-      clearTimeout(timerRef.current)
-    }
-
-    timerRef.current = setTimeout(() => {
-      if (queueRef.current.length > 0) {
-        router.refresh()
-        queueRef.current = []
+      if (timerRef.current) {
+        clearTimeout(timerRef.current)
       }
 
-      timerRef.current = null
-    }, refreshDelay)
-  }
+      timerRef.current = setTimeout(() => {
+        if (queueRef.current.length > 0) {
+          router.refresh()
+          queueRef.current = []
+        }
+
+        timerRef.current = null
+      }, refreshDelay)
+    },
+    [refreshDelay, router]
+  )
 
   useEffect(() => {
     const eventSource = new EventSource(endpoint)
@@ -44,7 +47,7 @@ export function Refresher({
         clearTimeout(timerRef.current)
       }
     }
-  }, [endpoint, refreshDelay, router])
+  }, [endpoint, handleEvent])
 
   return null
 }

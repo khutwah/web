@@ -1,7 +1,12 @@
 import { test } from 'node:test'
 import assert from 'node:assert'
 import surahs from '@/data/mushaf/surahs.json'
-import { getPage, getPageCount, getEndSurahAndAyah } from './mushaf'
+import {
+  getPage,
+  getPageCount,
+  getEndSurahAndAyah,
+  getAyahLocationSummary
+} from './mushaf'
 
 test('getPage', () => {
   surahs.forEach((surah) => {
@@ -45,5 +50,33 @@ test('getEndSurahAndAyah', () => {
       getEndSurahAndAyah(startSurah, startAyah, pageCount),
       result
     )
+  })
+})
+
+test('getAyahLocationSummary', () => {
+  ;[
+    {
+      surah: 17,
+      ayah: 111,
+      result: {
+        current: {
+          juz: 15,
+          page: 293
+        }
+      }
+    },
+    {
+      surah: 50,
+      ayah: 45,
+      result: {
+        current: {
+          juz: 26,
+          page: 520
+        }
+      }
+    }
+  ].forEach(({ surah, ayah, result }) => {
+    const summary = getAyahLocationSummary(surah, ayah)
+    assert.deepStrictEqual(summary?.current, result.current)
   })
 })

@@ -41,20 +41,21 @@ jobs:
         if: steps.changes.outputs.migrations == 'true' || steps.changes.outputs.seeds == 'true'
       - run: supabase db push
         if: steps.changes.outputs.migrations == 'true'
-      - uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
-        with:
-          node-version: 22.x
-      - run: npm ci
-        if: steps.changes.outputs.seeds == 'true'
-      - run: npm run seed
-        if: steps.changes.outputs.seeds == 'true'
-        env:
-          SUPABASE_API_URL: ${{ secrets.REVIEW_SUPABASE_URL }}
-          SUPABASE_ANON_KEY: ${{ secrets.REVIEW_SUPABASE_ANON_KEY }}
-          DATABASE_URL: ${{ secrets.REVIEW_DATABASE_URL }}
-          # For previewer, this is not a secret. It's a test password.
-          # Please sync the  value with the one in deployments/review/fly.toml.
-          STUDENTS_DEFAULT_PASSWORD: test123
+      # We skip seeding for now.
+      # - uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
+      #   with:
+      #     node-version: 22.x
+      # - run: npm ci
+      #   if: steps.changes.outputs.seeds == 'true'
+      # - run: npm run seed
+      #   if: steps.changes.outputs.seeds == 'true'
+      #   env:
+      #     SUPABASE_API_URL: ${{ secrets.REVIEW_SUPABASE_URL }}
+      #     SUPABASE_ANON_KEY: ${{ secrets.REVIEW_SUPABASE_ANON_KEY }}
+      #     DATABASE_URL: ${{ secrets.REVIEW_DATABASE_URL }}
+      #     # For previewer, this is not a secret. It's a test password.
+      #     # Please sync the  value with the one in deployments/review/fly.toml.
+      #     STUDENTS_DEFAULT_PASSWORD: test123
 
   deploy:
     needs: check-database
