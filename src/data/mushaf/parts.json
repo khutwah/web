@@ -44,7 +44,7 @@
     },
     {
       "id": 27,
-      "pages": 20,
+      "pages": 22,
       "start": {
         "page": 520,
         "surah": 51,
@@ -58,7 +58,7 @@
     },
     {
       "id": 26,
-      "pages": 20,
+      "pages": 19,
       "start": {
         "page": 502,
         "surah": 46,
@@ -72,7 +72,7 @@
     },
     {
       "id": 25,
-      "pages": 20,
+      "pages": 19,
       "start": {
         "page": 483,
         "surah": 42,
@@ -86,7 +86,7 @@
     },
     {
       "id": 24,
-      "pages": 20,
+      "pages": 24,
       "start": {
         "page": 458,
         "surah": 39,
@@ -100,7 +100,7 @@
     },
     {
       "id": 23,
-      "pages": 20,
+      "pages": 19,
       "start": {
         "page": 440,
         "surah": 36,
@@ -114,7 +114,7 @@
     },
     {
       "id": 22,
-      "pages": 20,
+      "pages": 22,
       "start": {
         "page": 418,
         "surah": 33,
@@ -128,7 +128,7 @@
     },
     {
       "id": 21,
-      "pages": 20,
+      "pages": 13,
       "start": {
         "page": 404,
         "surah": 30,
@@ -142,7 +142,7 @@
     },
     {
       "id": 20,
-      "pages": 20,
+      "pages": 28,
       "start": {
         "page": 377,
         "surah": 27,
@@ -156,7 +156,7 @@
     },
     {
       "id": 19,
-      "pages": 20,
+      "pages": 17,
       "start": {
         "page": 359,
         "surah": 25,
@@ -170,7 +170,7 @@
     },
     {
       "id": 18,
-      "pages": 20,
+      "pages": 18,
       "start": {
         "page": 342,
         "surah": 23,
@@ -268,11 +268,11 @@
     },
     {
       "id": 11,
-      "pages": 20,
+      "pages": 19,
       "start": {
-        "page": 202,
+        "page": 201,
         "surah": 9,
-        "ayah": 129
+        "ayah": 93
       },
       "end": {
         "page": 221,
@@ -300,7 +300,7 @@
       "start": {
         "page": 162,
         "surah": 7,
-        "ayah": 206
+        "ayah": 88
       },
       "end": {
         "page": 181,
@@ -326,13 +326,13 @@
       "id": 7,
       "pages": 20,
       "start": {
-        "page": 122,
+        "page": 121,
         "surah": 5,
         "ayah": 82
       },
       "end": {
         "page": 141,
-        "surah": 7,
+        "surah": 6,
         "ayah": 110
       }
     },

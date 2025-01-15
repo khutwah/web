@@ -4,7 +4,7 @@ import {
   Flame as LajnahCount,
   Clock as HalaqahCount
 } from 'lucide-react'
-import { getAyahLocationSummary, getSurahName } from '@/utils/mushaf'
+import { getAyahLocationSummary, getSurahName } from '@minhajulhaq/mushaf'
 
 interface StatsCardProps {
   surah: number
