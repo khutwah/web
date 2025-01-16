@@ -9,28 +9,22 @@ declare global {
 }
 
 export class Realtime {
-  private static instance: Realtime
   private manager: any
   private supabase: any
 
-  private constructor() {}
-
-  public static getInstance(): Realtime {
-    if (!Realtime.instance) {
-      Realtime.instance = new Realtime()
-    }
-    return Realtime.instance
-  }
-
-  public async initialize() {
-    if (this.supabase) {
-      return
-    }
-    this.supabase = await createClient(
+  private constructor() {
+    this.supabase = createClient(
       process.env.SUPABASE_API_URL!,
       process.env.SUPABASE_ANON_KEY!
     )
     this.manager = new RealtimeManager(this.supabase)
+  }
+
+  public static getInstance(): Realtime {
+    if (!global.realtimeInstance) {
+      global.realtimeInstance = new Realtime()
+    }
+    return global.realtimeInstance
   }
 
   public managerInstance(): RealtimeManager {
@@ -42,8 +36,7 @@ export class Realtime {
     event: string,
     payload?: any
   ) {
-    await global.realtimeInstance.initialize()
-    return global.realtimeInstance
+    return Realtime.getInstance()
       .managerInstance()
       .broadcast(channelName, event, payload)
   }

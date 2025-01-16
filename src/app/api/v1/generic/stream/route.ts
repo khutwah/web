@@ -8,7 +8,6 @@ import { RealtimeInstance } from '@/utils/realtime/instance'
 import { EVENT_NAME } from '@/utils/realtime/generic'
 
 export async function GET(req: NextRequest) {
-  await RealtimeInstance.initialize()
   const searchParams = req.nextUrl.searchParams
   const streamId = searchParams.get('stream_id') || randomString()
   const encoder = new TextEncoder()

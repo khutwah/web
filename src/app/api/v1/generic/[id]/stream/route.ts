@@ -12,7 +12,6 @@ export async function GET(
   req: NextRequest,
   { params: paramsPromise }: { params: Promise<{ id: string }> }
 ) {
-  await RealtimeInstance.initialize()
   const searchParams = req.nextUrl.searchParams
   const params = await paramsPromise
   const streamId = searchParams.get('stream_id') || randomString()
