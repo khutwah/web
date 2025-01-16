@@ -89,10 +89,11 @@ export default async function LajnahRole({
       student_id: studentId
     }),
     activitiesInstance.getLatestSabaq({ studentId }),
-    checkpointsInstance.list({ student_id: studentId }),
+    checkpointsInstance.list({ student_id: studentId, limit: 1 }),
     assessmentsInstance.list({
       student_id: studentId,
-      parent_assessment_id: null
+      parent_assessment_id: null,
+      limit: 1
     })
   ])
 

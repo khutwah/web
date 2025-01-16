@@ -42,6 +42,10 @@ export class Assessments extends Base {
       query = query.is('parent_assessment_id', null)
     }
 
+    if (filter.limit) {
+      query = query.limit(filter.limit)
+    }
+
     if (parent_assessment_id) {
       query = query.or(
         `id.eq.${parent_assessment_id},parent_assessment_id.eq.${parent_assessment_id}`

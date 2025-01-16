@@ -64,6 +64,7 @@ export interface FilterPayload {
   parent_assessment_id?: number | null
   ustadz_id?: number
   student_id?: number
+  limit?: number
 }
 
 export interface ResetPayload {

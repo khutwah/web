@@ -98,7 +98,7 @@ export default async function UstadzRole({
       [ActivityType.Sabaq, ActivityType.Sabqi, ActivityType.Manzil],
       day
     ),
-    checkpointsInstance.list({ student_id: studentId }),
+    checkpointsInstance.list({ student_id: studentId, limit: 1 }),
     assessmentsInstance.list({
       student_id: studentId,
       parent_assessment_id: null
