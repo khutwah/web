@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { createClient } from '@/utils/supabase/server'
+import { createClient } from '@supabase/supabase-js'
 import { RealtimeManager } from '@/utils/realtime/manager'
 
 declare global {
@@ -26,7 +26,10 @@ export class Realtime {
     if (this.supabase) {
       return
     }
-    this.supabase = await createClient()
+    this.supabase = await createClient(
+      process.env.SUPABASE_API_URL!,
+      process.env.SUPABASE_ANON_KEY!
+    )
     this.manager = new RealtimeManager(this.supabase)
   }
 
