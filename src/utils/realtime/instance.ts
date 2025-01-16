@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
+import 'server-only'
 import { createClient } from '@supabase/supabase-js'
 import { RealtimeManager } from '@/utils/realtime/manager'
 
@@ -14,8 +14,8 @@ export class Realtime {
 
   private constructor() {
     this.supabase = createClient(
-      process.env.SUPABASE_API_URL!,
-      process.env.SUPABASE_ANON_KEY!
+      process.env.SUPABASE_API_URL || 'https://api.supabase.co',
+      process.env.SUPABASE_ANON_KEY || 'key'
     )
     this.manager = new RealtimeManager(this.supabase)
   }
