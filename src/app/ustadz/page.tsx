@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import { HalaqahCard } from '@/components/HalaqahCard/HalaqahCard'
 import { Layout } from '@/components/Layout/Ustadz'
 import { Circles } from '@/utils/supabase/models/circles'
@@ -13,6 +14,17 @@ import Link from 'next/link'
 import getTimezoneInfo from '@/utils/get-timezone-info'
 
 export default async function Home() {
+  return (
+    <Layout>
+      <HeaderBackground />
+      <Suspense fallback={<Fallback />}>
+        <Wrapper />
+      </Suspense>
+    </Layout>
+  )
+}
+
+async function Wrapper() {
   const user = await getUser()
   const userId = user.id
   const tz = await getTimezoneInfo()
@@ -28,8 +40,7 @@ export default async function Home() {
   })
 
   return (
-    <Layout>
-      <HeaderBackground />
+    <>
       <ActivityPopup activities={activityList.data} />
 
       <div className='flex flex-col gap-y-6 mt-4 py-6'>
@@ -81,7 +92,6 @@ export default async function Home() {
         </section>
 
         <section className='flex flex-col gap-3'>
-          {/* FIXME(dio-khutwah): Add empty state component for activity list. */}
           {activityList.data && activityList.data.length > 0 && (
             <div className='flex flex-row items-center justify-between px-6'>
               <h2 className='text-khutwah-m-semibold'>Input Terakhir</h2>
@@ -133,6 +143,16 @@ export default async function Home() {
           </ul>
         </section>
       </div>
-    </Layout>
+    </>
+  )
+}
+
+function Fallback() {
+  return (
+    <div className='flex flex-col gap-y-6 mt-4 py-6'>
+      <section className='px-6 gap-y-6 flex flex-col'>
+        <HomeHeader displayName={'...'} ustadz isLoading />
+      </section>
+    </div>
   )
 }

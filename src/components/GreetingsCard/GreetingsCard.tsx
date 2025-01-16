@@ -17,6 +17,7 @@ interface Props {
     | undefined
   currentDate?: Date
   className?: string
+  isLoading?: boolean
 }
 
 export function GreetingsCard({
@@ -25,6 +26,7 @@ export function GreetingsCard({
   salahPrayerTimes,
   className,
   currentDate,
+  isLoading,
   children
 }: PropsWithChildren<Props>) {
   return (
@@ -55,7 +57,7 @@ export function GreetingsCard({
       <CardContent className='flex flex-col p-5 pt-0 gap-y-2'>
         <SalahTimebox
           currentDate={currentDate}
-          salahPrayerTimes={salahPrayerTimes}
+          salahPrayerTimes={isLoading ? undefined : salahPrayerTimes}
         />
 
         {children}

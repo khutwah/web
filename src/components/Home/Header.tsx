@@ -11,9 +11,10 @@ import { CircleAlert } from 'lucide-react'
 interface Props {
   displayName: string
   ustadz?: boolean
+  isLoading?: boolean
 }
 
-export function HomeHeader({ displayName, ustadz }: Props) {
+export function HomeHeader({ displayName, ustadz, isLoading }: Props) {
   const { alAdhanInfo, errorMessage } = useAlAdhanInfo()
 
   return (
@@ -29,6 +30,7 @@ export function HomeHeader({ displayName, ustadz }: Props) {
         avatarUrl={ustadz ? UstadzImage : SantriImage}
         name={displayName}
         salahPrayerTimes={alAdhanInfo?.timings}
+        isLoading={isLoading}
       >
         {errorMessage && (
           <div className='flex gap-x-2 text-khutwah-sm-regular text-khutwah-red-light'>
