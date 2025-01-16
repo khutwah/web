@@ -157,20 +157,12 @@ async function ProgressViewCardContent({
     adjustedStartDate = adjustedStartDate.subtract(5, 'day')
   }
 
-  const [activitiesChart, activities] = await Promise.all([
-    activitiesInstance.chart({
-      student_id: student.id,
-      start_date: adjustedStartDate.toISOString(),
-      end_date: day.endOf(chartPeriod).toISOString(),
-      tz
-    }),
-    activitiesInstance.list({
-      student_id: student.id,
-      start_date: day.startOf(isChartView ? chartPeriod : 'week').toISOString(),
-      end_date: day.endOf(isChartView ? chartPeriod : 'week').toISOString(),
-      limit: 21
-    })
-  ])
+  const activities = await activitiesInstance.list({
+    student_id: student.id,
+    start_date: day.startOf(isChartView ? chartPeriod : 'week').toISOString(),
+    end_date: day.endOf(isChartView ? chartPeriod : 'week').toISOString(),
+    limit: 21
+  })
 
   return (
     <CardContent
@@ -182,9 +174,12 @@ async function ProgressViewCardContent({
       )}
     >
       {isChartView ? (
-        <ProgressChartWithNavigation
-          activities={activitiesChart}
-          datePeriod={chartPeriod}
+        <ProgressChartWithNavigationWrapper
+          student={student}
+          adjustedStartDate={adjustedStartDate}
+          chartPeriod={chartPeriod}
+          day={day}
+          tz={tz}
         />
       ) : (
         <ProgressGridWithNavigation
@@ -205,5 +200,36 @@ async function ProgressViewCardContent({
         />
       )}
     </CardContent>
+  )
+}
+
+interface ProgressChartWithNavigationWrapperProps {
+  student: Student
+  adjustedStartDate: Dayjs
+  chartPeriod: 'month' | 'week'
+  day: Dayjs
+  tz: string
+}
+
+async function ProgressChartWithNavigationWrapper({
+  student,
+  adjustedStartDate,
+  chartPeriod,
+  day,
+  tz
+}: ProgressChartWithNavigationWrapperProps) {
+  const activitiesInstance = new Activities()
+  const activitiesChart = await activitiesInstance.chart({
+    student_id: student.id,
+    start_date: adjustedStartDate.toISOString(),
+    end_date: day.endOf(chartPeriod).toISOString(),
+    tz
+  })
+
+  return (
+    <ProgressChartWithNavigation
+      activities={activitiesChart}
+      datePeriod={chartPeriod}
+    />
   )
 }
