@@ -54,18 +54,16 @@ export default async function LajnahRole({
 
   return (
     <Layout>
-      <Layout>
-        <ErrorBoundary fallback={<ErrorMessage />}>
-          <Suspense fallback={<Fallback />}>
-            <Wrapper
-              role={role}
-              tz={tz}
-              params={params}
-              searchParams={searchParams}
-            />
-          </Suspense>
-        </ErrorBoundary>
-      </Layout>
+      <ErrorBoundary fallback={<ErrorMessage />}>
+        <Suspense fallback={<Fallback />}>
+          <Wrapper
+            role={role}
+            tz={tz}
+            params={params}
+            searchParams={searchParams}
+          />
+        </Suspense>
+      </ErrorBoundary>
     </Layout>
   )
 }
