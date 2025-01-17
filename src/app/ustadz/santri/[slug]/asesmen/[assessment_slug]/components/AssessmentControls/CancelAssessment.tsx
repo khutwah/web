@@ -9,7 +9,7 @@ import {
   DrawerTitle,
   DrawerTrigger
 } from '@/components/Drawer/Drawer'
-import { Lock } from 'lucide-react'
+import { CalendarOff as Cancel } from 'lucide-react'
 import { useActionState, useEffect, useState } from 'react'
 import { addAssessmentCheckpoint } from './actions'
 import { Assessments } from '@/utils/supabase/models/assessments'
@@ -32,7 +32,7 @@ interface Props {
   statusCheckpoint?: StatusCheckpoint
 }
 
-export function FinalizeAssessment({
+export function CancelAssessment({
   lastCheckpoint,
   surahRange,
   statusCheckpoint
@@ -42,15 +42,15 @@ export function FinalizeAssessment({
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
-        <Button variant='outline' className='w-full'>
-          <Lock size={16} aria-hidden /> Selesai
+        <Button variant='text' className='w-full'>
+          <Cancel size={16} aria-hidden /> Tunda Ikhtibar
         </Button>
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
-          <DrawerTitle>Menyelesaikan Ikhtibar</DrawerTitle>
+          <DrawerTitle>Menunda Ikhtibar</DrawerTitle>
           <DrawerDescription>
-            Isi formulir berikut untuk menyelesaikan ikhtibar.
+            Isi formulir berikut untuk menunda ikhtibar.
           </DrawerDescription>
         </DrawerHeader>
 
@@ -100,6 +100,11 @@ function AddAssessmentCheckpointForm({
       surahRange={surahRange}
       additionalFormFields={<AdditionalFormFields />}
       isPending={isPending}
+      texts={[
+        'Tunda Ikhtibar',
+        'Menunda Ikhtibar...',
+        `Misalnya: Perlu tambahan waktu muroja'ah`
+      ]}
     />
   )
 }
@@ -113,7 +118,7 @@ function AdditionalFormFields() {
   return (
     <div className='flex flex-col gap-2'>
       <InputWithLabel
-        label='Nilai Akhir'
+        label='Nilai Sampai Sekarang'
         inputProps={{
           ...register('final_mark'),
           className: 'w-full',

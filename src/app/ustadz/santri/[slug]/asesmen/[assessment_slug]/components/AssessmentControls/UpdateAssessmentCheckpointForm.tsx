@@ -23,6 +23,7 @@ interface Props {
   additionalFormFields?: ReactNode
   submitButton?: ReactNode
   statusCheckpoint?: StatusCheckpoint
+  texts?: string[]
 }
 
 export function UpdateAssessmentCheckpointForm({
@@ -32,7 +33,8 @@ export function UpdateAssessmentCheckpointForm({
   additionalFormFields,
   isPending,
   submitButton,
-  statusCheckpoint
+  statusCheckpoint,
+  texts
 }: Props) {
   const [start] = lastCheckpoint.surah_range as [[string], [string] | undefined]
   const [startSurah, startVerse] = start[0].split(':')
@@ -176,7 +178,7 @@ export function UpdateAssessmentCheckpointForm({
                 ...register('notes'),
                 className: 'w-full',
                 type: 'text',
-                placeholder: 'Misalnya: Baik sekali',
+                placeholder: texts ? texts[2] : 'Misalnya: Baik sekali',
                 required: false
               }}
             />
@@ -197,7 +199,13 @@ export function UpdateAssessmentCheckpointForm({
             className='w-full mt-4'
             disabled={isPending || !finalMark}
           >
-            {isPending ? 'Menyelesaikan Ikhtibar...' : 'Selesaikan Ikhtibar'}
+            {isPending
+              ? texts
+                ? texts[1]
+                : 'Menyelesaikan Ikhtibar...'
+              : texts
+                ? texts[0]
+                : 'Selesaikan Ikhtibar'}
           </Button>
         )}
       </form>

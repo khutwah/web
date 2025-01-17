@@ -18,6 +18,7 @@ import { parseSurahNameAndAyahFromRangeSegment } from '@minhajulhaq/mushaf'
 import { AddAssessmentCheckpoint } from './components/AssessmentControls/AddAssessmentCheckpoint'
 import { FinalizeAssessment } from './components/AssessmentControls/FinalizeAssessment'
 import { Checkpoints as StatusCheckpoints } from '@/utils/supabase/models/checkpoints'
+import { CancelAssessment } from './components/AssessmentControls/CancelAssessment'
 
 interface AsesmenPageProps {
   params: Promise<{ assessment_slug: number; slug: number }>
@@ -147,13 +148,13 @@ export default async function AsesemenPage({
               />
             </div>
 
-            {/* <hr /> */}
-
+            <hr />
             <div>
-              {/* TODO: implement this one. */}
-              {/* <Button className='w-full' variant='text'>
-                Tunda asesmen
-              </Button> */}
+              <CancelAssessment
+                statusCheckpoint={statusCheckpoint}
+                lastCheckpoint={lastAssessment}
+                surahRange={rootAssessment.surah_range}
+              />
             </div>
           </div>
         )}
