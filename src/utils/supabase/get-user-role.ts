@@ -1,14 +1,22 @@
 import { Auth } from './models/auth'
 import { User } from './models/user'
+import { cookies } from 'next/headers'
 
 export async function getUserRole(): Promise<number> {
-  const auth = new Auth()
-  const _auth = await auth.get()
+  const cookieStore = await cookies()
+  const role = cookieStore.get('role')?.value
+  if (role) {
+    return parseInt(role)
+  }
 
-  const user = new User()
-  const _user = await user.get({
-    email: _auth?.email || ''
+  return getUserRoleFromServer()
+}
+
+async function getUserRoleFromServer() {
+  const auth = await new Auth().get()
+  const user = await new User().get({
+    email: auth?.email || ''
   })
 
-  return _user.data?.role ?? -1
+  return user.data?.role ?? -1
 }

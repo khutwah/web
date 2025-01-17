@@ -30,7 +30,6 @@ import AssessmentSection from '../sections/AssessmentSection'
 import LastActivitiesSection from '../sections/LastActivitiesSection'
 import { MENU_USTADZ_PATH_RECORDS } from '@/utils/menus/ustadz'
 import { dayjs } from '@/utils/dayjs'
-import { getUserRole } from '@/utils/supabase/get-user-role'
 import { ROLE } from '@/models/auth'
 import { getNextLajnahAssessment } from '@/utils/assessments'
 import { Checkpoints } from '@/utils/supabase/models/checkpoints'
@@ -38,21 +37,16 @@ import { Assessments } from '@/utils/supabase/models/assessments'
 import Fallback from './Fallback'
 import ErrorMessage from './ErrorMessage'
 import { ErrorBoundary } from '@/components/ErrorBoundary/ErrorBoundary'
-
-interface DetailSantriProps {
-  params: Promise<{ slug: string }>
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
-}
+import { DetailSantriProps } from '../../../models/detail-santri'
 
 export default async function UstadzRole({
   params: paramsPromise,
   searchParams: searchParamsPromise
 }: DetailSantriProps) {
   const tz = await getTimezoneInfo()
-  const role = await getUserRole()
-
   const params = await paramsPromise
   const searchParams = await searchParamsPromise
+  const role = ROLE.USTADZ
 
   return (
     <Layout>
@@ -137,8 +131,7 @@ async function Wrapper({
 
   const isStudentActive =
     (latestCheckpoint?.status as CheckpointStatus) !== 'inactive'
-  const isAllowedToStartAssessment =
-    isStudentActive && (isStudentManagedByUser || role === ROLE.LAJNAH)
+  const isAllowedToStartAssessment = isStudentActive && isStudentManagedByUser
 
   if (convertToDraftQueryParameter === 'true' && activityIdQueryParameter) {
     await activitiesInstance.convertToDraft(Number(activityIdQueryParameter))

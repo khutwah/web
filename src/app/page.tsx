@@ -12,10 +12,14 @@ import { redirect } from 'next/navigation'
  */
 export default async function Home() {
   const role = await getUserRole()
-  if (role === -1) return redirect('/login')
+  if (role === -1) {
+    return redirect('/login')
+  }
 
   const page = PAGE_BY_ROLE[role]
-  if (page) redirect(page)
+  if (page) {
+    redirect(page)
+  }
 
   return <div>Access Limited, please contact administrator.</div>
 }

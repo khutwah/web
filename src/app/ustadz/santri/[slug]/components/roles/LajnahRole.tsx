@@ -27,7 +27,6 @@ import { CheckpointStatus } from '@/models/checkpoints'
 import AssessmentSection from '../sections/AssessmentSection'
 import { MENU_USTADZ_PATH_RECORDS } from '@/utils/menus/ustadz'
 import { dayjs } from '@/utils/dayjs'
-import { getUserRole } from '@/utils/supabase/get-user-role'
 import { ROLE } from '@/models/auth'
 import { getNextLajnahAssessment } from '@/utils/assessments'
 import { Checkpoints } from '@/utils/supabase/models/checkpoints'
@@ -36,18 +35,14 @@ import Fallback from './Fallback'
 import ErrorMessage from './ErrorMessage'
 import { Suspense } from 'react'
 import { ErrorBoundary } from '@/components/ErrorBoundary/ErrorBoundary'
-
-interface DetailSantriProps {
-  params: Promise<{ slug: string }>
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
-}
+import { DetailSantriProps } from '../../../models/detail-santri'
 
 export default async function LajnahRole({
   params: paramsPromise,
   searchParams: searchParamsPromise
 }: DetailSantriProps) {
   const tz = await getTimezoneInfo()
-  const role = await getUserRole()
+  const role = ROLE.LAJNAH
 
   const params = await paramsPromise
   const searchParams = await searchParamsPromise
@@ -105,32 +100,24 @@ async function Wrapper({
   const activitiesInstance = new Activities()
   const checkpointsInstance = new Checkpoints()
   const assessmentsInstance = new Assessments()
-  const [
-    student,
-    isStudentManagedByUser,
-    latestCheckpoint,
-    latestSabaq,
-    checkpoints,
-    assessments
-  ] = await Promise.all([
-    studentsInstance.get(studentId),
-    studentsInstance.isStudentManagedByUser(studentId),
-    activitiesInstance.checkpoint({
-      student_id: studentId
-    }),
-    activitiesInstance.getLatestSabaq({ studentId }),
-    checkpointsInstance.list({ student_id: studentId, limit: 1 }),
-    assessmentsInstance.list({
-      student_id: studentId,
-      parent_assessment_id: null,
-      limit: 1
-    })
-  ])
+  const [student, latestCheckpoint, latestSabaq, checkpoints, assessments] =
+    await Promise.all([
+      studentsInstance.get(studentId),
+      activitiesInstance.checkpoint({
+        student_id: studentId
+      }),
+      activitiesInstance.getLatestSabaq({ studentId }),
+      checkpointsInstance.list({ student_id: studentId, limit: 1 }),
+      assessmentsInstance.list({
+        student_id: studentId,
+        parent_assessment_id: null,
+        limit: 1
+      })
+    ])
 
   const isStudentActive =
     (latestCheckpoint?.status as CheckpointStatus) !== 'inactive'
-  const isAllowedToStartAssessment =
-    isStudentActive && (isStudentManagedByUser || role === ROLE.LAJNAH)
+  const isAllowedToStartAssessment = isStudentActive
 
   if (convertToDraftQueryParameter === 'true' && activityIdQueryParameter) {
     await activitiesInstance.convertToDraft(Number(activityIdQueryParameter))
