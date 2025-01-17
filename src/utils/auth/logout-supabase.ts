@@ -11,6 +11,7 @@ export async function logoutSupabase() {
 
   const store = await cookies()
   store.delete('role')
+  store.delete('user')
 
   return true
 }

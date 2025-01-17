@@ -1,21 +1,28 @@
 import { IDENTIFIER_BY_ROLE } from '@/models/auth'
 import { Auth } from './models/auth'
 import { User } from './models/user'
+import { cookies } from 'next/headers'
 
 export async function getUserId() {
-  const auth = new Auth()
-  const _auth = await auth.get()
+  const cookieStore = await cookies()
+  let storedUserId = cookieStore.get('user')?.value
+  let storedRole = cookieStore.get('role')?.value
 
-  const user = new User()
-  const _user = await user.get({
-    email: _auth?.email || ''
-  })
+  if (!storedUserId || !storedRole) {
+    const auth = await new Auth().get()
+    const user = await new User().get({
+      email: auth?.email || ''
+    })
+    storedRole = `${user.data?.role ?? -1}`
+    storedUserId = `${user.data?.id ?? -1}`
+  }
 
-  const key = IDENTIFIER_BY_ROLE[_user.data?.role ?? 0]
-
-  if (!key) return
+  const key = IDENTIFIER_BY_ROLE[Number(storedRole ?? -1)]
+  if (!key) {
+    return
+  }
 
   return {
-    [key]: _user.data?.id ?? -1
+    [key]: Number(storedUserId)
   }
 }

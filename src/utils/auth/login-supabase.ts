@@ -14,14 +14,19 @@ export async function loginSupabase(args: loginSupabaseArgs) {
     throw errorSignin
   }
 
-  const user = new User()
-  const _user = await user.get({
+  const user = await new User().get({
     email: args.email
   })
-  const role = _user.data?.role ?? -1
+  const role = user.data?.role ?? -1
+  const userId = user.data?.id ?? -1
 
   const store = await cookies()
   store.set('role', role.toString(), {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'lax'
+  })
+  store.set('user', userId.toString(), {
     httpOnly: true,
     secure: true,
     sameSite: 'lax'
