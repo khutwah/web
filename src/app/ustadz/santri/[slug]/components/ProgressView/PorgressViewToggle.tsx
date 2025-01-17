@@ -11,9 +11,13 @@ import { useState, useTransition } from 'react'
 
 export interface ProgressViewToggleProps {
   initialView: 'grid' | 'chart' | undefined
+  isLoading?: boolean
 }
 
-export function ProgressViewToggle({ initialView }: ProgressViewToggleProps) {
+export function ProgressViewToggle({
+  initialView,
+  isLoading
+}: ProgressViewToggleProps) {
   const router = useRouter()
   const [progressViewType, setProgressViewType] = useState<'grid' | 'chart'>(
     initialView ?? 'grid'
@@ -33,7 +37,7 @@ export function ProgressViewToggle({ initialView }: ProgressViewToggleProps) {
       disabled={isPending}
       aria-label={`View ${viewType}`}
     >
-      {isPending ? (
+      {isPending || isLoading ? (
         <Loader2 className='animate-spin' />
       ) : progressViewType === 'grid' ? (
         <Chart />

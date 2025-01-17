@@ -7,6 +7,7 @@ import dayjs from '@/utils/dayjs'
 import { cn } from '@/utils/classnames'
 import { AlAdhanPrayerTimingsResponse } from '@/models/api/al-adhan'
 import { PropsWithChildren } from 'react'
+import { Skeleton } from '@/components/Skeleton/Skeleton'
 
 interface Props {
   avatarUrl: ImageProps['src']
@@ -42,7 +43,9 @@ export function GreetingsCard({
             <div className='text-khutwah-m-regular text-khutwah-grey-lightest'>
               Assalamu&apos;alaikum,
             </div>
-            <div className='text-khutwah-l-semibold'>{name}</div>
+            <div className='text-khutwah-l-semibold'>
+              {isLoading ? <Skeleton className='w-full h-4' /> : name}
+            </div>
           </div>
 
           <Image

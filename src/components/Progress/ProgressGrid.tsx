@@ -195,7 +195,7 @@ export function ProgressGrid({
 
       {/* Dev's note: assuming the status applies always for "today", it doesn't make sense to change this on transition.  */}
       {isLoadingProp ? (
-        <Skeleton className='w-full h-16 rounded-t-none'></Skeleton>
+        <Skeleton className='w-full h-16 rounded-t-none' />
       ) : (
         <ProgressGridStatus {...statusProps} />
       )}

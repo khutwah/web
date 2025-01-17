@@ -9,17 +9,22 @@ import { ActivityCard } from '@/components/ActivityCard/ActivityCard'
 import { ActivityStatus, ActivityTypeKey } from '@/models/activities'
 import { ActivityPopup } from '@/components/ActivityPopup'
 import { HomeHeader } from '@/components/Home/Header'
+import { ErrorBoundary } from '@/components/ErrorBoundary/ErrorBoundary'
 
 import Link from 'next/link'
 import getTimezoneInfo from '@/utils/get-timezone-info'
+import { Skeleton } from '@/components/Skeleton/Skeleton'
+import { StateMessage } from '@/components/StateMessage/StateMessage'
 
 export default async function Home() {
   return (
     <Layout>
       <HeaderBackground />
-      <Suspense fallback={<Fallback />}>
-        <Wrapper />
-      </Suspense>
+      <ErrorBoundary fallback={<ErrorMessage />}>
+        <Suspense fallback={<Fallback />}>
+          <Wrapper />
+        </Suspense>
+      </ErrorBoundary>
     </Layout>
   )
 }
@@ -152,6 +157,46 @@ function Fallback() {
     <div className='flex flex-col gap-y-6 mt-4 py-6'>
       <section className='px-6 gap-y-6 flex flex-col'>
         <HomeHeader displayName={'...'} ustadz isLoading />
+      </section>
+      <section className='flex flex-col gap-y-3 px-6'>
+        <Skeleton className='w-full h-16' />
+      </section>
+      <section className='flex flex-col gap-3'>
+        <ul className='flex overflow-x-scroll gap-3 px-6 items-start'>
+          <li key={0} className='w-[300px] flex-shrink-0 h-full'>
+            <Skeleton className='w-full h-36' />
+          </li>
+          <li key={1} className='w-[300px] flex-shrink-0 h-full'>
+            <Skeleton className='w-full h-36' />
+          </li>
+        </ul>
+      </section>
+    </div>
+  )
+}
+
+function ErrorMessage() {
+  return (
+    <div className='flex flex-col gap-y-6 mt-4 py-6'>
+      <section className='px-6 gap-y-6 flex flex-col'>
+        <HomeHeader displayName={'...'} ustadz isLoading />
+      </section>
+      <section className='flex flex-col gap-y-3 px-6'>
+        <StateMessage
+          description='Tidak dapat menampilkan data'
+          title='Terjadi Kesalahan'
+          type='error'
+        />
+      </section>
+      <section className='flex flex-col gap-3'>
+        <ul className='flex overflow-x-scroll gap-3 px-6 items-start'>
+          <li key={0} className='w-[300px] flex-shrink-0 h-full'>
+            <Skeleton className='w-full h-36' />
+          </li>
+          <li key={1} className='w-[300px] flex-shrink-0 h-full'>
+            <Skeleton className='w-full h-36' />
+          </li>
+        </ul>
       </section>
     </div>
   )

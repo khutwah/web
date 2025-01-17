@@ -210,13 +210,13 @@ function ListSkeleton() {
   return (
     <ul className='space-y-3'>
       <li>
-        <Skeleton className='w-full h-36'></Skeleton>
+        <Skeleton className='w-full h-36' />
       </li>
       <li>
-        <Skeleton className='w-full h-36'></Skeleton>
+        <Skeleton className='w-full h-36' />
       </li>
       <li>
-        <Skeleton className='w-full h-36'></Skeleton>
+        <Skeleton className='w-full h-36' />
       </li>
     </ul>
   )

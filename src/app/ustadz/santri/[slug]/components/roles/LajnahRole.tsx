@@ -33,7 +33,9 @@ import { getNextLajnahAssessment } from '@/utils/assessments'
 import { Checkpoints } from '@/utils/supabase/models/checkpoints'
 import { Assessments } from '@/utils/supabase/models/assessments'
 import Fallback from './Fallback'
+import ErrorMessage from './ErrorMessage'
 import { Suspense } from 'react'
+import { ErrorBoundary } from '@/components/ErrorBoundary/ErrorBoundary'
 
 interface DetailSantriProps {
   params: Promise<{ slug: string }>
@@ -52,37 +54,18 @@ export default async function LajnahRole({
 
   return (
     <Layout>
-      <Navbar
-        text='Detail Santri'
-        rightComponent={
-          <ProgressViewToggle
-            initialView={
-              searchParams[
-                ACTIVITY_VIEW_QUERY_PARAMETER
-              ] as ProgressViewToggleProps['initialView']
-            }
-          />
-        }
-        returnTo={addQueryParams(
-          `${MENU_USTADZ_PATH_RECORDS.home}${convertSearchParamsToPath(searchParams)}`,
-          {
-            ustadz_id: 'ALL',
-            checkpoint_status: [
-              'lajnah-assessment-ready',
-              'lajnah-assessment-ongoing'
-            ]
-          }
-        )}
-      />
-      <div className='bg-khutwah-red-base w-full p-4 h-[225px] absolute -z-10' />
-      <Suspense fallback={<Fallback />}>
-        <Wrapper
-          role={role}
-          tz={tz}
-          params={params}
-          searchParams={searchParams}
-        />
-      </Suspense>
+      <Layout>
+        <ErrorBoundary fallback={<ErrorMessage />}>
+          <Suspense fallback={<Fallback />}>
+            <Wrapper
+              role={role}
+              tz={tz}
+              params={params}
+              searchParams={searchParams}
+            />
+          </Suspense>
+        </ErrorBoundary>
+      </Layout>
     </Layout>
   )
 }
@@ -170,6 +153,29 @@ async function Wrapper({
 
   return (
     <>
+      <Navbar
+        text='Detail Santri'
+        rightComponent={
+          <ProgressViewToggle
+            initialView={
+              searchParams[
+                ACTIVITY_VIEW_QUERY_PARAMETER
+              ] as ProgressViewToggleProps['initialView']
+            }
+          />
+        }
+        returnTo={addQueryParams(
+          `${MENU_USTADZ_PATH_RECORDS.home}${convertSearchParamsToPath(searchParams)}`,
+          {
+            ustadz_id: 'ALL',
+            checkpoint_status: [
+              'lajnah-assessment-ready',
+              'lajnah-assessment-ongoing'
+            ]
+          }
+        )}
+      />
+      <div className='bg-khutwah-red-base w-full p-4 h-[225px] absolute -z-10' />
       <div className='flex flex-col p-6 gap-y-4'>
         <div className='flex justify-center gap-x-[6.5px] text-khutwah-neutral-white text-khutwah-m-regular'>
           <SantriActivityHeader
