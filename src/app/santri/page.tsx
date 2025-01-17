@@ -5,8 +5,25 @@ import { getUser } from '@/utils/supabase/get-user'
 import { StatsCard } from '@/components/StatsCard/StatsCard'
 import { Activities } from '@/utils/supabase/models/activities'
 import { ActivityStatus, ActivityType } from '@/models/activities'
+import { ErrorBoundary } from '@/components/ErrorBoundary/ErrorBoundary'
+import { Suspense } from 'react'
+import { StateMessage } from '@/components/StateMessage/StateMessage'
+import { Skeleton } from '@/components/Skeleton/Skeleton'
 
 export default async function Home() {
+  return (
+    <Layout>
+      <HeaderBackground />
+      <ErrorBoundary fallback={<ErrorMessage />}>
+        <Suspense fallback={<Fallback />}>
+          <Wrapper />
+        </Suspense>
+      </ErrorBoundary>
+    </Layout>
+  )
+}
+
+async function Wrapper() {
   const user = await getUser()
 
   // FIXME(dio): When user is not found, redirect to login page.
@@ -22,8 +39,7 @@ export default async function Home() {
   ])
 
   return (
-    <Layout>
-      <HeaderBackground />
+    <>
       <div className='flex flex-col gap-y-6 mt-4 py-6'>
         <section className='px-6 gap-y-6 flex flex-col'>
           <HomeHeader displayName={user.name ?? ''} />
@@ -36,6 +52,36 @@ export default async function Home() {
           />
         </section>
       </div>
-    </Layout>
+    </>
+  )
+}
+
+function Fallback() {
+  return (
+    <div className='flex flex-col gap-y-6 mt-4 py-6'>
+      <section className='px-6 gap-y-6 flex flex-col'>
+        <HomeHeader displayName={'...'} ustadz isLoading />
+      </section>
+      <section className='flex flex-col gap-y-3 px-6'>
+        <Skeleton className='w-full h-64' />
+      </section>
+    </div>
+  )
+}
+
+function ErrorMessage() {
+  return (
+    <div className='flex flex-col gap-y-6 mt-4 py-6'>
+      <section className='px-6 gap-y-6 flex flex-col'>
+        <HomeHeader displayName={'...'} isLoading />
+      </section>
+      <section className='flex flex-col gap-y-3 px-6'>
+        <StateMessage
+          description='Tidak dapat menampilkan data'
+          title='Terjadi Kesalahan'
+          type='error'
+        />
+      </section>
+    </div>
   )
 }
