@@ -13,8 +13,7 @@ import { CalendarOff as Cancel } from 'lucide-react'
 import { useActionState, useEffect, useState } from 'react'
 import { addAssessmentCheckpoint } from './actions'
 import { Assessments } from '@/utils/supabase/models/assessments'
-import { useFormContext } from 'react-hook-form'
-import { InputWithLabel } from '@/components/Form/InputWithLabel'
+import { useFormContext, useWatch } from 'react-hook-form'
 import { ErrorField } from '@/components/Form/ErrorField'
 import { UpdateAssessmentCheckpointSchema } from '@/utils/schemas/assessments'
 import { useErrorToast } from '@/hooks/useToast'
@@ -23,6 +22,10 @@ import { UpdateAssessmentCheckpointForm } from './UpdateAssessmentCheckpointForm
 import { InferType } from 'yup'
 import { Json } from '@/models/database.types'
 import { StatusCheckpoint } from '@/models/checkpoints'
+import { Label } from '@/components/Form/Label'
+import { Combobox } from '@/components/Form/Combobox'
+import { ASSESSMENT_MARKS } from '@/models/assessments'
+import { displayMarkValue } from '@/utils/assessments'
 
 interface Props {
   lastCheckpoint: NonNullable<
@@ -111,21 +114,27 @@ function AddAssessmentCheckpointForm({
 
 function AdditionalFormFields() {
   const {
-    register,
+    setValue,
+    control,
     formState: { errors }
   } = useFormContext<InferType<typeof UpdateAssessmentCheckpointSchema>>()
 
+  const { final_mark } = useWatch({
+    control
+  })
+
   return (
     <div className='flex flex-col gap-2'>
-      <InputWithLabel
-        label='Nilai Sampai Sekarang'
-        inputProps={{
-          ...register('final_mark'),
-          className: 'w-full',
-          type: 'text',
-          placeholder: 'Misalnya: Jayyid Jiddan',
-          required: false
+      <Label>Nilai Sampai Saat Ini</Label>
+      <Combobox
+        mustSelect={true}
+        items={ASSESSMENT_MARKS}
+        value={`${displayMarkValue(final_mark) || ''}`}
+        onChange={(value) => {
+          setValue('final_mark', `CANCELLED:${value}`)
         }}
+        placeholder='Pilih Nilai'
+        withSearch={false}
       />
       <ErrorField error={errors.final_mark?.message} />
     </div>

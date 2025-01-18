@@ -41,7 +41,7 @@ function HalaqahCard(props: HalaqahCardProps) {
     disallowEditingTargetPageCount
   } = props
   return (
-    <Card className='w-full bg-khutwah-neutral-10 text-khutwah-grey-base'>
+    <Card className='w-full bg-khutwah-neutral-white text-khutwah-grey-base'>
       <CardHeader className='rounded-t-xl p-5 pb-3'>
         <CardTitle className='flex justify-between items-start'>
           <div className='flex flex-col gap-y-1'>

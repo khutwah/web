@@ -171,6 +171,8 @@ export function UpdateAssessmentCheckpointForm({
             error={errors.end_surah?.message || errors.end_verse?.message}
           />
 
+          {additionalFormFields}
+
           <div>
             <InputWithLabel
               label='Catatan'
@@ -185,8 +187,6 @@ export function UpdateAssessmentCheckpointForm({
 
             <ErrorField error={errors.notes?.message} />
           </div>
-
-          {additionalFormFields}
         </div>
 
         {/* FIXME(dio): This is a really bad hack, but we need to have a way to watch finalMark value */}

@@ -23,6 +23,11 @@ import { FormAbsent } from '../../components/Forms/Absent'
 import { DEFAULT_START } from '@/models/activity-form'
 import { addQueryParams, convertSearchParamsToPath } from '@/utils/url'
 import getTimezoneInfo from '@/utils/get-timezone-info'
+import { Card, CardContent } from '@/components/Card/Card'
+import { Skeleton } from '@/components/Skeleton/Skeleton'
+import { StateMessage } from '@/components/StateMessage/StateMessage'
+import { ErrorBoundary } from '@/components/ErrorBoundary/ErrorBoundary'
+import { Suspense } from 'react'
 
 interface EditActivityProps {
   params: Promise<{
@@ -36,6 +41,16 @@ interface EditActivityProps {
 }
 
 export default async function EditActivity(props: EditActivityProps) {
+  return (
+    <ErrorBoundary fallback={<ErrorMessage />}>
+      <Suspense fallback={<FallBack />}>
+        <Wrapper {...props} />
+      </Suspense>
+    </ErrorBoundary>
+  )
+}
+
+async function Wrapper(props: EditActivityProps) {
   const params = await props.params
   const searchParams = await props.searchParams
   const tz = await getTimezoneInfo()
@@ -151,5 +166,40 @@ export default async function EditActivity(props: EditActivityProps) {
         </Tabs>
       </div>
     </div>
+  )
+}
+
+function FallBack() {
+  return (
+    <>
+      <Navbar text='Tambah Input' />
+      <div className='p-6 bg-khutwah-red-base'>
+        <Card className='w-full bg-khutwah-neutral-white text-khutwah-grey-base'>
+          <CardContent className='p-4 gap-y-3'>
+            <Skeleton className='w-full h-6' />
+          </CardContent>
+        </Card>
+      </div>
+    </>
+  )
+}
+
+function ErrorMessage() {
+  return (
+    <>
+      <Navbar text='Tambah Input' />
+      <div className='p-6 bg-khutwah-red-base'>
+        <Card className='w-full bg-khutwah-neutral-white text-khutwah-grey-base'>
+          <CardContent className='p-4 gap-y-3'>
+            <StateMessage
+              className='py-4'
+              description='Tidak dapat menampilkan data'
+              title='Terjadi Kesalahan'
+              type='error'
+            />
+          </CardContent>
+        </Card>
+      </div>
+    </>
   )
 }

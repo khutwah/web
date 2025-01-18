@@ -179,3 +179,11 @@ export function getStatusText(status: CheckpointStatus) {
       return undefined
   }
 }
+
+export function displayMarkValue(mark?: string) {
+  if (!mark) {
+    return ''
+  }
+  const parts = mark.split(':')
+  return parts.length === 2 ? parts[1] : parts[0]
+}

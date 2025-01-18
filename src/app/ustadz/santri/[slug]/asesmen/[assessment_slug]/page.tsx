@@ -19,6 +19,7 @@ import { AddAssessmentCheckpoint } from './components/AssessmentControls/AddAsse
 import { FinalizeAssessment } from './components/AssessmentControls/FinalizeAssessment'
 import { Checkpoints as StatusCheckpoints } from '@/utils/supabase/models/checkpoints'
 import { CancelAssessment } from './components/AssessmentControls/CancelAssessment'
+import { displayMarkValue } from '@/utils/assessments'
 
 interface AsesmenPageProps {
   params: Promise<{ assessment_slug: number; slug: number }>
@@ -57,6 +58,7 @@ export default async function AsesemenPage({
   // We always create 2 assessments when initially starting an assessment, so this will never be out of bounds.
   const lastAssessment = childAssessments[checkpointNumber - 1]
   const isAssessmentFinished = !!rootAssessment.final_mark
+  const isCancelled = rootAssessment.final_mark?.startsWith('CANCELLED')
 
   return (
     <Layout>
@@ -87,10 +89,13 @@ export default async function AsesemenPage({
           <CardContent className='p-5 pt-0'>
             {isAssessmentFinished ? (
               <div className='space-y-3 inline-block'>
-                <Badge color='tamarind' text='Selesai' />
+                <Badge
+                  color='tamarind'
+                  text={isCancelled ? 'Ditunda' : 'Selesai'}
+                />
 
                 <p className='text-khutwah-m-regular text-khutwah-grey-light italic'>
-                  {rootAssessment.final_mark}
+                  {displayMarkValue(rootAssessment.final_mark || '')}
                 </p>
               </div>
             ) : (

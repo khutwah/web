@@ -15,8 +15,30 @@ import { MENU_USTADZ_PATH_RECORDS } from '@/utils/menus/ustadz'
 import { convertSearchParamsToPath } from '@/utils/url'
 import { GLOBAL_TARGET_PAGE_COUNT } from '@/models/activities'
 import { TargetPageCount } from '@/components/TargetPageCount/TargetPageCount'
+import { Suspense } from 'react'
+import { Skeleton } from '@/components/Skeleton/Skeleton'
+import { StateMessage } from '@/components/StateMessage/StateMessage'
+import { ErrorBoundary } from '@/components/ErrorBoundary/ErrorBoundary'
 
 export default async function DetailHalaqah({
+  params: paramsPromise,
+  searchParams: searchParamsPromise
+}: {
+  params: Promise<{ slug: string }>
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}) {
+  return (
+    <Layout>
+      <ErrorBoundary fallback={<ErrorMessage />}>
+        <Suspense fallback={<Fallback />}>
+          <Wrapper params={paramsPromise} searchParams={searchParamsPromise} />
+        </Suspense>
+      </ErrorBoundary>
+    </Layout>
+  )
+}
+
+async function Wrapper({
   params: paramsPromise,
   searchParams: searchParamsPromise
 }: {
@@ -29,10 +51,9 @@ export default async function DetailHalaqah({
   const circlesInstance = new Circles()
   const circleInfo = await circlesInstance.get(Number(params.slug))
 
-  let pageContent: JSX.Element
   if (!circleInfo?.data) {
     // TODO: implement proper error handling.
-    pageContent = <div>Unexpected error: {circleInfo?.error.message}</div>
+    return <div>Unexpected error: {circleInfo?.error.message}</div>
   } else {
     const studentsInstance = new Students()
     const activitiesInstance = new Activities()
@@ -80,7 +101,7 @@ export default async function DetailHalaqah({
     )
 
     const returnTo = convertSearchParamsToPath(searchParams)
-    pageContent = (
+    return (
       <>
         <Navbar
           text={circleInfo.data.name ?? ''}
@@ -138,6 +159,47 @@ export default async function DetailHalaqah({
       </>
     )
   }
+}
 
-  return <Layout>{pageContent}</Layout>
+function Fallback() {
+  return (
+    <>
+      <Navbar text='Halaqah ...' />
+      <div className='bg-khutwah-red-base w-full p-4'>
+        <Card className='bg-khutwah-neutral-white text-khutwah-grey-base shadow-md'>
+          <CardContent className='flex flex-col p-4 gap-y-3'>
+            <dl className='grid grid-cols-3 text-khutwah-m-regular gap-y-2'>
+              <dt className='font-semibold col-span-1'>Wali halaqah</dt>
+              <dd className='col-span-2'>
+                <Skeleton className='w-full h-4' />
+              </dd>
+              <dt className='font-semibold col-span-1'>Target</dt>
+              <dd className='col-span-2'>
+                <Skeleton className='w-full h-4' />
+              </dd>
+            </dl>
+          </CardContent>
+        </Card>
+      </div>
+    </>
+  )
+}
+
+function ErrorMessage() {
+  return (
+    <>
+      <Navbar text='Halaqah ...' />
+      <div className='bg-khutwah-red-base w-full p-4'>
+        <Card className='bg-khutwah-neutral-white text-khutwah-grey-base shadow-md'>
+          <CardContent className='flex flex-col p-4 gap-y-3'>
+            <StateMessage
+              description='Tidak dapat menampilkan data'
+              title='Terjadi Kesalahan'
+              type='error'
+            />
+          </CardContent>
+        </Card>
+      </div>
+    </>
+  )
 }

@@ -135,6 +135,25 @@ export const ASSESSMENT_TYPES: AssessmentTypes = {
   }
 }
 
+export const ASSESSMENT_MARKS = [
+  {
+    value: AssessmentFinalMark.Mumtaz,
+    label: 'Mumtaz'
+  },
+  {
+    value: AssessmentFinalMark['Jayyid Jiddan'],
+    label: 'Jayyid Jiddan'
+  },
+  {
+    value: AssessmentFinalMark.Jayyid,
+    label: 'Jayyid'
+  },
+  {
+    value: AssessmentFinalMark.Maqbul,
+    label: 'Maqbul'
+  }
+]
+
 export interface MistakeCounterType {
   low: number
   medium: number
