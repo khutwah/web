@@ -70,14 +70,13 @@ export function SantriList({
     return Object.values(studentRecord)
   }, [studentsProp, activitiesProp])
 
+  let filteredStudents = defaultStudentsWithActivities
   const searchContext = useContext(SearchContext)
-  if (searchContext === undefined) {
-    throw new Error('SearchSection must be used within a SearchContext')
+  if (searchContext) {
+    filteredStudents = defaultStudentsWithActivities.filter(({ name }) =>
+      name?.toLowerCase().includes(searchContext.searchQuery.toLowerCase())
+    )
   }
-
-  const filteredStudents = defaultStudentsWithActivities.filter(({ name }) =>
-    name?.toLowerCase().includes(searchContext.searchQuery.toLowerCase())
-  )
 
   if (filteredStudents.length <= 0) {
     return (

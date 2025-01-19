@@ -15,6 +15,12 @@ import Link from 'next/link'
 import getTimezoneInfo from '@/utils/get-timezone-info'
 import { Skeleton } from '@/components/Skeleton/Skeleton'
 import { StateMessage } from '@/components/StateMessage/StateMessage'
+import { SantriListSkeleton } from './components/SantriList/SantriList'
+import { SantriListWrapper } from './components/SantriList/SantriListWrapper'
+import SearchProvider from './components/Search/SearchProvider'
+import { SearchSection } from './components/Search/SearchSection'
+import { getUserRole } from '@/utils/supabase/get-user-role'
+import { ROLE } from '@/models/auth'
 
 export default async function Home() {
   return (
@@ -33,6 +39,7 @@ async function Wrapper() {
   const user = await getUser()
   const userId = user.id
   const tz = await getTimezoneInfo()
+  const role = await getUserRole()
 
   const circlesInstance = new Circles()
   const circles = await circlesInstance.list({ ustadz_id: userId })
@@ -95,6 +102,30 @@ async function Wrapper() {
             </ul>
           )}
         </section>
+
+        {role === ROLE.USTADZ && (
+          <section className='flex flex-col gap-y-3 px-6'>
+            <h2 className='text-khutwah-m-semibold'>
+              Peserta Halaqah Hari Ini
+            </h2>
+            <SearchProvider>
+              <SearchSection
+                color='white'
+                id='search-santri'
+                name='search-santri'
+                placeholder='Cari santri...'
+              />
+              <Suspense fallback={<SantriListSkeleton />}>
+                <SantriListWrapper
+                  from={{ from: 'santri' }}
+                  checkpointStatuses={[]}
+                  ustadzId={userId}
+                  emptyState={<></>}
+                />
+              </Suspense>
+            </SearchProvider>
+          </section>
+        )}
 
         <section className='flex flex-col gap-3'>
           {activityList.data && activityList.data.length > 0 && (
