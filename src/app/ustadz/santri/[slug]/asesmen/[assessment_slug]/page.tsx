@@ -25,7 +25,7 @@ interface AsesmenPageProps {
   params: Promise<{ assessment_slug: number; slug: number }>
 }
 
-export default async function AsesemenPage({
+export default async function AsesmenPage({
   params: paramsPromise
 }: Readonly<AsesmenPageProps>) {
   const { assessment_slug: slug, slug: studentId } = await paramsPromise
