@@ -123,13 +123,15 @@ async function Wrapper({
     await activitiesInstance.convertToDraft(Number(activityIdQueryParameter))
   }
 
-  const sessionRangeId = getNextLajnahAssessment(
+  const statusCheckpoint = checkpoints.data?.[0]
+  const nextLajnah = getNextLajnahAssessment(
     latestSabaq?.end_surah,
     latestSabaq?.end_verse
   )
+  const sessionRangeId =
+    (statusCheckpoint ? statusCheckpoint.part_count : nextLajnah) || nextLajnah
   const ongoingAssessment =
     assessments.data?.find((assessment) => !assessment.final_mark) || undefined
-  const statusCheckpoint = checkpoints.data?.[0]
   const isLajnahAssessment =
     statusCheckpoint &&
     ['lajnah-assessment-ongoing', 'lajnah-assessment-ready'].includes(

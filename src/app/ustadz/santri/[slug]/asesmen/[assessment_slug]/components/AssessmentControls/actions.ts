@@ -5,6 +5,7 @@ import { UpdateAssessmentCheckpointSchema } from '@/utils/schemas/assessments'
 import { getUserRole } from '@/utils/supabase/get-user-role'
 import { Assessments } from '@/utils/supabase/models/assessments'
 import { validateOrFail } from '@/utils/validate-or-fail'
+import { broadcast } from '@/utils/realtime/generic'
 
 export async function addAssessmentCheckpoint(
   _prevState: unknown,
@@ -129,5 +130,7 @@ export async function addAssessmentCheckpoint(
     return {
       message: e
     }
+  } finally {
+    broadcast()
   }
 }

@@ -9,6 +9,12 @@ import { ErrorBoundary } from '@/components/ErrorBoundary/ErrorBoundary'
 import { Suspense } from 'react'
 import { StateMessage } from '@/components/StateMessage/StateMessage'
 import { Skeleton } from '@/components/Skeleton/Skeleton'
+import { Students } from '@/utils/supabase/models/students'
+import { Assessments } from '@/utils/supabase/models/assessments'
+import Link from 'next/link'
+import { Button } from '@/components/Button/Button'
+import { LogIn } from 'lucide-react'
+import { MENU_SANTRI_PATH_RECORDS } from '@/utils/menus/santri'
 
 export default async function Home() {
   return (
@@ -25,18 +31,29 @@ export default async function Home() {
 
 async function Wrapper() {
   const user = await getUser()
+  const studentsInstance = new Students()
+  const assessmentInstance = new Assessments()
 
   // FIXME(dio): When user is not found, redirect to login page.
   const activitiesInstance = new Activities()
-  const [lastSabaq, halaqahCount] = await Promise.all([
+  const [lastSabaq, halaqahCount, student] = await Promise.all([
     activitiesInstance.getLatestSabaq({ parentId: user.id }),
     activitiesInstance.count({
       parent_id: user.id,
       type: ActivityType.Sabaq,
       status: ActivityStatus.completed,
       student_attendance: 'present'
-    })
+    }),
+    studentsInstance.getByParentId(user.id)
   ])
+
+  const assessments = await assessmentInstance.list({
+    student_id: student.data?.id,
+    parent_assessment_id: null
+  })
+
+  const ongoingAssessment =
+    assessments.data?.find((assessment) => !assessment.final_mark) || undefined
 
   return (
     <>
@@ -44,6 +61,19 @@ async function Wrapper() {
         <section className='px-6 gap-y-6 flex flex-col'>
           <HomeHeader displayName={user.name ?? ''} />
         </section>
+        {ongoingAssessment && (
+          <section className='flex flex-col gap-y-3 px-6'>
+            <h2 className='text-khutwah-m-semibold'>Sedang Berlangsung</h2>
+            <Link
+              href={`${MENU_SANTRI_PATH_RECORDS.home}/asesmen/${ongoingAssessment.id}`}
+            >
+              <Button variant='primary' className='w-full'>
+                <LogIn size={16} />
+                Ikhtibar {ongoingAssessment.session_name}
+              </Button>
+            </Link>
+          </section>
+        )}
         <section className='flex flex-col gap-y-3 px-6'>
           <StatsCard
             surah={lastSabaq?.end_surah || 0}
