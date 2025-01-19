@@ -38,7 +38,7 @@ export function AddAssessmentCheckpoint({ lastCheckpoint, surahRange }: Props) {
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
-          <DrawerTitle>Tambah checkpoint</DrawerTitle>
+          <DrawerTitle>Tambah Checkpoint</DrawerTitle>
           <DrawerDescription>
             Lengkapi data berikut untuk menambah checkpoint.
           </DrawerDescription>
@@ -92,7 +92,7 @@ function AddAssessmentCheckpointForm({
           className='w-full mt-4'
           disabled={isPending}
         >
-          {isPending ? 'Menambahkan checkpoint...' : 'Tambah checkpoint'}
+          {isPending ? 'Menambahkan checkpoint...' : 'Tambah Checkpoint'}
         </Button>
       }
     />
