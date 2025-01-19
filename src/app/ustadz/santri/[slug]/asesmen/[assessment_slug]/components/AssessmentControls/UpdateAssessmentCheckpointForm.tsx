@@ -71,7 +71,7 @@ export function UpdateAssessmentCheckpointForm({
   const finalMark = form.watch('final_mark')
 
   const range = surahRange as [[string, string | undefined]]
-  let includedItems: {
+  const includedItems: {
     startSurah: number
     startVerse: number
     endSurah: number
