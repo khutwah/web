@@ -15,7 +15,8 @@ export function getVerseItems(
   // We can do clever things to handle min-max here.
   // But verbosity matters for debugging later.
   if (minVerse) {
-    return Array.from({ length: versesCount - minVerse }, (_, i) => {
+    // minVerse inclusive, hence we add 1.
+    return Array.from({ length: versesCount - minVerse + 1 }, (_, i) => {
       const value = String(i + minVerse)
       return { value, label: value, searchable: value }
     })
