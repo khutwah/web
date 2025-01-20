@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useRef } from 'react'
+import { fetchEventSource } from '@microsoft/fetch-event-source'
 
 interface RefresherProps {
   endpoint?: string
@@ -16,9 +17,10 @@ export function Refresher({
 
   const queueRef = useRef<string[]>([])
   const timerRef = useRef<NodeJS.Timeout | null>(null)
+  const controllerRef = useRef<AbortController | null>(null)
 
   const handleEvent = useCallback(
-    (event: MessageEvent) => {
+    (event: { data: string }) => {
       queueRef.current.push(event.data)
 
       if (timerRef.current) {
@@ -38,11 +40,25 @@ export function Refresher({
   )
 
   useEffect(() => {
-    const eventSource = new EventSource(endpoint)
-    eventSource.addEventListener('message', handleEvent)
+    controllerRef.current = new AbortController()
+
+    const startEventSource = async () => {
+      try {
+        await fetchEventSource(endpoint, {
+          signal: controllerRef.current?.signal,
+          onmessage(event) {
+            handleEvent(event)
+          }
+        })
+      } catch (error) {
+        console.error('Failed to establish connection:', error)
+      }
+    }
+
+    startEventSource()
 
     return () => {
-      eventSource.close()
+      controllerRef.current?.abort()
       if (timerRef.current) {
         clearTimeout(timerRef.current)
       }
