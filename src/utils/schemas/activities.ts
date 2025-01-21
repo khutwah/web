@@ -36,20 +36,8 @@ export const activityCreateSchema = object({
   student_attendance: string()
     .oneOf(['present', 'absent'])
     .required('Kehadiran siswa wajib diisi'),
-  notes: string()
-    .required('Catatan wajib diisi')
-    .when('status', {
-      is: ActivityStatus.draft,
-      then: (schema) => schema.notRequired(),
-      otherwise: (schema) => schema.required('Target pencapaian wajib diisi')
-    }),
-  tags: array()
-    .of(string().required('Penanda wajib diisi'))
-    .when(['student_attendance', 'status'], {
-      is: whenNotRequired,
-      then: (schema) => schema.notRequired(),
-      otherwise: (schema) => schema.required('Penanda wajib diisi')
-    }),
+  notes: string().notRequired(),
+  tags: array().of(string().required('Penanda wajib diisi')).notRequired(),
   shift_id: number().required('ID shift wajib diisi'),
   student_id: number().required('ID siswa wajib diisi'),
   type: number()

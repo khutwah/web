@@ -38,6 +38,7 @@ import Fallback from './Fallback'
 import ErrorMessage from './ErrorMessage'
 import { ErrorBoundary } from '@/components/ErrorBoundary/ErrorBoundary'
 import { DetailSantriProps } from '../../../models/detail-santri'
+import { getAyahLocationSummary } from '@minhajulhaq/mushaf'
 
 export default async function UstadzRole({
   params: paramsPromise,
@@ -141,6 +142,10 @@ async function Wrapper({
     latestSabaq?.end_surah,
     latestSabaq?.end_verse
   )
+  const summary = getAyahLocationSummary(
+    latestSabaq?.end_surah || 0,
+    latestSabaq?.end_verse || 0
+  )
   const ongoingAssessment =
     assessments.data?.find((assessment) => !assessment.final_mark) || undefined
   const statusCheckpoint = checkpoints.data?.[0]
@@ -183,6 +188,7 @@ async function Wrapper({
           searchParams={searchParams}
           tz={tz}
           day={day}
+          latestSabaq={{ juz: summary?.juz.juz, pages: summary?.juz.pages }}
         />
       </div>
 

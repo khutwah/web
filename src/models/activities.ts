@@ -19,8 +19,8 @@ export interface ActivityFormValues {
   end_surah: number
   start_verse: number
   end_verse: number
-  tags?: string[]
-  notes: string
+  tags?: string[] | null
+  notes?: string | null
   status: ActivityStatus
   is_target_achieved: boolean
   page_count: number

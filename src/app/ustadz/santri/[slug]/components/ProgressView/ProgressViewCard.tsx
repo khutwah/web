@@ -40,6 +40,10 @@ interface ProgressViewCardProps {
   searchParams: { [key: string]: string | string[] | undefined }
   tz: string
   day: Dayjs
+  latestSabaq?: {
+    juz?: number
+    pages?: number
+  }
 }
 
 type ProgressViewCardHeaderProps = Omit<
@@ -56,11 +60,16 @@ export default function ProgressViewCard({
   isEditable,
   searchParams,
   tz,
-  day
+  day,
+  latestSabaq
 }: ProgressViewCardProps) {
   return (
     <Card className='bg-khutwah-neutral-white text-khutwah-grey-base shadow-md border border-khutwah-snow-lighter rounded-md mb-2'>
-      <ProgressViewCardHeader student={student} isEditable={isEditable} />
+      <ProgressViewCardHeader
+        student={student}
+        isEditable={isEditable}
+        latestSabaq={latestSabaq}
+      />
       <ProgressViewCardContent
         student={student}
         sessionRangeId={sessionRangeId}
@@ -77,7 +86,8 @@ export default function ProgressViewCard({
 
 function ProgressViewCardHeader({
   student,
-  isEditable
+  isEditable,
+  latestSabaq
 }: ProgressViewCardHeaderProps) {
   if (!student || !student.circles) {
     return (
@@ -97,8 +107,18 @@ function ProgressViewCardHeader({
           {student?.name}
         </div>
         <div className='text-khutwah-m-regular text-khutwah-grey-lighter mb-2'>
-          {student?.circles?.name}
+          {latestSabaq ? (
+            <>
+              {latestSabaq.juz} Juz{' '}
+              {latestSabaq.pages ? `dan ${latestSabaq.pages} halaman` : ''}
+            </>
+          ) : (
+            'Belum ada riwayat Sabaq'
+          )}{' '}
+          • {student?.circles?.name}
         </div>
+
+        {/* return `${summary?.juz.juz} Juz ${summary.juz.pages > 0 ? `dan ${summary.juz.pages} halaman` : ''}` */}
         <div className='flex w-fit'>
           <TargetPageCount
             studentId={student.id}
