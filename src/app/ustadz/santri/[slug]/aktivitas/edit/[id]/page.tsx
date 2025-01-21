@@ -8,6 +8,7 @@ import {
   ActivityStatus,
   ActivityType,
   ActivityTypeKey,
+  GLOBAL_REVIEW_TARGET_PAGE_COUNT,
   GLOBAL_TARGET_PAGE_COUNT
 } from '@/models/activities'
 import { Activities } from '@/utils/supabase/models/activities'
@@ -89,6 +90,7 @@ async function Wrapper(props: EditActivityProps) {
   })
 
   const lastActivity = activities?.data?.[0]
+  const isManzil = activityKey === ActivityType.Manzil
 
   return (
     <div>
@@ -143,7 +145,9 @@ async function Wrapper(props: EditActivityProps) {
                 is_target_achieved: Boolean(activity.data.is_target_achieved),
                 page_count: activity.data.page_count ?? 0,
                 target_page_count:
-                  activity.data.target_page_count || GLOBAL_TARGET_PAGE_COUNT,
+                  activity.data.target_page_count || isManzil
+                    ? GLOBAL_REVIEW_TARGET_PAGE_COUNT
+                    : GLOBAL_TARGET_PAGE_COUNT,
                 created_at: activity.data.created_at!
               }}
             />
@@ -158,7 +162,9 @@ async function Wrapper(props: EditActivityProps) {
               defaultValues={{
                 notes: activity.data.notes!,
                 target_page_count:
-                  activity.data.target_page_count || GLOBAL_TARGET_PAGE_COUNT,
+                  activity.data.target_page_count || isManzil
+                    ? GLOBAL_REVIEW_TARGET_PAGE_COUNT
+                    : GLOBAL_TARGET_PAGE_COUNT,
                 created_at: activity.data.created_at!
               }}
             />

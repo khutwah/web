@@ -35,6 +35,9 @@ export interface ActivityFormValues {
 export const GLOBAL_TARGET_PAGE_COUNT =
   Number(process.env.NEXT_PUBLIC_GLOBAL_TARGET_PAGE_COUNT) || 2
 
+export const GLOBAL_REVIEW_TARGET_PAGE_COUNT =
+  Number(process.env.NEXT_PUBLIC_GLOBAL_REVIEW_TARGET_PAGE_COUNT) || 20
+
 export type ActivityEntry = NonNullable<
   Awaited<ReturnType<Activities['list']>>['data']
 >[number]

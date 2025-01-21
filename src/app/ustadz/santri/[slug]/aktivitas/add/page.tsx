@@ -9,6 +9,7 @@ import {
   ActivityStatus,
   ActivityType,
   ActivityTypeKey,
+  GLOBAL_REVIEW_TARGET_PAGE_COUNT,
   GLOBAL_TARGET_PAGE_COUNT
 } from '@/models/activities'
 import { Students } from '@/utils/supabase/models/students'
@@ -113,11 +114,13 @@ async function Wrapper(props: AddActivityProps) {
       tags: [TAG_LAJNAH_ASSESSMENT_ONGOING]
     })
   }
+  const isManzil = activityKey === ActivityType.Manzil
 
-  const targetPageCount =
-    studentInfo.data?.target_page_count ??
-    studentInfo.data?.circles?.target_page_count ??
-    GLOBAL_TARGET_PAGE_COUNT
+  const targetPageCount = isManzil
+    ? GLOBAL_REVIEW_TARGET_PAGE_COUNT
+    : (studentInfo.data?.target_page_count ??
+      studentInfo.data?.circles?.target_page_count ??
+      GLOBAL_TARGET_PAGE_COUNT)
 
   return (
     <div>
@@ -134,8 +137,7 @@ async function Wrapper(props: AddActivityProps) {
         tz={tz}
         studentId={params.slug}
         studentName={studentInfo.data?.name ?? ''}
-        studentTargetPageCount={studentInfo.data?.target_page_count}
-        halaqahTargetPageCount={circleInfo?.data?.target_page_count}
+        targetPageCount={targetPageCount}
         activityType={activityType}
         ustadName={circleInfo?.data?.ustadz?.name ?? ''}
         lastSurah={

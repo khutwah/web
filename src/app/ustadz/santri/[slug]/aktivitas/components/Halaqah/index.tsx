@@ -17,8 +17,7 @@ interface HalaqahCardProps {
   studentId: number
   studentName: string
   activityTargetPageCount?: number | null
-  studentTargetPageCount?: number | null
-  halaqahTargetPageCount?: number | null
+  targetPageCount?: number | null
   activityType: ActivityTypeKey
   ustadName: string
   lastSurah?: string
@@ -34,8 +33,7 @@ function HalaqahCard(props: HalaqahCardProps) {
     studentId,
     studentName,
     activityTargetPageCount,
-    studentTargetPageCount,
-    halaqahTargetPageCount,
+    targetPageCount,
     ustadName,
     lastSurah,
     disallowEditingTargetPageCount
@@ -88,8 +86,7 @@ function HalaqahCard(props: HalaqahCardProps) {
               activityId={activityId}
               targetPageCount={
                 activityTargetPageCount ??
-                studentTargetPageCount ??
-                halaqahTargetPageCount ??
+                targetPageCount ??
                 GLOBAL_TARGET_PAGE_COUNT
               }
               editable={!disallowEditingTargetPageCount}
