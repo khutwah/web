@@ -13,10 +13,13 @@ export async function getUserRole(): Promise<number> {
 }
 
 async function getUserRoleFromServer() {
-  const auth = await new Auth().get()
-  const user = await new User().get({
-    email: auth?.email || ''
-  })
-
-  return user.data?.role ?? -1
+  try {
+    const auth = await new Auth().get()
+    const user = await new User().get({
+      email: auth?.email || ''
+    })
+    return user.data?.role ?? -1
+  } catch {
+    return -1
+  }
 }
