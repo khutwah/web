@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import './globals.css'
 import { Toaster } from '@/components/Toast/Toaster'
 import { TimezoneSetter } from '@/components/Timezone/Setter'
-import { Refresher } from '@/components/Page/Refresher'
 
 export const metadata: Metadata = {
   title: `${process.env.NEXT_PUBLIC_APP_TITLE || 'Minhajul Haq'}`,
@@ -17,7 +16,6 @@ export default async function RootLayout({
   return (
     <html lang='en'>
       <body>
-        <Refresher />
         <TimezoneSetter />
         {children}
         <Toaster />

@@ -20,9 +20,10 @@ interface CreatePayload {
 
 interface UpdatePayload {
   target_page_count?: number
+  review_target_page_count?: number
 }
 
-const COLUMNS = `id, name, target_page_count, users (id, email), circles (id, name, target_page_count)`
+const COLUMNS = `id, name, review_target_page_count, target_page_count, users (id, email), circles (id, name, target_page_count)`
 export class Students extends Base {
   async list(args: ListFilter) {
     const { virtual_account, pin, email, student_id, ustadz_id, circle_ids } =

@@ -10,10 +10,18 @@ export async function updateStudent(
   formData: FormData
 ): Promise<FormState> {
   const id = Number(formData.get('id'))
+  const isReview = Boolean(formData.get('is_review'))
   const studentsInstance = new Students()
-  const { error } = await studentsInstance.update(id, {
-    target_page_count: Number(formData.get('target_page_count'))
-  })
+  const { error } = await studentsInstance.update(
+    id,
+    isReview
+      ? {
+          review_target_page_count: Number(formData.get('target_page_count'))
+        }
+      : {
+          target_page_count: Number(formData.get('target_page_count'))
+        }
+  )
 
   if (error) {
     return {

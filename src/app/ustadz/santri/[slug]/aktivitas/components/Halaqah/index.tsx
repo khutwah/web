@@ -22,6 +22,7 @@ interface HalaqahCardProps {
   ustadName: string
   lastSurah?: string
   disallowEditingTargetPageCount?: boolean
+  isReview?: boolean
 }
 
 function HalaqahCard(props: HalaqahCardProps) {
@@ -36,7 +37,8 @@ function HalaqahCard(props: HalaqahCardProps) {
     targetPageCount,
     ustadName,
     lastSurah,
-    disallowEditingTargetPageCount
+    disallowEditingTargetPageCount,
+    isReview
   } = props
   return (
     <Card className='w-full bg-khutwah-neutral-white text-khutwah-grey-base'>
@@ -84,6 +86,7 @@ function HalaqahCard(props: HalaqahCardProps) {
             <TargetPageCount
               studentId={studentId}
               activityId={activityId}
+              isReview={isReview}
               targetPageCount={
                 activityTargetPageCount ??
                 targetPageCount ??

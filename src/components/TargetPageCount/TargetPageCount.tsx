@@ -19,6 +19,7 @@ interface TargetPageCountProps {
   activityId?: number
   targetPageCount: number
   editable?: boolean
+  isReview?: boolean
 }
 
 export function TargetPageCount({
@@ -26,7 +27,8 @@ export function TargetPageCount({
   circleId,
   activityId,
   targetPageCount,
-  editable
+  editable,
+  isReview
 }: TargetPageCountProps) {
   const [open, setOpen] = useState(false)
   return (
@@ -53,6 +55,7 @@ export function TargetPageCount({
           circleId={circleId}
           editable={editable}
           targetPageCount={targetPageCount}
+          isReview={isReview}
           onFinish={() => setOpen(false)}
         />
       </DrawerContent>

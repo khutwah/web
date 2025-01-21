@@ -11,6 +11,7 @@ interface TargetPageCountDrawerProps {
   circleId?: number
   editable?: boolean
   targetPageCount: number
+  isReview?: boolean
   onFinish: () => void
 }
 
@@ -20,6 +21,7 @@ export function TargetPageCountDrawer({
   circleId,
   editable,
   targetPageCount,
+  isReview,
   onFinish
 }: TargetPageCountDrawerProps) {
   const [state, formAction, isPending] = useActionState<FormState, FormData>(
@@ -49,6 +51,11 @@ export function TargetPageCountDrawer({
         type='hidden'
         name='id'
         value={activityId || circleId || studentId}
+      />
+      <input
+        type='hidden'
+        name='is_review'
+        value={isReview ? 'true' : 'false'}
       />
       <InputWithLabel
         label='Jumlah Halaman'

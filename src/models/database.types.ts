@@ -474,6 +474,7 @@ export type Database = {
           nisn: string | null
           parent_id: number | null
           pin: string | null
+          review_target_page_count: number | null
           target_page_count: number | null
           updated_at: string | null
           virtual_account: string | null
@@ -487,6 +488,7 @@ export type Database = {
           nisn?: string | null
           parent_id?: number | null
           pin?: string | null
+          review_target_page_count?: number | null
           target_page_count?: number | null
           updated_at?: string | null
           virtual_account?: string | null
@@ -500,6 +502,7 @@ export type Database = {
           nisn?: string | null
           parent_id?: number | null
           pin?: string | null
+          review_target_page_count?: number | null
           target_page_count?: number | null
           updated_at?: string | null
           virtual_account?: string | null

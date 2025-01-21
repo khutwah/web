@@ -117,7 +117,8 @@ async function Wrapper(props: AddActivityProps) {
   const isManzil = activityKey === ActivityType.Manzil
 
   const targetPageCount = isManzil
-    ? GLOBAL_REVIEW_TARGET_PAGE_COUNT
+    ? (studentInfo.data?.review_target_page_count ??
+      GLOBAL_REVIEW_TARGET_PAGE_COUNT)
     : (studentInfo.data?.target_page_count ??
       studentInfo.data?.circles?.target_page_count ??
       GLOBAL_TARGET_PAGE_COUNT)
@@ -140,6 +141,7 @@ async function Wrapper(props: AddActivityProps) {
         targetPageCount={targetPageCount}
         activityType={activityType}
         ustadName={circleInfo?.data?.ustadz?.name ?? ''}
+        isReview={isManzil}
         lastSurah={
           lastActivity
             ? `${lastActivity?.end_surah}: ${lastActivity?.end_verse}`
