@@ -33,7 +33,7 @@ interface Props {
 
 interface GridEntry {
   pageCount: number
-  isStudentPresent: boolean
+  attendance?: 'present' | 'absent'
   status: ActivityStatus
 }
 
@@ -81,14 +81,15 @@ export function ProgressGrid({
     } = activity
     const type = rawType as ActivityTypeKey
 
-    // Assumption: if page_count is null, then the student was absent.
-    if (!grids[type] || !created_at || page_count === null) continue
+    if (!grids[type] || !created_at) {
+      continue
+    }
 
     // Keep created_at in UTC, since this is a "use client" component.
     const gridId = getGridIdentifier(dayjsClientSideLocal(created_at).toDate())
     grids[type][gridId] = {
-      pageCount: page_count,
-      isStudentPresent: student_attendance === 'present',
+      pageCount: page_count || 0,
+      attendance: student_attendance as 'present' | 'absent',
       status: status as ActivityStatus
     }
   }
@@ -124,7 +125,7 @@ export function ProgressGrid({
                 <td className='text-khutwah-sm-semibold'>{activityName}</td>
                 {headers.map((header) => {
                   const headerKey = getGridIdentifier(new Date(header))
-                  const { pageCount, isStudentPresent, status } =
+                  const { pageCount, attendance, status } =
                     grids[activityName][headerKey]
 
                   return (
@@ -135,9 +136,9 @@ export function ProgressGrid({
                         <ActivityBadge
                           hideIcon
                           type={activityName}
-                          isStudentPresent={isStudentPresent}
+                          attendance={attendance}
                           isDraft={status === ActivityStatus.draft}
-                          text={isStudentPresent ? `${pageCount}` : '-'}
+                          text={attendance === undefined ? '-' : `${pageCount}`}
                         />
                       )}
                     </td>
@@ -264,7 +265,7 @@ function getInitialVariables(startDate: Dayjs, endDate: Dayjs) {
   while (!iterator.isAfter(endDate)) {
     grid[getGridIdentifier(iterator.toDate())] = {
       pageCount: 0,
-      isStudentPresent: false,
+      attendance: undefined,
       status: ActivityStatus.completed
     }
     headers.push(iterator.toISOString())

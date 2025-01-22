@@ -63,7 +63,9 @@ export function ActivityPopup({ activities, from, id, isEditable }: Props) {
               </div>
               <ActivityBadge
                 type={_activity.type as ActivityTypeKey}
-                isStudentPresent={_activity.student_attendance === 'present'}
+                attendance={
+                  _activity.student_attendance as 'present' | 'absent'
+                }
                 isDraft={_activity.status === ActivityStatus.draft}
               />
             </div>

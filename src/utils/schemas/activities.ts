@@ -65,28 +65,32 @@ export const activityCreateSchema = object({
       is: 'absent',
       then: (schema) => schema.notRequired(),
       otherwise: (schema) => schema.required('Awal baca wajib diisi')
-    }),
+    })
+    .nullable(),
   end_surah: number()
     .required('Akhir baca wajib diisi')
     .when(['student_attendance', 'status'], {
       is: whenNotRequired,
       then: (schema) => schema.notRequired(),
       otherwise: (schema) => schema.required('Akhir baca wajib diisi')
-    }),
+    })
+    .nullable(),
   start_verse: number()
     .required('Awal ayat wajib diisi')
     .when('student_attendance', {
       is: 'absent',
       then: (schema) => schema.notRequired(),
       otherwise: (schema) => schema.required('Awal ayat wajib diisi')
-    }),
+    })
+    .nullable(),
   end_verse: number()
     .required('Akhir ayat wajib diisi')
     .when(['student_attendance', 'status'], {
       is: whenNotRequired,
       then: (schema) => schema.notRequired(),
       otherwise: (schema) => schema.required('Akhir ayat wajib diisi')
-    }),
+    })
+    .nullable(),
   page_count: number()
     .required('Jumlah halaman wajib diisi')
     .when(['student_attendance', 'status'], {
@@ -96,7 +100,8 @@ export const activityCreateSchema = object({
         schema
           .required('Jumlah halaman wajib diisi')
           .min(0.5, 'Jumlah halaman minimal 0.5')
-    }),
+    })
+    .nullable(),
   target_page_count: number().required('Target Jumlah halaman wajib diisi'),
   created_at: string().test(
     'is-valid-date',

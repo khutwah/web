@@ -38,7 +38,7 @@ WHERE
           (
             (activities.type = 1)
             AND (
-              (activities.student_attendance)::text = 'present'::text
+              (activities.student_attendance) :: text = 'present' :: text
             )
           )
         GROUP BY

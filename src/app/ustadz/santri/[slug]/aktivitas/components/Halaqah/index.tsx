@@ -51,7 +51,7 @@ function HalaqahCard(props: HalaqahCardProps) {
             <div className='font-semibold'>{studentName}</div>
           </div>
 
-          <ActivityBadge type={activityType} isStudentPresent />
+          <ActivityBadge type={activityType} attendance='present' />
         </CardTitle>
       </CardHeader>
       <CardContent className='flex flex-col p-5 pt-0 gap-y-2'>

@@ -151,8 +151,8 @@ async function Wrapper(props: AddActivityProps) {
       <div className='p-6 w-full'>
         <Tabs defaultValue='present' className='w-full'>
           <TabsList className='grid w-full grid-cols-2'>
-            <TabsTrigger value='present'>Hadir</TabsTrigger>
-            <TabsTrigger value='absent'>Tidak Hadir</TabsTrigger>
+            <TabsTrigger value='present'>Setoran</TabsTrigger>
+            <TabsTrigger value='absent'>Tidak Setoran</TabsTrigger>
           </TabsList>
           <TabsContent value='present'>
             <FormPresent

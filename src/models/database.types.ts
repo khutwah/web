@@ -38,8 +38,8 @@ export type Database = {
         Row: {
           created_at: string | null
           created_by: number | null
-          end_surah: number
-          end_verse: number
+          end_surah: number | null
+          end_verse: number | null
           id: number
           is_target_achieved: boolean | null
           notes: string | null
@@ -58,8 +58,8 @@ export type Database = {
         Insert: {
           created_at?: string | null
           created_by?: number | null
-          end_surah: number
-          end_verse: number
+          end_surah?: number | null
+          end_verse?: number | null
           id?: never
           is_target_achieved?: boolean | null
           notes?: string | null
@@ -78,8 +78,8 @@ export type Database = {
         Update: {
           created_at?: string | null
           created_by?: number | null
-          end_surah?: number
-          end_verse?: number
+          end_surah?: number | null
+          end_verse?: number | null
           id?: never
           is_target_achieved?: boolean | null
           notes?: string | null

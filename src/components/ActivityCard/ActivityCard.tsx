@@ -27,7 +27,7 @@ interface SurahSubmissionInfo {
 export interface ActivityCardProps {
   id: string
   type: ActivityTypeKey
-  isStudentPresent: boolean
+  attendance: 'present' | 'absent'
   notes: string
   timestamp: string
   tz: string
@@ -48,7 +48,7 @@ export function ActivityCard({
   tz,
   notes,
   type,
-  isStudentPresent,
+  attendance,
   studentName,
   halaqahName,
   labels,
@@ -79,7 +79,7 @@ export function ActivityCard({
 
             <ActivityBadge
               type={type}
-              isStudentPresent={isStudentPresent}
+              attendance={attendance}
               isDraft={status === ActivityStatus.draft}
             />
           </CardTitle>

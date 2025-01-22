@@ -21,9 +21,9 @@ model activities {
   shift_id           BigInt?
   created_by         BigInt?
   start_surah        Int?          @db.SmallInt
-  end_surah          Int           @db.SmallInt
+  end_surah          Int?          @db.SmallInt
   start_verse        Int?          @db.SmallInt
-  end_verse          Int           @db.SmallInt
+  end_verse          Int?          @db.SmallInt
   status             String        @default("draft") @db.VarChar
   student_attendance String        @default("present") @db.VarChar
   page_count         Float?        @db.Real
