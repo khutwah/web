@@ -2,7 +2,7 @@ import { ComboboxProps } from '@/components/Form/Combobox'
 import surah from '@/data/mushaf/surahs.json'
 
 export function getVerseItems(
-  surahValue?: number,
+  surahValue?: number | null,
   minVerse?: number,
   maxVerse?: number
 ): ComboboxProps['items'] {

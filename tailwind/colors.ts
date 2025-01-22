@@ -36,6 +36,12 @@ function defaultColors() {
       light: '#AA3424',
       lightest: '#F4DAD9'
     },
+    actuallyred: {
+      base: '#FF0000',
+      light: '#FF4D4D',
+      lighter: '#FF9999',
+      lightest: '#FFC2C2'
+    },
     blue: {
       lightest: '#E6F0FF',
       base: '#0065FF',

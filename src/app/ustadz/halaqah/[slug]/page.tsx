@@ -19,6 +19,7 @@ import { Suspense } from 'react'
 import { Skeleton } from '@/components/Skeleton/Skeleton'
 import { StateMessage } from '@/components/StateMessage/StateMessage'
 import { ErrorBoundary } from '@/components/ErrorBoundary/ErrorBoundary'
+import { getUserId } from '@/utils/supabase/get-user-id'
 
 export default async function DetailHalaqah({
   params: paramsPromise,
@@ -47,9 +48,10 @@ async function Wrapper({
 }) {
   const params = await paramsPromise
   const searchParams = await searchParamsPromise
+  const user = await getUserId()
 
   const circlesInstance = new Circles()
-  const circleInfo = await circlesInstance.get(Number(params.slug))
+  const circleInfo = await circlesInstance.get(Number(params.slug), user)
 
   if (!circleInfo?.data) {
     // TODO: implement proper error handling.

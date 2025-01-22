@@ -63,7 +63,10 @@ export function SantriList({
       if (!activity.student_id || !studentRecord[activity.student_id]) continue
 
       studentRecord[activity.student_id].activities.push({
-        [activity.type]: activity.status
+        [activity.type]: {
+          status: activity.status,
+          attendance: activity.student_attendance
+        }
       })
     }
 

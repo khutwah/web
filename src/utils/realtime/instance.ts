@@ -7,6 +7,10 @@ declare global {
   var realtimeInstance: Realtime
 }
 
+// This is to make ladle works. Do not remove.
+const isBrowser = typeof window !== 'undefined'
+const globalObject = isBrowser ? window : global
+
 export class Realtime {
   private manager: any
   private supabase: any
@@ -20,10 +24,10 @@ export class Realtime {
   }
 
   public static getInstance(): Realtime {
-    if (!global.realtimeInstance) {
-      global.realtimeInstance = new Realtime()
+    if (!globalObject.realtimeInstance) {
+      globalObject.realtimeInstance = new Realtime()
     }
-    return global.realtimeInstance
+    return globalObject.realtimeInstance
   }
 
   public managerInstance(): RealtimeManager {
@@ -41,8 +45,8 @@ export class Realtime {
   }
 }
 
-if (typeof global.realtimeInstance === 'undefined') {
-  global.realtimeInstance = Realtime.getInstance()
+if (typeof globalObject.realtimeInstance === 'undefined') {
+  globalObject.realtimeInstance = Realtime.getInstance()
 }
 
-export const RealtimeInstance = global.realtimeInstance
+export const RealtimeInstance = globalObject.realtimeInstance

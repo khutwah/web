@@ -25,6 +25,7 @@ import {
 } from '@/utils/assessments'
 import { InferType } from 'yup'
 import { ROLE } from '@/models/auth'
+import { InputWithLabel } from '@/components/Form/InputWithLabel'
 
 interface AddAsesmenProps {
   role: number
@@ -126,6 +127,16 @@ export function AddAsesmenForm({
       <input type='hidden' {...register('student_id')} />
       <input type='hidden' {...register('start_date')} />
 
+      <InputWithLabel
+        label='Penyimak'
+        inputProps={{
+          ...register('assignee'),
+          className: 'w-full',
+          placeholder: 'Masukkan nama penyimak jika ada',
+          required: false
+        }}
+      />
+
       <div className='flex flex-col gap-2'>
         <Label>Jenis Ikhtibar</Label>
         <Combobox
@@ -204,7 +215,7 @@ function PredefinedAssessmentRange({
   const { data, id } = ASSESSMENT_TYPES[sessionType]
 
   return (
-    <div className='flex flex-col gap-4'>
+    <div className='flex flex-col gap-2'>
       <Label>Materi Ikhtibar</Label>
       <Combobox
         withSearch={id.type === 'surah'}

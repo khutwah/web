@@ -15,15 +15,15 @@ export enum ActivityStatus {
 }
 
 export interface ActivityFormValues {
-  start_surah: number
-  end_surah: number
-  start_verse: number
-  end_verse: number
+  start_surah: number | null
+  end_surah: number | null
+  start_verse: number | null
+  end_verse: number | null
   tags?: string[] | null
   notes?: string | null
   status: ActivityStatus
   is_target_achieved: boolean
-  page_count: number
+  page_count: number | null
   target_page_count: number
   student_attendance: 'present' | 'absent'
   created_at?: string
@@ -46,7 +46,12 @@ export type ActivityChartEntry = Awaited<
   ReturnType<Activities['chart']>
 >[number]
 
-export type MappedActivityStatus = { [key in ActivityTypeKey]?: ActivityStatus }
+export type MappedActivityStatus = {
+  [key in ActivityTypeKey]?: {
+    status: ActivityStatus
+    attendance?: 'present' | 'absent'
+  }
+}
 
 export const ACTIVITY_CURRENT_DATE_QUERY_PARAMETER = 'date'
 export const ACTIVITY_PERIOD_QUERY_PARAMETER = 'period'

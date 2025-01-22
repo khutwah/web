@@ -92,6 +92,11 @@ async function Wrapper(props: EditActivityProps) {
   const lastActivity = activities?.data?.[0]
   const isManzil = activityKey === ActivityType.Manzil
 
+  const targetPageCount =
+    activity.data.target_page_count ||
+    (isManzil ? GLOBAL_REVIEW_TARGET_PAGE_COUNT : GLOBAL_TARGET_PAGE_COUNT)
+  console.log(targetPageCount)
+
   return (
     <div>
       <Navbar
@@ -106,7 +111,7 @@ async function Wrapper(props: EditActivityProps) {
       <HalaqahComponent
         studentId={activity.data.student_id!}
         date={activity.data.created_at!}
-        activityTargetPageCount={activity.data.target_page_count}
+        activityTargetPageCount={targetPageCount}
         tz={tz}
         studentName={activity.data.students?.name ?? ''}
         activityId={activity.data.id}
@@ -144,10 +149,7 @@ async function Wrapper(props: EditActivityProps) {
                 notes: activity.data.notes || undefined,
                 is_target_achieved: Boolean(activity.data.is_target_achieved),
                 page_count: activity.data.page_count ?? 0,
-                target_page_count:
-                  activity.data.target_page_count || isManzil
-                    ? GLOBAL_REVIEW_TARGET_PAGE_COUNT
-                    : GLOBAL_TARGET_PAGE_COUNT,
+                target_page_count: targetPageCount,
                 created_at: activity.data.created_at!
               }}
             />
@@ -160,11 +162,13 @@ async function Wrapper(props: EditActivityProps) {
               santriPageUri={santriPage}
               activityId={activity.data.id}
               defaultValues={{
+                start_surah: null,
+                end_surah: null,
+                start_verse: null,
+                end_verse: null,
+                page_count: null,
                 notes: activity.data.notes!,
-                target_page_count:
-                  activity.data.target_page_count || isManzil
-                    ? GLOBAL_REVIEW_TARGET_PAGE_COUNT
-                    : GLOBAL_TARGET_PAGE_COUNT,
+                target_page_count: targetPageCount,
                 created_at: activity.data.created_at!
               }}
             />

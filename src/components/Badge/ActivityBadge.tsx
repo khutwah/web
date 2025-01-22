@@ -5,7 +5,7 @@ import { Clock } from 'lucide-react'
 
 interface ActivityBadgeProps {
   type: ActivityTypeKey
-  isStudentPresent: boolean
+  attendance?: 'present' | 'absent'
   isDraft?: boolean
   hideIcon?: boolean
   /** When `type` is provided, text will always be "Sabaq", "Sabqi", and "Manzil". Use this to override the text. */
@@ -22,16 +22,22 @@ const ACTIVITY_TYPE_TO_BADGE_PROPS: Record<ActivityTypeKey, BadgeProps> = {
 
 export function ActivityBadge({
   type,
-  isStudentPresent,
+  attendance,
   isDraft,
   hideIcon,
   text: textOverride
 }: ActivityBadgeProps) {
   const { color, text } = ACTIVITY_TYPE_TO_BADGE_PROPS[type]
+  const effectiveColor =
+    attendance === 'present'
+      ? color
+      : attendance === 'absent'
+        ? 'actually-red'
+        : 'mute'
 
   return (
     <Badge
-      color={isStudentPresent ? color : 'mute'}
+      color={effectiveColor}
       dashed={isDraft}
       text={textOverride ?? text}
       icon={!hideIcon && isDraft && <Clock size={12} />}

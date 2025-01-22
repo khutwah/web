@@ -12,6 +12,12 @@ export function Default() {
     ...generateData('Manzil', date)
   ]
 
+  const absentData: ComponentProps<typeof ProgressGrid>['activities'] = [
+    ...generateData('Sabaq', date, true),
+    ...generateData('Sabqi', date),
+    ...generateData('Manzil', date)
+  ]
+
   return (
     <div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8'>
       <div>
@@ -43,6 +49,14 @@ export function Default() {
       <div>
         <ProgressGrid activities={data} date={date} onChangeDate={setDate} />
       </div>
+
+      <div>
+        <ProgressGrid
+          activities={absentData}
+          date={date}
+          onChangeDate={setDate}
+        />
+      </div>
     </div>
   )
 }
@@ -53,7 +67,8 @@ export function Skeleton() {
 
 function generateData(
   type: ActivityTypeKey,
-  date: Date
+  date: Date,
+  absent?: boolean
 ): NonNullable<ComponentProps<typeof ProgressGrid>['activities']> {
   const endDate = dayjs(date).day(6)
   const pageAmount = endDate.date() % 6
@@ -62,7 +77,7 @@ function generateData(
     page_count: idx === 0 ? null : pageAmount + idx,
     type,
     created_at: dayjs(endDate).add(-idx, 'day').toISOString(),
-    student_attendance: idx === 0 ? 'absent' : 'present',
+    student_attendance: absent ? 'absent' : idx === 0 ? 'absent' : 'present',
     end_surah: 'Al-Fatihah',
     end_surah_id: 1,
     end_verse: 1,

@@ -78,7 +78,7 @@ export function ActivityListClient({
               timestamp={item.created_at!}
               notes={item.notes ?? ''}
               type={item.type as ActivityTypeKey}
-              isStudentPresent={item.student_attendance === 'present'}
+              attendance={item.student_attendance as 'present' | 'absent'}
               studentName={isStudentIdSet ? '' : item.student_name!}
               halaqahName={item.circle_name!}
               labels={tags}
