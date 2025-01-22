@@ -154,6 +154,8 @@ async function Wrapper({
     ['lajnah-assessment-ready', 'lajnah-assessment-ongoing'].includes(
       statusCheckpoint.status
     )
+  const isLajnahAssessmentPreparation =
+    'lajnah-assessment-preparation' === statusCheckpoint?.status
   const isEditable = isStudentManagedByUser && !ongoingAssessment
 
   return (
@@ -204,7 +206,7 @@ async function Wrapper({
 
       {isEditable && isStudentActive && (
         <ActivityCtaSection
-          isManzilOnly={isLajnahAssessment}
+          isManzilOnly={isLajnahAssessment || isLajnahAssessmentPreparation}
           searchStringRecords={searchStringRecords}
           student={student.data}
           activitiesForToday={activitiesForToday.data || []}

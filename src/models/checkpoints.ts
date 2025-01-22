@@ -3,6 +3,7 @@ import type { Checkpoints } from '@/utils/supabase/models/checkpoints'
 export const CHECKPOINT_STATUS: CheckpointStatus[] = [
   'lajnah-assessment-approaching',
   'lajnah-assessment-ready',
+  'lajnah-assessment-preparation',
   'lajnah-assessment-ongoing',
   'lajnah-assessment-completed',
   'assessment-ongoing',
@@ -17,6 +18,10 @@ export const STATUS_LIST: Array<{ label: string; value: CheckpointStatus }> = [
     value: 'lajnah-assessment-approaching'
   },
   {
+    label: 'Persiapan Mengikuti Ikhtibar Lajnah',
+    value: 'lajnah-assessment-preparation'
+  },
+  {
     label: 'Siap Mengikuti Ikhtibar Lajnah',
     value: 'lajnah-assessment-ready'
   },
@@ -29,6 +34,7 @@ export const STATUS_LIST: Array<{ label: string; value: CheckpointStatus }> = [
 export type CheckpointStatus =
   | 'lajnah-assessment-approaching'
   | 'lajnah-assessment-ready'
+  | 'lajnah-assessment-preparation'
   | 'lajnah-assessment-ongoing'
   | 'lajnah-assessment-completed'
   | 'assessment-ongoing'

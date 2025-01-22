@@ -125,6 +125,16 @@ function resolveStatus(
         }
       }
 
+    case 'lajnah-assessment-preparation':
+      return {
+        text: `Sedang persiapan Ikhtibar Lajnah ${parameter} juz...`,
+        description: `Alhamdulillah, hafalan ananda sudah ${parameter} juz.`,
+        image: {
+          alt: 'Bendera berkibar berwarna merah',
+          src: StatusAssessmentReady
+        }
+      }
+
     case 'lajnah-assessment-ready':
       return {
         text: `Sedang persiapan Ikhtibar Lajnah ${parameter} juz...`,

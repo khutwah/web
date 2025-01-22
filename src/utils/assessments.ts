@@ -171,6 +171,8 @@ export function getStatusText(status: CheckpointStatus) {
   switch (status) {
     case 'assessment-ongoing':
       return 'Sedang Ikhtibar'
+    case 'lajnah-assessment-preparation':
+      return 'Sedang Persiapan Ikhtibar Lajnah'
     case 'lajnah-assessment-ongoing':
       return 'Sedang Ikhtibar Lajnah'
     case 'lajnah-assessment-ready':

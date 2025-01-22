@@ -16,6 +16,7 @@ Checkpoint is a feature designed to mark a student's status (santri) for various
 export const CHECKPOINT_STATUS: CheckpointStatus[] = [
   'lajnah-assessment-approaching',
   'lajnah-assessment-ready',
+  'lajnah-assessment-preparation',
   'lajnah-assessment-ongoing',
   'lajnah-assessment-completed',
   'inactive'
