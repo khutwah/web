@@ -95,7 +95,8 @@ export const assessmentSchema = object({
       testTimestamp
     )
     .when(...requiredForFinalizingAssessment),
-  status_checkpoint_id: number().integer()
+  status_checkpoint_id: number().integer(),
+  assignee: string()
 })
 
 export const UpdateAssessmentCheckpointSchema = object({
@@ -112,5 +113,6 @@ export const UpdateAssessmentCheckpointSchema = object({
   end_verse: number().required().min(1),
   // Only sent for the final mark.
   final_mark: string(),
-  status_checkpoint_id: number()
+  status_checkpoint_id: number(),
+  assignee: string()
 })

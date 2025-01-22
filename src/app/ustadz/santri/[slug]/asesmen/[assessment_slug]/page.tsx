@@ -70,7 +70,10 @@ export default async function AsesmenPage({
             <CardTitle className='flex justify-between'>
               <div className='flex-col'>
                 <div className='text-khutwah-m-regular text-khutwah-grey-lightest'>
-                  Ikhtibar {assessmentTypeFormatted}
+                  Ikhtibar {assessmentTypeFormatted}{' '}
+                  {rootAssessment.assignee
+                    ? `disimak oleh ${rootAssessment.assignee}`
+                    : ''}
                 </div>
                 <div className='text-khutwah-l-semibold'>
                   {rootAssessment.student?.name}

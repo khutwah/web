@@ -66,7 +66,7 @@ export function ActivityCard({
       }}
     >
       <Card className='w-full bg-khutwah-neutral-10 text-khutwah-grey-base relative h-full flex flex-col'>
-        <CardHeader className='rounded-t-xl p-5 pb-3'>
+        <CardHeader className='rounded-t-xl p-5 pb-2'>
           <CardTitle className='flex justify-between items-start'>
             <div className='flex flex-col gap-y-1'>
               <div className='text-xs text-khutwah-neutral-50'>
@@ -141,6 +141,14 @@ export function ActivityCard({
               <AlertDescription>
                 Aktivitas {type} ini perlu dilengkapi.
               </AlertDescription>
+            </Alert>
+          </CardFooter>
+        )}
+        {attendance === 'absent' && (
+          <CardFooter>
+            <Alert variant='warning'>
+              <CircleAlert aria-hidden size={16} />
+              <AlertDescription>TIdak setoran {type}.</AlertDescription>
             </Alert>
           </CardFooter>
         )}

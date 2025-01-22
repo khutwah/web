@@ -128,6 +128,7 @@ export type Database = {
       }
       assessments: {
         Row: {
+          assignee: string | null
           created_at: string | null
           end_date: string | null
           final_mark: string | null
@@ -147,6 +148,7 @@ export type Database = {
           ustadz_id: number
         }
         Insert: {
+          assignee?: string | null
           created_at?: string | null
           end_date?: string | null
           final_mark?: string | null
@@ -166,6 +168,7 @@ export type Database = {
           ustadz_id: number
         }
         Update: {
+          assignee?: string | null
           created_at?: string | null
           end_date?: string | null
           final_mark?: string | null

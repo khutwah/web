@@ -167,7 +167,7 @@ async function Wrapper() {
                     tz={tz}
                     notes={item.notes ?? ''}
                     type={item.type as ActivityTypeKey}
-                    isStudentPresent={item.student_attendance === 'present'}
+                    attendance={item.student_attendance as 'present' | 'absent'}
                     studentName={item.student_name!}
                     halaqahName={item.circle_name!}
                     labels={tags}

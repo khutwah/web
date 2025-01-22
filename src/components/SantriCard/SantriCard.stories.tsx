@@ -6,8 +6,11 @@ export function Default() {
     <div className='flex flex-col gap-4'>
       <SantriCard
         activities={[
-          { Sabaq: ActivityStatus.draft },
-          { Manzil: ActivityStatus.completed }
+          { Sabaq: { status: ActivityStatus.draft, attendance: 'present' } },
+          { Sabqi: { status: ActivityStatus.completed, attendance: 'absent' } },
+          {
+            Manzil: { status: ActivityStatus.completed, attendance: 'present' }
+          }
         ]}
         avatarUrl='https://i.pravatar.cc/300'
         halaqahName='Halaqah 4.1'
@@ -24,7 +27,11 @@ export function OverflowedContent() {
   return (
     <div className='max-w-56'>
       <SantriCard
-        activities={[{ Manzil: ActivityStatus.completed }]}
+        activities={[
+          {
+            Manzil: { status: ActivityStatus.completed, attendance: 'present' }
+          }
+        ]}
         avatarUrl='https://i.pravatar.cc/300'
         halaqahName='Halaqah 4.1'
         href='#'

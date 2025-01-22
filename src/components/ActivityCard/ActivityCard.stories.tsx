@@ -8,7 +8,7 @@ export function ActivityCardStory() {
       <div className='grid grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-2'>
         <ActivityBriefCard
           id='1'
-          isStudentPresent
+          attendance='present'
           studentName='Andrizal Herdiwanto Sukmini'
           halaqahName='Halaqah A1.1'
           surahStart={{ name: 'At-Taubah', verse: 1 }}
@@ -23,7 +23,7 @@ export function ActivityCardStory() {
 
         <ActivityBriefCard
           id='1'
-          isStudentPresent
+          attendance='present'
           studentName='Andrizal Herdiwanto Sukmini'
           halaqahName='Halaqah A1.1'
           surahStart={{ name: 'At-Taubah', verse: 1 }}
@@ -38,7 +38,7 @@ export function ActivityCardStory() {
 
         <ActivityBriefCard
           id='1'
-          isStudentPresent
+          attendance='present'
           studentName='Andrizal Herdiwanto Sukmini'
           halaqahName='Halaqah A1.1'
           surahStart={{ name: 'At-Taubah', verse: 1 }}
@@ -53,7 +53,7 @@ export function ActivityCardStory() {
 
         <ActivityBriefCard
           id='1'
-          isStudentPresent
+          attendance='present'
           surahStart={{ name: 'At-Taubah', verse: 1 }}
           surahEnd={{ name: 'At-Taubah', verse: 26 }}
           timestamp={new Date().toISOString()}
@@ -66,7 +66,7 @@ export function ActivityCardStory() {
 
         <ActivityBriefCard
           id='1'
-          isStudentPresent
+          attendance='present'
           surahStart={{ name: 'At-Taubah', verse: 1 }}
           surahEnd={{ name: 'At-Taubah', verse: 26 }}
           timestamp={new Date().toISOString()}
@@ -83,7 +83,7 @@ export function ActivityCardStory() {
       <div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-2'>
         <ActivityCard
           id='1'
-          isStudentPresent
+          attendance='present'
           studentName='Andrizal Herdiwanto Sukmini'
           halaqahName='Halaqah A1.1'
           surahStart={{ name: 'At-Taubah', verse: 1 }}
@@ -97,7 +97,7 @@ export function ActivityCardStory() {
         />
         <ActivityCard
           id='2'
-          isStudentPresent
+          attendance='present'
           studentName='Andrizal Herdiwanto Sukmini'
           halaqahName='Halaqah A1.1'
           surahStart={{ name: 'At-Taubah', verse: 1 }}
@@ -111,7 +111,7 @@ export function ActivityCardStory() {
         />
         <ActivityCard
           id='3'
-          isStudentPresent
+          attendance='present'
           studentName='Andrizal Herdiwanto Sukmini'
           halaqahName='Halaqah A1.1'
           surahStart={{ name: 'Al-Baqarah', verse: 1 }}
@@ -125,7 +125,7 @@ export function ActivityCardStory() {
         />
         <ActivityCard
           id='4'
-          isStudentPresent
+          attendance='present'
           surahStart={{ name: 'Al-Mumtahanah', verse: 1 }}
           surahEnd={{ name: 'Al-Mumtahanah', verse: 13 }}
           timestamp={new Date(2024, 1, 1, 7).toISOString()}
@@ -136,7 +136,7 @@ export function ActivityCardStory() {
         />
         <ActivityCard
           id='5'
-          isStudentPresent
+          attendance='present'
           surahStart={{ name: "Al-Mu'minun", verse: 1 }}
           surahEnd={{ name: "Al-Mu'minun", verse: 118 }}
           timestamp={new Date(2024, 10, 10, 27).toISOString()}
@@ -147,7 +147,7 @@ export function ActivityCardStory() {
         />
         <ActivityCard
           id='6'
-          isStudentPresent
+          attendance='present'
           surahStart={{ name: "Al-Mu'minun", verse: 1 }}
           surahEnd={{ name: "Al-Mu'minun", verse: 118 }}
           timestamp={new Date(2024, 10, 10, 27).toISOString()}
@@ -158,7 +158,7 @@ export function ActivityCardStory() {
         />
         <ActivityCard
           id='7'
-          isStudentPresent={false}
+          attendance='absent'
           surahStart={{ name: 'Al-Mumtahanah', verse: 1 }}
           surahEnd={{ name: 'Al-Mumtahanah', verse: 13 }}
           timestamp={new Date(2024, 1, 1, 7).toISOString()}
@@ -169,7 +169,7 @@ export function ActivityCardStory() {
         />
         <ActivityCard
           id='8'
-          isStudentPresent={false}
+          attendance='absent'
           surahStart={{ name: "Al-Mu'minun", verse: 1 }}
           surahEnd={{ name: "Al-Mu'minun", verse: 118 }}
           timestamp={new Date(2024, 10, 10, 27).toISOString()}
@@ -180,7 +180,7 @@ export function ActivityCardStory() {
         />
         <ActivityCard
           id='9'
-          isStudentPresent={false}
+          attendance='absent'
           surahStart={{ name: "Al-Mu'minun", verse: 1 }}
           surahEnd={{ name: "Al-Mu'minun", verse: 118 }}
           timestamp={new Date(2024, 10, 10, 27).toISOString()}

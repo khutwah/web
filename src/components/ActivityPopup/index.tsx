@@ -67,40 +67,54 @@ export function ActivityPopup({ activities, from, id, isEditable }: Props) {
                   _activity.student_attendance as 'present' | 'absent'
                 }
                 isDraft={_activity.status === ActivityStatus.draft}
+                text={
+                  _activity.student_attendance === 'present'
+                    ? undefined
+                    : `Tidak Setoran ${_activity.type as ActivityTypeKey}`
+                }
               />
             </div>
-            <div className='flex flex-col gap-1'>
-              <div className='text-xs text-khutwah-neutral-50'>Setoran</div>
-              <div className='flex flex-row items-center space-x-4 text-sm'>
-                {_activity.start_surah && _activity.start_verse ? (
-                  <>
-                    <div>
-                      {_activity.start_surah}: {_activity.start_verse}
-                    </div>
 
-                    <div>
-                      <MoveRight size={16} />
-                    </div>
-                  </>
-                ) : null}
+            {_activity.student_attendance === 'present' && (
+              <div className='flex flex-col gap-1'>
+                <div className='text-xs text-khutwah-neutral-50'>Setoran</div>
+                <div className='flex flex-row items-center space-x-4 text-sm'>
+                  {_activity.start_surah && _activity.start_verse ? (
+                    <>
+                      <div>
+                        {_activity.start_surah}: {_activity.start_verse}
+                      </div>
 
-                <div>
-                  {_activity.end_surah}: {_activity.end_verse}
+                      <div>
+                        <MoveRight size={16} />
+                      </div>
+                    </>
+                  ) : null}
+
+                  <div>
+                    {_activity.end_surah}: {_activity.end_verse}
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
 
-            <div className='flex flex-col gap-1'>
-              <div className='text-xs text-khutwah-neutral-50'>Jumlah</div>
-              <div className='text-sm'>{_activity.page_count} Halaman</div>
-            </div>
+            {_activity.student_attendance === 'present' && (
+              <div className='flex flex-col gap-1'>
+                <div className='text-xs text-khutwah-neutral-50'>Jumlah</div>
+                <div className='text-sm'>{_activity.page_count} Halaman</div>
+              </div>
+            )}
 
             {Boolean(_activity.tags) && (
               <Labels labels={_activity.tags as string[]} />
             )}
 
             <div className='flex flex-col gap-1'>
-              <div className='text-xs text-khutwah-neutral-50'>Catatan</div>
+              <div className='text-xs text-khutwah-neutral-50'>
+                {_activity.student_attendance === 'present'
+                  ? 'Catatan'
+                  : 'Alasan'}
+              </div>
               <div className='text-sm'>{_activity.notes}</div>
             </div>
 

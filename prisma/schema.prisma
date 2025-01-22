@@ -52,6 +52,7 @@ model assessments {
   created_at           DateTime?     @default(now()) @db.Timestamp(6)
   updated_at           DateTime?     @default(now()) @db.Timestamp(6)
   surah_range          Json?
+  assignee             String?       @db.VarChar(255)
   assessments          assessments?  @relation("assessmentsToassessments", fields: [parent_assessment_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   other_assessments    assessments[] @relation("assessmentsToassessments")
   students             students      @relation(fields: [student_id], references: [id], onDelete: NoAction, onUpdate: NoAction)

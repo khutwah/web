@@ -125,21 +125,14 @@ export function AssessmentCounters({ assessment }: Props) {
   return (
     <div className='flex justify-between gap-x-6'>
       <MistakeCounter
-        label='Kecil'
+        label='لحن خفي'
         type='low'
         count={mistakesCount.low}
         onChange={onChange}
       />
 
       <MistakeCounter
-        label='Sedang'
-        type='medium'
-        count={mistakesCount.medium}
-        onChange={onChange}
-      />
-
-      <MistakeCounter
-        label='Besar'
+        label='لحن جلي'
         type='high'
         count={mistakesCount.high}
         onChange={onChange}

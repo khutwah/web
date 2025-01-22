@@ -13,14 +13,14 @@ export function BadgeStory() {
         <Badge color='mute' text='Mute' />
         <Badge color='blue' text='Icon' icon={<Clock size={12} />} dashed />
 
-        <ActivityBadge type='Sabaq' isStudentPresent />
-        <ActivityBadge type='Sabqi' isStudentPresent />
-        <ActivityBadge type='Manzil' isStudentPresent />
+        <ActivityBadge type='Sabaq' attendance='present' />
+        <ActivityBadge type='Sabqi' attendance='present' />
+        <ActivityBadge type='Manzil' attendance='present' />
 
-        <ActivityBadge type='Sabaq' isStudentPresent isDraft />
-        <ActivityBadge type='Sabqi' isStudentPresent isDraft />
-        <ActivityBadge type='Manzil' isStudentPresent isDraft />
-        <ActivityBadge type='Manzil' isStudentPresent isDraft hideIcon />
+        <ActivityBadge type='Sabaq' attendance='present' isDraft />
+        <ActivityBadge type='Sabqi' attendance='present' isDraft />
+        <ActivityBadge type='Manzil' attendance='present' isDraft />
+        <ActivityBadge type='Manzil' attendance='present' isDraft hideIcon />
       </div>
     </>
   )

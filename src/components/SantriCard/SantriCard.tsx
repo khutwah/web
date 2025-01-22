@@ -122,14 +122,14 @@ export function SantriCard({
                 const selectedActivity = activities.find(
                   (activity) => activity[activityKey]
                 )
-                const isStudentPresent = selectedActivity !== undefined
-                const isDraft = selectedActivity?.[activityKey] === 'draft'
+                const isDraft =
+                  selectedActivity?.[activityKey]?.status === 'draft'
 
                 return (
                   <ActivityBadge
                     key={activityKey}
                     type={activityKey}
-                    isStudentPresent={isStudentPresent}
+                    attendance={selectedActivity?.[activityKey]?.attendance}
                     isDraft={isDraft}
                   />
                 )

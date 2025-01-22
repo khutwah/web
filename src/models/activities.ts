@@ -46,7 +46,12 @@ export type ActivityChartEntry = Awaited<
   ReturnType<Activities['chart']>
 >[number]
 
-export type MappedActivityStatus = { [key in ActivityTypeKey]?: ActivityStatus }
+export type MappedActivityStatus = {
+  [key in ActivityTypeKey]?: {
+    status: ActivityStatus
+    attendance?: 'present' | 'absent'
+  }
+}
 
 export const ACTIVITY_CURRENT_DATE_QUERY_PARAMETER = 'date'
 export const ACTIVITY_PERIOD_QUERY_PARAMETER = 'period'

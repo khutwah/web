@@ -88,15 +88,16 @@ export async function createAssessment(_prev: unknown, formData: FormData) {
 
       return { parent }
     })
-
     redirectUri = `${MENU_USTADZ_PATH_RECORDS.santri}/${data.student_id}/asesmen/${result.parent.id}`
   } catch (error) {
-    console.error(error)
+    console.log(error)
     return {
       message: 'Maaf, ada kesalahan sistem, coba lagi nanti.'
     }
   } finally {
-    if (redirectUri) redirect(redirectUri)
+    if (redirectUri) {
+      redirect(redirectUri)
+    }
   }
 }
 

@@ -78,9 +78,6 @@ export async function AssessmentCheckpoint({
               {checkpoint.mistakes?.low || 0}
             </div>
             <div className='h-6 w-6 rounded-full flex items-center justify-center text-khutwah-sm-regular text-khutwah-warning-70 border border-khutwah-warning-70'>
-              {checkpoint.mistakes?.medium || 0}
-            </div>
-            <div className='h-6 w-6 rounded-full flex items-center justify-center text-khutwah-sm-regular text-khutwah-warning-70 border border-khutwah-warning-70'>
               {checkpoint.mistakes?.high || 0}
             </div>
           </div>

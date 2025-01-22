@@ -19,7 +19,7 @@ export function ActivityBriefCard({
   tz,
   notes,
   type,
-  isStudentPresent,
+  attendance,
   studentName,
   halaqahName,
   labels,
@@ -55,7 +55,7 @@ export function ActivityBriefCard({
 
             <ActivityBadge
               type={type}
-              isStudentPresent={isStudentPresent}
+              attendance={attendance}
               isDraft={status === ActivityStatus.draft}
             />
           </CardTitle>

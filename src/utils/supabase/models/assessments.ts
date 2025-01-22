@@ -21,7 +21,8 @@ const QUERY_FIELDS = `
   session_type,
   session_range_id,
   session_name,
-  start_date
+  start_date,
+  assignee
 `
 
 export class Assessments extends Base {
