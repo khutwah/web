@@ -116,7 +116,7 @@ export default async function AsesmenPage({
                     </div>
 
                     <p className='text-khutwah-m-regular text-khutwah-grey-light italic'>
-                      Catatan: "{rootAssessment.notes}"
+                      <span>Catatan:</span> &ldquo;{rootAssessment.notes}&rdquo;
                     </p>
 
                     <UpdateFinalNotes

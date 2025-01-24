@@ -86,7 +86,7 @@ export async function AssessmentCheckpoint({
             <>
               {checkpoint.notes && (
                 <div className='mt-2 text-khutwah-m-regular italic'>
-                  "{checkpoint.notes}"
+                  &ldquo;{checkpoint.notes}&rdquo;
                 </div>
               )}
               <div className='mt-2 flex gap-2 text-khutwah-neutral-white'>
