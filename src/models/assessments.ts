@@ -168,4 +168,5 @@ export interface AssessmentCheckpointType {
   startVerse: number
   endVerse?: number
   mistakes: MistakeCounterType
+  notes?: string | null
 }

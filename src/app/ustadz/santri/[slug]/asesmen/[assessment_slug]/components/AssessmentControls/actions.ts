@@ -1,7 +1,10 @@
 'use server'
 
 import { ROLE } from '@/models/auth'
-import { UpdateAssessmentCheckpointSchema } from '@/utils/schemas/assessments'
+import {
+  UpdateAssessmentCheckpointSchema,
+  UpdateFinalNotesSchema
+} from '@/utils/schemas/assessments'
 import { getUserRole } from '@/utils/supabase/get-user-role'
 import { Assessments } from '@/utils/supabase/models/assessments'
 import { validateOrFail } from '@/utils/validate-or-fail'
@@ -81,6 +84,8 @@ export async function addAssessmentCheckpoint(
         // We skip updating root assessment's parent_assessment_id and start_date.
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { parent_assessment_id, start_date, ...payload } = restPayload
+
+        // Final assessment not will be "added" later.
         await tx.assessments.update({
           where: { id: parent_assessment_id },
           data: {
@@ -88,7 +93,6 @@ export async function addAssessmentCheckpoint(
             final_mark,
             updated_at: now,
             end_date: now,
-            notes, // Put the last checkpoint notes as the root assessment notes.
             surah_range: [
               [`${rootStartSurah}:${rootStartVerse}`],
               [`${end_surah}:${end_verse}`]
@@ -123,6 +127,42 @@ export async function addAssessmentCheckpoint(
           medium_mistake_count: 0,
           high_mistake_count: 0
         })
+      }
+    })
+  } catch (error) {
+    const e = (error as Error).message
+    return {
+      message: e
+    }
+  } finally {
+    broadcast()
+  }
+}
+
+export async function updateFinalNotes(
+  _prevState: unknown,
+  formData: FormData
+) {
+  const payload = await validateOrFail(() =>
+    UpdateFinalNotesSchema.validate(Object.fromEntries(formData), {
+      stripUnknown: true
+    })
+  )
+
+  if ('message' in payload) {
+    return {
+      message: payload.message
+    }
+  }
+
+  const { id, notes } = payload
+  const assessmentsInstance = new Assessments()
+  try {
+    await assessmentsInstance.prisma.assessments.update({
+      where: { id },
+      data: {
+        notes: notes?.trim(),
+        updated_at: new Date().toISOString()
       }
     })
   } catch (error) {

@@ -1,6 +1,6 @@
 'use client'
 
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import {
   Drawer,
   DrawerContent,
@@ -8,7 +8,6 @@ import {
   DrawerHeader,
   DrawerTitle
 } from '../Drawer/Drawer'
-import { useSearchParams } from 'next/navigation'
 import { Activities } from '@/utils/supabase/models/activities'
 import { ActivityBadge } from '../Badge/ActivityBadge'
 import { ActivityTypeKey, ActivityStatus } from '@/models/activities'

@@ -116,3 +116,8 @@ export const UpdateAssessmentCheckpointSchema = object({
   status_checkpoint_id: number(),
   assignee: string()
 })
+
+export const UpdateFinalNotesSchema = object({
+  id: number().required(),
+  notes: string().nullable()
+})

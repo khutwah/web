@@ -20,6 +20,7 @@ import { FinalizeAssessment } from './components/AssessmentControls/FinalizeAsse
 import { Checkpoints as StatusCheckpoints } from '@/utils/supabase/models/checkpoints'
 import { CancelAssessment } from './components/AssessmentControls/CancelAssessment'
 import { displayMarkValue } from '@/utils/assessments'
+import { UpdateFinalNotes } from './components/AssessmentControls/UpdateFinalNotes'
 
 interface AsesmenPageProps {
   params: Promise<{ assessment_slug: number; slug: number }>
@@ -66,7 +67,7 @@ export default async function AsesmenPage({
 
       <div className='p-6'>
         <Card className='bg-khutwah-neutral-white text-khutwah-grey-base shadow-sm border border-khutwah-snow-lighter rounded-md sticky top-0 z-10'>
-          <CardHeader className='rounded-t-xl p-5 pb-3'>
+          <CardHeader className='rounded-t-xl p-5 pb-2'>
             <CardTitle className='flex justify-between'>
               <div className='flex-col'>
                 <div className='text-khutwah-m-regular text-khutwah-grey-lightest'>
@@ -92,14 +93,43 @@ export default async function AsesmenPage({
           <CardContent className='p-5 pt-0'>
             {isAssessmentFinished ? (
               <div className='space-y-3 inline-block'>
-                <Badge
-                  color='tamarind'
-                  text={isCancelled ? 'Ditunda' : 'Selesai'}
-                />
+                <div className='flex justify-between'>
+                  <Badge
+                    color='tamarind'
+                    text={isCancelled ? 'Ditunda' : 'Selesai'}
+                  />
+                </div>
 
-                <p className='text-khutwah-m-regular text-khutwah-grey-light italic'>
+                <p className='text-khutwah-m-regular text-khutwah-grey-light italic underline'>
                   {displayMarkValue(rootAssessment.final_mark || '')}
                 </p>
+
+                {rootAssessment.final_mark && rootAssessment.notes && (
+                  <>
+                    <div className='mt-2 flex gap-2 text-khutwah-neutral-white'>
+                      <div className='h-6 w-6 rounded-full flex items-center justify-center text-khutwah-sm-regular text-khutwah-warning-70 border border-khutwah-warning-70'>
+                        {rootAssessment?.low_mistake_count || 0}
+                      </div>
+                      <div className='h-6 w-6 rounded-full flex items-center justify-center text-khutwah-sm-regular text-khutwah-warning-70 border border-khutwah-warning-70'>
+                        {rootAssessment?.high_mistake_count || 0}
+                      </div>
+                    </div>
+
+                    <p className='text-khutwah-m-regular text-khutwah-grey-light italic'>
+                      Catatan: "{rootAssessment.notes}"
+                    </p>
+
+                    <UpdateFinalNotes
+                      name={rootAssessment.session_name}
+                      id={rootAssessment.id}
+                      notes={rootAssessment.notes}
+                      mistakes={{
+                        low: rootAssessment.low_mistake_count ?? 0,
+                        high: rootAssessment.high_mistake_count ?? 0
+                      }}
+                    />
+                  </>
+                )}
               </div>
             ) : (
               <div className='flex flex-col gap-y-3 items-center'>
@@ -136,10 +166,27 @@ export default async function AsesmenPage({
               startVerse: start?.verse ?? 0,
               endSurah: end?.name,
               endVerse: end?.verse,
-              timestamp: assessment.start_date
+              timestamp: assessment.start_date,
+              notes: assessment.notes
             }
           })}
         />
+
+        {rootAssessment.final_mark && (
+          <div className='flex flex-col gap-y-6'>
+            <div className='flex gap-x-2 mt-6'>
+              <UpdateFinalNotes
+                name={rootAssessment.session_name}
+                id={rootAssessment.id}
+                notes={rootAssessment.notes}
+                mistakes={{
+                  low: rootAssessment.low_mistake_count ?? 0,
+                  high: rootAssessment.high_mistake_count ?? 0
+                }}
+              />
+            </div>
+          </div>
+        )}
 
         {!rootAssessment.final_mark && (
           <div className='flex flex-col gap-y-6'>
