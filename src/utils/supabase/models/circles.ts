@@ -153,7 +153,8 @@ export class Circles extends Base {
     const day = dayjs().tz(tz)
 
     const {
-      start_date = day.startOf('day').utc().toISOString(),
+      // Start date should be lower than equal now.
+      start_date = day.utc().toISOString(),
       end_date = day.endOf('day').utc().toISOString()
     } = filter ?? {}
 

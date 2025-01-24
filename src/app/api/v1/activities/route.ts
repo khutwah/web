@@ -84,7 +84,7 @@ export async function POST(request: NextRequest) {
   const response = await activity.create(body)
 
   if (response.error) {
-    return Response.json(createErrorResponse(errorTranslator(response.error)), {
+    return Response.json(response.error, {
       status: 500
     })
   }

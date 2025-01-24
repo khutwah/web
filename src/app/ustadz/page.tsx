@@ -53,7 +53,7 @@ async function Wrapper() {
 
   return (
     <>
-      <ActivityPopup activities={activityList.data} />
+      <ActivityPopup activities={activityList.data} isEditable />
 
       <div className='flex flex-col gap-y-6 mt-4 py-6'>
         <section className='px-6 gap-y-6 flex flex-col'>

@@ -10,6 +10,7 @@ import { getUserId } from '../get-user-id'
 import { ApiError } from '@/utils/api-error'
 import dayjs from '@/utils/dayjs'
 import { TAG_LAJNAH_ASSESSMENT_ONGOING } from '@/models/checkpoints'
+import getTimezoneInfo from '@/utils/get-timezone-info'
 
 export type StudentAttendance = 'present' | 'absent'
 
@@ -228,23 +229,58 @@ export class Activities extends Base {
 
   async create(payload: ActivitiesPayload) {
     const userId = await this._getUserId()
+    const tz = await getTimezoneInfo()
 
-    let _payload: ActivitiesPayload & {
-      updated_at?: string
-      created_by: number
-    } = { ...payload, created_by: userId }
+    try {
+      const result = this.prisma.$transaction(async (tx) => {
+        const existing = await tx.activities.findFirst({
+          where: {
+            student_id: payload.student_id,
+            type: payload.type,
+            created_at: {
+              gte: dayjs().tz(tz).startOf('day').toISOString(),
+              lte: dayjs().tz(tz).endOf('day').toISOString()
+            }
+          }
+        })
 
-    if (payload.created_at) {
-      _payload = {
-        ..._payload,
-        updated_at: payload.created_at
+        if (existing) {
+          return { data: { id: existing.id }, error: null }
+        }
+
+        const _payload: ActivitiesPayload & {
+          updated_at?: string
+          created_by: number
+        } = {
+          ...payload,
+          created_by: userId
+        }
+
+        if (payload.created_at) {
+          _payload.updated_at = payload.created_at
+        }
+
+        const newActivity = await tx.activities.create({
+          data: _payload,
+          select: {
+            id: true
+          }
+        })
+
+        return { data: newActivity, error: null }
+      })
+
+      return result
+    } catch (error) {
+      return {
+        data: null,
+        error: new ApiError({
+          message: (error as Error).message,
+          code: '500',
+          status: 500
+        })
       }
     }
-
-    return await (await this.supabase)
-      .from('activities')
-      .insert(_payload)
-      .select('id')
   }
 
   async getLatestSabaq({

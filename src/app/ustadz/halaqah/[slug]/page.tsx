@@ -57,6 +57,7 @@ async function Wrapper({
     // TODO: implement proper error handling.
     return <div>Unexpected error: {circleInfo?.error.message}</div>
   } else {
+    console.log(circleInfo.data)
     const studentsInstance = new Students()
     const activitiesInstance = new Activities()
 
