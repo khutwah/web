@@ -21,6 +21,7 @@ import { Checkpoints as StatusCheckpoints } from '@/utils/supabase/models/checkp
 import { CancelAssessment } from './components/AssessmentControls/CancelAssessment'
 import { displayMarkValue } from '@/utils/assessments'
 import { UpdateFinalNotes } from './components/AssessmentControls/UpdateFinalNotes'
+import { Students } from '@/utils/supabase/models/students'
 
 interface AsesmenPageProps {
   params: Promise<{ assessment_slug: number; slug: number }>
@@ -33,13 +34,16 @@ export default async function AsesmenPage({
 
   const assessmentsInstance = new Assessments()
   const statusChecpointsInstance = new StatusCheckpoints()
+  const studentsInstance = new Students()
 
-  const [assessments, statusCheckpoints] = await Promise.all([
-    assessmentsInstance.list({
-      parent_assessment_id: slug
-    }),
-    statusChecpointsInstance.list({ student_id: studentId })
-  ])
+  const [assessments, statusCheckpoints, isStudentManagedByUser] =
+    await Promise.all([
+      assessmentsInstance.list({
+        parent_assessment_id: slug
+      }),
+      statusChecpointsInstance.list({ student_id: studentId }),
+      studentsInstance.isStudentManagedByUser(studentId)
+    ])
   const statusCheckpoint = statusCheckpoints.data?.[0]
 
   if (assessments.error) {
@@ -95,7 +99,7 @@ export default async function AsesmenPage({
               <div className='space-y-3 inline-block'>
                 <div className='flex justify-between'>
                   <Badge
-                    color='tamarind'
+                    color={isCancelled ? 'actually-red' : 'tamarind'}
                     text={isCancelled ? 'Ditunda' : 'Selesai'}
                   />
                 </div>
@@ -119,15 +123,17 @@ export default async function AsesmenPage({
                       <span>Catatan:</span> &ldquo;{rootAssessment.notes}&rdquo;
                     </p>
 
-                    <UpdateFinalNotes
-                      name={rootAssessment.session_name}
-                      id={rootAssessment.id}
-                      notes={rootAssessment.notes}
-                      mistakes={{
-                        low: rootAssessment.low_mistake_count ?? 0,
-                        high: rootAssessment.high_mistake_count ?? 0
-                      }}
-                    />
+                    {isStudentManagedByUser && (
+                      <UpdateFinalNotes
+                        name={rootAssessment.session_name}
+                        id={rootAssessment.id}
+                        notes={rootAssessment.notes}
+                        mistakes={{
+                          low: rootAssessment.low_mistake_count ?? 0,
+                          high: rootAssessment.high_mistake_count ?? 0
+                        }}
+                      />
+                    )}
                   </>
                 )}
               </div>
@@ -175,15 +181,17 @@ export default async function AsesmenPage({
         {rootAssessment.final_mark && (
           <div className='flex flex-col gap-y-6'>
             <div className='flex gap-x-2 mt-6'>
-              <UpdateFinalNotes
-                name={rootAssessment.session_name}
-                id={rootAssessment.id}
-                notes={rootAssessment.notes}
-                mistakes={{
-                  low: rootAssessment.low_mistake_count ?? 0,
-                  high: rootAssessment.high_mistake_count ?? 0
-                }}
-              />
+              {isStudentManagedByUser && (
+                <UpdateFinalNotes
+                  name={rootAssessment.session_name}
+                  id={rootAssessment.id}
+                  notes={rootAssessment.notes}
+                  mistakes={{
+                    low: rootAssessment.low_mistake_count ?? 0,
+                    high: rootAssessment.high_mistake_count ?? 0
+                  }}
+                />
+              )}
             </div>
           </div>
         )}

@@ -1,4 +1,5 @@
 import { NextSearchParams } from '@/models/url'
+import { ReadonlyURLSearchParams } from 'next/navigation'
 
 export function extractPathnameAndQueryFromURL(url: URL) {
   const query = url.searchParams.toString()
@@ -100,6 +101,24 @@ export function addQueryParams(
 
   const queryString = urlSearchParams.toString()
   return queryString ? `${baseUrl}?${queryString}` : baseUrl
+}
+
+export function convertReadonlyURLSearchParamsToPlainObject(
+  params: ReadonlyURLSearchParams
+): { [key: string]: string | string[] | undefined } {
+  const result: { [key: string]: string | string[] | undefined } = {}
+
+  params.forEach((value, key) => {
+    if (result[key] === undefined) {
+      result[key] = value
+    } else if (Array.isArray(result[key])) {
+      ;(result[key] as string[]).push(value)
+    } else {
+      result[key] = [result[key] as string, value]
+    }
+  })
+
+  return result
 }
 
 export function convertSearchParamsToStringRecords(

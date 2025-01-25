@@ -85,6 +85,7 @@ export default async function LastActivitiesSection({
                     halaqahName={item.circle_name!}
                     labels={tags}
                     status={item.status as ActivityStatus}
+                    searchParams={searchParams}
                   />
                 </li>
               )

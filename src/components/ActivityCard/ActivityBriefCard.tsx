@@ -10,6 +10,7 @@ import { ActivityBadge } from '../Badge/ActivityBadge'
 import dayjs from '@/utils/dayjs'
 import { cn } from '@/utils/classnames'
 import { ActivityCardProps, Labels } from './ActivityCard'
+import { convertSearchParamsToStringRecords } from '@/utils/url'
 
 export function ActivityBriefCard({
   id,
@@ -26,14 +27,20 @@ export function ActivityBriefCard({
   status,
   searchParams
 }: ActivityCardProps) {
-  const params = new URLSearchParams(searchParams)
-  params.set('activity', id)
+  let query = ''
+  if (searchParams) {
+    const params = new URLSearchParams(
+      convertSearchParamsToStringRecords(searchParams)
+    )
+    params.set('activity', id)
+    query = params.toString()
+  }
 
   return (
     <Link
       href={{
         pathname: '',
-        query: params.toString()
+        query
       }}
     >
       <Card className='w-full bg-khutwah-neutral-10 text-khutwah-grey-base relative flex flex-col'>

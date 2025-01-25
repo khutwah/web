@@ -39,6 +39,7 @@ import ErrorMessage from './ErrorMessage'
 import { ErrorBoundary } from '@/components/ErrorBoundary/ErrorBoundary'
 import { DetailSantriProps } from '../../../models/detail-santri'
 import { getAyahLocationSummary } from '@minhajulhaq/mushaf'
+import LastAssessmentsSection from '../sections/LastAssessmentsSection'
 
 export default async function UstadzRole({
   params: paramsPromise,
@@ -215,6 +216,12 @@ async function Wrapper({
 
       <LastActivitiesSection
         isEditable={isEditable}
+        studentId={params.slug}
+        searchParams={searchParams}
+        tz={tz}
+      />
+
+      <LastAssessmentsSection
         studentId={params.slug}
         searchParams={searchParams}
         tz={tz}

@@ -17,7 +17,7 @@ import { ActivityBadge } from '../Badge/ActivityBadge'
 import { Alert, AlertDescription } from '../Alert/Alert'
 import { cn } from '@/utils/classnames'
 import dayjs from '@/utils/dayjs'
-import { ReadonlyURLSearchParams } from 'next/navigation'
+import { convertSearchParamsToStringRecords } from '@/utils/url'
 
 interface SurahSubmissionInfo {
   name?: string
@@ -37,7 +37,7 @@ export interface ActivityCardProps {
   studentName?: string
   halaqahName?: string
   labels?: string[]
-  searchParams?: ReadonlyURLSearchParams
+  searchParams?: { [key: string]: string | string[] | undefined }
 }
 
 export function ActivityCard({
@@ -55,14 +55,20 @@ export function ActivityCard({
   status,
   searchParams
 }: ActivityCardProps) {
-  const params = new URLSearchParams(searchParams)
-  params.set('activity', id)
+  let query = ''
+  if (searchParams) {
+    const params = new URLSearchParams(
+      convertSearchParamsToStringRecords(searchParams)
+    )
+    params.set('activity', id)
+    query = params.toString()
+  }
 
   return (
     <Link
       href={{
         pathname: '',
-        query: params.toString()
+        query
       }}
     >
       <Card className='w-full bg-khutwah-neutral-10 text-khutwah-grey-base relative h-full flex flex-col'>
@@ -73,7 +79,7 @@ export function ActivityCard({
                 {dayjs.utc(timestamp).tz(tz).format('DD MMM YYYY HH:mm')}
               </div>
               {studentName && (
-                <div className='font-semibold'>{studentName}</div>
+                <div className='text-khutwah-m-semibold'>{studentName}</div>
               )}
             </div>
 
@@ -95,7 +101,7 @@ export function ActivityCard({
 
           {surahStart && surahEnd ? (
             <div className='flex items-center gap-x-2 text-sm'>
-              <div className='pt-1'>
+              <div>
                 <ActivityRecord
                   className='text-khutwah-grey-lightest'
                   size={16}

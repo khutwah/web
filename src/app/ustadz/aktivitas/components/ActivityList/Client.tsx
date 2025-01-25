@@ -9,6 +9,7 @@ import { useSearchParams } from 'next/navigation'
 import { ActivityPopup } from '@/components/ActivityPopup'
 import { ActivityBriefCard } from '@/components/ActivityCard/ActivityBriefCard'
 import { Loader2 } from 'lucide-react'
+import { convertReadonlyURLSearchParamsToPlainObject } from '@/utils/url'
 
 export function ActivityListClient({
   initialActivities,
@@ -83,7 +84,7 @@ export function ActivityListClient({
               halaqahName={item.circle_name!}
               labels={tags}
               status={item.status as ActivityStatus}
-              searchParams={params}
+              searchParams={convertReadonlyURLSearchParamsToPlainObject(params)}
             />
           )
         })}

@@ -26,7 +26,7 @@ const QUERY_FIELDS = `
 `
 
 export class Assessments extends Base {
-  async list(filter: FilterPayload) {
+  async list(filter: FilterPayload, isFinalized?: boolean) {
     const { parent_assessment_id, ustadz_id, student_id } = filter
     const supabase = await this.supabase
     let query = supabase.from('assessments').select(QUERY_FIELDS)
@@ -53,7 +53,12 @@ export class Assessments extends Base {
       )
     }
 
-    return query.order('id')
+    if (isFinalized) {
+      query = query.not('final_mark', 'is', null)
+      return query.order('id', { ascending: false })
+    } else {
+      return query.order('id')
+    }
   }
 
   async reset(payload: ResetPayload) {
