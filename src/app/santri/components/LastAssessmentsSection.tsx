@@ -1,4 +1,5 @@
 import { AssessmentCard } from '@/components/AssessmentCard/AssessmentCard'
+import { MENU_SANTRI_PATH_RECORDS } from '@/utils/menus/santri'
 import { Assessments } from '@/utils/supabase/models/assessments'
 
 interface LastAssessmentsProps {
@@ -42,6 +43,7 @@ export default async function LastAssessments({
                     name={item.session_name}
                     finalMark={item.final_mark}
                     notes={item.notes}
+                    pathname={`${MENU_SANTRI_PATH_RECORDS.home}/asesmen/${item.id}`}
                   />
                 </li>
               )

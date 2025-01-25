@@ -7,13 +7,15 @@ export interface MistakeCounterProps {
   count: number
   type: keyof MistakeCounterType
   onChange: (type: keyof MistakeCounterType, value: number) => void
+  readOnly?: boolean
 }
 
 export function MistakeCounter({
   label,
   count,
   type,
-  onChange
+  onChange,
+  readOnly
 }: MistakeCounterProps) {
   const getButtonColor = () => {
     if (count === 0)
@@ -41,16 +43,18 @@ export function MistakeCounter({
 
         <span className='sr-only'>Tambah kesalahan</span>
       </Button>
-      <Button
-        variant='outline'
-        className='h-8 w-8 rounded-full p-0 bg-gray-50 border-2 border-khutwah-neutral-white shadow-md'
-        disabled={count === 0}
-        onClick={() => onChange(type, count - 1)}
-      >
-        <Undo className='h-4 w-4' aria-hidden />
+      {!readOnly && (
+        <Button
+          variant='outline'
+          className='h-8 w-8 rounded-full p-0 bg-gray-50 border-2 border-khutwah-neutral-white shadow-md'
+          disabled={count === 0}
+          onClick={() => onChange(type, count - 1)}
+        >
+          <Undo className='h-4 w-4' aria-hidden />
 
-        <span className='sr-only'>Kurangi kesalahan</span>
-      </Button>
+          <span className='sr-only'>Kurangi kesalahan</span>
+        </Button>
+      )}
     </div>
   )
 }

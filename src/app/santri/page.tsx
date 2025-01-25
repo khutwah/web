@@ -15,6 +15,8 @@ import Link from 'next/link'
 import { Button } from '@/components/Button/Button'
 import { LogIn } from 'lucide-react'
 import { MENU_SANTRI_PATH_RECORDS } from '@/utils/menus/santri'
+import LastAssessmentsSection from './components/LastAssessmentsSection'
+import getTimezoneInfo from '@/utils/get-timezone-info'
 
 export default async function Home() {
   return (
@@ -33,6 +35,7 @@ async function Wrapper() {
   const user = await getUser()
   const studentsInstance = new Students()
   const assessmentInstance = new Assessments()
+  const tz = await getTimezoneInfo()
 
   // FIXME(dio): When user is not found, redirect to login page.
   const activitiesInstance = new Activities()
@@ -81,6 +84,11 @@ async function Wrapper() {
             halaqahCount={halaqahCount || 0}
           />
         </section>
+        <LastAssessmentsSection
+          studentId={student.data?.id?.toString() ?? ''}
+          searchParams={{}}
+          tz={tz}
+        />
       </div>
     </>
   )

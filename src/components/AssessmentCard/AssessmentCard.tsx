@@ -15,6 +15,7 @@ interface AssessmentCardProps {
   name?: string | null
   notes?: string | null
   searchParams?: { [key: string]: string | string[] | undefined }
+  pathname?: string
 }
 
 export function AssessmentCard({
@@ -25,7 +26,8 @@ export function AssessmentCard({
   finalMark,
   name,
   notes,
-  searchParams
+  searchParams,
+  pathname
 }: AssessmentCardProps) {
   let query = ''
   if (searchParams) {
@@ -41,7 +43,9 @@ export function AssessmentCard({
   return (
     <Link
       href={{
-        pathname: `${MENU_USTADZ_PATH_RECORDS.home}/santri/${studentId}/asesmen/${id}`,
+        pathname:
+          pathname ||
+          `${MENU_USTADZ_PATH_RECORDS.home}/santri/${studentId}/asesmen/${id}`,
         query
       }}
     >

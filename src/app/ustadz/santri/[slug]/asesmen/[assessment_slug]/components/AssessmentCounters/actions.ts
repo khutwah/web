@@ -2,6 +2,7 @@
 
 import { UpsertPayload } from '@/models/assessments'
 import { Assessments } from '@/utils/supabase/models/assessments'
+import { broadcast } from '@/utils/realtime/generic'
 
 interface Payload {
   id: string
@@ -47,6 +48,8 @@ export async function updateAssessmentMistakeCounters(
     return {
       message: e
     }
+  } finally {
+    broadcast()
   }
 }
 
