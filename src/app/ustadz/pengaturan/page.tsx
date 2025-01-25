@@ -15,7 +15,7 @@ export default function Pengaturan() {
               href={`${MENU_USTADZ_PATH_RECORDS.home}/pengaturan/sandi`}
               className='flex items-center justify-between p-4'
             >
-              <span className='text-khutwah-m-semibold'>Ganti Sandi</span>
+              <span className='text-khutwah-m-semibold'>Ubah Sandi</span>
               <ChevronRight className='text-khutwah-m-semibold' />
             </Link>
           </Button>
