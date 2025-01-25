@@ -22,14 +22,27 @@ import { CancelAssessment } from './components/AssessmentControls/CancelAssessme
 import { displayMarkValue } from '@/utils/assessments'
 import { UpdateFinalNotes } from './components/AssessmentControls/UpdateFinalNotes'
 import { Students } from '@/utils/supabase/models/students'
+import { ErrorBoundary } from '@/components/ErrorBoundary/ErrorBoundary'
+import { Suspense } from 'react'
+import { Skeleton } from '@/components/Skeleton/Skeleton'
 
 interface AsesmenPageProps {
   params: Promise<{ assessment_slug: number; slug: number }>
 }
 
-export default async function AsesmenPage({
-  params: paramsPromise
-}: Readonly<AsesmenPageProps>) {
+export default async function AssementPage({ params }: AsesmenPageProps) {
+  return (
+    <Layout>
+      <ErrorBoundary fallback={<ErrorMessage />}>
+        <Suspense fallback={<Fallback />}>
+          <Wrapper params={params} />
+        </Suspense>
+      </ErrorBoundary>
+    </Layout>
+  )
+}
+
+async function Wrapper({ params: paramsPromise }: Readonly<AsesmenPageProps>) {
   const { assessment_slug: slug, slug: studentId } = await paramsPromise
 
   const assessmentsInstance = new Assessments()
@@ -50,7 +63,7 @@ export default async function AsesmenPage({
     return (
       <StateMessage
         type='error'
-        title='Maaf, Ada Kesalahan di Sistem'
+        title='Maaf, Ada Kesalahan di sistem'
         description='Terjadi kesalahan. Kami sedang memperbaiki. Mohon coba lagi nanti.'
       />
     )
@@ -66,7 +79,7 @@ export default async function AsesmenPage({
   const isCancelled = rootAssessment.final_mark?.startsWith('CANCELLED')
 
   return (
-    <Layout>
+    <>
       <Navbar text={`Ikhtibar ${rootAssessment.session_name!}`} />
 
       <div className='p-6'>
@@ -222,6 +235,48 @@ export default async function AsesmenPage({
           </div>
         )}
       </div>
-    </Layout>
+    </>
+  )
+}
+
+function Fallback() {
+  return (
+    <>
+      <Navbar text='Ikhtibar...' />
+      <div className='p-6'>
+        <Card className='bg-khutwah-neutral-white text-khutwah-grey-base shadow-sm border border-khutwah-snow-lighter rounded-md sticky top-0 z-10'>
+          <CardHeader className='rounded-t-xl p-5 pb-2'>
+            <CardTitle className='flex justify-between'>
+              <div className='flex-col'>
+                <div className='text-khutwah-m-regular text-khutwah-grey-lightest pb-2'>
+                  Ikhtibar...
+                </div>
+                <Skeleton className='w-full h-4' />
+              </div>
+
+              <Image
+                src={SantriImage}
+                alt=''
+                width={52}
+                height={52}
+                className='rounded-full'
+              />
+            </CardTitle>
+          </CardHeader>
+          <CardContent className='p-5 pt-0'></CardContent>
+        </Card>
+      </div>
+    </>
+  )
+}
+
+function ErrorMessage() {
+  return (
+    <StateMessage
+      className='py-8 px-4'
+      description='Tidak dapat menampilkan data ikhtibar'
+      title='Terjadi Kesalahan'
+      type='error'
+    />
   )
 }
