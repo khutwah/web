@@ -50,14 +50,17 @@ async function Wrapper({
   const searchParams = await searchParamsPromise
   const user = await getUserId()
 
+  const isAssigned = searchParams.assigned === 'true'
   const circlesInstance = new Circles()
-  const circleInfo = await circlesInstance.get(Number(params.slug), user)
+  const circleInfo = await circlesInstance.get(
+    Number(params.slug),
+    isAssigned ? user : undefined
+  )
 
   if (!circleInfo?.data) {
     // TODO: implement proper error handling.
     return <div>Unexpected error: {circleInfo?.error.message}</div>
   } else {
-    console.log(circleInfo.data)
     const studentsInstance = new Students()
     const activitiesInstance = new Activities()
 

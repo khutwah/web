@@ -95,7 +95,6 @@ async function Wrapper(props: EditActivityProps) {
   const targetPageCount =
     activity.data.target_page_count ||
     (isManzil ? GLOBAL_REVIEW_TARGET_PAGE_COUNT : GLOBAL_TARGET_PAGE_COUNT)
-  console.log(targetPageCount)
 
   return (
     <div>

@@ -5,6 +5,7 @@ import { useContext } from 'react'
 import { SearchContext } from '../../components/Search/SearchProvider'
 
 type HalaqahListProps = {
+  isAssigned?: boolean
   items: Array<HalaqahItem>
 }
 
@@ -17,7 +18,7 @@ export type HalaqahItem = {
   isOwner?: boolean
 }
 
-export function HalaqahList({ items }: HalaqahListProps) {
+export function HalaqahList({ items, isAssigned }: HalaqahListProps) {
   const searchContext = useContext(SearchContext)
   if (searchContext === undefined) {
     throw new Error('HalaqahList must be used within a SearchContext')
@@ -44,6 +45,7 @@ export function HalaqahList({ items }: HalaqahListProps) {
             substituteeName={substituteeName}
             isOwner={isOwner}
             searchParams={{ from: 'halaqah' }}
+            isAssigned={isAssigned}
           />
         </li>
       ))}

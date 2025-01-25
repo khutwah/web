@@ -16,9 +16,7 @@ export async function YourHalaqahList() {
         (shift) => shift.end_date !== null
       )
       const effectiveShift = replacementShift ?? defaultShift
-
       const substituteeName = replacementShift?.user.name ?? undefined
-
       const isOwner = defaultShift?.user.id === user.id
 
       return {
@@ -33,5 +31,5 @@ export async function YourHalaqahList() {
     })
   }
 
-  return <HalaqahList items={items} />
+  return <HalaqahList items={items} isAssigned />
 }

@@ -13,6 +13,7 @@ interface Props {
   substituteeName?: string
   hasGutter?: boolean
   isOwner?: boolean
+  isAssigned?: boolean
   searchParams?: { [key: string]: string | string[] | undefined }
 }
 
@@ -22,17 +23,22 @@ export function HalaqahCard({
   venue,
   substituteeName,
   isOwner,
+  isAssigned,
   hasGutter,
   searchParams
 }: Props) {
+  let href = addQueryParams(
+    `${MENU_USTADZ_PATH_RECORDS.halaqah}/${id}`,
+    searchParams!
+  )
+
+  if (isAssigned) {
+    href = addQueryParams(href, { assigned: 'true' })
+  }
+
   return (
     // At the moment, the halaqah information is only available for Ustadz role, so we just hardcode the ustadz role here.
-    <Link
-      href={addQueryParams(
-        `${MENU_USTADZ_PATH_RECORDS.halaqah}/${id}`,
-        searchParams!
-      )}
-    >
+    <Link href={href}>
       <Card
         className={cn(
           'w-full bg-khutwah-neutral-10 text-khutwah-grey-base rounded-lg ',
