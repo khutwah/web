@@ -13,7 +13,7 @@ export async function getUser() {
   if (error) {
     // This is unlikely to happen, but just in case.
     // So doing this let us have a better typing for user.
-    return { id: 0, name: '' }
+    return { id: 0, name: '', email: '' }
   }
   return data
 }

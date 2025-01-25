@@ -1,5 +1,5 @@
 import { loginSupabaseArgs } from '@/models/login-supabase'
-import { createClient } from '../supabase/server'
+import { createClient } from '@/utils/supabase/server'
 import { cookies } from 'next/headers'
 import { User } from '@/utils/supabase/models/user'
 

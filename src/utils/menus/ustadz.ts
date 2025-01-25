@@ -53,7 +53,7 @@ export const MENUS: Menu[] = [
     icon: Pengaturan,
     text: 'Pengaturan',
     href: MENU_USTADZ_PATH_RECORDS.settings,
-    pattern: /^\/ustadz\/pengaturan$/,
+    pattern: /^\/ustadz\/pengaturan(\/.*)?$/,
     active: false
   }
 ]
