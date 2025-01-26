@@ -39,7 +39,7 @@ export const MENUS: Menu[] = [
     icon: Aktivitas,
     text: 'Aktivitas',
     href: MENU_SANTRI_PATH_RECORDS.aktivitas,
-    pattern: /^\/santri\/aktivitas$/,
+    pattern: /^\/santri\/aktivitas(\/.*)?$/,
     active: false
   },
   {

@@ -43,7 +43,7 @@ export default async function LastAssessments({
                     name={item.session_name}
                     finalMark={item.final_mark}
                     notes={item.notes}
-                    pathname={`${MENU_SANTRI_PATH_RECORDS.home}/asesmen/${item.id}`}
+                    pathname={`${MENU_SANTRI_PATH_RECORDS.home}/aktivitas/asesmen/${item.id}`}
                   />
                 </li>
               )
