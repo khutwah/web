@@ -68,7 +68,7 @@ async function Wrapper() {
           <section className='flex flex-col gap-y-3 px-6'>
             <h2 className='text-khutwah-m-semibold'>Sedang Berlangsung</h2>
             <Link
-              href={`${MENU_SANTRI_PATH_RECORDS.home}/asesmen/${ongoingAssessment.id}`}
+              href={`${MENU_SANTRI_PATH_RECORDS.home}/aktivitas/asesmen/${ongoingAssessment.id}`}
             >
               <Button variant='primary' className='w-full'>
                 <LogIn size={16} />
