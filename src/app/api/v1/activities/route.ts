@@ -83,8 +83,9 @@ export async function POST(request: NextRequest) {
   const activity = new Activities()
 
   // TODO(dio): Make it domain-specific, since alwaysCreate is not specific enough.
-  const alwaysCreate = request.nextUrl.searchParams.get('alwaysCreate') !== null
-
+  const alwaysCreate =
+    request.nextUrl.searchParams.get('alwaysCreate') !== null &&
+    request.nextUrl.searchParams.get('alwaysCreate') === 'true'
   if (alwaysCreate) {
     if (Array.isArray(body.tags) && !body.tags.includes('persiapan')) {
       body.tags.push('persiapan')
