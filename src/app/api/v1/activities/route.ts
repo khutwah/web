@@ -84,10 +84,13 @@ export async function POST(request: NextRequest) {
 
   // TODO(dio): Make it domain-specific, since alwaysCreate is not specific enough.
   const alwaysCreate = request.nextUrl.searchParams.get('alwaysCreate') !== null
-  if (Array.isArray(body.tags)) {
-    body.tags.push('persiapan')
-  } else {
-    body.tags = ['persiapan']
+
+  if (alwaysCreate) {
+    if (Array.isArray(body.tags) && !body.tags.includes('persiapan')) {
+      body.tags.push('persiapan')
+    } else {
+      body.tags = ['persiapan']
+    }
   }
   const response = await activity.create(body, alwaysCreate)
 
