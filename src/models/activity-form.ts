@@ -9,6 +9,7 @@ export interface FormProps {
   santriPageUri: string
   lastSurah?: number
   lastVerse?: number
+  alwaysCreate?: boolean
   defaultValues?: Partial<
     Omit<
       ActivityFormValues,

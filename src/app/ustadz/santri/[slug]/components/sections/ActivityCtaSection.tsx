@@ -78,9 +78,13 @@ export default function ActivityCtaSection({
           size='sm'
           studentId={student.id}
           searchStringRecords={searchStringRecords}
-          activityForToday={activitiesForToday.find(
-            ({ type }) => ActivityType.Manzil === type
-          )}
+          activityForToday={
+            isManzilOnly
+              ? undefined
+              : activitiesForToday.find(
+                  ({ type }) => ActivityType.Manzil === type
+                )
+          }
         />
       </div>
     </section>

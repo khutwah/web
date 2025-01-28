@@ -34,7 +34,8 @@ export function FormPresent(props: FormProps) {
     lastSurah,
     lastVerse,
     defaultValues,
-    activityId
+    activityId,
+    alwaysCreate
   } = props
   const {
     setValue,
@@ -58,6 +59,7 @@ export function FormPresent(props: FormProps) {
       shift_id: shiftId,
       student_id: studentId,
       target_page_count: GLOBAL_TARGET_PAGE_COUNT,
+      alwaysCreate,
       ...defaultValues
     }
   })

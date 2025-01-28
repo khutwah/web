@@ -45,7 +45,9 @@ const submit = async ({
 const create = (data: ActivityFormValues) => {
   return submit({
     data,
-    url: '/api/v1/activities',
+    url:
+      '/api/v1/activities' +
+      `?alwaysCreate=${data.alwaysCreate ? 'true' : 'false'}`,
     method: 'POST'
   })
 }

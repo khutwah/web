@@ -42,6 +42,7 @@ interface AddActivityProps {
     halaqah_id: number
     from: string
     id: string
+    alwaysCreate?: boolean
   }>
 }
 
@@ -160,6 +161,7 @@ async function Wrapper(props: AddActivityProps) {
               studentId={params.slug}
               activityType={activityKey}
               santriPageUri={santriPage}
+              alwaysCreate={searchParams.alwaysCreate}
               defaultValues={{
                 ...defaultValues,
                 target_page_count: targetPageCount
@@ -173,6 +175,7 @@ async function Wrapper(props: AddActivityProps) {
               studentId={params.slug}
               activityType={activityKey}
               santriPageUri={santriPage}
+              alwaysCreate={searchParams.alwaysCreate}
               defaultValues={{
                 ...defaultValues,
                 target_page_count: targetPageCount

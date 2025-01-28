@@ -227,7 +227,7 @@ export class Activities extends Base {
     return (await this.list(countArgs, { head: true, count: 'exact' })).count
   }
 
-  async create(payload: ActivitiesPayload) {
+  async create(payload: ActivitiesPayload, alwaysCreate = false) {
     const userId = await this._getUserId()
     const tz = await getTimezoneInfo()
 
@@ -244,7 +244,7 @@ export class Activities extends Base {
           }
         })
 
-        if (existing) {
+        if (!alwaysCreate && existing) {
           return { data: { id: existing.id }, error: null }
         }
 

@@ -16,6 +16,7 @@ interface AddActivityCtaProps extends ButtonProps {
   studentId: number
   searchStringRecords?: Record<string, string>
   activityForToday?: Activity
+  alwaysCreate?: boolean
 }
 
 const ACTIVITY_TYPE_TO_BUTTON_PROPS: Record<
@@ -45,6 +46,7 @@ export function AddActivityCta({
   studentId,
   searchStringRecords,
   activityForToday,
+  alwaysCreate,
   ...buttonProps
 }: AddActivityCtaProps) {
   const { label, className } = ACTIVITY_TYPE_TO_BUTTON_PROPS[activityType]
@@ -64,6 +66,7 @@ export function AddActivityCta({
             activity_type: activityType,
             halaqah_id: halaqahId,
             activity: activityForToday?.id,
+            alwaysCreate,
             ...searchStringRecords
           }
         }}

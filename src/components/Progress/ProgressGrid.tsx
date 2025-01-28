@@ -88,7 +88,7 @@ export function ProgressGrid({
     // Keep created_at in UTC, since this is a "use client" component.
     const gridId = getGridIdentifier(dayjsClientSideLocal(created_at).toDate())
     grids[type][gridId] = {
-      pageCount: page_count || 0,
+      pageCount: grids[type][gridId].pageCount + (page_count || 0),
       attendance: student_attendance as 'present' | 'absent',
       status: status as ActivityStatus
     }

@@ -30,6 +30,7 @@ export interface ActivityFormValues {
   type: number
   shift_id: number
   student_id: number
+  alwaysCreate?: boolean
 }
 
 export const GLOBAL_TARGET_PAGE_COUNT =
