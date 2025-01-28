@@ -48,7 +48,7 @@ BEGIN
                 SELECT 1
                 FROM activities a
                 WHERE a.student_id = s.id
-                    AND a.created_at >= (NOW() AT TIME ZONE 'UTC' AT TIME ZONE 'Asia/Jakarta')::DATE + INTERVAL '7 hours'
+                    AND a.created_at >= (DATE_TRUNC('day', NOW() AT TIME ZONE 'Asia/Jakarta') + INTERVAL '4 hours' - INTERVAL '7 hours') AT TIME ZONE 'UTC'
                     AND a.created_at <= NOW()
                     AND a.type = p_activity_type  -- Check for the provided type
             )
