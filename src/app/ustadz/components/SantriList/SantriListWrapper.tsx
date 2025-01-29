@@ -29,20 +29,24 @@ export async function SantriListWrapper({
   const studentInstance = new Students()
   const activitiesInstance = new Activities()
 
-  const [students, activities] = await Promise.all([
-    studentInstance.listWithCheckpoints({
-      ustadz_id: ustadzId,
-      checkpoint_statuses: checkpointStatuses
-    }),
-    activitiesInstance.list({
-      ustadz_id: ustadzId,
-      start_date: day.startOf('day').utc().toISOString(),
-      end_date: day.endOf('day').utc().toISOString()
-    })
-  ])
+  const students = await studentInstance.listWithCheckpoints({
+    ustadz_id: ustadzId,
+    checkpoint_statuses: checkpointStatuses
+  })
 
-  if ('data' in students && 'data' in activities) {
-    const studentIds = students.data?.map(({ student_id }) => student_id ?? 0)
+  const studentIds = students.data?.map(({ student_id }) => student_id ?? 0)
+  if (!studentIds) {
+    throw new Error('Failed to fetch students')
+  }
+
+  const activities = await activitiesInstance.list({
+    ustadz_id: ustadzId,
+    start_date: day.startOf('day').utc().toISOString(),
+    end_date: day.endOf('day').utc().toISOString(),
+    limit: studentIds.length * 3
+  })
+
+  if ('data' in activities) {
     const lastSabaqList = studentIds
       ? await activitiesInstance.listLatestSabaq(studentIds)
       : []
