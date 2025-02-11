@@ -2,7 +2,7 @@ import dayjs from '@/utils/dayjs'
 import { SeedClient } from '@snaplet/seed'
 import { getShift, getStudent } from './circles'
 import { ActivityStatus, GLOBAL_TARGET_PAGE_COUNT } from '@/models/activities'
-import { getEndSurahAndAyah, getNextPage } from '@minhajulhaq/mushaf'
+import { getEndSurahAndAyah, getNextPage } from '@/utils/mushaf'
 import { copycat } from '@snaplet/copycat'
 import { Database } from '@/models/database.types'
 

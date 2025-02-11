@@ -4,7 +4,7 @@ import {
 } from '@/models/activities'
 import { Control, UseFormSetValue, useWatch } from 'react-hook-form'
 import { useSecondEffect } from '@/hooks/useSecondEffect'
-import { getPageCount } from '@minhajulhaq/mushaf'
+import { getPageCount } from '@/utils/mushaf'
 
 interface UseActivityControlledValueArgs {
   control: Control<ActivityFormValues>

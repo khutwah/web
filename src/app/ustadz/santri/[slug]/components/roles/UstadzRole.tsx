@@ -38,7 +38,7 @@ import Fallback from './Fallback'
 import ErrorMessage from './ErrorMessage'
 import { ErrorBoundary } from '@/components/ErrorBoundary/ErrorBoundary'
 import { DetailSantriProps } from '../../../models/detail-santri'
-import { getAyahLocationSummary } from '@minhajulhaq/mushaf'
+import { getAyahLocationSummary } from '@/utils/mushaf'
 import LastAssessmentsSection from '../sections/LastAssessmentsSection'
 
 export default async function UstadzRole({

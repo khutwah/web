@@ -1,7 +1,7 @@
 import { SURAH_ITEMS } from '@/models/activity-form'
 import { AssessmentRange } from '@/models/assessments'
 import lajnahAssessments from '@/data/assessments/lajnah.json'
-import { getAyahLocationSummary } from '@minhajulhaq/mushaf'
+import { getAyahLocationSummary } from '@/utils/mushaf'
 import { CheckpointStatus } from '@/models/checkpoints'
 
 export interface SurahDetail {
